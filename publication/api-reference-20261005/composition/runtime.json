@@ -1,0 +1,121 @@
+{
+  "schema": "gooo/body-composition-runtime/v1",
+  "stage": "COMPLETE",
+  "composition_sha256": "sha256:b64e0eddf2a4f2595ad161d981b1b23ff327b1525b80b86e8cb42711e9e9e109",
+  "original_source_sha256": "sha256:0bae9dadd63b2ec69abb6350741697b67420ab371a537f9b11f1cf1b181d2599",
+  "selected_source_sha256": "sha256:0bae9dadd63b2ec69abb6350741697b67420ab371a537f9b11f1cf1b181d2599",
+  "typed_plan_sha256": "sha256:2c94903e21c715e6783ce59a2c9c36b5ad3f5850027bee2c49f7d5b8fd58ecd6",
+  "generated_sha256": "sha256:95fc3636cbf24db3b52bdf8d53082f4877a320d73f188a51b28e063752bf450b",
+  "driver_sha256": "sha256:44ab7a2deb358cabd689c3816a3a9d326b852f5d753563142631ef496be011e7",
+  "runtime_suite_sha256": "sha256:8f6effb7201a1109073f9a0bd9571b977f56a2a69e8d58d1ad1b2af4a449e927",
+  "executable_sha256": "sha256:dbb41fc997ba5270d89738e3d0dae2fe9a6eb532b129db75089ea428203ac87a",
+  "go_tool_sha256": "sha256:132b69336a1f809932a8a20b0201dbbb980e86e3a323ae32e893639d83d71598",
+  "go_tool_selection": "path",
+  "go_version": "go version go1.27.1 darwin/arm64",
+  "producer_source_sha": "f144dddb8261b9b525181dee510afc65f1603153",
+  "toolchain": {
+    "started": true,
+    "completed": true,
+    "canceled": false,
+    "timed_out": false,
+    "diagnostics_bytes": 0,
+    "output_truncated": false,
+    "exit_code": 0,
+    "wall_ns": 7626916,
+    "user_ns": 3411000,
+    "system_ns": 2400000,
+    "peak_rss_bytes": 14532608,
+    "stdout_sha256": "sha256:c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "build": {
+    "started": true,
+    "completed": true,
+    "canceled": false,
+    "timed_out": false,
+    "diagnostics_bytes": 0,
+    "output_truncated": false,
+    "exit_code": 0,
+    "wall_ns": 99898167,
+    "user_ns": 106538000,
+    "system_ns": 70998000,
+    "peak_rss_bytes": 86720512,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "runs": [
+    {
+      "started": true,
+      "completed": true,
+      "canceled": false,
+      "timed_out": false,
+      "diagnostics_bytes": 0,
+      "output_truncated": false,
+      "exit_code": 0,
+      "wall_ns": 185545750,
+      "user_ns": 2771000,
+      "system_ns": 4905000,
+      "peak_rss_bytes": 4833280,
+      "stdout_sha256": "sha256:239777d74d89c16ab122557b2f0962e986e5e44698b4cfeeb909391ee1ad826a",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "started": true,
+      "completed": true,
+      "canceled": false,
+      "timed_out": false,
+      "diagnostics_bytes": 0,
+      "output_truncated": false,
+      "exit_code": 0,
+      "wall_ns": 5198458,
+      "user_ns": 1465000,
+      "system_ns": 2236000,
+      "peak_rss_bytes": 4980736,
+      "stdout_sha256": "sha256:239777d74d89c16ab122557b2f0962e986e5e44698b4cfeeb909391ee1ad826a",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "traces": [
+    {
+      "case_index": 0,
+      "deliveries": [
+        {
+          "activity_id": "apidocs://activity/reference",
+          "inputs": [
+            {
+              "port": "input0",
+              "entity_id": "gooo://ecosystem/api-reference/text",
+              "value": "ApproveInvoice"
+            },
+            {
+              "port": "input1",
+              "entity_id": "gooo://ecosystem/api-reference/text",
+              "value": "ApproveInvoice(Invoice, Reviewer) -\u003e Approval"
+            },
+            {
+              "port": "input2",
+              "entity_id": "gooo://ecosystem/api-reference/text",
+              "value": "## Package\n\nSource digest: `sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99`\n\n- Package: `checkout`\n- Namespace: `checkout`\n\n## Inputs\n\n- `Invoice` — `urn:gooo:example:checkout:invoice`\n- `Reviewer` — `urn:gooo:example:checkout:reviewer`\n\n## Output\n\n- `Approval` — `urn:gooo:example:checkout:approval`\n\nInterface digest: `sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40`"
+            }
+          ],
+          "actual": "# ApproveInvoice\n\n`ApproveInvoice(Invoice, Reviewer) -\u003e Approval`\n\n## Package\n\nSource digest: `sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99`\n\n- Package: `checkout`\n- Namespace: `checkout`\n\n## Inputs\n\n- `Invoice` — `urn:gooo:example:checkout:invoice`\n- `Reviewer` — `urn:gooo:example:checkout:reviewer`\n\n## Output\n\n- `Approval` — `urn:gooo:example:checkout:approval`\n\nInterface digest: `sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40`\n\nThis page documents the declared interface and stable type identities. It does not claim to describe runtime behavior.\n"
+        },
+        {
+          "activity_id": "apidocs://activity/echo",
+          "producer_id": "apidocs://activity/reference",
+          "input": "# ApproveInvoice\n\n`ApproveInvoice(Invoice, Reviewer) -\u003e Approval`\n\n## Package\n\nSource digest: `sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99`\n\n- Package: `checkout`\n- Namespace: `checkout`\n\n## Inputs\n\n- `Invoice` — `urn:gooo:example:checkout:invoice`\n- `Reviewer` — `urn:gooo:example:checkout:reviewer`\n\n## Output\n\n- `Approval` — `urn:gooo:example:checkout:approval`\n\nInterface digest: `sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40`\n\nThis page documents the declared interface and stable type identities. It does not claim to describe runtime behavior.\n",
+          "actual": "# ApproveInvoice\n\n`ApproveInvoice(Invoice, Reviewer) -\u003e Approval`\n\n## Package\n\nSource digest: `sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99`\n\n- Package: `checkout`\n- Namespace: `checkout`\n\n## Inputs\n\n- `Invoice` — `urn:gooo:example:checkout:invoice`\n- `Reviewer` — `urn:gooo:example:checkout:reviewer`\n\n## Output\n\n- `Approval` — `urn:gooo:example:checkout:approval`\n\nInterface digest: `sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40`\n\nThis page documents the declared interface and stable type identities. It does not claim to describe runtime behavior.\n",
+          "expected": "# ApproveInvoice\n\n`ApproveInvoice(Invoice, Reviewer) -\u003e Approval`\n\n## Package\n\nSource digest: `sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99`\n\n- Package: `checkout`\n- Namespace: `checkout`\n\n## Inputs\n\n- `Invoice` — `urn:gooo:example:checkout:invoice`\n- `Reviewer` — `urn:gooo:example:checkout:reviewer`\n\n## Output\n\n- `Approval` — `urn:gooo:example:checkout:approval`\n\nInterface digest: `sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40`\n\nThis page documents the declared interface and stable type identities. It does not claim to describe runtime behavior.\n",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "projection_replayed": true,
+  "runtime_replayed": true,
+  "finite_passed": 1,
+  "finite_total": 1,
+  "model_calls": 0,
+  "elapsed_ns": 315302250,
+  "scope": "two fresh compiled value-graph executions; finite named expectations; explicit edges and ordered actual values; zero inference during replay/execution"
+}

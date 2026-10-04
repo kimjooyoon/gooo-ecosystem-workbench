@@ -1,0 +1,7 @@
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	7.080s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/cmd/workbench	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/diagnostics-deterministic	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/diagnostics-model	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/starter-deterministic	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/starter-model	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/stdlib-deterministic	[no test files]

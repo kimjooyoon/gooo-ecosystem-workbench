@@ -34,6 +34,22 @@ func TestEmbeddedSourceAndFrozenModel(t *testing.T) {
 		t.Fatal("frozen model identity changed", e)
 	}
 }
+
+func TestReferenceDocumentUsesDeclaredNamesAndStableTypeIDs(t *testing.T) {
+	contract := PublicInterface{}
+	contract.Package.Name, contract.Package.Namespace = "billing", "billing"
+	contract.SubjectDigest = "sha256:subject"
+	contract.Operation.Activity = "PayOrder"
+	contract.Operation.Inputs = []TypeReference{{Name: "Order", ID: "urn:gooo:billing:order"}, {Name: "Method", ID: "urn:gooo:billing:method"}}
+	contract.Operation.Output = TypeReference{Name: "Receipt", ID: "urn:gooo:billing:receipt"}
+	contract.Digest = "sha256:interface"
+	doc := referenceDocument(contract)
+	for _, want := range []string{"# PayOrder", "`PayOrder(Order, Method) -> Receipt`", "Source digest: `sha256:subject`", "urn:gooo:billing:order", "urn:gooo:billing:method", "urn:gooo:billing:receipt", "Interface digest: `sha256:interface`", "does not claim to describe runtime behavior"} {
+		if !strings.Contains(doc, want) {
+			t.Fatalf("reference omits %q: %s", want, doc)
+		}
+	}
+}
 func TestOutputCannotOverwriteExistingDirectory(t *testing.T) {
 	if _, e := newOutput(t.TempDir()); e == nil {
 		t.Fatal("existing output accepted")
@@ -105,6 +121,29 @@ func TestNativeRecipesScaffoldAndDiagnostics(t *testing.T) {
 		if e != nil || p.Filename != "main.gooo" || !strings.Contains(p.Source, "activity Identity") {
 			t.Fatal(p, e)
 		}
+	}
+	reference, e := Reference(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "reference")}, "examples/catalog", "ApproveInvoice")
+	if e != nil || !strings.Contains(reference, "`ApproveInvoice(Invoice, Reviewer) -> Approval`") ||
+		!strings.Contains(reference, "urn:gooo:example:checkout:reviewer") ||
+		!strings.Contains(reference, "Interface digest: `sha256:") {
+		t.Fatal(reference, e)
+	}
+	var referenceReceipt struct {
+		Decision    string `json:"decision"`
+		NamedPassed int    `json:"named_passed"`
+		NamedTotal  int    `json:"named_total"`
+		Replay      bool   `json:"saved_replay_verified"`
+		ModelCalls  int    `json:"generation_model_calls"`
+	}
+	receiptBytes, e := os.ReadFile(filepath.Join(root, "reference", "reference-receipt.json"))
+	if e != nil || json.Unmarshal(receiptBytes, &referenceReceipt) != nil ||
+		referenceReceipt.Decision != "PASS" || referenceReceipt.NamedPassed != 1 ||
+		referenceReceipt.NamedTotal != 1 || !referenceReceipt.Replay || referenceReceipt.ModelCalls != 0 {
+		t.Fatal(string(receiptBytes), e)
+	}
+	_, e = Reference(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "unknown-entry")}, "examples/catalog", "MissingActivity")
+	if e == nil {
+		t.Fatal("missing package activity produced API documentation")
 	}
 	raw, e := Diagnose(ctx, Options{Compiler: compiler, Model: "builtin", Out: filepath.Join(root, "diagnose")}, Snapshot{Passed: 12, Total: 15, Rejected: 1, Detail: "missing reason field"})
 	if e != nil || !strings.Contains(string(raw), "repair-and-replay") || !strings.Contains(string(raw), "partial") {

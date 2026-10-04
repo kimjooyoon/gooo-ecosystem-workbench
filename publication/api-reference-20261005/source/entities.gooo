@@ -1,0 +1,6 @@
+package checkout
+namespace checkout
+
+entity Invoice id "urn:gooo:example:checkout:invoice"
+entity Reviewer id "urn:gooo:example:checkout:reviewer"
+entity Approval id "urn:gooo:example:checkout:approval"

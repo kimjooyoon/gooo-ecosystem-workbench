@@ -46,6 +46,18 @@ go run ./cmd/workbench diagnose --compiler ./.gooo \
 타입 탈락 수·원본 SHA256을 전달하고 `detail_limited`를 표시합니다.
 같은 결과의 필드 차이는 필드명 순서로 기록합니다.
 
+## 공개 API 참조 만들기
+
+컴파일러가 공개 시그니처와 타입 ID를 읽고 Gooo 템플릿으로 참조 문서를 만듭니다.
+
+```sh
+go run ./cmd/workbench reference --compiler ./.gooo \
+  --package examples/catalog --entry ApproveInvoice --out out/api-reference
+```
+
+`reference.md`와 함께 컴파일러 인터페이스 원본, Gooo 실행, 기대값 확인과
+저장 재실행을 보관합니다. 선언된 타입 계약을 보여주며 구현 동작을 설명하지 않습니다.
+
 ## 소스 작성에서 확인한 규칙
 
 - 함께 실행할 프로그램은 Gooo의 명시적 `bind` 연결을 사용합니다.

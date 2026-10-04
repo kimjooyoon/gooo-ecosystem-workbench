@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -27,6 +28,41 @@ type Project struct {
 	Filename string `json:"filename"`
 	Source   string `json:"source"`
 	Next     string `json:"next"`
+}
+type TypeReference struct {
+	Name string `json:"name"`
+	ID   string `json:"id"`
+}
+type PublicInterface struct {
+	Schema        string `json:"schema"`
+	Decision      string `json:"decision"`
+	Resolution    string `json:"resolution"`
+	Reason        string `json:"reason"`
+	Kind          string `json:"kind"`
+	SubjectDigest string `json:"subject_digest"`
+	Package       struct {
+		Path      string `json:"path"`
+		Name      string `json:"name"`
+		Namespace string `json:"namespace"`
+	} `json:"package"`
+	Operation struct {
+		Activity string          `json:"activity"`
+		Inputs   []TypeReference `json:"inputs"`
+		Output   TypeReference   `json:"output"`
+	} `json:"operation"`
+	Definitions struct {
+		Language string   `json:"language"`
+		Files    []string `json:"files"`
+	} `json:"definitions"`
+	Extensions struct {
+		RegisteredEmitters int      `json:"registered_emitters"`
+		Kinds              []string `json:"kinds"`
+	} `json:"extensions"`
+	Effects struct {
+		RepositoryWrites  int  `json:"repository_writes"`
+		MutationAuthority bool `json:"mutation_authority"`
+	} `json:"effects"`
+	Digest string `json:"digest"`
 }
 type Summary struct {
 	Recipe          string `json:"recipe"`
@@ -453,6 +489,135 @@ func Scaffold(ctx context.Context, o Options, profile string) (Project, error) {
 		return p, e
 	}
 	return p, write(filepath.Join(root, "identity-generation.json"), body)
+}
+
+func referenceSignature(contract PublicInterface) string {
+	inputs := make([]string, len(contract.Operation.Inputs))
+	for index, input := range contract.Operation.Inputs {
+		inputs[index] = input.Name
+	}
+	return contract.Operation.Activity + "(" + strings.Join(inputs, ", ") + ") -> " + contract.Operation.Output.Name
+}
+
+func referenceDetails(contract PublicInterface) string {
+	var details strings.Builder
+	fmt.Fprintf(&details, "## Package\n\nSource digest: `%s`\n\n", contract.SubjectDigest)
+	fmt.Fprintf(&details, "- Package: `%s`\n- Namespace: `%s`\n", contract.Package.Name, contract.Package.Namespace)
+	details.WriteString("\n## Inputs\n\n")
+	for _, input := range contract.Operation.Inputs {
+		fmt.Fprintf(&details, "- `%s` — `%s`\n", input.Name, input.ID)
+	}
+	fmt.Fprintf(&details, "\n## Output\n\n- `%s` — `%s`\n", contract.Operation.Output.Name, contract.Operation.Output.ID)
+	fmt.Fprintf(&details, "\nInterface digest: `%s`", contract.Digest)
+	return details.String()
+}
+
+func referenceDocument(contract PublicInterface) string {
+	return "# " + contract.Operation.Activity + "\n\n`" + referenceSignature(contract) + "`\n\n" + referenceDetails(contract) +
+		"\n\nThis page documents the declared interface and stable type identities. It does not claim to describe runtime behavior.\n"
+}
+
+// Reference generates a declaration-level API page. The compiler resolves the
+// public signature and Gooo owns the prose template.
+func Reference(ctx context.Context, o Options, packageDir, entry string) (string, error) {
+	if o.Model != "" {
+		return "", fmt.Errorf("reference uses a deterministic Gooo template; omit --model")
+	}
+	if packageDir == "" || entry == "" {
+		return "", fmt.Errorf("reference requires --package and --entry")
+	}
+	root, err := newOutput(o.Out)
+	if err != nil {
+		return "", err
+	}
+	interfaceData, err := command(ctx, o.Compiler, "emit", "--kind", "operation-interface", "--entry", entry, packageDir)
+	if len(interfaceData) > 0 {
+		if writeErr := write(filepath.Join(root, "operation-interface.json"), interfaceData); writeErr != nil {
+			return "", writeErr
+		}
+	}
+	if err != nil {
+		return "", err
+	}
+	decoder := json.NewDecoder(bytes.NewReader(interfaceData))
+	decoder.DisallowUnknownFields()
+	var contract PublicInterface
+	if err = decoder.Decode(&contract); err != nil {
+		return "", fmt.Errorf("decode compiler operation interface: %w", err)
+	}
+	var trailing any
+	if err = decoder.Decode(&trailing); err != io.EOF {
+		return "", fmt.Errorf("operation interface contains trailing JSON")
+	}
+	if contract.Schema != "gooo/operation-interface/v1" || contract.Decision != "PASS" ||
+		contract.Resolution != "INTERFACE_ONLY" || contract.Operation.Activity != entry ||
+		contract.SubjectDigest == "" || contract.Package.Name == "" || contract.Package.Namespace == "" || contract.Digest == "" ||
+		contract.Kind != "operation-interface" || contract.Effects.RepositoryWrites != 0 || contract.Effects.MutationAuthority ||
+		contract.Operation.Output.Name == "" || contract.Operation.Output.ID == "" {
+		return "", fmt.Errorf("compiler did not provide a complete public operation interface")
+	}
+	for _, input := range contract.Operation.Inputs {
+		if input.Name == "" || input.ID == "" {
+			return "", fmt.Errorf("compiler operation interface has an incomplete input type")
+		}
+	}
+	inputs := map[string]any{
+		"Reference.input0": contract.Operation.Activity,
+		"Reference.input1": referenceSignature(contract),
+		"Reference.input2": referenceDetails(contract),
+	}
+	want := referenceDocument(contract)
+	cases, err := json.Marshal(map[string]any{"schema": "gooo/body-composition-cases/v1", "cases": []any{
+		map[string]any{"inputs": inputs, "expected": map[string]string{"Echo": want}},
+	}})
+	if err != nil {
+		return "", err
+	}
+	raw, result, err := runRecipe(ctx, o, root, "reference", "reference", "", cases)
+	if err != nil {
+		return "", err
+	}
+	var actual string
+	if err = actualFor(result, "apidocs://activity/reference", &actual); err != nil {
+		return "", err
+	}
+	if actual != want {
+		return actual, fmt.Errorf("Gooo reference output differs from the independently rendered contract fixture")
+	}
+	counts, err := summarize(raw, "reference", "deterministic")
+	if err != nil || counts.NamedPassed != 1 || counts.NamedTotal != 1 || counts.ModelCalls != 0 {
+		return actual, fmt.Errorf("reference output observation was incomplete: %+v: %v", counts, err)
+	}
+	if err = write(filepath.Join(root, "reference.md"), []byte(actual)); err != nil {
+		return "", err
+	}
+	recipeDir := filepath.Join(root, "reference", "composition")
+	replay, err := command(ctx, o.Compiler, "body-compose", "--source", filepath.Join(recipeDir, "original.gooo"), "--cases", filepath.Join(recipeDir, "cases.json"), "--composition", filepath.Join(recipeDir, "composition.json"))
+	if err != nil {
+		return "", err
+	}
+	if err = write(filepath.Join(root, "replay.json"), replay); err != nil {
+		return "", err
+	}
+	replayCounts, err := summarize(replay, "reference", "deterministic")
+	if err != nil || replayCounts.NamedPassed != counts.NamedPassed || replayCounts.NamedTotal != counts.NamedTotal || replayCounts.ModelCalls != 0 {
+		return "", fmt.Errorf("saved API reference replay differs: %+v: %v", replayCounts, err)
+	}
+	if err = save(filepath.Join(root, "reference-receipt.json"), map[string]any{
+		"schema": "gooo/ecosystem-api-reference/v1", "decision": "PASS",
+		"compiler_interface_digest": contract.Digest, "entry": entry,
+		"source_digest":    contract.SubjectDigest,
+		"input_type_count": len(contract.Operation.Inputs), "output_type_count": 1,
+		"reference_sha256":       fmt.Sprintf("%x", sha256.Sum256([]byte(actual))),
+		"scope":                  "Gooo-rendered declaration-level reference; runtime behavior is not described",
+		"named_passed":           counts.NamedPassed,
+		"named_total":            counts.NamedTotal,
+		"saved_replay_verified":  true,
+		"generation_model_calls": counts.ModelCalls,
+	}); err != nil {
+		return "", err
+	}
+	return actual, write(filepath.Join(root, "body-compose-result.json"), raw)
 }
 
 // Diagnose transports counters; branch rules and the proposed action live in Gooo.

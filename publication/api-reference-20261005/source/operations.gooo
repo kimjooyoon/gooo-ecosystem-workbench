@@ -1,0 +1,4 @@
+package checkout
+namespace checkout
+
+activity ApproveInvoice(Invoice, Reviewer) -> Approval

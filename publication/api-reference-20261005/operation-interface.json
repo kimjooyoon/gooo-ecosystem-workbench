@@ -1,0 +1,47 @@
+{
+  "schema": "gooo/operation-interface/v1",
+  "decision": "PASS",
+  "resolution": "INTERFACE_ONLY",
+  "reason": "OPERATION_INTERFACE_EMITTED",
+  "kind": "operation-interface",
+  "subject_digest": "sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99",
+  "package": {
+    "path": "catalog",
+    "name": "checkout",
+    "namespace": "checkout"
+  },
+  "operation": {
+    "activity": "ApproveInvoice",
+    "inputs": [
+      {
+        "name": "Invoice",
+        "id": "urn:gooo:example:checkout:invoice"
+      },
+      {
+        "name": "Reviewer",
+        "id": "urn:gooo:example:checkout:reviewer"
+      }
+    ],
+    "output": {
+      "name": "Approval",
+      "id": "urn:gooo:example:checkout:approval"
+    }
+  },
+  "definitions": {
+    "language": "gooo",
+    "files": []
+  },
+  "extensions": {
+    "registered_emitters": 3,
+    "kinds": [
+      "operation-interface",
+      "operation-manifest",
+      "symbolic-invocation-schema"
+    ]
+  },
+  "effects": {
+    "repository_writes": 0,
+    "mutation_authority": false
+  },
+  "digest": "sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40"
+}

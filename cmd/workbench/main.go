@@ -19,7 +19,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, or diagnose; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, diagnose, or reference; each command accepts --help")
 	}
 	f := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	var o workbench.Options
@@ -28,6 +28,8 @@ func run(args []string) error {
 	f.StringVar(&o.Out, "out", "", "new output directory")
 	profile := f.String("profile", "record", "starter profile: scalar or record")
 	input := f.String("input", "", "captured Gooo body-compose result or JSON counters: passed,total,rejected,detail")
+	packageDir := f.String("package", "", "Gooo package directory for reference")
+	entry := f.String("entry", "", "public activity name for reference")
 	if e := f.Parse(args[1:]); e != nil {
 		return e
 	}
@@ -58,8 +60,10 @@ func run(args []string) error {
 		if err == nil {
 			err = os.WriteFile(filepath.Join(o.Out, "captured-input.json"), b, 0644)
 		}
+	case "reference":
+		value, err = workbench.Reference(ctx, o, *packageDir, *entry)
 	default:
-		return fmt.Errorf("unknown command %q", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, or reference", args[0])
 	}
 	if err != nil {
 		return err

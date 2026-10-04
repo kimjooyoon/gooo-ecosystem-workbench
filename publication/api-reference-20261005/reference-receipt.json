@@ -1,0 +1,15 @@
+{
+  "compiler_interface_digest": "sha256:cd4642695c2bb951e8e0a31a2ca17749943b47731693184ba9bc69ac357c0d40",
+  "decision": "PASS",
+  "entry": "ApproveInvoice",
+  "generation_model_calls": 0,
+  "input_type_count": 2,
+  "named_passed": 1,
+  "named_total": 1,
+  "output_type_count": 1,
+  "reference_sha256": "52a5aced9942749be8bf2ff7ea63e5f7116fb4e54e0a8dc32af83d8a48f2b7f4",
+  "saved_replay_verified": true,
+  "schema": "gooo/ecosystem-api-reference/v1",
+  "scope": "Gooo-rendered declaration-level reference; runtime behavior is not described",
+  "source_digest": "sha256:bf4e3aa0c77e47e33ec5455e1ecf3b302815d402d798d75d0b3be669418bbc99"
+}
