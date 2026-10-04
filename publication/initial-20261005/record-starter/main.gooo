@@ -1,0 +1,6 @@
+package starter
+namespace example
+entity Item id "example://item" fields {
+    field title id "example://item/title" type string required one
+}
+activity Identity(Item) -> Item computes `return input`

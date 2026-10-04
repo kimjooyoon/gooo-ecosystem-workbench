@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "expected": {
+        "Plan": {
+          "filename": "main.gooo",
+          "next": "gooo body-codegen --activity Identity main.gooo",
+          "source": "package starter\nnamespace example\nentity Item id \"example://item\" fields {\n    field title id \"example://item/title\" type string required one\n}\nactivity Identity(Item) -\u003e Item computes `return input`\n"
+        },
+        "Preview": "package starter\nnamespace example\nentity Item id \"example://item\" fields {\n    field title id \"example://item/title\" type string required one\n}\nactivity Identity(Item) -\u003e Item computes `return input`\n"
+      },
+      "inputs": {
+        "Plan": "record"
+      }
+    },
+    {
+      "expected": {
+        "Plan": {
+          "filename": "main.gooo",
+          "next": "gooo body-codegen --activity Identity main.gooo",
+          "source": "package starter\nnamespace example\nentity Integer id \"example://integer\"\nactivity Identity(Integer) -\u003e Integer computes `return input`\n"
+        },
+        "Preview": "package starter\nnamespace example\nentity Integer id \"example://integer\"\nactivity Identity(Integer) -\u003e Integer computes `return input`\n"
+      },
+      "inputs": {
+        "Plan": "scalar"
+      }
+    },
+    {
+      "expected": {
+        "Plan": {
+          "filename": "",
+          "next": "Choose scalar or record.",
+          "source": ""
+        },
+        "Preview": ""
+      },
+      "inputs": {
+        "Plan": "unknown"
+      }
+    }
+  ],
+  "schema": "gooo/body-composition-cases/v1"
+}

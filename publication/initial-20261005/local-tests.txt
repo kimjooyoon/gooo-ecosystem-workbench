@@ -1,0 +1,2 @@
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	6.984s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/cmd/workbench	[no test files]

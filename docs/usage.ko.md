@@ -1,0 +1,65 @@
+# 실행 안내
+
+## Gooo 컴파일러 준비
+
+Go1.27.1을 사용합니다. 이 저장소에서 변경 없는 고정 컴파일러를 빌드합니다.
+
+```sh
+git clone https://github.com/kimjooyoon/meta-ontology-go.git .compiler
+git -C .compiler switch --detach f144dddb8261b9b525181dee510afc65f1603153
+cd .compiler
+go build -trimpath -o ../.gooo ./cmd/gooo
+cd ..
+go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
+```
+
+`summary.json`은 실제 기대값 충족 수, 선택 필드 수, 모델 호출 수와 저장 재실행
+확인을 보여줍니다. 각 작업의 `result.json`·`replay.json`과 조립 폴더도 보관합니다.
+모델 사용은 진단과 시작 프로그램에서 각각 한 번입니다. 표준 함수는 Gooo에
+작성한 본문을 그대로 생성하며 모델 호출이 없습니다.
+
+## 프로젝트 만들기
+
+```sh
+go run ./cmd/workbench scaffold --compiler ./.gooo --profile scalar --out out/scalar
+go run ./cmd/workbench scaffold --compiler ./.gooo --profile record --model builtin --out out/record
+```
+
+scalar는 Integer 입력을, record는 제목 필드를 가진 Item 입력을 그대로 반환하는
+`Identity` 활동을 만듭니다. `main.gooo`의 선언과 계산 본문을 수정해 확장합니다.
+파일은 Gooo 프로그램의 실제 출력에서 얻고, 새 파일을 검사해 Go 본문으로 생성합니다.
+
+## 결과를 다음 작업으로 넘기기
+
+```sh
+go run ./cmd/workbench diagnose --compiler ./.gooo \
+  --input examples/partial-composition.json --model builtin --out out/repair
+```
+
+이 예제의 `diagnostic.json`에는 부분 충족과 `repair-and-replay`가 남습니다.
+`observation.json`은 실제 값에서 다시 센17/21필드, 타입 탈락1개와 상세 내용을 담습니다.
+외부 프로그램이 이 두 파일을 읽어 다음 작업을 만들 수 있습니다. 현재 도구는
+작업을 분류하고 구성합니다. 본문을 자동으로 수정하는 후속 실행기는 별도 구현 과제입니다.
+
+`captured-input.json`은 원래 입력 전체를 보관합니다. 전달할 상세 문장은
+현재 Text 입력의1,024바이트 범위에 맞춥니다. 상세가 더 길면 남은 필드 수와
+타입 탈락 수·원본 SHA256을 전달하고 `detail_limited`를 표시합니다.
+같은 결과의 필드 차이는 필드명 순서로 기록합니다.
+
+## 소스 작성에서 확인한 규칙
+
+- 함께 실행할 프로그램은 Gooo의 명시적 `bind` 연결을 사용합니다.
+- 레코드를 반환하는 조립 사례는 단일 입력도 `["record"]` 같은 위치 배열로 적습니다.
+- Gooo 본문 안에 새 Gooo 코드를 문자열로 넣을 때는 본문 구분자를 `\x60`으로 표현합니다.
+- 현재 공유 모델 입력은 후보 한 항목당512바이트입니다. 긴 템플릿은 지역 변수에
+  보관하고, 후보 참조와 의도를 전달합니다. 원래 템플릿의 실제 내용은 Gooo가 소유합니다.
+- 모든 기대값이 없는 실행 요청에서는 전달한 문장을 되돌리는 관측을 함께 둡니다.
+  진단 결과의 충족률과 그 전달 관측의 충족률은 각각의 범위로 읽습니다.
+
+단위 검사는 `go test ./...`, 실제 컴파일러까지 연결한 검사는 다음과 같습니다.
+
+```sh
+GOOO_COMPILER="$PWD/.gooo" go test -race ./...
+```
+
+CI는 같은 고정 소스의 컴파일러로 실제 생성·실행·프로젝트 만들기·진단을 확인합니다.

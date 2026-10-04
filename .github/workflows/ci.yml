@@ -1,0 +1,37 @@
+name: Gooo ecosystem examples
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  native-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.27.1'
+      - uses: actions/checkout@v7
+        with:
+          repository: kimjooyoon/meta-ontology-go
+          ref: f144dddb8261b9b525181dee510afc65f1603153
+          path: .compiler
+      - name: Build the published Gooo compiler
+        working-directory: .compiler
+        run: go build -trimpath -o ../.gooo ./cmd/gooo
+      - name: Check Go transport code and execute Gooo programs
+        env:
+          GOOO_COMPILER: ${{ github.workspace }}/.gooo
+          GOWORK: 'off'
+        run: |
+          test -z "$(gofmt -l assets.go workbench.go workbench_test.go cmd/workbench/main.go)"
+          go vet ./...
+          go test -race ./...
+      - name: Retain source-bound functional observations
+        run: go run ./cmd/workbench verify --compiler "$PWD/.gooo" --model builtin --out out/ci-verification
+      - uses: actions/upload-artifact@v7
+        with:
+          name: gooo-ecosystem-observations
+          path: |
+            out/ci-verification/summary.json
+            out/ci-verification/*/result.json
+            out/ci-verification/*/replay.json

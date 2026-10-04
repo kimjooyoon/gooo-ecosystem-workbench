@@ -1,0 +1,41 @@
+package stdlib
+namespace gooolib
+entity Integer id "gooo://stdlib/integer"
+entity Boolean id "gooo://stdlib/boolean"
+entity Text id "gooo://stdlib/text"
+activity Min(Integer, Integer) -> Integer computes `if input0 < input1 { return input0 }
+return input1`
+activity Max(Integer, Integer) -> Integer computes `if input0 > input1 { return input0 }
+return input1`
+activity Clamp(Integer, Integer, Integer) -> Integer computes `let lower = input1
+let upper = input2
+if lower > upper {
+    lower = input2
+    upper = input1
+}
+if input0 < lower { return lower }
+if input0 > upper { return upper }
+return input0`
+activity AbsSaturating(Integer) -> Integer computes `if input == -9223372036854775808 { return 9223372036854775807 }
+if input < 0 { return -input }
+return input`
+activity Sign(Integer) -> Integer computes `if input < 0 { return -1 }
+if input > 0 { return 1 }
+return 0`
+activity IsZero(Integer) -> Boolean computes `return input == 0`
+activity InRange(Integer, Integer, Integer) -> Boolean computes `let lower = input1
+let upper = input2
+if lower > upper {
+    lower = input2
+    upper = input1
+}
+return input0 >= lower && input0 <= upper`
+activity And(Boolean, Boolean) -> Boolean computes `return input0 && input1`
+activity Or(Boolean, Boolean) -> Boolean computes `return input0 || input1`
+activity Not(Boolean) -> Boolean computes `return !input`
+activity CoalesceText(Text, Text) -> Text computes `if input0 != "" { return input0 }
+return input1`
+activity ChooseText(Text, Text, Boolean) -> Text computes `if input2 { return input0 }
+return input1`
+activity NonNegative(Integer) -> Boolean computes `return input >= 0`
+bind Clamp.result -> NonNegative.input

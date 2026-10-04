@@ -1,0 +1,23 @@
+package starterplanner
+namespace starterplanner
+entity Text id "gooo://starter/text"
+entity Project id "gooo://starter/project" fields {
+ field filename id "gooo://starter/filename" type string required one
+ field source id "gooo://starter/source" type string required one
+ field next id "gooo://starter/next" type string required one
+}
+activity Plan(Text) -> Project computes "var scalarSource = \"package starter\\nnamespace example\\nentity Integer id \\\"example://integer\\\"\\nactivity Identity(Integer) -> Integer computes \\x60return input\\x60\\n\"\nvar recordSource = \"package starter\\nnamespace example\\nentity Item id \\\"example://item\\\" fields {\\n    field title id \\\"example://item/title\\\" type string required one\\n}\\nactivity Identity(Item) -> Item computes \\x60return input\\x60\\n\"\nif input == \"record\" && recordSource != \"\" {\n return Project{filename: (\"main.gooo\"), source: (recordSource), next: (\"gooo body-codegen --activity Identity main.gooo\")}\n}\nif input == \"scalar\" {\n return Project{filename: \"main.gooo\", source: scalarSource, next: \"gooo body-codegen --activity Identity main.gooo\"}\n}\nreturn Project{filename: \"\", source: \"\", next: \"Choose scalar or record.\"}" assembling {
+    baseline "let scalarSource = \"package starter\\nnamespace example\\nentity Integer id \\\"example://integer\\\"\\nactivity Identity(Integer) -> Integer computes \\x60return input\\x60\\n\"\nlet recordSource = \"package starter\\nnamespace example\\nentity Item id \\\"example://item\\\" fields {\\n    field title id \\\"example://item/title\\\" type string required one\\n}\\nactivity Identity(Item) -> Item computes \\x60return input\\x60\\n\"\nif input == \"record\" && recordSource != \"\" {\n return Project{filename: \"module.go\", source: scalarSource, next: \"choose a template\"}\n}\nif input == \"scalar\" {\n return Project{filename: \"main.gooo\", source: scalarSource, next: \"gooo body-codegen --activity Identity main.gooo\"}\n}\nreturn Project{filename: \"\", source: \"\", next: \"Choose scalar or record.\"}"
+    picked "filename" -> "value_second"
+    picked "source" -> "value_second"
+    picked "next" -> "value_second"
+    choice "filename" field_value at "0" alternative "\"main.gooo\"" intent "Gooo 파일 main.gooo를 만든다. Use main.gooo as the filename."
+    choice "source" field_value at "1" alternative "recordSource" intent "요청한 recordSource 본문을 선택한다. Select the recordSource template."
+    choice "next" field_value at "2" alternative "\"gooo body-codegen --activity Identity main.gooo\"" intent "만든 Gooo 본문을 검사하고 생성하는 다음 명령이다. Generate the Identity body next."
+    value_case "[\"record\"]" -> "{\"filename\":\"main.gooo\",\"next\":\"gooo body-codegen --activity Identity main.gooo\",\"source\":\"package starter\\nnamespace example\\nentity Item id \\\"example://item\\\" fields {\\n    field title id \\\"example://item/title\\\" type string required one\\n}\\nactivity Identity(Item) -\\u003e Item computes `return input`\\n\"}"
+    value_case "[\"scalar\"]" -> "{\"filename\":\"main.gooo\",\"next\":\"gooo body-codegen --activity Identity main.gooo\",\"source\":\"package starter\\nnamespace example\\nentity Integer id \\\"example://integer\\\"\\nactivity Identity(Integer) -\\u003e Integer computes `return input`\\n\"}"
+    value_case "[\"unknown\"]" -> "{\"filename\":\"\",\"next\":\"Choose scalar or record.\",\"source\":\"\"}"
+    attempts "8"
+}
+activity Preview(Project) -> Text computes `return input.source`
+bind Plan.result -> Preview.input

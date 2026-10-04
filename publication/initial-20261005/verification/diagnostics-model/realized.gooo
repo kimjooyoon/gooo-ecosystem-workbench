@@ -1,0 +1,27 @@
+package diagnostics
+namespace diagnostics
+entity Integer id "gooo://diagnostics/integer"
+entity Text id "gooo://diagnostics/text"
+entity Diagnostic id "gooo://diagnostics/diagnostic" fields {
+    field code id "gooo://diagnostics/code" type string required one
+    field message id "gooo://diagnostics/message" type string required one
+    field action id "gooo://diagnostics/action" type string required one
+}
+activity Diagnose(Integer, Integer, Integer, Text) -> Diagnostic computes "var action = \"expand-examples\"\nif input2 > 0 { action = \"repair-and-replay\" }\nif input1 > 0 && input0 >= 0 && input0 < input1 && input2 >= 0 {\n    return Diagnostic{code: (\"partial\"), message: (input3), action: action}\n}\nif input0 < 0 || input1 < 0 || input2 < 0 || input0 > input1 {\n    action = \"fix-counts\"\n    return Diagnostic{code: \"invalid-counts\", message: input3, action: action}\n}\nif input1 == 0 {\n    return Diagnostic{code: \"unobserved\", message: \"Add expected observations.\", action: \"add-examples\"}\n}\nreturn Diagnostic{code: \"complete\", message: \"All observed fields matched.\", action: \"accept\"}" assembling {
+    baseline "let action = \"expand-examples\"\nif input2 > 0 { action = \"repair-and-replay\" }\nif input1 > 0 && input0 >= 0 && input0 < input1 && input2 >= 0 {\n    return Diagnostic{code: \"complete\", message: \"All observed fields matched.\", action: action}\n}\nif input0 < 0 || input1 < 0 || input2 < 0 || input0 > input1 {\n    action = \"fix-counts\"\n    return Diagnostic{code: \"invalid-counts\", message: input3, action: action}\n}\nif input1 == 0 {\n    return Diagnostic{code: \"unobserved\", message: \"Add expected observations.\", action: \"add-examples\"}\n}\nreturn Diagnostic{code: \"complete\", message: \"All observed fields matched.\", action: \"accept\"}"
+    picked "code" -> "value_second"
+    picked "message" -> "value_second"
+    picked "action" -> "value_first"
+    choice "code" field_value at "0" alternative "\"partial\"" intent "부분 충족이면 partial 코드로 표시한다. Use partial for incomplete observations."
+    choice "message" field_value at "1" alternative "input3" intent "실제 남은 부분을 입력의 진단 문장으로 전달한다. Keep the supplied diagnostic detail."
+    choice "action" field_value at "2" alternative "\"accept\"" intent "현재 action 변수에 계산한 다음 작업을 유지한다. Keep the current action variable."
+    value_case "[12,15,1,\"type-rejected candidate retained\"]" -> "{\"action\":\"repair-and-replay\",\"code\":\"partial\",\"message\":\"type-rejected candidate retained\"}"
+    value_case "[2,4,0,\"사유 필드가 남았습니다\"]" -> "{\"action\":\"expand-examples\",\"code\":\"partial\",\"message\":\"사유 필드가 남았습니다\"}"
+    value_case "[4,4,0,\"\"]" -> "{\"action\":\"accept\",\"code\":\"complete\",\"message\":\"All observed fields matched.\"}"
+    value_case "[0,0,0,\"\"]" -> "{\"action\":\"add-examples\",\"code\":\"unobserved\",\"message\":\"Add expected observations.\"}"
+    value_case "[5,4,0,\"passed exceeds total\"]" -> "{\"action\":\"fix-counts\",\"code\":\"invalid-counts\",\"message\":\"passed exceeds total\"}"
+    attempts "8"
+}
+activity Explain(Diagnostic) -> Text computes `return input.code + ": " + input.message + " [" + input.action + "]"`
+bind Diagnose.result -> Explain.input
+activity ObservationEcho(Text) -> Text computes `return input`

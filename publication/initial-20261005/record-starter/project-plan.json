@@ -1,0 +1,5 @@
+{
+  "filename": "main.gooo",
+  "source": "package starter\nnamespace example\nentity Item id \"example://item\" fields {\n    field title id \"example://item/title\" type string required one\n}\nactivity Identity(Item) -\u003e Item computes `return input`\n",
+  "next": "gooo body-codegen --activity Identity main.gooo"
+}

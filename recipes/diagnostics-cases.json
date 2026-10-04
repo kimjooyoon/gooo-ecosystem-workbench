@@ -1,0 +1,149 @@
+{
+  "cases": [
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "repair-and-replay",
+          "code": "partial",
+          "message": "type-rejected candidate retained"
+        },
+        "Explain": "partial: type-rejected candidate retained [repair-and-replay]",
+        "ObservationEcho": "type-rejected candidate retained"
+      },
+      "inputs": {
+        "Diagnose.input0": 12,
+        "Diagnose.input1": 15,
+        "Diagnose.input2": 1,
+        "Diagnose.input3": "type-rejected candidate retained",
+        "ObservationEcho": "type-rejected candidate retained"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "expand-examples",
+          "code": "partial",
+          "message": "아직 맞은 필드가 없습니다"
+        },
+        "Explain": "partial: 아직 맞은 필드가 없습니다 [expand-examples]",
+        "ObservationEcho": "아직 맞은 필드가 없습니다"
+      },
+      "inputs": {
+        "Diagnose.input0": 0,
+        "Diagnose.input1": 3,
+        "Diagnose.input2": 0,
+        "Diagnose.input3": "아직 맞은 필드가 없습니다",
+        "ObservationEcho": "아직 맞은 필드가 없습니다"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "accept",
+          "code": "complete",
+          "message": "All observed fields matched."
+        },
+        "Explain": "complete: All observed fields matched. [accept]",
+        "ObservationEcho": "historical rejections retained"
+      },
+      "inputs": {
+        "Diagnose.input0": 3,
+        "Diagnose.input1": 3,
+        "Diagnose.input2": 2,
+        "Diagnose.input3": "historical rejections retained",
+        "ObservationEcho": "historical rejections retained"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "add-examples",
+          "code": "unobserved",
+          "message": "Add expected observations."
+        },
+        "Explain": "unobserved: Add expected observations. [add-examples]",
+        "ObservationEcho": "no expected values"
+      },
+      "inputs": {
+        "Diagnose.input0": 0,
+        "Diagnose.input1": 0,
+        "Diagnose.input2": 1,
+        "Diagnose.input3": "no expected values",
+        "ObservationEcho": "no expected values"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "fix-counts",
+          "code": "invalid-counts",
+          "message": "passed exceeds total"
+        },
+        "Explain": "invalid-counts: passed exceeds total [fix-counts]",
+        "ObservationEcho": "passed exceeds total"
+      },
+      "inputs": {
+        "Diagnose.input0": 5,
+        "Diagnose.input1": 4,
+        "Diagnose.input2": 0,
+        "Diagnose.input3": "passed exceeds total",
+        "ObservationEcho": "passed exceeds total"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "fix-counts",
+          "code": "invalid-counts",
+          "message": "negative passed"
+        },
+        "Explain": "invalid-counts: negative passed [fix-counts]",
+        "ObservationEcho": "negative passed"
+      },
+      "inputs": {
+        "Diagnose.input0": -1,
+        "Diagnose.input1": 4,
+        "Diagnose.input2": 0,
+        "Diagnose.input3": "negative passed",
+        "ObservationEcho": "negative passed"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "fix-counts",
+          "code": "invalid-counts",
+          "message": "negative total"
+        },
+        "Explain": "invalid-counts: negative total [fix-counts]",
+        "ObservationEcho": "negative total"
+      },
+      "inputs": {
+        "Diagnose.input0": 0,
+        "Diagnose.input1": -1,
+        "Diagnose.input2": 0,
+        "Diagnose.input3": "negative total",
+        "ObservationEcho": "negative total"
+      }
+    },
+    {
+      "expected": {
+        "Diagnose": {
+          "action": "fix-counts",
+          "code": "invalid-counts",
+          "message": "negative rejected"
+        },
+        "Explain": "invalid-counts: negative rejected [fix-counts]",
+        "ObservationEcho": "negative rejected"
+      },
+      "inputs": {
+        "Diagnose.input0": 0,
+        "Diagnose.input1": 4,
+        "Diagnose.input2": -1,
+        "Diagnose.input3": "negative rejected",
+        "ObservationEcho": "negative rejected"
+      }
+    }
+  ],
+  "schema": "gooo/body-composition-cases/v1"
+}

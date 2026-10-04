@@ -1,0 +1,81 @@
+{
+  "recipes": [
+    {
+      "recipe": "stdlib",
+      "mode": "deterministic",
+      "compiler_source": "f144dddb8261b9b525181dee510afc65f1603153",
+      "named_passed": 91,
+      "named_total": 91,
+      "record_fields_passed": 0,
+      "record_fields_total": 0,
+      "selection_fields_passed": 0,
+      "selection_fields_total": 0,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "ab6cda534c8a21df8c888443a1b5bb2322c36d022babe13de9ee847be12d016e"
+    },
+    {
+      "recipe": "diagnostics",
+      "mode": "deterministic",
+      "compiler_source": "f144dddb8261b9b525181dee510afc65f1603153",
+      "named_passed": 24,
+      "named_total": 24,
+      "record_fields_passed": 24,
+      "record_fields_total": 24,
+      "selection_fields_passed": 15,
+      "selection_fields_total": 15,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "cac55866e23169ce4906f5d464991bd86d87278d760e8ec2a741d8b20876b514"
+    },
+    {
+      "recipe": "diagnostics",
+      "mode": "model",
+      "compiler_source": "f144dddb8261b9b525181dee510afc65f1603153",
+      "named_passed": 24,
+      "named_total": 24,
+      "record_fields_passed": 24,
+      "record_fields_total": 24,
+      "selection_fields_passed": 15,
+      "selection_fields_total": 15,
+      "generation_model_calls": 1,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "0aa7d4bf4957c439105ad9a0f446030ca148b21a07ac4aa84f1683c6353d1d07"
+    },
+    {
+      "recipe": "starter",
+      "mode": "deterministic",
+      "compiler_source": "f144dddb8261b9b525181dee510afc65f1603153",
+      "named_passed": 6,
+      "named_total": 6,
+      "record_fields_passed": 9,
+      "record_fields_total": 9,
+      "selection_fields_passed": 9,
+      "selection_fields_total": 9,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "b17d6a85b6629e30d33bdcafbac3d0572dfa1444c58176240f86a2990ca279bb"
+    },
+    {
+      "recipe": "starter",
+      "mode": "model",
+      "compiler_source": "f144dddb8261b9b525181dee510afc65f1603153",
+      "named_passed": 6,
+      "named_total": 6,
+      "record_fields_passed": 9,
+      "record_fields_total": 9,
+      "selection_fields_passed": 9,
+      "selection_fields_total": 9,
+      "generation_model_calls": 1,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "5e65bef80331d97c3b36acabb96279da5d59eb98612391c0ac49a0de72c18c8a"
+    }
+  ],
+  "schema": "gooo/ecosystem-workbench-verification/v1",
+  "scope": "13 authored standard functions and two ecosystem recipes; finite examples and separately compiled native values; no training or performance study"
+}

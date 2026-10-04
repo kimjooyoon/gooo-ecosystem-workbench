@@ -1,0 +1,7 @@
+{
+  "passed": 17,
+  "total": 21,
+  "rejected": 1,
+  "detail": "{\"gaps\":[{\"activity\":\"fieldupdates://activity/select\",\"actual\":\"deferred\",\"expected\":\"한글:ready\",\"field\":\"reason\"},{\"activity\":\"fieldupdates://activity/select\",\"actual\":\"deferred\",\"expected\":\"English:ready\",\"field\":\"reason\"},{\"activity\":\"fieldupdates://activity/select\",\"actual\":\"deferred\",\"expected\":\":ready\",\"field\":\"reason\"},{\"activity\":\"fieldupdates://activity/select\",\"actual\":\"deferred\",\"expected\":\"new\\n\\\"title\\\":ready\",\"field\":\"reason\"}],\"type_rejections\":[\"typecheck generated activity: body.goo:11:5: declared and not used: saved\"]}",
+  "input_sha256": "01374dc3d4e85802c3122d3006480efc5878b103734fca4aae0aa0fd7ae5e3bf"
+}
