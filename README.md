@@ -18,6 +18,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
 | 인보이스 승인 예제 | 레코드 상태와 검토자 조건으로 승인 결과 구성 | `verify`의 3개 고정 사례·저장 재실행 |
 | CI 계획 예제 | 변경 파일 묶음을 등록된 확인 항목에 결정론적으로 대응 | `verify`의 12개 고정 사례·24개 활동 출력 |
+| 기능 탐색 연결 | JEV의 한·영 기능 카탈로그 결과를 Gooo 평가·재실행과 연결 | `discover`의 출처 바인딩·미해결 단계 기록 |
 
 [표준 함수](recipes/stdlib.gooo)는 `Min`, `Max`, `Clamp`, `AbsSaturating`,
 `Sign`, `IsZero`, `InRange`, `And`, `Or`, `Not`, `CoalesceText`, `ChooseText`,
@@ -42,6 +43,8 @@ go run ./cmd/workbench scaffold --profile record --model builtin --out out/my-re
 go run ./cmd/workbench diagnose --input examples/partial-composition.json \
   --model builtin --out out/next-work
 go run ./cmd/workbench receipt --input out/verified --out out/completeness
+go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
+  --declaration examples/catalog/operations.gooo --out out/capability-discovery
 ```
 
 `--compiler /path/to/gooo`로 다른 설치 위치를 지정합니다. 모든 출력 폴더는
@@ -117,6 +120,24 @@ go run ./cmd/workbench reference --compiler ./.gooo \
 추론해 채우지 않습니다. 문서는 컴파일러가 낸 선언 지문과 인터페이스 지문을
 함께 표시하며, 원본 JSON과 Gooo 실행 기록도 결과에 저장합니다.
 고정 예제와 실제 출력을 [API 참조 관측](publication/api-reference-20261005)에서 확인할 수 있습니다.
+
+## Gooo 기능 탐색과 사용 사례 경계
+
+`discover`는 [Gooo-jev](https://github.com/kimjooyoon/gooo-jev)의 자연어 질의 결과와
+선언 출처 관측을 읽고, [Gooo 평가 프로그램](recipes/capability-assessment.gooo)이
+카탈로그 상태·선언 바인딩·다음 미해결 단계를 구성합니다. 한국어·영어 질문을
+지원하며 `AVAILABLE`, `DEFERRED`, `UNKNOWN`을 그대로 보존합니다.
+
+```sh
+go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
+  --declaration examples/catalog/operations.gooo --out out/capability-discovery
+```
+
+출력 폴더에는 질의, 선언, JEV 탐색 trail·guide, Gooo 본문 조립과 저장 재실행,
+평가 JSON이 남습니다. 선언이 연결된 카탈로그 결과는 `real_use_case_coverage=PROGRESS`,
+첫 미해결 단계는 `generation`으로 표시합니다. 이는 코드 생성 능력을 증명하지
+않으며, 실제 생성과 역관찰이 완료되기 전까지 `PASS`로 승격하지 않습니다.
+JEV 카탈로그 자체는 결정론적이며 외부 모델/provider 호출은 없습니다.
 
 ## 완전성 영수증
 

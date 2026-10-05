@@ -64,6 +64,21 @@ go run ./cmd/workbench reference --compiler ./.gooo \
 `reference.md`와 함께 컴파일러 인터페이스 원본, Gooo 실행, 기대값 확인과
 저장 재실행을 보관합니다. 선언된 타입 계약을 보여주며 구현 동작을 설명하지 않습니다.
 
+## 자연어로 Gooo 기능 찾기
+
+```sh
+go run ./cmd/workbench discover --compiler ./.gooo \
+  --query '코드 생성은 어떻게 해?' \
+  --declaration examples/catalog/operations.gooo \
+  --out out/capability-discovery
+```
+
+Gooo-jev가 한·영 질의를 기능 카탈로그에 연결하고, Gooo 평가 프로그램이 선언
+바인딩과 첫 미해결 단계를 만듭니다. `AVAILABLE`은 카탈로그 결과이지 실행 증거가
+아닙니다. 선언 연결만 확인된 경우 사용 사례 범위는 `PROGRESS`, 다음 단계는
+`generation`입니다. 출력에는 원 질의·선언·탐색 digest·Gooo 조립과 재실행을 둡니다.
+현재 JEV 탐색은 결정론적이며 provider를 호출하지 않습니다.
+
 ## 완전성 영수증 만들기
 
 성공한 검증 폴더를 입력해 근거가 연결된 영수증을 만듭니다.

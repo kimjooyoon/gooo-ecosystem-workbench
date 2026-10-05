@@ -32,6 +32,14 @@ jobs:
         run: go run ./cmd/workbench receipt --compiler "$PWD/.gooo" --input out/ci-verification --out out/ci-completeness
       - name: Generate a public interface reference in Gooo
         run: go run ./cmd/workbench reference --compiler "$PWD/.gooo" --package examples/catalog --entry ApproveInvoice --out out/ci-reference
+      - name: Run Korean and English capability discovery through Gooo
+        env:
+          GOOO_COMPILER: ${{ github.workspace }}/.gooo
+          GOWORK: 'off'
+        run: |
+          go run ./cmd/workbench discover --compiler "$PWD/.gooo" --query '코드 생성은 어떻게 해?' --declaration examples/catalog/operations.gooo --out out/ci-discover-korean
+          go run ./cmd/workbench discover --compiler "$PWD/.gooo" --query 'Can gooo execute this?' --declaration examples/catalog/operations.gooo --out out/ci-discover-deferred
+          go run ./cmd/workbench discover --compiler "$PWD/.gooo" --query 'quantum breakfast compiler' --out out/ci-discover-unknown
       - uses: actions/upload-artifact@v7
         with:
           name: gooo-ecosystem-observations
@@ -52,3 +60,19 @@ jobs:
             out/ci-reference/reference.md
             out/ci-reference/reference-receipt.json
             out/ci-reference/replay.json
+            out/ci-discover-korean/query.txt
+            out/ci-discover-korean/declaration.gooo
+            out/ci-discover-korean/trail.json
+            out/ci-discover-korean/guide.json
+            out/ci-discover-korean/assessment.json
+            out/ci-discover-korean/discovery-receipt.json
+            out/ci-discover-korean/cases.json
+            out/ci-discover-korean/body-compose-result.json
+            out/ci-discover-korean/replay.json
+            out/ci-discover-korean/assessment/source.gooo
+            out/ci-discover-korean/assessment/cases.json
+            out/ci-discover-korean/assessment/result.json
+            out/ci-discover-korean/assessment/composition/composition.json
+            out/ci-discover-korean/assessment/composition/generated.go
+            out/ci-discover-deferred/discovery-receipt.json
+            out/ci-discover-unknown/discovery-receipt.json
