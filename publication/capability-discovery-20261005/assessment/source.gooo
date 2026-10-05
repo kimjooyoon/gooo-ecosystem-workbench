@@ -1,0 +1,33 @@
+package capabilityassessment
+namespace workbench_capability_assessment
+
+entity Text id "gooo://workbench/capability-assessment/text"
+entity CapabilityAssessment id "gooo://workbench/capability-assessment/assessment" fields {
+    field catalog_state id "gooo://workbench/capability-assessment/catalog-state" type string required one
+    field first_unresolved_stage id "gooo://workbench/capability-assessment/first-unresolved-stage" type string required one
+    field intent id "gooo://workbench/capability-assessment/intent" type string required one
+    field next_operation id "gooo://workbench/capability-assessment/next-operation" type string required one
+    field real_use_case_coverage id "gooo://workbench/capability-assessment/real-use-case-coverage" type string required one
+    field query_digest id "gooo://workbench/capability-assessment/query-digest" type string required one
+    field declaration_source_digest id "gooo://workbench/capability-assessment/declaration-source-digest" type string required one
+    field declaration_bound id "gooo://workbench/capability-assessment/declaration-bound" type string required one
+    field execution_attempted id "gooo://workbench/capability-assessment/execution-attempted" type string required one
+    field provider_invocations id "gooo://workbench/capability-assessment/provider-invocations" type string required one
+    field reason id "gooo://workbench/capability-assessment/reason" type string required one
+}
+
+activity AssessCapability(Text, Text, Text, Text, Text, Text) -> CapabilityAssessment computes `let coverage = "UNKNOWN"
+let unresolved = "capability_catalog"
+if input0 == "DEFERRED" {
+    unresolved = "external_boundary"
+}
+if input0 == "AVAILABLE" && input2 == "false" {
+    unresolved = "declaration_binding"
+}
+if input0 == "AVAILABLE" && input2 == "true" {
+    coverage = "PROGRESS"
+    unresolved = "generation"
+}
+return CapabilityAssessment{catalog_state: input0, first_unresolved_stage: unresolved, intent: input1, next_operation: input3, real_use_case_coverage: coverage, query_digest: input4, declaration_source_digest: input5, declaration_bound: input2, execution_attempted: "false", provider_invocations: "0", reason: "catalog discovery is not generation, reverse observation, or execution evidence"}`
+activity PreserveAssessment(CapabilityAssessment) -> CapabilityAssessment computes `return input`
+bind AssessCapability.result -> PreserveAssessment.input

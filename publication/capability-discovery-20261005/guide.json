@@ -1,0 +1,25 @@
+{
+  "overview_digest": "dec0c12b8954e95b8a9d941275b6913831db31d7ebab435841edb101f81df028",
+  "status": "AVAILABLE",
+  "action": "INSPECT_NEXT_OPERATION",
+  "capability_ids": [
+    "canonical_generation"
+  ],
+  "next_operations": [
+    "write_generated_declaration"
+  ],
+  "questions": [
+    "How do I generate a canonical .gooo declaration?",
+    "Can gooo analyze this .gooo declaration?",
+    "Can gooo compare a generated declaration round trip?"
+  ],
+  "constraints": [
+    "catalog_scope_only",
+    "unknown_is_preserved",
+    "no_provider_invocation",
+    "no_authorization_grant",
+    "no_catalog_mutation",
+    "cache_presence_is_not_semantic_evidence"
+  ],
+  "evidence_digest": "a58675a1a18d2bb6ba29e2d0a25ec25ee1748f135b742e9f46df8b852e342e37"
+}

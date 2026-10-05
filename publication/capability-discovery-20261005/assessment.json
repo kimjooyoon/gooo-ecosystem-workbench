@@ -1,0 +1,13 @@
+{
+  "catalog_state": "AVAILABLE",
+  "first_unresolved_stage": "generation",
+  "intent": "capability_request",
+  "next_operation": "write_generated_declaration",
+  "real_use_case_coverage": "PROGRESS",
+  "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+  "declaration_source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+  "declaration_bound": "true",
+  "execution_attempted": "false",
+  "provider_invocations": "0",
+  "reason": "catalog discovery is not generation, reverse observation, or execution evidence"
+}

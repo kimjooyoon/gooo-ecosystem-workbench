@@ -1,0 +1,369 @@
+{
+  "schema": "gooo/body-composition-runtime/v1",
+  "stage": "COMPLETE",
+  "composition_sha256": "sha256:569b6f7ca3461c29c0cafc165f0322a0fdebba58afa2fa7eb59097aba71f8bdc",
+  "original_source_sha256": "sha256:acf6b3b0414f45c7cf544c8ea24d39d6640a81c6956cdbe1043887c6280759ec",
+  "selected_source_sha256": "sha256:acf6b3b0414f45c7cf544c8ea24d39d6640a81c6956cdbe1043887c6280759ec",
+  "typed_plan_sha256": "sha256:21c35b92b3b1f8663e6f8190e2938aa2ba1ede9ead14defe85f751ec96406745",
+  "generated_sha256": "sha256:9ec42aedc5639abec626c26afa69b6f67962236be823bf7d73dbe4a7622f5a05",
+  "driver_sha256": "sha256:a41d07ab5f8295f2fc724b21f852caacd48cf29790cebea11d31835ecb19c716",
+  "runtime_suite_sha256": "sha256:af8aa8cc2ff304219f7985214f68e33354b869a9ff8630670a088656e4094e65",
+  "executable_sha256": "sha256:54a7ff9beb5979fe25eab8bf9d7336d17ee6457a37e708c4f37307b160430338",
+  "go_tool_sha256": "sha256:132b69336a1f809932a8a20b0201dbbb980e86e3a323ae32e893639d83d71598",
+  "go_tool_selection": "path",
+  "go_version": "go version go1.27.1 darwin/arm64",
+  "producer_source_sha": "f144dddb8261b9b525181dee510afc65f1603153",
+  "toolchain": {
+    "started": true,
+    "completed": true,
+    "canceled": false,
+    "timed_out": false,
+    "diagnostics_bytes": 0,
+    "output_truncated": false,
+    "exit_code": 0,
+    "wall_ns": 8090291,
+    "user_ns": 3651000,
+    "system_ns": 2643000,
+    "peak_rss_bytes": 14516224,
+    "stdout_sha256": "sha256:c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "build": {
+    "started": true,
+    "completed": true,
+    "canceled": false,
+    "timed_out": false,
+    "diagnostics_bytes": 0,
+    "output_truncated": false,
+    "exit_code": 0,
+    "wall_ns": 125977625,
+    "user_ns": 111050000,
+    "system_ns": 77214000,
+    "peak_rss_bytes": 85327872,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "runs": [
+    {
+      "started": true,
+      "completed": true,
+      "canceled": false,
+      "timed_out": false,
+      "diagnostics_bytes": 0,
+      "output_truncated": false,
+      "exit_code": 0,
+      "wall_ns": 189282208,
+      "user_ns": 2704000,
+      "system_ns": 4935000,
+      "peak_rss_bytes": 4833280,
+      "stdout_sha256": "sha256:53919d3d3ca04bc07816ee5ab9f4658cbf7139a5c2bdd2cf8e3b96a543de58d0",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "started": true,
+      "completed": true,
+      "canceled": false,
+      "timed_out": false,
+      "diagnostics_bytes": 0,
+      "output_truncated": false,
+      "exit_code": 0,
+      "wall_ns": 5111000,
+      "user_ns": 1478000,
+      "system_ns": 1938000,
+      "peak_rss_bytes": 5013504,
+      "stdout_sha256": "sha256:53919d3d3ca04bc07816ee5ab9f4658cbf7139a5c2bdd2cf8e3b96a543de58d0",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "traces": [
+    {
+      "case_index": 0,
+      "deliveries": [
+        {
+          "activity_id": "workbench-capability-assessment://activity/assess-capability",
+          "inputs": [
+            {
+              "port": "input0",
+              "entity_id": "gooo://workbench/capability-assessment/text",
+              "value": "AVAILABLE"
+            },
+            {
+              "port": "input1",
+              "entity_id": "gooo://workbench/capability-assessment/text",
+              "value": "capability_request"
+            },
+            {
+              "port": "input2",
+              "entity_id": "gooo://workbench/capability-assessment/text",
+              "value": "true"
+            },
+            {
+              "port": "input3",
+              "entity_id": "gooo://workbench/capability-assessment/text",
+              "value": "write_generated_declaration"
+            },
+            {
+              "port": "input4",
+              "entity_id": "gooo://workbench/capability-assessment/text",
+              "value": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99"
+            },
+            {
+              "port": "input5",
+              "entity_id": "gooo://workbench/capability-assessment/text",
+              "value": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626"
+            }
+          ],
+          "actual": {
+            "catalog_state": "AVAILABLE",
+            "declaration_bound": "true",
+            "declaration_source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+            "execution_attempted": "false",
+            "first_unresolved_stage": "generation",
+            "intent": "capability_request",
+            "next_operation": "write_generated_declaration",
+            "provider_invocations": "0",
+            "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+            "real_use_case_coverage": "PROGRESS",
+            "reason": "catalog discovery is not generation, reverse observation, or execution evidence"
+          },
+          "actual_fields": [
+            {
+              "id": "gooo://workbench/capability-assessment/catalog-state",
+              "name": "catalog_state",
+              "value": "AVAILABLE"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/first-unresolved-stage",
+              "name": "first_unresolved_stage",
+              "value": "generation"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/intent",
+              "name": "intent",
+              "value": "capability_request"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/next-operation",
+              "name": "next_operation",
+              "value": "write_generated_declaration"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/real-use-case-coverage",
+              "name": "real_use_case_coverage",
+              "value": "PROGRESS"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/query-digest",
+              "name": "query_digest",
+              "value": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/declaration-source-digest",
+              "name": "declaration_source_digest",
+              "value": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/declaration-bound",
+              "name": "declaration_bound",
+              "value": "true"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/execution-attempted",
+              "name": "execution_attempted",
+              "value": "false"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/provider-invocations",
+              "name": "provider_invocations",
+              "value": "0"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/reason",
+              "name": "reason",
+              "value": "catalog discovery is not generation, reverse observation, or execution evidence"
+            }
+          ],
+          "expected": {
+            "catalog_state": "AVAILABLE",
+            "declaration_bound": "true",
+            "declaration_source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+            "execution_attempted": "false",
+            "first_unresolved_stage": "generation",
+            "intent": "capability_request",
+            "next_operation": "write_generated_declaration",
+            "provider_invocations": "0",
+            "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+            "real_use_case_coverage": "PROGRESS",
+            "reason": "catalog discovery is not generation, reverse observation, or execution evidence"
+          },
+          "passed": true
+        },
+        {
+          "activity_id": "workbench-capability-assessment://activity/preserve-assessment",
+          "producer_id": "workbench-capability-assessment://activity/assess-capability",
+          "input": {
+            "catalog_state": "AVAILABLE",
+            "declaration_bound": "true",
+            "declaration_source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+            "execution_attempted": "false",
+            "first_unresolved_stage": "generation",
+            "intent": "capability_request",
+            "next_operation": "write_generated_declaration",
+            "provider_invocations": "0",
+            "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+            "real_use_case_coverage": "PROGRESS",
+            "reason": "catalog discovery is not generation, reverse observation, or execution evidence"
+          },
+          "input_fields": [
+            {
+              "id": "gooo://workbench/capability-assessment/catalog-state",
+              "name": "catalog_state",
+              "value": "AVAILABLE"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/first-unresolved-stage",
+              "name": "first_unresolved_stage",
+              "value": "generation"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/intent",
+              "name": "intent",
+              "value": "capability_request"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/next-operation",
+              "name": "next_operation",
+              "value": "write_generated_declaration"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/real-use-case-coverage",
+              "name": "real_use_case_coverage",
+              "value": "PROGRESS"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/query-digest",
+              "name": "query_digest",
+              "value": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/declaration-source-digest",
+              "name": "declaration_source_digest",
+              "value": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/declaration-bound",
+              "name": "declaration_bound",
+              "value": "true"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/execution-attempted",
+              "name": "execution_attempted",
+              "value": "false"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/provider-invocations",
+              "name": "provider_invocations",
+              "value": "0"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/reason",
+              "name": "reason",
+              "value": "catalog discovery is not generation, reverse observation, or execution evidence"
+            }
+          ],
+          "actual": {
+            "catalog_state": "AVAILABLE",
+            "declaration_bound": "true",
+            "declaration_source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+            "execution_attempted": "false",
+            "first_unresolved_stage": "generation",
+            "intent": "capability_request",
+            "next_operation": "write_generated_declaration",
+            "provider_invocations": "0",
+            "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+            "real_use_case_coverage": "PROGRESS",
+            "reason": "catalog discovery is not generation, reverse observation, or execution evidence"
+          },
+          "actual_fields": [
+            {
+              "id": "gooo://workbench/capability-assessment/catalog-state",
+              "name": "catalog_state",
+              "value": "AVAILABLE"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/first-unresolved-stage",
+              "name": "first_unresolved_stage",
+              "value": "generation"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/intent",
+              "name": "intent",
+              "value": "capability_request"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/next-operation",
+              "name": "next_operation",
+              "value": "write_generated_declaration"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/real-use-case-coverage",
+              "name": "real_use_case_coverage",
+              "value": "PROGRESS"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/query-digest",
+              "name": "query_digest",
+              "value": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/declaration-source-digest",
+              "name": "declaration_source_digest",
+              "value": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/declaration-bound",
+              "name": "declaration_bound",
+              "value": "true"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/execution-attempted",
+              "name": "execution_attempted",
+              "value": "false"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/provider-invocations",
+              "name": "provider_invocations",
+              "value": "0"
+            },
+            {
+              "id": "gooo://workbench/capability-assessment/reason",
+              "name": "reason",
+              "value": "catalog discovery is not generation, reverse observation, or execution evidence"
+            }
+          ],
+          "expected": {
+            "catalog_state": "AVAILABLE",
+            "declaration_bound": "true",
+            "declaration_source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+            "execution_attempted": "false",
+            "first_unresolved_stage": "generation",
+            "intent": "capability_request",
+            "next_operation": "write_generated_declaration",
+            "provider_invocations": "0",
+            "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+            "real_use_case_coverage": "PROGRESS",
+            "reason": "catalog discovery is not generation, reverse observation, or execution evidence"
+          },
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "projection_replayed": true,
+  "runtime_replayed": true,
+  "finite_passed": 2,
+  "finite_total": 2,
+  "model_calls": 0,
+  "elapsed_ns": 347392125,
+  "scope": "two fresh compiled value-graph executions; finite named expectations; explicit edges and ordered actual values; zero inference during replay/execution"
+}
