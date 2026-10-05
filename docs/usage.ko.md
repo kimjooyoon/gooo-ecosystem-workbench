@@ -70,7 +70,8 @@ go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out
 [`recipes/completeness.gooo`](../recipes/completeness.gooo)에 정의됩니다.
 작성된 유한 사례만 확인한 축은 `PROGRESS`, 계측하지 않은 외부 효과 경계는
 `UNKNOWN`으로 남기며 단일 완성도 점수로 합치지 않습니다. 측정은 결정론적이고
-모델 호출을 하지 않습니다.
+모델 호출을 하지 않습니다. `verify` 시점의 저장소 HEAD와 현재 입력 위치가
+일치하지 않으면 출처도 `UNKNOWN`으로 남깁니다.
 
 ## 소스 작성에서 확인한 규칙
 

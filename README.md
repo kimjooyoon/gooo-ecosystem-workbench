@@ -110,7 +110,8 @@ go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out
 유한 예제만 확인돼 `use_case=PROGRESS`, 별도로 계측하지 않은 외부 효과 경계는
 `UNKNOWN`으로 남습니다. 영수증은 단일 완성도 점수를 만들지 않습니다. 모델은
 이 결정론적 측정에 개입하지 않으며, 모델이 선택한 조립도 별도 출처 정보에
-그대로 남습니다. 이 기능은 공개 이슈 [#1023](https://github.com/kimjooyoon/meta-ontology-go/issues/1023)의
+그대로 남습니다. 검증 실행 시점의 저장소 HEAD를 기록하고, 다른 체크아웃에서
+영수증을 만들면 출처를 `UNKNOWN`으로 낮춥니다. 이 기능은 공개 이슈 [#1023](https://github.com/kimjooyoon/meta-ontology-go/issues/1023)의
 첫 적용 사례이고, 자연어 탐색과 여러 저장소 간 사용 사례 연결은 아직 범위 밖입니다.
 
 ## 현재 확인 범위

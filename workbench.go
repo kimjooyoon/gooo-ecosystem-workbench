@@ -443,7 +443,15 @@ func Verify(ctx context.Context, o Options) ([]Summary, error) {
 			summaries = append(summaries, s)
 		}
 	}
-	return summaries, save(filepath.Join(root, "summary.json"), map[string]any{"schema": "gooo/ecosystem-workbench-verification/v1", "scope": "13 authored standard functions and two ecosystem recipes; finite examples and separately compiled native values; no training or performance study", "recipes": summaries})
+	repositoryHead := ""
+	if head, headErr := exec.CommandContext(ctx, "git", "rev-parse", "HEAD").Output(); headErr == nil {
+		repositoryHead = strings.TrimSpace(string(head))
+	}
+	return summaries, save(filepath.Join(root, "summary.json"), map[string]any{
+		"schema":          "gooo/ecosystem-workbench-verification/v1",
+		"scope":           "13 authored standard functions and two ecosystem recipes; finite examples and separately compiled native values; no training or performance study",
+		"repository_head": repositoryHead, "recipes": summaries,
+	})
 }
 
 func digestFiles(root string, names ...string) (string, error) {
@@ -492,9 +500,10 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 		return receipt, err
 	}
 	var report struct {
-		Schema  string    `json:"schema"`
-		Scope   string    `json:"scope"`
-		Recipes []Summary `json:"recipes"`
+		Schema         string    `json:"schema"`
+		Scope          string    `json:"scope"`
+		RepositoryHead string    `json:"repository_head"`
+		Recipes        []Summary `json:"recipes"`
 	}
 	summaryBytes, err := os.ReadFile(filepath.Join(inputRoot, "summary.json"))
 	if err != nil {
@@ -505,6 +514,26 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 	}
 	if report.Schema != "gooo/ecosystem-workbench-verification/v1" || report.Scope == "" || len(report.Recipes) == 0 {
 		return receipt, fmt.Errorf("input is not a complete ecosystem verification report")
+	}
+	seen := make(map[string]bool, len(report.Recipes))
+	for _, row := range report.Recipes {
+		if (row.Recipe != "stdlib" && row.Recipe != "diagnostics" && row.Recipe != "starter") ||
+			(row.Mode != "deterministic" && row.Mode != "model") || (row.Recipe == "stdlib" && row.Mode == "model") {
+			return receipt, fmt.Errorf("verification includes an unknown recipe/mode: %s/%s", row.Recipe, row.Mode)
+		}
+		key := row.Recipe + "/" + row.Mode
+		if seen[key] {
+			return receipt, fmt.Errorf("verification repeats recipe/mode %s", key)
+		}
+		seen[key] = true
+	}
+	for _, required := range []string{"stdlib/deterministic", "diagnostics/deterministic", "starter/deterministic"} {
+		if !seen[required] {
+			return receipt, fmt.Errorf("verification omits required recipe/mode %s", required)
+		}
+	}
+	if (len(seen) != 3 && len(seen) != 5) || (len(seen) == 5 && (!seen["diagnostics/model"] || !seen["starter/model"])) {
+		return receipt, fmt.Errorf("verification contains an incomplete deterministic/model recipe set")
 	}
 	var sourcePaths, generationPaths, reversePaths, useCasePaths []string
 	var compilerSource string
@@ -582,14 +611,17 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 	}
 	headBytes, headErr := exec.CommandContext(ctx, "git", "-C", inputRoot, "rev-parse", "HEAD").Output()
 	provenanceStatus := "UNKNOWN"
-	provenanceEvidence := "UNBOUND: source checkout identity unavailable"
-	if headErr == nil && strings.TrimSpace(string(headBytes)) != "" && compilerSource != "" {
+	provenanceEvidence := "UNKNOWN: verify-time repository identity was not recorded"
+	if report.RepositoryHead != "" && headErr == nil && strings.TrimSpace(string(headBytes)) != report.RepositoryHead {
+		provenanceEvidence = "UNKNOWN: current source checkout differs from verify-time HEAD=" + report.RepositoryHead
+	}
+	if report.RepositoryHead != "" && headErr == nil && strings.TrimSpace(string(headBytes)) == report.RepositoryHead && compilerSource != "" {
 		summaryDigest, digestErr := digestFiles(inputRoot, "summary.json")
 		if digestErr != nil {
 			return receipt, digestErr
 		}
 		provenanceStatus = "PASS"
-		provenanceEvidence = "HEAD=" + strings.TrimSpace(string(headBytes)) + "; compiler_source=" + compilerSource + "; summary=" + summaryDigest
+		provenanceEvidence = "HEAD=" + report.RepositoryHead + "; compiler_source=" + compilerSource + "; summary=" + summaryDigest
 	}
 	assessment := CompletenessAssessment{
 		Domain:            "gooo-ecosystem-workbench finite verification",

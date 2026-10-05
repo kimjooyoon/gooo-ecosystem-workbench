@@ -63,6 +63,23 @@ func TestCompletenessKeepsUnknownAsFirstUnresolved(t *testing.T) {
 		t.Fatalf("UNKNOWN was not retained as unresolved: %q", got)
 	}
 }
+func TestCompletenessRejectsASubsetOfVerificationRecipes(t *testing.T) {
+	input := t.TempDir()
+	report := map[string]any{
+		"schema": "gooo/ecosystem-workbench-verification/v1", "scope": "test",
+		"recipes": []Summary{{Recipe: "stdlib", Mode: "deterministic"}},
+	}
+	data, err := json.Marshal(report)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile(filepath.Join(input, "summary.json"), data, 0644); err != nil {
+		t.Fatal(err)
+	}
+	if _, err = CompletenessReceiptFor(context.Background(), Options{Out: filepath.Join(t.TempDir(), "out")}, input); err == nil {
+		t.Fatal("receipt accepted a partial set of workbench recipes")
+	}
+}
 func TestOutputCannotOverwriteExistingDirectory(t *testing.T) {
 	if _, e := newOutput(t.TempDir()); e == nil {
 		t.Fatal("existing output accepted")
