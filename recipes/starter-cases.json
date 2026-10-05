@@ -9,9 +9,18 @@
         },
         "Preview": "package starter\nnamespace example\nentity Item id \"example://item\" fields {\n    field title id \"example://item/title\" type string required one\n}\nactivity Identity(Item) -\u003e Item computes `return input`\n"
       },
-      "inputs": {
-        "Plan": "record"
-      }
+      "inputs": {"Plan": "record"}
+    },
+    {
+      "expected": {
+        "Plan": {
+          "filename": "main.gooo",
+          "next": "gooo check main.gooo && gooo body-codegen --activity Clamp main.gooo",
+          "source": "package boundedint\nnamespace boundedint\nentity Integer id \"boundedint://integer\"\nactivity Clamp(Integer) -\u003e Integer computes `if input < 0 { return 0 } else if input > 100 { return 100 } else { return input }`\n"
+        },
+        "Preview": "package boundedint\nnamespace boundedint\nentity Integer id \"boundedint://integer\"\nactivity Clamp(Integer) -\u003e Integer computes `if input < 0 { return 0 } else if input > 100 { return 100 } else { return input }`\n"
+      },
+      "inputs": {"Plan": "library"}
     },
     {
       "expected": {
@@ -22,22 +31,14 @@
         },
         "Preview": "package starter\nnamespace example\nentity Integer id \"example://integer\"\nactivity Identity(Integer) -\u003e Integer computes `return input`\n"
       },
-      "inputs": {
-        "Plan": "scalar"
-      }
+      "inputs": {"Plan": "scalar"}
     },
     {
       "expected": {
-        "Plan": {
-          "filename": "",
-          "next": "Choose scalar or record.",
-          "source": ""
-        },
+        "Plan": {"filename": "", "next": "Choose scalar, record, or library.", "source": ""},
         "Preview": ""
       },
-      "inputs": {
-        "Plan": "unknown"
-      }
+      "inputs": {"Plan": "unknown"}
     }
   ],
   "schema": "gooo/body-composition-cases/v1"

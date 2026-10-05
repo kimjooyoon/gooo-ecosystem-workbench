@@ -26,7 +26,7 @@ func run(args []string) error {
 	f.StringVar(&o.Compiler, "compiler", "gooo", "Gooo compiler executable")
 	f.StringVar(&o.Model, "model", "", "optional model.json path or builtin; omission is deterministic")
 	f.StringVar(&o.Out, "out", "", "new output directory")
-	profile := f.String("profile", "record", "starter profile: scalar or record")
+	profile := f.String("profile", "record", "starter profile: scalar, record, or library")
 	input := f.String("input", "", "diagnostic input file, or completed verify output directory for receipt")
 	packageDir := f.String("package", "", "Gooo package directory for reference")
 	entry := f.String("entry", "", "public activity name for reference")

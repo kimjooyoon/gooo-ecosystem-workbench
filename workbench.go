@@ -31,6 +31,7 @@ type Project struct {
 	Filename string `json:"filename"`
 	Source   string `json:"source"`
 	Next     string `json:"next"`
+	Activity string `json:"activity,omitempty"`
 }
 type TypeReference struct {
 	Name string `json:"name"`
@@ -1029,10 +1030,14 @@ func Scaffold(ctx context.Context, o Options, profile string) (Project, error) {
 	if e = actualFor(r, "starterplanner://activity/plan", &p); e != nil {
 		return p, e
 	}
+	p.Activity = "Identity"
+	if profile == "library" {
+		p.Activity = "Clamp"
+	}
 	if e = save(filepath.Join(root, "project-plan.json"), p); e != nil {
 		return p, e
 	}
-	if p.Filename != "main.gooo" || p.Source == "" {
+	if p.Filename != "main.gooo" || p.Source == "" || p.Activity == "" {
 		return p, fmt.Errorf("Gooo project plan: %s", p.Next)
 	}
 	path := filepath.Join(root, p.Filename)
@@ -1042,11 +1047,11 @@ func Scaffold(ctx context.Context, o Options, profile string) (Project, error) {
 	if _, e = command(ctx, o.Compiler, "check", path); e != nil {
 		return p, e
 	}
-	body, e := command(ctx, o.Compiler, "body-codegen", "--json", "--activity", "Identity", path)
+	body, e := command(ctx, o.Compiler, "body-codegen", "--json", "--activity", p.Activity, path)
 	if e != nil {
 		return p, e
 	}
-	return p, write(filepath.Join(root, "identity-generation.json"), body)
+	return p, write(filepath.Join(root, "activity-generation.json"), body)
 }
 
 func referenceSignature(contract PublicInterface) string {

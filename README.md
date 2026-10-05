@@ -13,7 +13,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | --- | --- | --- |
 | 표준 함수 13개 | 정수 범위·최솟값·최댓값, 논리 연산, 텍스트 선택 | `verify` |
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
-| 시작 도구 | scalar/record 요청에 맞는 Gooo 소스와 다음 명령 생성 | `scaffold` |
+| 시작 도구 | scalar/record/library 요청에 맞는 Gooo 소스와 다음 명령 생성 | `scaffold` |
 | API 참조 생성 | 컴파일러가 해석한 공개 이름·시그니처·안정 타입 ID를 문서화 | `reference` |
 | 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
 | 인보이스 승인 예제 | 레코드 상태와 검토자 조건으로 승인 결과 구성 | `verify`의 3개 고정 사례·저장 재실행 |
@@ -40,6 +40,7 @@ Go 1.27.1과 Gooo 컴파일러가 필요합니다. 이번 관측의 컴파일러
 ```sh
 go run ./cmd/workbench verify --model builtin --out out/verified
 go run ./cmd/workbench scaffold --profile record --model builtin --out out/my-record-project
+go run ./cmd/workbench scaffold --profile library --model builtin --out out/my-library
 go run ./cmd/workbench diagnose --input examples/partial-composition.json \
   --model builtin --out out/next-work
 go run ./cmd/workbench receipt --input out/verified --out out/completeness
@@ -47,8 +48,11 @@ go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
   --declaration examples/catalog/operations.gooo --out out/capability-discovery
 ```
 
-`--compiler /path/to/gooo`로 다른 설치 위치를 지정합니다. 모든 출력 폴더는
-새 경로입니다. 결정론 실행은 같은 명령에서 `--model builtin`을 빼면 됩니다.
+`library`는 `Clamp(Integer) -> Integer` 공개 계약과 Gooo 본문을 포함한
+단일 패키지 출발점입니다. 결과의 `activity-generation.json`은 선택된 activity의
+본문 생성 기록을 담습니다. `--compiler /path/to/gooo`로 다른 설치 위치를
+지정합니다. 모든 출력 폴더는 새 경로입니다. 결정론 실행은 같은 명령에서
+`--model builtin`을 빼면 됩니다.
 
 컴파일러를 소스로 준비하는 방법은 [실행 안내](docs/usage.ko.md)에 있습니다.
 

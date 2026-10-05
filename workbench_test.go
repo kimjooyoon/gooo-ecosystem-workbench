@@ -249,11 +249,20 @@ func TestNativeRecipesScaffoldAndDiagnostics(t *testing.T) {
 	if _, e = CompletenessReceiptFor(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "tampered-receipt")}, filepath.Join(root, "verify")); e == nil {
 		t.Fatal("receipt accepted a result whose digest differs from its verification summary")
 	}
-	for _, profile := range []string{"record", "scalar"} {
+	for _, profile := range []string{"record", "scalar", "library"} {
 		p, e := Scaffold(ctx, Options{Compiler: compiler, Model: "builtin", Out: filepath.Join(root, profile)}, profile)
-		if e != nil || p.Filename != "main.gooo" || !strings.Contains(p.Source, "activity Identity") {
+		activity := "Identity"
+		if profile == "library" {
+			activity = "Clamp"
+		}
+		if e != nil || p.Filename != "main.gooo" || p.Activity != activity || !strings.Contains(p.Source, "activity "+activity) {
 			t.Fatal(p, e)
 		}
+	}
+	firstLibrary, e := Scaffold(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "library-deterministic-a")}, "library")
+	secondLibrary, replayErr := Scaffold(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "library-deterministic-b")}, "library")
+	if e != nil || replayErr != nil || firstLibrary != secondLibrary || firstLibrary.Activity != "Clamp" {
+		t.Fatal("deterministic library starter replay differs", firstLibrary, secondLibrary, e, replayErr)
 	}
 	reference, e := Reference(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "reference")}, "examples/catalog", "ApproveInvoice")
 	if e != nil || !strings.Contains(reference, "`ApproveInvoice(Invoice, Reviewer) -> Approval`") ||
