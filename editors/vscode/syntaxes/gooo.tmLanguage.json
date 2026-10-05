@@ -1,0 +1,56 @@
+{
+  "scopeName": "source.gooo",
+  "name": "Gooo",
+  "patterns": [
+    {"include": "#comments"},
+    {"include": "#strings"},
+    {"include": "#declarations"},
+    {"include": "#keywords"},
+    {"include": "#operators"},
+    {"include": "#numbers"},
+    {"include": "#stable-ids"}
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {"name": "comment.line.double-slash.gooo", "match": "//.*$"}
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {"name": "string.quoted.double.gooo", "begin": "\"", "end": "\"", "patterns": [{"name": "constant.character.escape.gooo", "match": "\\\\."}]},
+        {"name": "string.quoted.other.backtick.gooo", "begin": "`", "end": "`"}
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {"name": "keyword.declaration.package.gooo", "match": "\\b(package|namespace|entity|activity|import|bind)\\b"},
+        {"name": "keyword.declaration.field.gooo", "match": "\\b(field)\\b"}
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {"name": "keyword.control.gooo", "match": "\\b(if|else|return|for|while|match|case|default)\\b"},
+        {"name": "keyword.other.gooo", "match": "\\b(fields|required|optional|one|many|computes|assembling|choice|alternative|intent|at|attempts|bind)\\b"},
+        {"name": "constant.language.gooo", "match": "\\b(true|false|null|none)\\b"}
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {"name": "keyword.operator.assignment.gooo", "match": "->|=>|==|!=|<=|>=|&&|\\|\\||[=+*/%<>!-]"}
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {"name": "constant.numeric.gooo", "match": "\\b[0-9]+(\\.[0-9]+)?\\b"}
+      ]
+    },
+    "stable-ids": {
+      "patterns": [
+        {"name": "entity.name.type.gooo", "match": "(?<=\\bentity\\s)[A-Za-z_][A-Za-z0-9_]*"},
+        {"name": "entity.name.function.gooo", "match": "(?<=\\bactivity\\s)[A-Za-z_][A-Za-z0-9_]*"},
+        {"name": "variable.other.gooo", "match": "\\b(input|result|output)\\b"}
+      ]
+    }
+  }
+}

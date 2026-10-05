@@ -1,0 +1,31 @@
+name: VS Code extension package
+on:
+  push:
+    paths:
+      - 'editors/vscode/**'
+      - '.github/workflows/vscode-extension.yml'
+  pull_request:
+    paths:
+      - 'editors/vscode/**'
+      - '.github/workflows/vscode-extension.yml'
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Validate extension manifests and package
+        working-directory: editors/vscode
+        run: |
+          node -e 'for (const file of ["package.json", "language-configuration.json", "syntaxes/gooo.tmLanguage.json", "snippets/gooo.json"]) JSON.parse(require("node:fs").readFileSync(file, "utf8"))'
+          node -e 'const m=require("./package.json"); const s=require("node:fs").readFileSync("extension.js","utf8"); for(const c of m.contributes.commands) if(!s.includes(c.command)) throw Error(`unregistered command: ${c.command}`); if(m.contributes.grammars[0].scopeName!=="source.gooo") throw Error("unexpected grammar scope")'
+          node -c extension.js
+          npx --yes @vscode/vsce package --no-dependencies
+      - uses: actions/upload-artifact@v7
+        with:
+          name: gooo-language-support-vsix
+          path: editors/vscode/gooo-language-support-0.1.0.vsix

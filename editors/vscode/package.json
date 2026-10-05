@@ -1,0 +1,121 @@
+{
+  "name": "gooo-language-support",
+  "displayName": "Gooo Language Support",
+  "description": "Syntax highlighting, Gooo snippets, and compiler commands for .gooo files.",
+  "version": "0.1.0",
+  "publisher": "kimjooyoon",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "gooo",
+    "metaprogramming",
+    "compiler"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kimjooyoon/gooo-ecosystem-workbench.git",
+    "directory": "editors/vscode"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:gooo",
+    "onCommand:gooo.createLibraryWorkspace",
+    "onCommand:gooo.checkCurrentFile",
+    "onCommand:gooo.generateActivityBody"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "gooo",
+        "aliases": [
+          "Gooo",
+          "gooo"
+        ],
+        "extensions": [
+          ".gooo",
+          ".gooo.fixture",
+          ".gooo.template"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gooo",
+        "scopeName": "source.gooo",
+        "path": "./syntaxes/gooo.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "gooo",
+        "path": "./snippets/gooo.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "gooo.createLibraryWorkspace",
+        "title": "Gooo: Create and Generate Library"
+      },
+      {
+        "command": "gooo.checkCurrentFile",
+        "title": "Gooo: Check Current File"
+      },
+      {
+        "command": "gooo.generateActivityBody",
+        "title": "Gooo: Generate Activity Body"
+      }
+    ],
+    "configuration": {
+      "title": "Gooo",
+      "properties": {
+        "gooo.compilerPath": {
+          "type": "string",
+          "default": "gooo",
+          "description": "Path to the Gooo compiler executable."
+        },
+        "gooo.layaUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Optional local Laya /v1/systemone endpoint. Leave empty to use deterministic candidate order when no endpoint environment variable is configured."
+        }
+      }
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "gooo.createLibraryWorkspace",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        },
+        {
+          "command": "gooo.checkCurrentFile",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "gooo.createLibraryWorkspace",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        },
+        {
+          "command": "gooo.checkCurrentFile",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        },
+        {
+          "command": "gooo.generateActivityBody",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}

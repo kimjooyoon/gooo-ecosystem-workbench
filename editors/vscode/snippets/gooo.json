@@ -1,0 +1,54 @@
+{
+  "Package": {
+    "prefix": "gooo-package",
+    "body": [
+      "package ${1:example}",
+      "namespace ${2:example}",
+      "",
+      "${0}"
+    ],
+    "description": "Start a Gooo source file"
+  },
+  "Entity": {
+    "prefix": "gooo-entity",
+    "body": [
+      "entity ${1:EntityName} id \"${2:example://entity/name}\""
+    ],
+    "description": "Declare a stable Gooo entity"
+  },
+  "Record entity": {
+    "prefix": "gooo-record",
+    "body": [
+      "entity ${1:Record} id \"${2:example://entity/record}\" fields {",
+      "    field ${3:name} id \"${4:example://entity/record/name}\" type ${5:string} required ${6:one}",
+      "}"
+    ],
+    "description": "Declare a Gooo record and one required field"
+  },
+  "Activity": {
+    "prefix": "gooo-activity",
+    "body": [
+      "activity ${1:Transform}(${2:Input}) -> ${3:Output} computes `return ${4:input}`"
+    ],
+    "description": "Declare a typed activity with a computation body"
+  },
+  "Assembly choices": {
+    "prefix": "gooo-assembling",
+    "body": [
+      "activity ${1:Clamp}(${2:Integer}) -> ${3:Integer} computes \"${4:return input}\" assembling {",
+      "    choice \"${5:identity}\" ${6:operand_order} at \"${7:0}\" intent \"${8:Preserve the value.}\"",
+      "    case \"${9:0}\" -> \"${10:0}\"",
+      "    attempts \"${11:4}\"",
+      "}"
+    ],
+    "description": "Declare bounded code-generation choices and example cases"
+  },
+  "Import and bind": {
+    "prefix": "gooo-bind",
+    "body": [
+      "import ${1:core} \"${2:example/core}\"",
+      "bind ${1:core}.${3:Normalize}.result -> ${4:Main}.input"
+    ],
+    "description": "Connect a workspace package result to an activity input"
+  }
+}
