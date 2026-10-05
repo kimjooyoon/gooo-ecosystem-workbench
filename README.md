@@ -138,6 +138,8 @@ go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
 첫 미해결 단계는 `generation`으로 표시합니다. 이는 코드 생성 능력을 증명하지
 않으며, 실제 생성과 역관찰이 완료되기 전까지 `PASS`로 승격하지 않습니다.
 JEV 카탈로그 자체는 결정론적이며 외부 모델/provider 호출은 없습니다.
+원 입력·trail·guide·Gooo 소스·실제 출력·재실행은
+[공개 능력 탐색 관측](publication/capability-discovery-20261005)에 있습니다.
 
 ## 완전성 영수증
 

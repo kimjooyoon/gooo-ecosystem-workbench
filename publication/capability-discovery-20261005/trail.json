@@ -1,0 +1,64 @@
+{
+  "response": {
+    "status": "AVAILABLE",
+    "query": "코드 생성은 어떻게 해?",
+    "capabilities": [
+      {
+        "id": "canonical_generation",
+        "state": "AVAILABLE",
+        "stage": "GENERATION",
+        "description": "produce a canonical .gooo declaration from its representation",
+        "next_operation": "write_generated_declaration",
+        "example_query": "How do I generate a canonical .gooo declaration?",
+        "non_executing": true,
+        "non_authorizing": true
+      }
+    ],
+    "declaration": {
+      "bound": true,
+      "source_digest": "787ee1f02abd18750634d7fbf83b9f6a48a08a40dd31ff2e32126e5651fa4626",
+      "observed_signals": []
+    },
+    "suggestions": [
+      "canonical_generation",
+      "declaration_analysis",
+      "feedback_trend",
+      "ir_generation",
+      "provenance",
+      "reverse_observation",
+      "round_trip_observation",
+      "support_triage",
+      "syntax_completion"
+    ],
+    "suggested_queries": [
+      "Can gooo analyze this .gooo declaration?",
+      "Can gooo compare a generated declaration round trip?",
+      "How do I complete a .gooo declaration?",
+      "How do I generate a canonical .gooo declaration?",
+      "How do I inspect reverse observation evidence?",
+      "How has gooo feedback changed over time?",
+      "How should I triage this gooo support request?",
+      "What IR can this .gooo declaration produce?",
+      "Where did this .gooo declaration come from?"
+    ],
+    "first_mismatch": "",
+    "missing_stage": "",
+    "query_digest": "0e1cdb327874cc6c69d914d771c1054670e7e3067038e4fcd20d0e6b7a08bb99",
+    "non_executing": true,
+    "non_authorizing": true
+  },
+  "intent": "capability_request",
+  "discovery_path": [
+    "normalize_question",
+    "catalog_match",
+    "classify_available",
+    "bind_declaration",
+    "observe_declaration_signals"
+  ],
+  "next_questions": [
+    "How do I generate a canonical .gooo declaration?",
+    "Can gooo analyze this .gooo declaration?",
+    "Can gooo compare a generated declaration round trip?"
+  ],
+  "evidence_digest": "18290cb2d877cf0619b9fba514e9ffd48df76c026d207d7637ddf92d9a309ce2"
+}
