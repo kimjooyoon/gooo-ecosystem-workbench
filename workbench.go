@@ -11,9 +11,12 @@ import (
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"runtime/debug"
 	"slices"
 	"strings"
 	"time"
+
+	jev "github.com/kimjooyoon/gooo-jev/gooo"
 )
 
 type Options struct{ Compiler, Model, Out string }
@@ -63,6 +66,36 @@ type PublicInterface struct {
 		MutationAuthority bool `json:"mutation_authority"`
 	} `json:"effects"`
 	Digest string `json:"digest"`
+}
+
+type CapabilityAssessment struct {
+	CatalogState            string `json:"catalog_state"`
+	FirstUnresolvedStage    string `json:"first_unresolved_stage"`
+	Intent                  string `json:"intent"`
+	NextOperation           string `json:"next_operation"`
+	RealUseCaseCoverage     string `json:"real_use_case_coverage"`
+	QueryDigest             string `json:"query_digest"`
+	DeclarationSourceDigest string `json:"declaration_source_digest"`
+	DeclarationBound        string `json:"declaration_bound"`
+	ExecutionAttempted      string `json:"execution_attempted"`
+	ProviderInvocations     string `json:"provider_invocations"`
+	Reason                  string `json:"reason"`
+}
+
+type CapabilityDiscovery struct {
+	Schema               string                   `json:"schema"`
+	Trail                jev.CapabilityQueryTrail `json:"trail"`
+	Guide                jev.CapabilityQueryGuide `json:"guide"`
+	Assessment           CapabilityAssessment     `json:"assessment"`
+	CompilerSource       string                   `json:"compiler_source"`
+	JEVModuleVersion     string                   `json:"jev_module_version"`
+	NamedPassed          int                      `json:"named_passed"`
+	NamedTotal           int                      `json:"named_total"`
+	RecordFieldsPassed   int                      `json:"record_fields_passed"`
+	RecordFieldsTotal    int                      `json:"record_fields_total"`
+	SavedReplayVerified  bool                     `json:"saved_replay_verified"`
+	GenerationModelCalls int                      `json:"generation_model_calls"`
+	Scope                string                   `json:"scope"`
 }
 type Summary struct {
 	Recipe          string `json:"recipe"`
@@ -804,6 +837,174 @@ func actualFor(r result, id string, dest any) error {
 		}
 	}
 	return fmt.Errorf("Gooo produced no %s value", id)
+}
+
+// DiscoverCapability connects a provider-neutral JEV catalog observation to a
+// Gooo-authored assessment. The assessment preserves UNKNOWN/DEFERRED and never
+// treats catalog discovery as generated, executed, or independently validated
+// capability evidence.
+func DiscoverCapability(ctx context.Context, o Options, query, declaration string) (CapabilityDiscovery, error) {
+	var out CapabilityDiscovery
+	if o.Model != "" {
+		return out, fmt.Errorf("capability discovery is deterministic; omit --model")
+	}
+	root, err := newOutput(o.Out)
+	if err != nil {
+		return out, err
+	}
+	trail := jev.DiscoverCapabilityQueryTrail(query, declaration)
+	if err = trail.Validate(); err != nil {
+		return out, fmt.Errorf("validate JEV capability trail: %w", err)
+	}
+	guide := jev.DiscoverCapabilityQueryGuide(query, declaration)
+	if err = guide.Validate(); err != nil {
+		return out, fmt.Errorf("validate JEV capability guide: %w", err)
+	}
+	if guide.OverviewDigest == "" || guide.Status != trail.Response.Status {
+		return out, fmt.Errorf("JEV trail and guide do not share one capability status")
+	}
+	if err = write(filepath.Join(root, "query.txt"), []byte(query)); err != nil {
+		return out, err
+	}
+	if err = write(filepath.Join(root, "declaration.gooo"), []byte(declaration)); err != nil {
+		return out, err
+	}
+	if err = save(filepath.Join(root, "trail.json"), trail); err != nil {
+		return out, err
+	}
+	if err = save(filepath.Join(root, "guide.json"), guide); err != nil {
+		return out, err
+	}
+	declarationBound := trail.Response.Declaration != nil && trail.Response.Declaration.Bound
+	declarationBoundValue := "false"
+	if declarationBound {
+		declarationBoundValue = "true"
+	}
+	declarationDigest := ""
+	if trail.Response.Declaration != nil {
+		declarationDigest = trail.Response.Declaration.SourceDigest
+	}
+	nextOperation := "ask_clarifying_question"
+	if len(guide.NextOperations) > 0 {
+		nextOperation = guide.NextOperations[0]
+	}
+	status := string(trail.Response.Status)
+	assessment := CapabilityAssessment{
+		CatalogState:            status,
+		FirstUnresolvedStage:    capabilityFirstUnresolved(trail.Response.Status, declarationBound),
+		Intent:                  trail.Intent,
+		NextOperation:           nextOperation,
+		RealUseCaseCoverage:     capabilityUseCaseCoverage(trail.Response.Status, declarationBound),
+		QueryDigest:             trail.Response.QueryDigest,
+		DeclarationSourceDigest: declarationDigest,
+		DeclarationBound:        declarationBoundValue,
+		ExecutionAttempted:      "false",
+		ProviderInvocations:     "0",
+		Reason:                  "catalog discovery is not generation, reverse observation, or execution evidence",
+	}
+	cases, err := json.Marshal(map[string]any{"schema": "gooo/body-composition-cases/v1", "cases": []any{
+		map[string]any{
+			"inputs": map[string]any{
+				"AssessCapability.input0": status,
+				"AssessCapability.input1": trail.Intent,
+				"AssessCapability.input2": declarationBoundValue,
+				"AssessCapability.input3": nextOperation,
+				"AssessCapability.input4": trail.Response.QueryDigest,
+				"AssessCapability.input5": declarationDigest,
+			},
+			"expected": map[string]any{"AssessCapability": assessment, "PreserveAssessment": assessment},
+		},
+	}})
+	if err != nil {
+		return out, err
+	}
+	if err = write(filepath.Join(root, "cases.json"), cases); err != nil {
+		return out, err
+	}
+	raw, composed, err := runRecipe(ctx, o, root, "capability-assessment", "assessment", "", cases)
+	if err != nil {
+		return out, err
+	}
+	var actual CapabilityAssessment
+	if err = actualFor(composed, "workbench-capability-assessment://activity/assess-capability", &actual); err != nil {
+		return out, err
+	}
+	if actual != assessment {
+		return out, fmt.Errorf("Gooo assessment differs from the independent capability evidence projection")
+	}
+	counts, err := summarize(raw, "capability-assessment", "deterministic")
+	if err != nil || counts.NamedPassed != 2 || counts.NamedTotal != 2 || counts.FieldsPassed != 22 || counts.FieldsTotal != 22 || counts.ModelCalls != 0 {
+		return out, fmt.Errorf("Gooo capability assessment was incomplete: %+v: %v", counts, err)
+	}
+	if err = save(filepath.Join(root, "assessment.json"), actual); err != nil {
+		return out, err
+	}
+	recipeDir := filepath.Join(root, "assessment", "composition")
+	replay, err := command(ctx, o.Compiler, "body-compose", "--source", filepath.Join(recipeDir, "original.gooo"), "--cases", filepath.Join(recipeDir, "cases.json"), "--composition", filepath.Join(recipeDir, "composition.json"))
+	if err != nil {
+		return out, err
+	}
+	if err = write(filepath.Join(root, "replay.json"), replay); err != nil {
+		return out, err
+	}
+	var replayed result
+	if err = json.Unmarshal(replay, &replayed); err != nil || replayed.Generated || replayed.Runtime.Calls != 0 || replayed.Runtime.Passed != 2 || replayed.Runtime.Total != 2 {
+		return out, fmt.Errorf("saved Gooo capability assessment replay did not reproduce")
+	}
+	compilerSource := counts.CompilerSource
+	out = CapabilityDiscovery{
+		Schema: "gooo/ecosystem-capability-discovery/v1", Trail: trail, Guide: guide, Assessment: actual,
+		CompilerSource: compilerSource, NamedPassed: counts.NamedPassed, NamedTotal: counts.NamedTotal,
+		JEVModuleVersion:   moduleVersion("github.com/kimjooyoon/gooo-jev"),
+		RecordFieldsPassed: counts.FieldsPassed, RecordFieldsTotal: counts.FieldsTotal,
+		SavedReplayVerified: true, GenerationModelCalls: counts.ModelCalls,
+		Scope: "JEV catalog discovery bound to supplied declaration evidence and assessed by Gooo; no provider invocation, generation, execution, or semantic-completeness claim",
+	}
+	if err = save(filepath.Join(root, "discovery-receipt.json"), out); err != nil {
+		return CapabilityDiscovery{}, err
+	}
+	if err = write(filepath.Join(root, "body-compose-result.json"), raw); err != nil {
+		return CapabilityDiscovery{}, err
+	}
+	return out, nil
+}
+
+func moduleVersion(path string) string {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return ""
+	}
+	for _, dependency := range info.Deps {
+		if dependency.Path != path {
+			continue
+		}
+		if dependency.Replace != nil {
+			return dependency.Replace.Version
+		}
+		return dependency.Version
+	}
+	return ""
+}
+
+func capabilityFirstUnresolved(status jev.CapabilityQueryState, declarationBound bool) string {
+	switch status {
+	case jev.CapabilityQueryDeferred:
+		return "external_boundary"
+	case jev.CapabilityQueryAvailable:
+		if declarationBound {
+			return "generation"
+		}
+		return "declaration_binding"
+	default:
+		return "capability_catalog"
+	}
+}
+
+func capabilityUseCaseCoverage(status jev.CapabilityQueryState, declarationBound bool) string {
+	if status == jev.CapabilityQueryAvailable && declarationBound {
+		return "PROGRESS"
+	}
+	return "UNKNOWN"
 }
 
 // Scaffold lets a Gooo program produce another Gooo source file.

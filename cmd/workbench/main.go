@@ -19,7 +19,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, diagnose, reference, or receipt; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, diagnose, reference, discover, or receipt; each command accepts --help")
 	}
 	f := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	var o workbench.Options
@@ -30,6 +30,8 @@ func run(args []string) error {
 	input := f.String("input", "", "diagnostic input file, or completed verify output directory for receipt")
 	packageDir := f.String("package", "", "Gooo package directory for reference")
 	entry := f.String("entry", "", "public activity name for reference")
+	query := f.String("query", "", "natural-language capability question for discover")
+	declaration := f.String("declaration", "", "optional .gooo declaration file to bind to the discovery")
 	if e := f.Parse(args[1:]); e != nil {
 		return e
 	}
@@ -62,10 +64,23 @@ func run(args []string) error {
 		}
 	case "reference":
 		value, err = workbench.Reference(ctx, o, *packageDir, *entry)
+	case "discover":
+		if *query == "" {
+			return fmt.Errorf("discover requires --query")
+		}
+		var source string
+		if *declaration != "" {
+			b, readErr := os.ReadFile(*declaration)
+			if readErr != nil {
+				return readErr
+			}
+			source = string(b)
+		}
+		value, err = workbench.DiscoverCapability(ctx, o, *query, source)
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, reference, or receipt", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, reference, discover, or receipt", args[0])
 	}
 	if err != nil {
 		return err

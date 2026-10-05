@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	jev "github.com/kimjooyoon/gooo-jev/gooo"
 )
 
 func TestIndependentCounterKeepsExactInt64Values(t *testing.T) {
@@ -61,6 +63,76 @@ func TestCompletenessKeepsUnknownAsFirstUnresolved(t *testing.T) {
 	assessment.UseCaseStatus = "PASS"
 	if got := firstUnresolved(assessment); got != "boundary" {
 		t.Fatalf("UNKNOWN was not retained as unresolved: %q", got)
+	}
+}
+
+func TestCapabilityEvidenceKeepsCatalogAndExecutionBoundariesSeparate(t *testing.T) {
+	cases := []struct {
+		status   jev.CapabilityQueryState
+		bound    bool
+		coverage string
+		stage    string
+	}{
+		{status: jev.CapabilityQueryAvailable, bound: true, coverage: "PROGRESS", stage: "generation"},
+		{status: jev.CapabilityQueryAvailable, bound: false, coverage: "UNKNOWN", stage: "declaration_binding"},
+		{status: jev.CapabilityQueryDeferred, bound: true, coverage: "UNKNOWN", stage: "external_boundary"},
+		{status: jev.CapabilityQueryUnknown, bound: false, coverage: "UNKNOWN", stage: "capability_catalog"},
+	}
+	for _, tc := range cases {
+		if got := capabilityUseCaseCoverage(tc.status, tc.bound); got != tc.coverage {
+			t.Fatalf("coverage(%s, %v) = %s, want %s", tc.status, tc.bound, got, tc.coverage)
+		}
+		if got := capabilityFirstUnresolved(tc.status, tc.bound); got != tc.stage {
+			t.Fatalf("first unresolved(%s, %v) = %s, want %s", tc.status, tc.bound, got, tc.stage)
+		}
+	}
+}
+
+func TestNativeCapabilityDiscoveryIsGoooAssessedAndReplayed(t *testing.T) {
+	compiler := os.Getenv("GOOO_COMPILER")
+	if compiler == "" {
+		t.Skip("set GOOO_COMPILER for actual Gooo/native verification")
+	}
+	declaration, err := os.ReadFile("examples/catalog/operations.gooo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	cases := []struct {
+		query   string
+		want    string
+		stage   string
+		useCase string
+		bound   bool
+	}{
+		{query: "How do I generate code?", want: "AVAILABLE", stage: "generation", useCase: "PROGRESS", bound: true},
+		{query: "코드 생성은 어떻게 해?", want: "AVAILABLE", stage: "generation", useCase: "PROGRESS", bound: true},
+		{query: "How do I generate code?", want: "AVAILABLE", stage: "declaration_binding", useCase: "UNKNOWN", bound: false},
+		{query: "Can gooo execute this?", want: "DEFERRED", stage: "external_boundary", useCase: "UNKNOWN", bound: true},
+		{query: "quantum breakfast compiler", want: "UNKNOWN", stage: "capability_catalog", useCase: "UNKNOWN", bound: false},
+	}
+	for i, tc := range cases {
+		declarationInput := ""
+		if tc.bound {
+			declarationInput = string(declaration)
+		}
+		out, err := DiscoverCapability(context.Background(), Options{Compiler: compiler, Out: filepath.Join(t.TempDir(), fmt.Sprintf("discover-%d", i))}, tc.query, declarationInput)
+		if err != nil {
+			t.Fatal(err)
+		}
+		bound := "false"
+		if tc.bound {
+			bound = "true"
+		}
+		if out.Trail.Response.Status != jev.CapabilityQueryState(tc.want) || out.Assessment.CatalogState != tc.want ||
+			out.Assessment.FirstUnresolvedStage != tc.stage || out.Assessment.RealUseCaseCoverage != tc.useCase ||
+			out.Assessment.DeclarationBound != bound || out.Assessment.ExecutionAttempted != "false" ||
+			out.Assessment.ProviderInvocations != "0" || out.NamedPassed != 2 || out.NamedTotal != 2 ||
+			out.RecordFieldsPassed != 22 || out.RecordFieldsTotal != 22 || !out.SavedReplayVerified || out.GenerationModelCalls != 0 {
+			t.Fatalf("capability discovery evidence does not match bounded expectation: %+v", out)
+		}
+		if out.JEVModuleVersion == "" {
+			t.Fatal("capability discovery did not retain its JEV implementation version")
+		}
 	}
 }
 func TestCompletenessRejectsASubsetOfVerificationRecipes(t *testing.T) {
