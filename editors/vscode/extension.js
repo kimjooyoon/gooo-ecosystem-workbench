@@ -2,6 +2,9 @@ const { spawn } = require('node:child_process');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const vscode = require('vscode');
+const { LanguageClient, TransportKind } = require('vscode-languageclient/node');
+
+let languageClient;
 
 function runCompiler(args, title, cwd) {
   const executable = vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
@@ -51,6 +54,26 @@ function currentSource() {
 }
 
 function activate(context) {
+  const compiler = vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
+  const serverOptions = {
+    command: compiler,
+    args: ['lsp'],
+    transport: TransportKind.stdio,
+    options: {
+      cwd: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
+      windowsHide: true
+    }
+  };
+  const clientOptions = {
+    documentSelector: [{ scheme: 'file', language: 'gooo' }],
+    outputChannelName: 'Gooo Language Server'
+  };
+  languageClient = new LanguageClient('gooo', 'Gooo Language Server', serverOptions, clientOptions);
+  context.subscriptions.push(languageClient);
+  void languageClient.start().catch((error) => {
+    void vscode.window.showErrorMessage(`Could not start the Gooo language server: ${error.message}`);
+  });
+
   context.subscriptions.push(
     vscode.commands.registerCommand('gooo.createLibraryWorkspace', async () => {
       const workspace = vscode.workspace.workspaceFolders?.[0];
@@ -122,6 +145,8 @@ function activate(context) {
   );
 }
 
-function deactivate() {}
+async function deactivate() {
+  if (languageClient) await languageClient.stop();
+}
 
 module.exports = { activate, deactivate };

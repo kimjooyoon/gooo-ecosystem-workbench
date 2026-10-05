@@ -24,7 +24,8 @@ jobs:
           node -e 'for (const file of ["package.json", "language-configuration.json", "syntaxes/gooo.tmLanguage.json", "snippets/gooo.json"]) JSON.parse(require("node:fs").readFileSync(file, "utf8"))'
           node -e 'const m=require("./package.json"); const s=require("node:fs").readFileSync("extension.js","utf8"); for(const c of m.contributes.commands) if(!s.includes(c.command)) throw Error(`unregistered command: ${c.command}`); if(m.contributes.grammars[0].scopeName!=="source.gooo") throw Error("unexpected grammar scope")'
           node -c extension.js
-          npx --yes @vscode/vsce package --no-dependencies
+          npm ci
+          npx --yes @vscode/vsce package
       - uses: actions/upload-artifact@v7
         with:
           name: gooo-language-support-vsix
