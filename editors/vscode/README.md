@@ -3,14 +3,14 @@
 ## 한국어
 
 `.gooo`, `.gooo.fixture`, `.gooo.template` 파일의 문법 색상과 시작 스니펫,
-Gooo 컴파일러 명령을 제공합니다. 별도의 parser를 복제하지 않고 의미 검사는
-설치된 Gooo CLI에 맡깁니다. LSP, 의미 자동완성, 인라인 진단은 아직 없습니다.
+Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를 연결해
+진단·자동완성·hover·정의 이동·참조·이름 변경·문서 기호를 제공합니다.
 
 ### 설치
 
 1. Visual Studio Code와 Gooo CLI를 설치합니다.
    (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`)
-2. 이 폴더에서 `npx --yes @vscode/vsce package --no-dependencies`를 실행합니다.
+2. 이 폴더에서 `npm ci`와 `npx --yes @vscode/vsce package`를 실행합니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 생성된
    `gooo-language-support-0.1.0.vsix`를 선택합니다.
 
@@ -33,15 +33,15 @@ Gooo 컴파일러 명령을 제공합니다. 별도의 parser를 복제하지 �
 
 ## English
 
-This small extension makes `.gooo`, `.gooo.fixture`, and `.gooo.template` files
-recognizable in VS Code. It provides syntax coloring, starter snippets, and two
-commands that call the installed Gooo compiler. It does not include a language
-server, semantic completion, or inline diagnostics.
+This extension makes `.gooo`, `.gooo.fixture`, and `.gooo.template` files
+recognizable in VS Code. It starts the installed compiler's `gooo lsp` process
+over stdio for inline diagnostics, completion, hover, go to definition,
+references, rename, document symbols, and semantic tokens.
 
 ## Install from this repository
 
 1. Install Visual Studio Code and the Gooo CLI (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`).
-2. From this directory, run `npx --yes @vscode/vsce package --no-dependencies`.
+2. From this directory, run `npm ci` and `npx --yes @vscode/vsce package`.
 3. In VS Code, run **Extensions: Install from VSIX...** and select `gooo-language-support-0.1.0.vsix`.
 
 Set `gooo.compilerPath` if the executable is not named `gooo` or is not on PATH.
@@ -76,5 +76,6 @@ Type `gooo-package`, `gooo-entity`, `gooo-record`, `gooo-activity`,
 `gooo-assembling`, or `gooo-bind` in a `.gooo` file. Snippets are starting
 points; `gooo check` remains the source of truth for accepted syntax.
 
-This is intentionally a thin editor layer over the compiler CLI. It avoids
-duplicating parsing or type-checking rules in the editor.
+This is a thin editor client over the compiler's language server. Parsing,
+diagnostics, and symbol features stay in Gooo; the extension does not duplicate
+language rules or rewrite source while you type.

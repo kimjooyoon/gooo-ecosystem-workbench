@@ -19,7 +19,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 인보이스 승인 예제 | 레코드 상태와 검토자 조건으로 승인 결과 구성 | `verify`의 3개 고정 사례·저장 재실행 |
 | CI 계획 예제 | 변경 파일 묶음을 등록된 확인 항목에 결정론적으로 대응 | `verify`의 12개 고정 사례·24개 활동 출력 |
 | 기능 탐색 연결 | JEV의 한·영 기능 카탈로그 결과를 Gooo 평가·재실행과 연결 | `discover`의 출처 바인딩·미해결 단계 기록 |
-| VS Code 편집기 | `.gooo` 문법 색상, 선언 스니펫, 컴파일러 검사·본문 생성 명령 | [`editors/vscode`](editors/vscode) |
+| VS Code 편집기 | `.gooo` 문법 색상, Gooo LSP 진단·완성·이동·이름 변경, 본문 생성 명령 | [`editors/vscode`](editors/vscode) |
 
 [표준 함수](recipes/stdlib.gooo)는 `Min`, `Max`, `Clamp`, `AbsSaturating`,
 `Sign`, `IsZero`, `InRange`, `And`, `Or`, `Not`, `CoalesceText`, `ChooseText`,
@@ -174,13 +174,15 @@ go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out
 저장한 조립을 추가 모델 연결 없이 재실행합니다. 원본과 분모는
 [공개 관측](publication/initial-20261005)에 있습니다.
 
-이번 도구는 정해진 함수와 제한된 파일 묶음에서 동작합니다. 편집기 지원은
-문법 색상, 시작 스니펫, CLI 호출까지이며 LSP 진단과 의미 자동완성은 아직 없습니다.
-다중 파일 공개 API 참조와 실제 컴파일러 명령은 별도로 제공합니다.
+이번 도구는 정해진 함수와 제한된 파일 묶음에서 동작합니다. 편집기는 컴파일러
+LSP를 통해 진단과 의미 완성을 제공합니다. 다중 파일 공개 API 참조와 실제
+컴파일러 명령은 별도로 제공합니다.
 
-VS Code 지원은 별도 parser를 복제하지 않습니다. 편집기에서는 문법 색상과
-시작 스니펫을 제공하고, 의미 검사는 설치된 `gooo check`에 위임합니다.
-현재 결과는 Output 패널에 보이며, LSP 진단과 자동완성은 아직 제공하지 않습니다.
+VS Code 지원은 별도 parser를 복제하지 않습니다. 편집기는 설치된 컴파일러의
+`gooo lsp`를 표준 입출력으로 실행합니다. 진단·자동완성·hover·정의 이동·참조·
+이름 변경·문서 기호·semantic token은 컴파일러가 분석한 결과를 사용합니다.
+본문 생성은 명시적 편집기 명령으로 남겨 두어 입력 중 소스를 바꾸지 않습니다.
+설치한 `gooo`가 `lsp` 명령을 제공해야 합니다.
 
 ## 연결된 연구와 코드
 
