@@ -138,10 +138,11 @@ func TestNativeRecipesScaffoldAndDiagnostics(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if len(summaries) != 6 {
+	if len(summaries) != 7 {
 		t.Fatal(summaries)
 	}
 	var domainCaseFound bool
+	var ciPlanFound bool
 	for _, s := range summaries {
 		if s.NamedPassed != s.NamedTotal || !s.ReplayVerified {
 			t.Fatal(s)
@@ -149,9 +150,15 @@ func TestNativeRecipesScaffoldAndDiagnostics(t *testing.T) {
 		if s.Recipe == "invoice-approval" {
 			domainCaseFound = s.Mode == "deterministic" && s.NamedPassed == 6 && s.NamedTotal == 6 && s.FieldsPassed == 18 && s.FieldsTotal == 18
 		}
+		if s.Recipe == "ci-plan" {
+			ciPlanFound = s.Mode == "deterministic" && s.NamedPassed == 24 && s.NamedTotal == 24 && s.FieldsPassed == 96 && s.FieldsTotal == 96 && s.ModelCalls == 0
+		}
 	}
 	if !domainCaseFound {
 		t.Fatal("invoice approval did not verify all three actual outputs and all eighteen fields")
+	}
+	if !ciPlanFound {
+		t.Fatal("CI plan did not verify its 12 fixed cases, 24 activity outputs and 96 fields without model calls")
 	}
 	receipt, e := CompletenessReceiptFor(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "receipt")}, filepath.Join(root, "verify"))
 	if e != nil || receipt.DeclarationStatus != "PASS" || receipt.GenerationStatus != "PASS" ||

@@ -1,0 +1,29 @@
+package ciplan
+namespace workbench_ciplan
+
+entity Text id "gooo://workbench/ci-plan/text"
+
+entity CheckPlan id "gooo://workbench/ci-plan/check-plan" fields {
+    field decision id "gooo://workbench/ci-plan/decision" type string required one
+    field checks id "gooo://workbench/ci-plan/checks" type string required one
+    field unresolved_stage id "gooo://workbench/ci-plan/unresolved-stage" type string required one
+    field reason id "gooo://workbench/ci-plan/reason" type string required one
+}
+activity PlanCI(Text) -> CheckPlan computes `if input == "internal/metainvocation/model.go" {
+    return CheckPlan{decision: "PASS", checks: "go", unresolved_stage: "none", reason: "registered-go-source"}
+}
+if input == "docs/language/ci-plan.md" {
+    return CheckPlan{decision: "PASS", checks: "docs", unresolved_stage: "none", reason: "registered-documentation"}
+}
+if input == ".github/workflows/ci.yml" {
+    return CheckPlan{decision: "PASS", checks: "yaml", unresolved_stage: "none", reason: "registered-workflow"}
+}
+if input == "docs/language/ci-plan.md|.github/workflows/ci.yml|internal/metainvocation/model.go" {
+    return CheckPlan{decision: "PASS", checks: "docs,go,yaml", unresolved_stage: "none", reason: "registered-combined-change"}
+}
+if input == "/etc/passwd" || input == "../secret.go" || input == "" || input == "internal/metainvocation/model.go|internal/metainvocation/model.go" {
+    return CheckPlan{decision: "FAIL_CLOSED", checks: "", unresolved_stage: "none", reason: "invalid-or-duplicate-path-set"}
+}
+return CheckPlan{decision: "UNKNOWN", checks: "", unresolved_stage: "rule-selection", reason: "no-registered-rule-for-file-set"}`
+activity Echo(CheckPlan) -> CheckPlan computes `return input`
+bind PlanCI.result -> Echo.input

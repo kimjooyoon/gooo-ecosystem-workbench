@@ -17,6 +17,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | API 참조 생성 | 컴파일러가 해석한 공개 이름·시그니처·안정 타입 ID를 문서화 | `reference` |
 | 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
 | 인보이스 승인 예제 | 레코드 상태와 검토자 조건으로 승인 결과 구성 | `verify`의 3개 고정 사례·저장 재실행 |
+| CI 계획 예제 | 변경 파일 묶음을 등록된 확인 항목에 결정론적으로 대응 | `verify`의 12개 고정 사례·24개 활동 출력 |
 
 [표준 함수](recipes/stdlib.gooo)는 `Min`, `Max`, `Clamp`, `AbsSaturating`,
 `Sign`, `IsZero`, `InRange`, `And`, `Or`, `Not`, `CoalesceText`, `ChooseText`,
@@ -80,6 +81,15 @@ Go 생성 결과가 남습니다. 만든 파일을 수정해 다음 프로그램
 이는 작동하는 예제 도메인으로, 실제 회계 정책이나 결제 시스템에 대한 주장은
 아닙니다. 전체 검증과 완전성 영수증에서 함께 실행됩니다.
 
+## 변경 파일에서 CI 계획 만들기
+
+[CI 계획 프로그램](recipes/ci-plan.gooo)은 등록된 소수의 파일 묶음에 `go`, `docs`,
+`yaml` 확인 항목을 연결합니다. 등록되지 않은 파일 묶음은 `UNKNOWN`으로 남고,
+잘못된 입력은 `FAIL_CLOSED`로 표시됩니다. 고정 사례는 12개이며 `PlanCI`와 결과 전달
+`Echo`의 출력 24개와 레코드 필드 96개를 비교하고 저장 재실행합니다. 이는 기존
+컴파일러 예제를 바탕으로 한 제한된 Gooo 프로그램입니다. 확인 명령을 실행하거나
+일반 저장소의 CI 계획을 자동 추론하지 않습니다.
+
 ```sh
 go run ./cmd/workbench verify --compiler ./.gooo --out out/verified
 go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out/completeness
@@ -132,11 +142,11 @@ go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out
 ## 현재 확인 범위
 
 기대값과 실제 값을 별도로 비교하며, 정수는 JSON 숫자의 원래 자릿수를 유지합니다.
-표준 함수와 두 생태계 프로그램의 유한 사례를 결정론·모델 경로에서 실행하고,
+표준 함수, 두 생태계 프로그램, 두 제한된 예제의 유한 사례를 결정론·모델 경로에서 실행하고,
 저장한 조립을 추가 모델 연결 없이 재실행합니다. 원본과 분모는
 [공개 관측](publication/initial-20261005)에 있습니다.
 
-이번 도구는 정해진 함수와 두 프로젝트 형태에서 동작합니다. 다음에는 다중 파일
+이번 도구는 정해진 함수와 제한된 파일 묶음에서 동작합니다. 다음에는 다중 파일
 공개 API 참조와 실제 컴파일러 진단·편집기 연결을 넓힙니다. 함수 수나 반복
 호출 수를 서로 다른 실험 방식으로 세지 않습니다.
 

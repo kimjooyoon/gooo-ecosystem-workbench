@@ -398,7 +398,7 @@ func Verify(ctx context.Context, o Options) ([]Summary, error) {
 		return nil, e
 	}
 	var summaries []Summary
-	for _, recipe := range []string{"stdlib", "diagnostics", "starter", "invoice-approval"} {
+	for _, recipe := range []string{"stdlib", "diagnostics", "starter", "invoice-approval", "ci-plan"} {
 		modes := []string{"deterministic"}
 		if model != "" && (recipe == "diagnostics" || recipe == "starter") {
 			modes = append(modes, "model")
@@ -459,7 +459,7 @@ func Verify(ctx context.Context, o Options) ([]Summary, error) {
 	}
 	return summaries, save(filepath.Join(root, "summary.json"), map[string]any{
 		"schema":          "gooo/ecosystem-workbench-verification/v1",
-		"scope":           "13 authored standard functions, two ecosystem recipes, and a finite invoice-approval domain example; separately compiled native values; no training or performance study",
+		"scope":           "13 authored standard functions, two ecosystem recipes, and finite invoice-approval and CI-plan examples; separately compiled native values; CI planning does not execute checks; no training or performance study",
 		"repository_head": repositoryHead, "repository_clean": repositoryClean, "recipes": summaries,
 	})
 }
@@ -528,7 +528,7 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 	}
 	seen := make(map[string]bool, len(report.Recipes))
 	for _, row := range report.Recipes {
-		if (row.Recipe != "stdlib" && row.Recipe != "diagnostics" && row.Recipe != "starter" && row.Recipe != "invoice-approval") ||
+		if (row.Recipe != "stdlib" && row.Recipe != "diagnostics" && row.Recipe != "starter" && row.Recipe != "invoice-approval" && row.Recipe != "ci-plan") ||
 			(row.Mode != "deterministic" && row.Mode != "model") ||
 			(row.Mode == "model" && row.Recipe != "diagnostics" && row.Recipe != "starter") {
 			return receipt, fmt.Errorf("verification includes an unknown recipe/mode: %s/%s", row.Recipe, row.Mode)
@@ -539,12 +539,12 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 		}
 		seen[key] = true
 	}
-	for _, required := range []string{"stdlib/deterministic", "diagnostics/deterministic", "starter/deterministic", "invoice-approval/deterministic"} {
+	for _, required := range []string{"stdlib/deterministic", "diagnostics/deterministic", "starter/deterministic", "invoice-approval/deterministic", "ci-plan/deterministic"} {
 		if !seen[required] {
 			return receipt, fmt.Errorf("verification omits required recipe/mode %s", required)
 		}
 	}
-	if (len(seen) != 4 && len(seen) != 6) || (len(seen) == 6 && (!seen["diagnostics/model"] || !seen["starter/model"])) {
+	if (len(seen) != 5 && len(seen) != 7) || (len(seen) == 7 && (!seen["diagnostics/model"] || !seen["starter/model"])) {
 		return receipt, fmt.Errorf("verification contains an incomplete deterministic/model recipe set")
 	}
 	var sourcePaths, generationPaths, reversePaths, useCasePaths []string
@@ -636,7 +636,7 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 		provenanceEvidence = "HEAD=" + report.RepositoryHead + "; compiler_source=" + compilerSource + "; summary=" + summaryDigest
 	}
 	assessment := CompletenessAssessment{
-		Domain:            "Gooo workbench including the invoice-approval example",
+		Domain:            "Gooo workbench including invoice-approval and finite CI-plan examples",
 		AllowedInvestment: "local Gooo verification and evidence generation; no model training",
 		ExcludedScope:     "unobserved user workloads, universal semantic completeness, production behavior, and unmeasured effect boundaries",
 		DeclarationStatus: "PASS", DeclarationEvidence: declarationDigest,
