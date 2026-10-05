@@ -29,11 +29,14 @@ CI 계획 프로그램은 `go`, `docs`, `yaml` 확인 항목에 연결된 제한
 ```sh
 go run ./cmd/workbench scaffold --compiler ./.gooo --profile scalar --out out/scalar
 go run ./cmd/workbench scaffold --compiler ./.gooo --profile record --model builtin --out out/record
+go run ./cmd/workbench scaffold --compiler ./.gooo --profile library --model builtin --out out/library
 ```
 
 scalar는 Integer 입력을, record는 제목 필드를 가진 Item 입력을 그대로 반환하는
 `Identity` 활동을 만듭니다. `main.gooo`의 선언과 계산 본문을 수정해 확장합니다.
 파일은 Gooo 프로그램의 실제 출력에서 얻고, 새 파일을 검사해 Go 본문으로 생성합니다.
+library 프로필은 `Clamp(Integer) -> Integer` 공개 계약으로 시작하며, 선택된
+activity의 타입과 생성 결과는 `activity-generation.json`에서 확인할 수 있습니다.
 
 ## 결과를 다음 작업으로 넘기기
 

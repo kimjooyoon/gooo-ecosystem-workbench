@@ -8,19 +8,23 @@ entity Project id "gooo://starter/project" fields {
 }
 activity Plan(Text) -> Project computes `let scalarSource = "package starter\nnamespace example\nentity Integer id \"example://integer\"\nactivity Identity(Integer) -> Integer computes \x60return input\x60\n"
 let recordSource = "package starter\nnamespace example\nentity Item id \"example://item\" fields {\n    field title id \"example://item/title\" type string required one\n}\nactivity Identity(Item) -> Item computes \x60return input\x60\n"
+if input == "library" {
+ return Project{filename: "main.gooo", source: "package boundedint\nnamespace boundedint\nentity Integer id \"boundedint://integer\"\nactivity Clamp(Integer) -> Integer computes \x60if input < 0 { return 0 } else if input > 100 { return 100 } else { return input }\x60\n", next: "gooo check main.gooo && gooo body-codegen --activity Clamp main.gooo"}
+}
 if input == "record" && recordSource != "" {
- return Project{filename: "module.go", source: scalarSource, next: "choose a template"}
+ return Project{filename: "main.gooo", source: recordSource, next: "gooo body-codegen --activity Identity main.gooo"}
 }
 if input == "scalar" {
  return Project{filename: "main.gooo", source: scalarSource, next: "gooo body-codegen --activity Identity main.gooo"}
 }
-return Project{filename: "", source: "", next: "Choose scalar or record."}` assembling {
+return Project{filename: "", source: "", next: "Choose scalar, record, or library."}` assembling {
  choice "filename" field_value at "0" alternative "\"main.gooo\"" intent "Gooo 파일 main.gooo를 만든다. Use main.gooo as the filename."
  choice "source" field_value at "1" alternative "recordSource" intent "요청한 recordSource 본문을 선택한다. Select the recordSource template."
  choice "next" field_value at "2" alternative "\"gooo body-codegen --activity Identity main.gooo\"" intent "만든 Gooo 본문을 검사하고 생성하는 다음 명령이다. Generate the Identity body next."
  value_case "[\"record\"]" -> "{\"filename\":\"main.gooo\",\"next\":\"gooo body-codegen --activity Identity main.gooo\",\"source\":\"package starter\\nnamespace example\\nentity Item id \\\"example://item\\\" fields {\\n    field title id \\\"example://item/title\\\" type string required one\\n}\\nactivity Identity(Item) -\\u003e Item computes `return input`\\n\"}"
  value_case "[\"scalar\"]" -> "{\"filename\":\"main.gooo\",\"next\":\"gooo body-codegen --activity Identity main.gooo\",\"source\":\"package starter\\nnamespace example\\nentity Integer id \\\"example://integer\\\"\\nactivity Identity(Integer) -\\u003e Integer computes `return input`\\n\"}"
- value_case "[\"unknown\"]" -> "{\"filename\":\"\",\"next\":\"Choose scalar or record.\",\"source\":\"\"}"
+ value_case "[\"library\"]" -> "{\"filename\":\"main.gooo\",\"next\":\"gooo check main.gooo && gooo body-codegen --activity Clamp main.gooo\",\"source\":\"package boundedint\\nnamespace boundedint\\nentity Integer id \\\"boundedint://integer\\\"\\nactivity Clamp(Integer) -\\u003e Integer computes `if input < 0 { return 0 } else if input > 100 { return 100 } else { return input }`\\n\"}"
+ value_case "[\"unknown\"]" -> "{\"filename\":\"\",\"next\":\"Choose scalar, record, or library.\",\"source\":\"\"}"
  attempts "8"
 }
 activity Preview(Project) -> Text computes `return input.source`
