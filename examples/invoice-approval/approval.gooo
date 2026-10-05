@@ -1,0 +1,25 @@
+package invoiceapproval
+namespace gooo_example_invoice_approval
+
+entity Invoice id "gooo://example/invoice-approval/invoice" fields {
+    field invoice_id id "gooo://example/invoice-approval/invoice/id" type string required one
+    field status id "gooo://example/invoice-approval/invoice/status" type string required one
+}
+entity Reviewer id "gooo://example/invoice-approval/reviewer" fields {
+    field reviewer_id id "gooo://example/invoice-approval/reviewer/id" type string required one
+    field status id "gooo://example/invoice-approval/reviewer/status" type string required one
+}
+entity Approval id "gooo://example/invoice-approval/approval" fields {
+    field invoice_id id "gooo://example/invoice-approval/approval/invoice-id" type string required one
+    field decision id "gooo://example/invoice-approval/approval/decision" type string required one
+    field reason id "gooo://example/invoice-approval/approval/reason" type string required one
+}
+activity ApproveInvoice(Invoice, Reviewer) -> Approval computes `if input1.status != "active" {
+    return Approval{invoice_id: input0.invoice_id, decision: "rejected", reason: "reviewer-not-active"}
+}
+if input0.status != "submitted" {
+    return Approval{invoice_id: input0.invoice_id, decision: "rejected", reason: "invoice-not-submitted"}
+}
+return Approval{invoice_id: input0.invoice_id, decision: "approved", reason: "ready-for-payment"}`
+activity Echo(Approval) -> Approval computes `return input`
+bind ApproveInvoice.result -> Echo.input

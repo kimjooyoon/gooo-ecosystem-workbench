@@ -213,12 +213,16 @@ func prepareModel(model, out string) (string, error) {
 }
 func runRecipe(ctx context.Context, o Options, root, recipe, label, model string, cases []byte) ([]byte, result, error) {
 	var r result
-	source, e := assets.ReadFile("recipes/" + recipe + ".gooo")
+	sourceName, casesName := "recipes/"+recipe+".gooo", "recipes/"+recipe+"-cases.json"
+	if recipe == "invoice-approval" {
+		sourceName, casesName = "examples/invoice-approval/approval.gooo", "examples/invoice-approval/cases.json"
+	}
+	source, e := assets.ReadFile(sourceName)
 	if e != nil {
 		return nil, r, e
 	}
 	if cases == nil {
-		cases, e = assets.ReadFile("recipes/" + recipe + "-cases.json")
+		cases, e = assets.ReadFile(casesName)
 		if e != nil {
 			return nil, r, e
 		}
@@ -394,9 +398,9 @@ func Verify(ctx context.Context, o Options) ([]Summary, error) {
 		return nil, e
 	}
 	var summaries []Summary
-	for _, recipe := range []string{"stdlib", "diagnostics", "starter"} {
+	for _, recipe := range []string{"stdlib", "diagnostics", "starter", "invoice-approval"} {
 		modes := []string{"deterministic"}
-		if model != "" && recipe != "stdlib" {
+		if model != "" && (recipe == "diagnostics" || recipe == "starter") {
 			modes = append(modes, "model")
 		}
 		for _, mode := range modes {
@@ -444,13 +448,19 @@ func Verify(ctx context.Context, o Options) ([]Summary, error) {
 		}
 	}
 	repositoryHead := ""
-	if head, headErr := exec.CommandContext(ctx, "git", "rev-parse", "HEAD").Output(); headErr == nil {
-		repositoryHead = strings.TrimSpace(string(head))
+	repositoryClean := false
+	if status, statusErr := exec.CommandContext(ctx, "git", "status", "--porcelain").Output(); statusErr == nil && len(bytes.TrimSpace(status)) == 0 {
+		repositoryClean = true
+	}
+	if repositoryClean {
+		if head, headErr := exec.CommandContext(ctx, "git", "rev-parse", "HEAD").Output(); headErr == nil {
+			repositoryHead = strings.TrimSpace(string(head))
+		}
 	}
 	return summaries, save(filepath.Join(root, "summary.json"), map[string]any{
 		"schema":          "gooo/ecosystem-workbench-verification/v1",
-		"scope":           "13 authored standard functions and two ecosystem recipes; finite examples and separately compiled native values; no training or performance study",
-		"repository_head": repositoryHead, "recipes": summaries,
+		"scope":           "13 authored standard functions, two ecosystem recipes, and a finite invoice-approval domain example; separately compiled native values; no training or performance study",
+		"repository_head": repositoryHead, "repository_clean": repositoryClean, "recipes": summaries,
 	})
 }
 
@@ -500,10 +510,11 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 		return receipt, err
 	}
 	var report struct {
-		Schema         string    `json:"schema"`
-		Scope          string    `json:"scope"`
-		RepositoryHead string    `json:"repository_head"`
-		Recipes        []Summary `json:"recipes"`
+		Schema          string    `json:"schema"`
+		Scope           string    `json:"scope"`
+		RepositoryHead  string    `json:"repository_head"`
+		RepositoryClean bool      `json:"repository_clean"`
+		Recipes         []Summary `json:"recipes"`
 	}
 	summaryBytes, err := os.ReadFile(filepath.Join(inputRoot, "summary.json"))
 	if err != nil {
@@ -517,8 +528,9 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 	}
 	seen := make(map[string]bool, len(report.Recipes))
 	for _, row := range report.Recipes {
-		if (row.Recipe != "stdlib" && row.Recipe != "diagnostics" && row.Recipe != "starter") ||
-			(row.Mode != "deterministic" && row.Mode != "model") || (row.Recipe == "stdlib" && row.Mode == "model") {
+		if (row.Recipe != "stdlib" && row.Recipe != "diagnostics" && row.Recipe != "starter" && row.Recipe != "invoice-approval") ||
+			(row.Mode != "deterministic" && row.Mode != "model") ||
+			(row.Mode == "model" && row.Recipe != "diagnostics" && row.Recipe != "starter") {
 			return receipt, fmt.Errorf("verification includes an unknown recipe/mode: %s/%s", row.Recipe, row.Mode)
 		}
 		key := row.Recipe + "/" + row.Mode
@@ -527,12 +539,12 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 		}
 		seen[key] = true
 	}
-	for _, required := range []string{"stdlib/deterministic", "diagnostics/deterministic", "starter/deterministic"} {
+	for _, required := range []string{"stdlib/deterministic", "diagnostics/deterministic", "starter/deterministic", "invoice-approval/deterministic"} {
 		if !seen[required] {
 			return receipt, fmt.Errorf("verification omits required recipe/mode %s", required)
 		}
 	}
-	if (len(seen) != 3 && len(seen) != 5) || (len(seen) == 5 && (!seen["diagnostics/model"] || !seen["starter/model"])) {
+	if (len(seen) != 4 && len(seen) != 6) || (len(seen) == 6 && (!seen["diagnostics/model"] || !seen["starter/model"])) {
 		return receipt, fmt.Errorf("verification contains an incomplete deterministic/model recipe set")
 	}
 	var sourcePaths, generationPaths, reversePaths, useCasePaths []string
@@ -611,11 +623,11 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 	}
 	headBytes, headErr := exec.CommandContext(ctx, "git", "-C", inputRoot, "rev-parse", "HEAD").Output()
 	provenanceStatus := "UNKNOWN"
-	provenanceEvidence := "UNKNOWN: verify-time repository identity was not recorded"
+	provenanceEvidence := "UNKNOWN: verification was produced from a dirty or unidentified source checkout"
 	if report.RepositoryHead != "" && headErr == nil && strings.TrimSpace(string(headBytes)) != report.RepositoryHead {
 		provenanceEvidence = "UNKNOWN: current source checkout differs from verify-time HEAD=" + report.RepositoryHead
 	}
-	if report.RepositoryHead != "" && headErr == nil && strings.TrimSpace(string(headBytes)) == report.RepositoryHead && compilerSource != "" {
+	if report.RepositoryClean && report.RepositoryHead != "" && headErr == nil && strings.TrimSpace(string(headBytes)) == report.RepositoryHead && compilerSource != "" {
 		summaryDigest, digestErr := digestFiles(inputRoot, "summary.json")
 		if digestErr != nil {
 			return receipt, digestErr
@@ -624,7 +636,7 @@ func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir stri
 		provenanceEvidence = "HEAD=" + report.RepositoryHead + "; compiler_source=" + compilerSource + "; summary=" + summaryDigest
 	}
 	assessment := CompletenessAssessment{
-		Domain:            "gooo-ecosystem-workbench finite verification",
+		Domain:            "Gooo workbench including the invoice-approval example",
 		AllowedInvestment: "local Gooo verification and evidence generation; no model training",
 		ExcludedScope:     "unobserved user workloads, universal semantic completeness, production behavior, and unmeasured effect boundaries",
 		DeclarationStatus: "PASS", DeclarationEvidence: declarationDigest,

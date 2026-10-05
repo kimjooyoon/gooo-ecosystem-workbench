@@ -1,0 +1,35 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {
+      "inputs": {
+        "ApproveInvoice.input0": {"invoice_id": "inv-001", "status": "submitted"},
+        "ApproveInvoice.input1": {"reviewer_id": "rev-001", "status": "active"}
+      },
+      "expected": {
+        "ApproveInvoice": {"invoice_id": "inv-001", "decision": "approved", "reason": "ready-for-payment"},
+        "Echo": {"invoice_id": "inv-001", "decision": "approved", "reason": "ready-for-payment"}
+      }
+    },
+    {
+      "inputs": {
+        "ApproveInvoice.input0": {"invoice_id": "inv-002", "status": "draft"},
+        "ApproveInvoice.input1": {"reviewer_id": "rev-001", "status": "active"}
+      },
+      "expected": {
+        "ApproveInvoice": {"invoice_id": "inv-002", "decision": "rejected", "reason": "invoice-not-submitted"},
+        "Echo": {"invoice_id": "inv-002", "decision": "rejected", "reason": "invoice-not-submitted"}
+      }
+    },
+    {
+      "inputs": {
+        "ApproveInvoice.input0": {"invoice_id": "inv-003", "status": "submitted"},
+        "ApproveInvoice.input1": {"reviewer_id": "rev-002", "status": "suspended"}
+      },
+      "expected": {
+        "ApproveInvoice": {"invoice_id": "inv-003", "decision": "rejected", "reason": "reviewer-not-active"},
+        "Echo": {"invoice_id": "inv-003", "decision": "rejected", "reason": "reviewer-not-active"}
+      }
+    }
+  ]
+}

@@ -138,13 +138,20 @@ func TestNativeRecipesScaffoldAndDiagnostics(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if len(summaries) != 5 {
+	if len(summaries) != 6 {
 		t.Fatal(summaries)
 	}
+	var domainCaseFound bool
 	for _, s := range summaries {
 		if s.NamedPassed != s.NamedTotal || !s.ReplayVerified {
 			t.Fatal(s)
 		}
+		if s.Recipe == "invoice-approval" {
+			domainCaseFound = s.Mode == "deterministic" && s.NamedPassed == 6 && s.NamedTotal == 6 && s.FieldsPassed == 18 && s.FieldsTotal == 18
+		}
+	}
+	if !domainCaseFound {
+		t.Fatal("invoice approval did not verify all three actual outputs and all eighteen fields")
 	}
 	receipt, e := CompletenessReceiptFor(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "receipt")}, filepath.Join(root, "verify"))
 	if e != nil || receipt.DeclarationStatus != "PASS" || receipt.GenerationStatus != "PASS" ||

@@ -39,6 +39,10 @@ jobs:
             out/ci-verification/summary.json
             out/ci-verification/*/result.json
             out/ci-verification/*/replay.json
+            out/ci-verification/*/source.gooo
+            out/ci-verification/*/cases.json
+            out/ci-verification/*/composition/composition.json
+            out/ci-verification/*/composition/generated.go
             out/ci-completeness/assessment.json
             out/ci-completeness/receipt.json
             out/ci-completeness/receipt-contract.json

@@ -16,6 +16,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 시작 도구 | scalar/record 요청에 맞는 Gooo 소스와 다음 명령 생성 | `scaffold` |
 | API 참조 생성 | 컴파일러가 해석한 공개 이름·시그니처·안정 타입 ID를 문서화 | `reference` |
 | 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
+| 인보이스 승인 예제 | 레코드 상태와 검토자 조건으로 승인 결과 구성 | `verify`의 3개 고정 사례·저장 재실행 |
 
 [표준 함수](recipes/stdlib.gooo)는 `Min`, `Max`, `Clamp`, `AbsSaturating`,
 `Sign`, `IsZero`, `InRange`, `And`, `Or`, `Not`, `CoalesceText`, `ChooseText`,
@@ -69,6 +70,20 @@ Go 생성 결과가 남습니다. 만든 파일을 수정해 다음 프로그램
 원래 입력은 `captured-input.json`에 보관합니다. 상세 문장이 현재 컴파일러의
 1,024바이트 입력 범위를 넘으면, 남은 필드 수·타입 탈락 수·원본 해시를 담은
 요약을 전달합니다. 원본 기록으로 개별 값을 다시 확인할 수 있습니다.
+
+## 작은 도메인 사례: 인보이스 승인
+
+[인보이스 승인 프로그램](examples/invoice-approval/approval.gooo)은 인보이스가
+제출됐는지와 검토자가 활성 상태인지 확인해 승인 결과와 이유를 만듭니다.
+고정 사례는 승인·미제출·비활성 검토자 세 경로를 실행하고, `ApproveInvoice`와
+결과 전달 활동 `Echo`의 실제 값을 검사한 뒤 저장된 프로그램을 재실행합니다.
+이는 작동하는 예제 도메인으로, 실제 회계 정책이나 결제 시스템에 대한 주장은
+아닙니다. 전체 검증과 완전성 영수증에서 함께 실행됩니다.
+
+```sh
+go run ./cmd/workbench verify --compiler ./.gooo --out out/verified
+go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out/completeness
+```
 
 직접 관측 수를 전달할 때는 `passed`, `total`, `rejected`, `detail` JSON을 사용합니다.
 분류·작업 선택 규칙은 [Gooo 진단 본문](recipes/diagnostics.gooo)에 있습니다.

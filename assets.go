@@ -5,5 +5,5 @@ import "embed"
 
 // Source rules and finite examples remain in Gooo and JSON, including in a built CLI.
 //
-//go:embed recipes/*.gooo recipes/*-cases.json examples/catalog/*.gooo models/shared-qat/*
+//go:embed recipes/*.gooo recipes/*-cases.json examples/catalog/*.gooo examples/invoice-approval/*.gooo examples/invoice-approval/cases.json models/shared-qat/*
 var assets embed.FS
