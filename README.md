@@ -15,6 +15,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
 | 시작 도구 | scalar/record 요청에 맞는 Gooo 소스와 다음 명령 생성 | `scaffold` |
 | API 참조 생성 | 컴파일러가 해석한 공개 이름·시그니처·안정 타입 ID를 문서화 | `reference` |
+| 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
 
 [표준 함수](recipes/stdlib.gooo)는 `Min`, `Max`, `Clamp`, `AbsSaturating`,
 `Sign`, `IsZero`, `InRange`, `And`, `Or`, `Not`, `CoalesceText`, `ChooseText`,
@@ -38,6 +39,7 @@ go run ./cmd/workbench verify --model builtin --out out/verified
 go run ./cmd/workbench scaffold --profile record --model builtin --out out/my-record-project
 go run ./cmd/workbench diagnose --input examples/partial-composition.json \
   --model builtin --out out/next-work
+go run ./cmd/workbench receipt --input out/verified --out out/completeness
 ```
 
 `--compiler /path/to/gooo`로 다른 설치 위치를 지정합니다. 모든 출력 폴더는
@@ -90,6 +92,26 @@ go run ./cmd/workbench reference --compiler ./.gooo \
 추론해 채우지 않습니다. 문서는 컴파일러가 낸 선언 지문과 인터페이스 지문을
 함께 표시하며, 원본 JSON과 Gooo 실행 기록도 결과에 저장합니다.
 고정 예제와 실제 출력을 [API 참조 관측](publication/api-reference-20261005)에서 확인할 수 있습니다.
+
+## 완전성 영수증
+
+검증 실행이 끝난 뒤 `receipt` 명령은 그 결과의 Gooo 선언, 생성 파일,
+저장 재실행, 유한 사례, 컴파일러 출처를 읽어 근거 해시와 함께 영수증을
+만듭니다. 데이터 구조와 `first_unresolved_stage` 규칙은
+[Gooo 계약](recipes/completeness.gooo)이 소유합니다. 해당 엔티티의 안정 ID는
+`gooo://completeness/domain-completeness-receipt/v1`입니다.
+
+```sh
+go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
+go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out/completeness
+```
+
+현재 workbench 예제에서는 선언·생성·역관찰·출처가 확인돼 `PASS`, 작성된
+유한 예제만 확인돼 `use_case=PROGRESS`, 별도로 계측하지 않은 외부 효과 경계는
+`UNKNOWN`으로 남습니다. 영수증은 단일 완성도 점수를 만들지 않습니다. 모델은
+이 결정론적 측정에 개입하지 않으며, 모델이 선택한 조립도 별도 출처 정보에
+그대로 남습니다. 이 기능은 공개 이슈 [#1023](https://github.com/kimjooyoon/meta-ontology-go/issues/1023)의
+첫 적용 사례이고, 자연어 탐색과 여러 저장소 간 사용 사례 연결은 아직 범위 밖입니다.
 
 ## 현재 확인 범위
 

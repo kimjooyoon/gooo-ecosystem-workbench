@@ -28,6 +28,8 @@ jobs:
           go test -race ./...
       - name: Retain source-bound functional observations
         run: go run ./cmd/workbench verify --compiler "$PWD/.gooo" --model builtin --out out/ci-verification
+      - name: Build a Gooo completeness receipt from verified evidence
+        run: go run ./cmd/workbench receipt --compiler "$PWD/.gooo" --input out/ci-verification --out out/ci-completeness
       - name: Generate a public interface reference in Gooo
         run: go run ./cmd/workbench reference --compiler "$PWD/.gooo" --package examples/catalog --entry ApproveInvoice --out out/ci-reference
       - uses: actions/upload-artifact@v7
@@ -37,6 +39,11 @@ jobs:
             out/ci-verification/summary.json
             out/ci-verification/*/result.json
             out/ci-verification/*/replay.json
+            out/ci-completeness/assessment.json
+            out/ci-completeness/receipt.json
+            out/ci-completeness/receipt-contract.json
+            out/ci-completeness/body-compose-result.json
+            out/ci-completeness/replay.json
             out/ci-reference/operation-interface.json
             out/ci-reference/reference.md
             out/ci-reference/reference-receipt.json

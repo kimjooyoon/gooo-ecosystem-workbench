@@ -58,6 +58,20 @@ go run ./cmd/workbench reference --compiler ./.gooo \
 `reference.md`와 함께 컴파일러 인터페이스 원본, Gooo 실행, 기대값 확인과
 저장 재실행을 보관합니다. 선언된 타입 계약을 보여주며 구현 동작을 설명하지 않습니다.
 
+## 완전성 영수증 만들기
+
+성공한 검증 폴더를 입력해 근거가 연결된 영수증을 만듭니다.
+
+```sh
+go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out/completeness
+```
+
+데이터 구조와 최초 미해결 단계 계산은
+[`recipes/completeness.gooo`](../recipes/completeness.gooo)에 정의됩니다.
+작성된 유한 사례만 확인한 축은 `PROGRESS`, 계측하지 않은 외부 효과 경계는
+`UNKNOWN`으로 남기며 단일 완성도 점수로 합치지 않습니다. 측정은 결정론적이고
+모델 호출을 하지 않습니다.
+
 ## 소스 작성에서 확인한 규칙
 
 - 함께 실행할 프로그램은 Gooo의 명시적 `bind` 연결을 사용합니다.

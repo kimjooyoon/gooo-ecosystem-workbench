@@ -50,6 +50,19 @@ func TestReferenceDocumentUsesDeclaredNamesAndStableTypeIDs(t *testing.T) {
 		}
 	}
 }
+func TestCompletenessKeepsUnknownAsFirstUnresolved(t *testing.T) {
+	assessment := CompletenessAssessment{
+		DeclarationStatus: "PASS", GenerationStatus: "PASS", ReverseObservationStatus: "PASS",
+		UseCaseStatus: "PROGRESS", BoundaryStatus: "UNKNOWN", ProvenanceStatus: "PASS",
+	}
+	if got := firstUnresolved(assessment); got != "use_case" {
+		t.Fatalf("first unresolved stage = %q, want use_case", got)
+	}
+	assessment.UseCaseStatus = "PASS"
+	if got := firstUnresolved(assessment); got != "boundary" {
+		t.Fatalf("UNKNOWN was not retained as unresolved: %q", got)
+	}
+}
 func TestOutputCannotOverwriteExistingDirectory(t *testing.T) {
 	if _, e := newOutput(t.TempDir()); e == nil {
 		t.Fatal("existing output accepted")
@@ -115,6 +128,23 @@ func TestNativeRecipesScaffoldAndDiagnostics(t *testing.T) {
 		if s.NamedPassed != s.NamedTotal || !s.ReplayVerified {
 			t.Fatal(s)
 		}
+	}
+	receipt, e := CompletenessReceiptFor(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "receipt")}, filepath.Join(root, "verify"))
+	if e != nil || receipt.DeclarationStatus != "PASS" || receipt.GenerationStatus != "PASS" ||
+		receipt.ReverseObservationStatus != "PASS" || receipt.UseCaseStatus != "PROGRESS" ||
+		receipt.BoundaryStatus != "UNKNOWN" || receipt.FirstUnresolvedStage != "use_case" {
+		t.Fatal(receipt, e)
+	}
+	resultPath := filepath.Join(root, "verify", "stdlib-deterministic", "result.json")
+	original, e := os.ReadFile(resultPath)
+	if e != nil {
+		t.Fatal(e)
+	}
+	if e = os.WriteFile(resultPath, append(original, ' '), 0644); e != nil {
+		t.Fatal(e)
+	}
+	if _, e = CompletenessReceiptFor(ctx, Options{Compiler: compiler, Out: filepath.Join(root, "tampered-receipt")}, filepath.Join(root, "verify")); e == nil {
+		t.Fatal("receipt accepted a result whose digest differs from its verification summary")
 	}
 	for _, profile := range []string{"record", "scalar"} {
 		p, e := Scaffold(ctx, Options{Compiler: compiler, Model: "builtin", Out: filepath.Join(root, profile)}, profile)

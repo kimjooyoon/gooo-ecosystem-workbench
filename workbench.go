@@ -79,10 +79,47 @@ type Summary struct {
 	ReplayVerified  bool   `json:"saved_replay_verified"`
 	ResultSHA       string `json:"result_sha256"`
 }
+type CompletenessAssessment struct {
+	Domain                     string `json:"domain"`
+	AllowedInvestment          string `json:"allowed_investment"`
+	ExcludedScope              string `json:"excluded_scope"`
+	DeclarationStatus          string `json:"declaration_status"`
+	DeclarationEvidence        string `json:"declaration_evidence"`
+	GenerationStatus           string `json:"generation_status"`
+	GenerationEvidence         string `json:"generation_evidence"`
+	ReverseObservationStatus   string `json:"reverse_observation_status"`
+	ReverseObservationEvidence string `json:"reverse_observation_evidence"`
+	UseCaseStatus              string `json:"use_case_status"`
+	UseCaseEvidence            string `json:"use_case_evidence"`
+	BoundaryStatus             string `json:"boundary_status"`
+	BoundaryEvidence           string `json:"boundary_evidence"`
+	ProvenanceStatus           string `json:"provenance_status"`
+	ProvenanceEvidence         string `json:"provenance_evidence"`
+}
+type CompletenessReceipt struct {
+	Domain                     string `json:"domain"`
+	AllowedInvestment          string `json:"allowed_investment"`
+	ExcludedScope              string `json:"excluded_scope"`
+	DeclarationStatus          string `json:"declaration_status"`
+	DeclarationEvidence        string `json:"declaration_evidence"`
+	GenerationStatus           string `json:"generation_status"`
+	GenerationEvidence         string `json:"generation_evidence"`
+	ReverseObservationStatus   string `json:"reverse_observation_status"`
+	ReverseObservationEvidence string `json:"reverse_observation_evidence"`
+	UseCaseStatus              string `json:"use_case_status"`
+	UseCaseEvidence            string `json:"use_case_evidence"`
+	BoundaryStatus             string `json:"boundary_status"`
+	BoundaryEvidence           string `json:"boundary_evidence"`
+	ProvenanceStatus           string `json:"provenance_status"`
+	ProvenanceEvidence         string `json:"provenance_evidence"`
+	FirstUnresolvedStage       string `json:"first_unresolved_stage"`
+}
 type result struct {
 	Generated   bool `json:"generated_now"`
 	Composition struct {
-		Steps []struct {
+		OriginalSourceSHA string `json:"original_source_sha256"`
+		GeneratedSHA      string `json:"generated_sha256"`
+		Steps             []struct {
 			Generation struct {
 				Report struct {
 					Assembly *struct {
@@ -407,6 +444,282 @@ func Verify(ctx context.Context, o Options) ([]Summary, error) {
 		}
 	}
 	return summaries, save(filepath.Join(root, "summary.json"), map[string]any{"schema": "gooo/ecosystem-workbench-verification/v1", "scope": "13 authored standard functions and two ecosystem recipes; finite examples and separately compiled native values; no training or performance study", "recipes": summaries})
+}
+
+func digestFiles(root string, names ...string) (string, error) {
+	h := sha256.New()
+	for _, name := range names {
+		data, err := os.ReadFile(filepath.Join(root, name))
+		if err != nil {
+			return "", err
+		}
+		if _, err = io.WriteString(h, name+"\x00"); err != nil {
+			return "", err
+		}
+		if _, err = h.Write(data); err != nil {
+			return "", err
+		}
+	}
+	return fmt.Sprintf("sha256:%x", h.Sum(nil)), nil
+}
+
+func firstUnresolved(a CompletenessAssessment) string {
+	for _, stage := range []struct{ name, status string }{
+		{"declaration", a.DeclarationStatus}, {"generation", a.GenerationStatus},
+		{"reverse_observation", a.ReverseObservationStatus}, {"use_case", a.UseCaseStatus},
+		{"boundary", a.BoundaryStatus}, {"provenance", a.ProvenanceStatus},
+	} {
+		if stage.status != "PASS" {
+			return stage.name
+		}
+	}
+	return "none"
+}
+
+// CompletenessReceipt turns a completed workbench verification into an
+// evidence-linked receipt. It deliberately reports finite fixture coverage
+// as PROGRESS and unmeasured effects as UNKNOWN instead of inventing a score.
+func CompletenessReceiptFor(ctx context.Context, o Options, verificationDir string) (CompletenessReceipt, error) {
+	var receipt CompletenessReceipt
+	if o.Model != "" {
+		return receipt, fmt.Errorf("completeness receipts are deterministic; omit --model")
+	}
+	if verificationDir == "" {
+		return receipt, fmt.Errorf("completeness requires --input pointing to a completed verify output directory")
+	}
+	inputRoot, err := filepath.Abs(verificationDir)
+	if err != nil {
+		return receipt, err
+	}
+	var report struct {
+		Schema  string    `json:"schema"`
+		Scope   string    `json:"scope"`
+		Recipes []Summary `json:"recipes"`
+	}
+	summaryBytes, err := os.ReadFile(filepath.Join(inputRoot, "summary.json"))
+	if err != nil {
+		return receipt, fmt.Errorf("read completed verification summary: %w", err)
+	}
+	if err = json.Unmarshal(summaryBytes, &report); err != nil {
+		return receipt, fmt.Errorf("read completed verification summary: %w", err)
+	}
+	if report.Schema != "gooo/ecosystem-workbench-verification/v1" || report.Scope == "" || len(report.Recipes) == 0 {
+		return receipt, fmt.Errorf("input is not a complete ecosystem verification report")
+	}
+	var sourcePaths, generationPaths, reversePaths, useCasePaths []string
+	var compilerSource string
+	for _, row := range report.Recipes {
+		if row.NamedTotal == 0 || row.NamedPassed != row.NamedTotal || row.FieldsPassed != row.FieldsTotal ||
+			row.SelectionPassed != row.SelectionTotal || !row.ReplayVerified || row.ResultSHA == "" || row.CompilerSource == "" {
+			return receipt, fmt.Errorf("verification row is incomplete: %s/%s", row.Recipe, row.Mode)
+		}
+		if compilerSource == "" {
+			compilerSource = row.CompilerSource
+		} else if compilerSource != row.CompilerSource {
+			return receipt, fmt.Errorf("verification mixes compiler source revisions")
+		}
+		label := row.Recipe + "-" + row.Mode
+		for _, rel := range []string{filepath.Join(label, "source.gooo"), filepath.Join(label, "cases.json")} {
+			if _, err = os.Stat(filepath.Join(inputRoot, rel)); err != nil {
+				return receipt, fmt.Errorf("missing declaration/use-case evidence %s: %w", rel, err)
+			}
+		}
+		sourcePaths = append(sourcePaths, filepath.Join(label, "source.gooo"))
+		useCasePaths = append(useCasePaths, filepath.Join(label, "cases.json"), filepath.Join(label, "result.json"))
+		originalBytes, readErr := os.ReadFile(filepath.Join(inputRoot, label, "result.json"))
+		if readErr != nil || fmt.Sprintf("%x", sha256.Sum256(originalBytes)) != row.ResultSHA {
+			return receipt, fmt.Errorf("verification result digest does not match its summary: %s", label)
+		}
+		var original result
+		if err = json.Unmarshal(originalBytes, &original); err != nil {
+			return receipt, fmt.Errorf("read verification execution result %s: %w", label, err)
+		}
+		observedSummary, summaryErr := summarize(originalBytes, row.Recipe, row.Mode)
+		observedSummary.ReplayVerified = row.ReplayVerified
+		if summaryErr != nil || !row.ReplayVerified || !reflect.DeepEqual(observedSummary, row) || original.Runtime.Source != row.CompilerSource {
+			return receipt, fmt.Errorf("verification summary differs from its execution evidence: %s", label)
+		}
+		sourceBytes, readErr := os.ReadFile(filepath.Join(inputRoot, label, "source.gooo"))
+		if readErr != nil || original.Composition.OriginalSourceSHA != "sha256:"+fmt.Sprintf("%x", sha256.Sum256(sourceBytes)) {
+			return receipt, fmt.Errorf("verification declaration digest does not match its execution: %s", label)
+		}
+		for _, rel := range []string{filepath.Join(label, "composition", "composition.json"), filepath.Join(label, "composition", "generated.go")} {
+			if _, err = os.Stat(filepath.Join(inputRoot, rel)); err != nil {
+				return receipt, fmt.Errorf("missing generation evidence %s: %w", rel, err)
+			}
+			generationPaths = append(generationPaths, rel)
+		}
+		replayPath := filepath.Join(label, "replay.json")
+		replayBytes, readErr := os.ReadFile(filepath.Join(inputRoot, replayPath))
+		if readErr != nil {
+			return receipt, fmt.Errorf("missing reverse-observation evidence %s: %w", replayPath, readErr)
+		}
+		var replay result
+		if err = json.Unmarshal(replayBytes, &replay); err != nil || replay.Generated || replay.Runtime.Calls != 0 || replay.Runtime.Total != row.NamedTotal || replay.Runtime.Passed != row.NamedPassed || !reflect.DeepEqual(replay.Runtime.Traces, original.Runtime.Traces) {
+			return receipt, fmt.Errorf("saved replay does not match verified observations: %s", replayPath)
+		}
+		reversePaths = append(reversePaths, replayPath)
+		generatedBytes, readErr := os.ReadFile(filepath.Join(inputRoot, label, "composition", "generated.go"))
+		if readErr != nil || original.Composition.GeneratedSHA != "sha256:"+fmt.Sprintf("%x", sha256.Sum256(generatedBytes)) {
+			return receipt, fmt.Errorf("generated source digest does not match its execution: %s", label)
+		}
+	}
+	declarationDigest, err := digestFiles(inputRoot, sourcePaths...)
+	if err != nil {
+		return receipt, err
+	}
+	generationDigest, err := digestFiles(inputRoot, generationPaths...)
+	if err != nil {
+		return receipt, err
+	}
+	reverseDigest, err := digestFiles(inputRoot, reversePaths...)
+	if err != nil {
+		return receipt, err
+	}
+	useCaseDigest, err := digestFiles(inputRoot, useCasePaths...)
+	if err != nil {
+		return receipt, err
+	}
+	headBytes, headErr := exec.CommandContext(ctx, "git", "-C", inputRoot, "rev-parse", "HEAD").Output()
+	provenanceStatus := "UNKNOWN"
+	provenanceEvidence := "UNBOUND: source checkout identity unavailable"
+	if headErr == nil && strings.TrimSpace(string(headBytes)) != "" && compilerSource != "" {
+		summaryDigest, digestErr := digestFiles(inputRoot, "summary.json")
+		if digestErr != nil {
+			return receipt, digestErr
+		}
+		provenanceStatus = "PASS"
+		provenanceEvidence = "HEAD=" + strings.TrimSpace(string(headBytes)) + "; compiler_source=" + compilerSource + "; summary=" + summaryDigest
+	}
+	assessment := CompletenessAssessment{
+		Domain:            "gooo-ecosystem-workbench finite verification",
+		AllowedInvestment: "local Gooo verification and evidence generation; no model training",
+		ExcludedScope:     "unobserved user workloads, universal semantic completeness, production behavior, and unmeasured effect boundaries",
+		DeclarationStatus: "PASS", DeclarationEvidence: declarationDigest,
+		GenerationStatus: "PASS", GenerationEvidence: generationDigest,
+		ReverseObservationStatus: "PASS", ReverseObservationEvidence: reverseDigest,
+		UseCaseStatus: "PROGRESS", UseCaseEvidence: useCaseDigest + "; finite authored examples only; no independent-use claim",
+		BoundaryStatus: "UNKNOWN", BoundaryEvidence: "UNMEASURED: external effects and deployment boundaries are not instrumented by this receipt",
+		ProvenanceStatus: provenanceStatus, ProvenanceEvidence: provenanceEvidence,
+	}
+	want := CompletenessReceipt{
+		Domain:            assessment.Domain,
+		AllowedInvestment: assessment.AllowedInvestment, ExcludedScope: assessment.ExcludedScope,
+		DeclarationStatus: assessment.DeclarationStatus, DeclarationEvidence: assessment.DeclarationEvidence,
+		GenerationStatus: assessment.GenerationStatus, GenerationEvidence: assessment.GenerationEvidence,
+		ReverseObservationStatus: assessment.ReverseObservationStatus, ReverseObservationEvidence: assessment.ReverseObservationEvidence,
+		UseCaseStatus: assessment.UseCaseStatus, UseCaseEvidence: assessment.UseCaseEvidence,
+		BoundaryStatus: assessment.BoundaryStatus, BoundaryEvidence: assessment.BoundaryEvidence,
+		ProvenanceStatus: assessment.ProvenanceStatus, ProvenanceEvidence: assessment.ProvenanceEvidence,
+		FirstUnresolvedStage: firstUnresolved(assessment),
+	}
+	root, err := newOutput(o.Out)
+	if err != nil {
+		return receipt, err
+	}
+	assessmentBytes, err := json.Marshal(assessment)
+	if err != nil {
+		return receipt, err
+	}
+	if err = write(filepath.Join(root, "assessment.json"), append(assessmentBytes, '\n')); err != nil {
+		return receipt, err
+	}
+	cases, err := json.Marshal(map[string]any{"schema": "gooo/body-composition-cases/v1", "cases": []any{
+		map[string]any{"inputs": map[string]any{"Build": assessment}, "expected": map[string]any{"Echo": want}},
+	}})
+	if err != nil {
+		return receipt, err
+	}
+	raw, composed, err := runRecipe(ctx, o, root, "completeness", "receipt", "", cases)
+	if err != nil {
+		return receipt, err
+	}
+	if err = actualFor(composed, "gooo-completeness://activity/echo", &receipt); err != nil {
+		return receipt, err
+	}
+	if !reflect.DeepEqual(receipt, want) {
+		return receipt, fmt.Errorf("Gooo completeness receipt differs from independently derived evidence")
+	}
+	counts, err := summarize(raw, "completeness", "deterministic")
+	if err != nil || counts.NamedPassed != 1 || counts.NamedTotal != 1 || counts.FieldsPassed != counts.FieldsTotal || counts.ModelCalls != 0 {
+		return receipt, fmt.Errorf("Gooo completeness receipt was not fully observed: %+v: %v", counts, err)
+	}
+	receiptPath := filepath.Join(root, "receipt.json")
+	if err = save(receiptPath, receipt); err != nil {
+		return receipt, err
+	}
+	if err = write(filepath.Join(root, "body-compose-result.json"), raw); err != nil {
+		return receipt, err
+	}
+	recipeDir := filepath.Join(root, "receipt", "composition")
+	compositionBytes, err := os.ReadFile(filepath.Join(recipeDir, "composition.json"))
+	if err != nil {
+		return receipt, err
+	}
+	var composition struct {
+		Schema string `json:"schema"`
+		Source string `json:"original_source_sha256"`
+		Plan   struct {
+			RecordTypes []struct {
+				Name   string `json:"name"`
+				ID     string `json:"id"`
+				Fields []struct {
+					Name string `json:"name"`
+				} `json:"fields"`
+			} `json:"record_types"`
+		} `json:"plan"`
+	}
+	if err = json.Unmarshal(compositionBytes, &composition); err != nil {
+		return receipt, fmt.Errorf("read Gooo completeness contract from compiler composition: %w", err)
+	}
+	if composition.Schema != "gooo/body-composition/v1" {
+		return receipt, fmt.Errorf("compiler composition has unknown schema %q", composition.Schema)
+	}
+	var receiptType *struct {
+		Name   string `json:"name"`
+		ID     string `json:"id"`
+		Fields []struct {
+			Name string `json:"name"`
+		} `json:"fields"`
+	}
+	for i := range composition.Plan.RecordTypes {
+		if composition.Plan.RecordTypes[i].Name == "CompletenessReceipt" {
+			receiptType = &composition.Plan.RecordTypes[i]
+			break
+		}
+	}
+	if receiptType == nil || receiptType.ID != "gooo://completeness/domain-completeness-receipt/v1" || len(receiptType.Fields) != reflect.TypeOf(receipt).NumField() {
+		return receipt, fmt.Errorf("compiler receipt contract does not match the generated receipt structure")
+	}
+	fieldNames := make([]string, len(receiptType.Fields))
+	for i, field := range receiptType.Fields {
+		fieldNames[i] = field.Name
+	}
+	wantFieldNames := make([]string, 0, reflect.TypeOf(receipt).NumField())
+	for i := 0; i < reflect.TypeOf(receipt).NumField(); i++ {
+		wantFieldNames = append(wantFieldNames, strings.Split(reflect.TypeOf(receipt).Field(i).Tag.Get("json"), ",")[0])
+	}
+	if !reflect.DeepEqual(fieldNames, wantFieldNames) {
+		return receipt, fmt.Errorf("Gooo receipt fields differ from the exported JSON structure")
+	}
+	if err = save(filepath.Join(root, "receipt-contract.json"), map[string]any{
+		"schema": "gooo/completeness-receipt-contract/v1", "entity_id": receiptType.ID,
+		"fields": fieldNames, "source_digest": composition.Source,
+	}); err != nil {
+		return receipt, err
+	}
+	replayBytes, err := command(ctx, o.Compiler, "body-compose", "--source", filepath.Join(recipeDir, "original.gooo"), "--cases", filepath.Join(recipeDir, "cases.json"), "--composition", filepath.Join(recipeDir, "composition.json"))
+	if err != nil {
+		return receipt, err
+	}
+	if err = write(filepath.Join(root, "replay.json"), replayBytes); err != nil {
+		return receipt, err
+	}
+	var replay result
+	if err = json.Unmarshal(replayBytes, &replay); err != nil || replay.Generated || replay.Runtime.Calls != 0 || replay.Runtime.Passed != 1 || replay.Runtime.Total != 1 {
+		return receipt, fmt.Errorf("saved completeness receipt replay did not reproduce")
+	}
+	return receipt, nil
 }
 
 func runtimeCase(inputs map[string]any) []byte {

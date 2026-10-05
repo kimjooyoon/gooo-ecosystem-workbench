@@ -1,0 +1,47 @@
+package completeness
+namespace gooo_completeness
+entity Assessment id "gooo://completeness/assessment" fields {
+    field domain id "gooo://completeness/domain" type string required one
+    field allowed_investment id "gooo://completeness/allowed-investment" type string required one
+    field excluded_scope id "gooo://completeness/excluded-scope" type string required one
+    field declaration_status id "gooo://completeness/declaration-status" type string required one
+    field declaration_evidence id "gooo://completeness/declaration-evidence" type string required one
+    field generation_status id "gooo://completeness/generation-status" type string required one
+    field generation_evidence id "gooo://completeness/generation-evidence" type string required one
+    field reverse_observation_status id "gooo://completeness/reverse-observation-status" type string required one
+    field reverse_observation_evidence id "gooo://completeness/reverse-observation-evidence" type string required one
+    field use_case_status id "gooo://completeness/use-case-status" type string required one
+    field use_case_evidence id "gooo://completeness/use-case-evidence" type string required one
+    field boundary_status id "gooo://completeness/boundary-status" type string required one
+    field boundary_evidence id "gooo://completeness/boundary-evidence" type string required one
+    field provenance_status id "gooo://completeness/provenance-status" type string required one
+    field provenance_evidence id "gooo://completeness/provenance-evidence" type string required one
+}
+entity CompletenessReceipt id "gooo://completeness/domain-completeness-receipt/v1" fields {
+    field domain id "gooo://completeness/receipt/domain" type string required one
+    field allowed_investment id "gooo://completeness/receipt/allowed-investment" type string required one
+    field excluded_scope id "gooo://completeness/receipt/excluded-scope" type string required one
+    field declaration_status id "gooo://completeness/receipt/declaration-status" type string required one
+    field declaration_evidence id "gooo://completeness/receipt/declaration-evidence" type string required one
+    field generation_status id "gooo://completeness/receipt/generation-status" type string required one
+    field generation_evidence id "gooo://completeness/receipt/generation-evidence" type string required one
+    field reverse_observation_status id "gooo://completeness/receipt/reverse-observation-status" type string required one
+    field reverse_observation_evidence id "gooo://completeness/receipt/reverse-observation-evidence" type string required one
+    field use_case_status id "gooo://completeness/receipt/use-case-status" type string required one
+    field use_case_evidence id "gooo://completeness/receipt/use-case-evidence" type string required one
+    field boundary_status id "gooo://completeness/receipt/boundary-status" type string required one
+    field boundary_evidence id "gooo://completeness/receipt/boundary-evidence" type string required one
+    field provenance_status id "gooo://completeness/receipt/provenance-status" type string required one
+    field provenance_evidence id "gooo://completeness/receipt/provenance-evidence" type string required one
+    field first_unresolved_stage id "gooo://completeness/receipt/first-unresolved-stage" type string required one
+}
+activity Build(Assessment) -> CompletenessReceipt computes `let unresolved = "none"
+if input.declaration_status != "PASS" { unresolved = "declaration" }
+if unresolved == "none" && input.generation_status != "PASS" { unresolved = "generation" }
+if unresolved == "none" && input.reverse_observation_status != "PASS" { unresolved = "reverse_observation" }
+if unresolved == "none" && input.use_case_status != "PASS" { unresolved = "use_case" }
+if unresolved == "none" && input.boundary_status != "PASS" { unresolved = "boundary" }
+if unresolved == "none" && input.provenance_status != "PASS" { unresolved = "provenance" }
+return CompletenessReceipt{domain: input.domain, allowed_investment: input.allowed_investment, excluded_scope: input.excluded_scope, declaration_status: input.declaration_status, declaration_evidence: input.declaration_evidence, generation_status: input.generation_status, generation_evidence: input.generation_evidence, reverse_observation_status: input.reverse_observation_status, reverse_observation_evidence: input.reverse_observation_evidence, use_case_status: input.use_case_status, use_case_evidence: input.use_case_evidence, boundary_status: input.boundary_status, boundary_evidence: input.boundary_evidence, provenance_status: input.provenance_status, provenance_evidence: input.provenance_evidence, first_unresolved_stage: unresolved}`
+activity Echo(CompletenessReceipt) -> CompletenessReceipt computes `return input`
+bind Build.result -> Echo.input

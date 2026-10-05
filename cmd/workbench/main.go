@@ -19,7 +19,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, diagnose, or reference; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, diagnose, reference, or receipt; each command accepts --help")
 	}
 	f := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	var o workbench.Options
@@ -27,7 +27,7 @@ func run(args []string) error {
 	f.StringVar(&o.Model, "model", "", "optional model.json path or builtin; omission is deterministic")
 	f.StringVar(&o.Out, "out", "", "new output directory")
 	profile := f.String("profile", "record", "starter profile: scalar or record")
-	input := f.String("input", "", "captured Gooo body-compose result or JSON counters: passed,total,rejected,detail")
+	input := f.String("input", "", "diagnostic input file, or completed verify output directory for receipt")
 	packageDir := f.String("package", "", "Gooo package directory for reference")
 	entry := f.String("entry", "", "public activity name for reference")
 	if e := f.Parse(args[1:]); e != nil {
@@ -62,8 +62,10 @@ func run(args []string) error {
 		}
 	case "reference":
 		value, err = workbench.Reference(ctx, o, *packageDir, *entry)
+	case "receipt":
+		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, or reference", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, reference, or receipt", args[0])
 	}
 	if err != nil {
 		return err
