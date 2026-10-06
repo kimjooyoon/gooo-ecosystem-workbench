@@ -5,6 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const vscode = require('vscode');
 const { LanguageClient, TransportKind } = require('vscode-languageclient/node');
+const { bodyGenerationSummary, canApplyGeneratedSource, parseBodyCodegenResult } = require('./body-generation');
 
 let languageClient;
 
@@ -215,7 +216,88 @@ function activate(context) {
         placeHolder: 'Clamp'
       });
       if (!activity) return;
-      await runCompiler(['body-codegen', '--json', '--activity', activity, source], 'Gooo body generation');
+      if (!(await document.save())) return;
+      const generationVersion = document.version;
+      if (vscode.window.activeTextEditor?.document !== document) {
+        void vscode.window.showWarningMessage('The active Gooo document changed before generation started. Run the command again in the intended file.');
+        return;
+      }
+      let sourceAtGeneration;
+      try {
+        sourceAtGeneration = await fs.readFile(source, 'utf8');
+      } catch (error) {
+        void vscode.window.showErrorMessage(`Could not read the saved Gooo source: ${error.message}`);
+        return;
+      }
+      if (document.version !== generationVersion) {
+        void vscode.window.showWarningMessage('The Gooo source changed before generation started. Save it and run the command again.');
+        return;
+      }
+      const generated = await runCompiler(
+        ['body-codegen', '--json', '--activity', activity, source],
+        'Gooo body generation',
+        undefined,
+        { quiet: true }
+      );
+      if (generated.code !== 0) {
+        const details = generated.stderr.trim() || generated.stdout.trim() || 'the compiler returned no diagnostic';
+        void vscode.window.showErrorMessage(`Gooo body generation failed: ${details}`);
+        return;
+      }
+      let result;
+      try {
+        result = parseBodyCodegenResult(generated.stdout, sourceAtGeneration);
+      } catch (error) {
+        void vscode.window.showErrorMessage(`Gooo body generation failed: ${error.message}`);
+        return;
+      }
+      const output = vscode.window.createOutputChannel('Gooo Body Generation');
+      output.clear();
+      output.appendLine(bodyGenerationSummary(result).join('\n'));
+      output.appendLine(`Source digest: ${result.report.source_digest}`);
+      output.appendLine(`Generated digest: ${result.report.generated_digest}`);
+      output.appendLine(`Replay digest: ${result.report.replay_digest}`);
+      output.show(true);
+
+      const isGoooSource = typeof result.gooo_source === 'string' && result.gooo_source.length > 0;
+      const choices = isGoooSource
+        ? [
+          { label: 'Preview generated Gooo source', description: 'Open the filled IR as a separate untitled document.', action: 'preview' },
+          { label: 'Apply generated Gooo source', description: 'Replace this file after confirming it has not changed.', action: 'apply' }
+        ]
+        : [{ label: 'Preview generated Go projection', description: 'Open the compiler output without changing the Gooo file.', action: 'preview' }];
+      const choice = await vscode.window.showQuickPick(choices, { placeHolder: 'Review the compiler-checked body generation result' });
+      if (!choice) return;
+
+      if (choice.action === 'apply') {
+        const editor = vscode.window.activeTextEditor;
+        let sourceAtApply;
+        try {
+          sourceAtApply = await fs.readFile(source, 'utf8');
+        } catch {
+          sourceAtApply = undefined;
+        }
+        if (editor?.document !== document ||
+            !canApplyGeneratedSource(generationVersion, document.version, result.report.source_digest, sourceAtApply)) {
+          void vscode.window.showWarningMessage('The source changed during generation. Review the generated preview before applying it.');
+        } else {
+          const applied = await editor.edit((edit) => {
+            if (!canApplyGeneratedSource(generationVersion, document.version, result.report.source_digest, sourceAtApply)) return;
+            const end = document.positionAt(document.getText().length);
+            edit.replace(new vscode.Range(new vscode.Position(0, 0), end), result.gooo_source);
+          });
+          if (applied && document.getText() === result.gooo_source) {
+            void vscode.window.showInformationMessage('The verified Gooo body was applied. Review and save the edited file.');
+            return;
+          }
+          void vscode.window.showWarningMessage('The source changed before the generated body could be applied. Opening a preview instead.');
+        }
+      }
+      const preview = await vscode.workspace.openTextDocument({
+        language: isGoooSource ? 'gooo' : 'go',
+        content: isGoooSource ? result.gooo_source : result.source
+      });
+      await vscode.window.showTextDocument(preview);
     })
   );
 }

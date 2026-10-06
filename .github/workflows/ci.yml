@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: f144dddb8261b9b525181dee510afc65f1603153
+          ref: 884d44096455aa8a47ac63e378b7a05f10665bfe
           path: .compiler
       - name: Build the published Gooo compiler
         working-directory: .compiler
@@ -26,6 +26,11 @@ jobs:
           test -z "$(gofmt -l assets.go workbench.go workbench_test.go cmd/workbench/main.go)"
           go vet ./...
           go test -race ./...
+      - name: Verify compiler-filled Gooo source through the editor result contract
+        run: |
+          mkdir -p out
+          ./.gooo body-codegen --json --activity ClampNegativeToZero .compiler/examples/body-codegen/ir-search-source.gooo.fixture > out/editor-body-generation.json
+          node -e 'const fs=require("node:fs"); const {parseBodyCodegenResult}=require("./editors/vscode/body-generation"); const source=fs.readFileSync(".compiler/examples/body-codegen/ir-search-source.gooo.fixture","utf8"); const result=parseBodyCodegenResult(fs.readFileSync("out/editor-body-generation.json","utf8"),source); if(!result.gooo_source || result.gooo_source.includes("__GOOO_BODY_HOLE_") || !result.report.body_search) throw Error("compiler did not return a completed Gooo IR body"); console.log(JSON.stringify({activity:result.report.activity,candidate:result.report.body_search.selected_candidate_id,training:result.report.body_search.training_accuracy_percent,holdout:result.report.body_search.holdout_accuracy_percent,decision_ms:result.report.body_search.decision_latency_ms}))'
       - name: Retain source-bound functional observations
         run: go run ./cmd/workbench verify --compiler "$PWD/.gooo" --model builtin --out out/ci-verification
       - name: Build a Gooo completeness receipt from verified evidence
@@ -44,6 +49,7 @@ jobs:
         with:
           name: gooo-ecosystem-observations
           path: |
+            out/editor-body-generation.json
             out/ci-verification/summary.json
             out/ci-verification/*/result.json
             out/ci-verification/*/replay.json

@@ -34,8 +34,8 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.1과 Gooo 컴파일러가 필요합니다. 이번 관측의 컴파일러 소스는
-[`f144dddb`](https://github.com/kimjooyoon/meta-ontology-go/tree/f144dddb8261b9b525181dee510afc65f1603153)입니다.
+Go 1.27.1과 Gooo 컴파일러가 필요합니다. 현재 CI와 Gooo 본문 생성 연동은
+[`884d4409`](https://github.com/kimjooyoon/meta-ontology-go/tree/884d44096455aa8a47ac63e378b7a05f10665bfe)을 기준으로 확인합니다.
 이미 `gooo`가 설치됐다면 이 저장소에서:
 
 ```sh

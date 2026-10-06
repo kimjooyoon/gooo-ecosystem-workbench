@@ -1,7 +1,7 @@
 {
   "name": "gooo-language-support",
   "displayName": "Gooo Language Support",
-  "description": "Gooo language server, deterministic formatting, snippets, and compiler commands for .gooo files.",
+  "description": "Gooo language server, deterministic formatting, compiler-checked body generation, and project tools for .gooo files.",
   "version": "0.1.0",
   "publisher": "kimjooyoon",
   "license": "MIT",
