@@ -44,6 +44,12 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 `gooo-assembling`, `gooo-bind`입니다. 스니펫은 시작점이며 최종 구문 확인은
 `gooo check`가 담당합니다.
 
+### 처음 실행하기
+
+Go 1.27.1을 설치한 뒤 터미널에서 `go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`를 실행합니다. VS Code에서 작업 폴더를 열고 **Gooo: New Project**를 실행해 앱 또는 라이브러리를 만듭니다. 새 `.gooo` 파일에서 **Gooo: Check Current File**로 컴파일러 연결을 확인하고, 본문을 채울 activity에서 **Gooo: Generate Activity Body**를 실행해 영수증과 미리보기를 확인합니다. 결과 적용은 미리보기에서 명시적으로 선택합니다.
+
+Laya는 선택 사항입니다. 연결 없이도 후보 평가 순서는 결정론적으로 유지됩니다. 로컬 Laya를 쓰려면 설정에서 `gooo.layaUrl`을 `/v1/systemone` 주소로 지정합니다.
+
 ## English
 
 This extension makes `.gooo`, `.gooo.fixture`, and `.gooo.template` files
@@ -98,6 +104,20 @@ Otherwise Gooo picks the first eligible declared candidate deterministically.
 The `package-execution-receipt.json` includes the selected Gooo source and
 generated native projection. The model does not write arbitrary source or
 bypass the package type checks.
+
+## First run
+
+Install Go 1.27.1, then install the compiler with
+`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`. Open a
+workspace folder in VS Code and run **Gooo: New Project** to create an app or
+library. In a new `.gooo` file, run **Gooo: Check Current File** to confirm the
+compiler connection. For an activity with a body to fill, run **Gooo: Generate
+Activity Body** and review its receipt and preview; choose the explicit apply
+action to change the source.
+
+Laya is optional. Candidate evaluation stays deterministic when it is not
+connected. To use a local Laya service, set `gooo.layaUrl` to its
+`/v1/systemone` endpoint.
 
 ## Snippets
 
