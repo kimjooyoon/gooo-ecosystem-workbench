@@ -24,6 +24,9 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 ### 명령
 
+- **Gooo: New Project**: 앱 또는 라이브러리를 선택해 새 폴더를 만들고, 컴파일러로
+  시작 파일을 검사합니다. 라이브러리는 제한된 본문 계획을 즉시 실행한 다음
+  결과 Gooo 소스를 엽니다.
 - **Gooo: Format Document**: `gooo format --json`으로 현재 버퍼를 포맷합니다.
 - **Gooo: Create and Generate Library**: 2개 패키지 시작 프로젝트를 만들고
   즉시 `gooo package execute`를 호출합니다. 검증된 `generated.gooo`를 편집기로 엽니다.
@@ -53,6 +56,10 @@ The editor commands save the current buffer before invoking the compiler.
 
 ## Commands
 
+- **Gooo: New Project** opens a project-type picker for an application or library,
+  creates a new folder under the open workspace, and opens its checked Gooo source.
+  The library choice also executes its declared body plan and opens the generated
+  Gooo source.
 - **Gooo: Format Document** formats the current buffer through `gooo format --json`.
 - **Gooo: Check Current File** runs `gooo check <file>` and displays compiler output.
 - **Gooo: Generate Activity Body** asks for an activity name and runs

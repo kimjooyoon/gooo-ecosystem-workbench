@@ -99,6 +99,63 @@ function currentSource() {
   return editor.document.uri.fsPath;
 }
 
+async function createProjectWorkspace(template) {
+  const workspace = vscode.workspace.workspaceFolders?.[0];
+  if (!workspace) {
+    void vscode.window.showWarningMessage('Open a workspace folder before creating a Gooo project.');
+    return;
+  }
+  const folderName = await vscode.window.showInputBox({
+    prompt: `Name for the new Gooo ${template} project folder`,
+    placeHolder: template === 'library' ? 'my-gooo-library' : 'my-gooo-app',
+    validateInput: (value) => value !== '.' && value !== '..' && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value)
+      ? undefined
+      : 'Use letters, numbers, dot, underscore, or hyphen; start with a letter or number.'
+  });
+  if (!folderName) return;
+  const root = path.join(workspace.uri.fsPath, folderName);
+  const created = await runCompiler(['init', '--template', template, root], `Gooo ${template} setup`);
+  if (created.code !== 0) return;
+
+  let target = path.join(root, 'main.gooo');
+  if (template === 'library') {
+    const generated = await runCompiler([
+      'package', 'execute', '--json', '--cases', path.join(root, 'cases.json'),
+      '--body-plans', path.join(root, 'body-fill-plans.json'),
+      path.join(root, 'gooo.workspace.json')
+    ], 'Gooo library body generation', root);
+    if (generated.stdout.trim()) {
+      try {
+        await fs.writeFile(path.join(root, 'package-execution-receipt.json'), generated.stdout);
+      } catch (error) {
+        void vscode.window.showErrorMessage(`Could not save the package execution receipt: ${error.message}`);
+        return;
+      }
+    }
+    if (generated.code !== 0) {
+      void vscode.window.showWarningMessage(`Library files were created in ${folderName}; generation details are in the Gooo output.`);
+      return;
+    }
+    try {
+      const receipt = JSON.parse(generated.stdout);
+      const source = receipt.result?.composition?.gooo_source;
+      if (typeof source !== 'string' || source.length === 0) {
+        throw new Error('the execution receipt did not include generated Gooo source');
+      }
+      target = path.join(root, 'generated.gooo');
+      await fs.writeFile(target, source);
+    } catch (error) {
+      void vscode.window.showErrorMessage(`Library ran, but its generated Gooo source could not be opened: ${error.message}`);
+      return;
+    }
+  } else {
+    const checked = await runCompiler(['check', target], 'Gooo project check', root);
+    if (checked.code !== 0) return;
+  }
+  const document = await vscode.workspace.openTextDocument(target);
+  await vscode.window.showTextDocument(document);
+}
+
 function activate(context) {
   const compiler = vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
   const serverOptions = {
@@ -133,54 +190,14 @@ function activate(context) {
     }),
     vscode.commands.registerCommand('gooo.formatCurrentFile', () =>
       vscode.commands.executeCommand('editor.action.formatDocument')),
-    vscode.commands.registerCommand('gooo.createLibraryWorkspace', async () => {
-      const workspace = vscode.workspace.workspaceFolders?.[0];
-      if (!workspace) {
-        void vscode.window.showWarningMessage('Open a workspace folder before creating a Gooo library.');
-        return;
-      }
-      const folderName = await vscode.window.showInputBox({
-        prompt: 'Name for the new Gooo library folder',
-        placeHolder: 'my-gooo-library',
-        validateInput: (value) => value !== '.' && value !== '..' && /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value)
-          ? undefined
-          : 'Use letters, numbers, dot, underscore, or hyphen; start with a letter or number.'
-      });
-      if (!folderName) return;
-      const root = path.join(workspace.uri.fsPath, folderName);
-      const created = await runCompiler(['init', '--template', 'library', root], 'Gooo library setup');
-      if (created.code !== 0) return;
-      const generated = await runCompiler([
-        'package', 'execute', '--json', '--cases', path.join(root, 'cases.json'),
-        '--body-plans', path.join(root, 'body-fill-plans.json'),
-        path.join(root, 'gooo.workspace.json')
-      ], 'Gooo library body generation', root);
-      if (generated.stdout.trim()) {
-        try {
-          await fs.writeFile(path.join(root, 'package-execution-receipt.json'), generated.stdout);
-        } catch (error) {
-          void vscode.window.showErrorMessage(`Could not save the package execution receipt: ${error.message}`);
-          return;
-        }
-      }
-      if (generated.code === 0) {
-        try {
-          const receipt = JSON.parse(generated.stdout);
-          const source = receipt.result?.composition?.gooo_source;
-          if (typeof source !== 'string' || source.length === 0) {
-            throw new Error('the execution receipt did not include generated Gooo source');
-          }
-          const generatedPath = path.join(root, 'generated.gooo');
-          await fs.writeFile(generatedPath, source);
-          const document = await vscode.workspace.openTextDocument(generatedPath);
-          await vscode.window.showTextDocument(document);
-        } catch (error) {
-          void vscode.window.showErrorMessage(`Library ran, but its generated Gooo source could not be opened: ${error.message}`);
-        }
-      } else {
-        void vscode.window.showWarningMessage(`Library files were created in ${folderName}; generation details are in the Gooo output.`);
-      }
+    vscode.commands.registerCommand('gooo.createProject', async () => {
+      const choice = await vscode.window.showQuickPick([
+        { label: 'Application', description: 'A runnable Gooo activity project', template: 'app' },
+        { label: 'Library', description: 'A package contract with generated activity body', template: 'library' }
+      ], { placeHolder: 'Choose a Gooo project type' });
+      if (choice) await createProjectWorkspace(choice.template);
     }),
+    vscode.commands.registerCommand('gooo.createLibraryWorkspace', () => createProjectWorkspace('library')),
     vscode.commands.registerCommand('gooo.checkCurrentFile', async () => {
       const source = currentSource();
       if (!source) return;
