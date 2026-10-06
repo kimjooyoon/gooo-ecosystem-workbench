@@ -14,7 +14,7 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
    (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`)
 2. 이 폴더에서 `npm ci`와 `npx --yes @vscode/vsce package`를 실행합니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 생성된
-   `gooo-language-support-0.1.0.vsix`를 선택합니다.
+   `gooo-language-support-0.2.0.vsix`를 선택합니다.
 
 `gooo.compilerPath`로 CLI 경로를 지정할 수 있습니다. Laya를 연결하려면
 `gooo.layaUrl`에 로컬 `/v1/systemone` 주소를 설정합니다. 이 값을 비워 두고
@@ -52,7 +52,9 @@ Document** applies the compiler's deterministic formatter only when requested.
 
 1. Install Visual Studio Code and the Gooo CLI (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`).
 2. From this directory, run `npm ci` and `npx --yes @vscode/vsce package`.
-3. In VS Code, run **Extensions: Install from VSIX...** and select `gooo-language-support-0.1.0.vsix`.
+3. In VS Code, run **Extensions: Install from VSIX...** and select `gooo-language-support-0.2.0.vsix`.
+
+The versioned VSIX is attached to the [GitHub release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases). You can also download the package from the successful extension CI run.
 
 Set `gooo.compilerPath` if the executable is not named `gooo` or is not on PATH.
 The editor commands save the current buffer before invoking the compiler.

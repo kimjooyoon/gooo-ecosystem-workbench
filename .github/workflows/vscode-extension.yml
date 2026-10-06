@@ -30,4 +30,4 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: gooo-language-support-vsix
-          path: editors/vscode/gooo-language-support-0.1.0.vsix
+          path: editors/vscode/gooo-language-support-*.vsix
