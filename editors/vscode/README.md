@@ -77,8 +77,9 @@ The check and body-generation commands save the current editor buffer first.
 Check output is shown in the Gooo output panel. Body generation first shows a
 separate receipt with route, case coverage, and provider latency. A compiler-filled
 Gooo source is previewed or applied only after choosing an action. The extension
-checks the original source digest and document version; an intervening edit sends
-the result to preview rather than replacing newer text. Projection-only results
+generation runs from a private snapshot of the saved source and checks the
+original source digest and document version before applying; an intervening edit
+sends the result to preview rather than replacing newer text. Projection-only results
 open as a separate Go document. Model-assisted assembly remains opt-in through
 the compiler's existing model configuration. With no configured provider,
 generation follows the compiler's deterministic path.

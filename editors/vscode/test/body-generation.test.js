@@ -13,7 +13,7 @@ function report(overrides = {}) {
     report: {
       schema: 'gooo/body-codegen-report/v3',
       activity: 'Lift',
-      source_digest: originalDigest,
+      source_digest: 'sha256:' + 'a'.repeat(64),
       generated_digest: 'sha256:generated',
       replay_digest: 'sha256:replay',
       route: 'preserve',
@@ -22,6 +22,7 @@ function report(overrides = {}) {
       typecheck_passed: true,
       deterministic_replay: true,
       repository_writes: 0,
+      body_fill: { selected_candidate_id: 'fill-1' },
       ...overrides
     },
     source: 'func Lift(input int64) int64 { return input }',
@@ -29,7 +30,7 @@ function report(overrides = {}) {
   };
 }
 
-test('accepts a source-bound, typechecked, replayed body-codegen result', () => {
+test('accepts a typechecked, replayed IR-fill result with a compiler source digest', () => {
   const result = parseBodyCodegenResult(JSON.stringify(report()), originalSource);
   assert.equal(result.gooo_source.includes('__GOOO_BODY_HOLE_'), false);
   assert.equal(result.report.activity, 'Lift');
@@ -37,7 +38,8 @@ test('accepts a source-bound, typechecked, replayed body-codegen result', () => 
 
 test('rejects malformed, stale, unverified, or writing codegen results', () => {
   assert.throws(() => parseBodyCodegenResult('{', originalSource), SyntaxError);
-  assert.throws(() => parseBodyCodegenResult(JSON.stringify(report()), `${originalSource}\n`), /incomplete, stale, or unverified/);
+  assert.throws(() => parseBodyCodegenResult(JSON.stringify(report({ source_digest: 'bad' })), originalSource), /incomplete, stale, or unverified/);
+  assert.throws(() => parseBodyCodegenResult(JSON.stringify(report({ body_fill: undefined })), originalSource), /incomplete, stale, or unverified/);
   assert.throws(() => parseBodyCodegenResult(JSON.stringify(report({ typecheck_passed: false })), originalSource), /incomplete, stale, or unverified/);
   assert.throws(() => parseBodyCodegenResult(JSON.stringify(report({ repository_writes: 1 })), originalSource), /incomplete, stale, or unverified/);
 });

@@ -10,6 +10,9 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version: '1.27.1'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
@@ -26,11 +29,11 @@ jobs:
           test -z "$(gofmt -l assets.go workbench.go workbench_test.go cmd/workbench/main.go)"
           go vet ./...
           go test -race ./...
-      - name: Verify compiler-filled Gooo source through the editor result contract
+      - name: Verify typed IR body fill through the editor result contract
         run: |
           mkdir -p out
-          ./.gooo body-codegen --json --activity ClampNegativeToZero .compiler/examples/body-codegen/ir-search-source.gooo.fixture > out/editor-body-generation.json
-          node -e 'const fs=require("node:fs"); const {parseBodyCodegenResult}=require("./editors/vscode/body-generation"); const source=fs.readFileSync(".compiler/examples/body-codegen/ir-search-source.gooo.fixture","utf8"); const result=parseBodyCodegenResult(fs.readFileSync("out/editor-body-generation.json","utf8"),source); if(!result.gooo_source || result.gooo_source.includes("__GOOO_BODY_HOLE_") || !result.report.body_search) throw Error("compiler did not return a completed Gooo IR body"); console.log(JSON.stringify({activity:result.report.activity,candidate:result.report.body_search.selected_candidate_id,training:result.report.body_search.training_accuracy_percent,holdout:result.report.body_search.holdout_accuracy_percent,decision_ms:result.report.body_search.decision_latency_ms}))'
+          ./.gooo body-codegen --json --activity Lift .compiler/examples/body-codegen/source-ir-fill-derived.gooo.fixture > out/editor-body-generation.json
+          node -e 'const fs=require("node:fs"); const {parseBodyCodegenResult}=require("./editors/vscode/body-generation"); const source=fs.readFileSync(".compiler/examples/body-codegen/source-ir-fill-derived.gooo.fixture","utf8"); const result=parseBodyCodegenResult(fs.readFileSync("out/editor-body-generation.json","utf8"),source); const fill=result.report.body_fill; if(!result.gooo_source || result.gooo_source.includes("__GOOO_BODY_HOLE_") || !fill || fill.functional_accuracy_percent !== 100 || fill.hole_fills.length !== 2) throw Error("compiler did not return a complete, measured typed IR body fill"); console.log(JSON.stringify({activity:result.report.activity,candidate:fill.selected_candidate_id,training:fill.functional_accuracy_percent,holes:fill.hole_fills.length,decision_ms:fill.timing.provider_decision_ms}))'
       - name: Retain source-bound functional observations
         run: go run ./cmd/workbench verify --compiler "$PWD/.gooo" --model builtin --out out/ci-verification
       - name: Build a Gooo completeness receipt from verified evidence

@@ -9,12 +9,16 @@ function sourceDigest(source) {
 function parseBodyCodegenResult(stdout, originalSource) {
   const result = JSON.parse(stdout);
   const report = result?.report;
+  const sourceBoundToInvocation = typeof originalSource === 'string';
+  const compilerDigest = report?.source_digest;
   if (report?.schema !== 'gooo/body-codegen-report/v3' ||
-      report.source_digest !== sourceDigest(originalSource) ||
+      !sourceBoundToInvocation ||
+      typeof compilerDigest !== 'string' || !/^sha256:[a-f0-9]{64}$/.test(compilerDigest) ||
       report.typecheck_passed !== true || report.deterministic_replay !== true ||
       report.repository_writes !== 0 || typeof result.source !== 'string' || result.source.length === 0 ||
       (result.gooo_source !== undefined && (typeof result.gooo_source !== 'string' ||
-        result.gooo_source.includes('__GOOO_BODY_HOLE_')))) {
+        result.gooo_source.length === 0 || result.gooo_source.includes('__GOOO_BODY_HOLE_') ||
+        !report.body_fill))) {
     throw new Error('the compiler returned an incomplete, stale, or unverified body-generation report');
   }
   return result;

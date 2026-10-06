@@ -233,12 +233,23 @@ function activate(context) {
         void vscode.window.showWarningMessage('The Gooo source changed before generation started. Save it and run the command again.');
         return;
       }
-      const generated = await runCompiler(
-        ['body-codegen', '--json', '--activity', activity, source],
-        'Gooo body generation',
-        undefined,
-        { quiet: true }
-      );
+      const generationDir = await fs.mkdtemp(path.join(os.tmpdir(), 'gooo-body-codegen-'));
+      const generationSource = path.join(generationDir, path.basename(source) || 'source.gooo');
+      let generated;
+      try {
+        await fs.writeFile(generationSource, sourceAtGeneration, 'utf8');
+        generated = await runCompiler(
+          ['body-codegen', '--json', '--activity', activity, generationSource],
+          'Gooo body generation',
+          generationDir,
+          { quiet: true }
+        );
+      } catch (error) {
+        void vscode.window.showErrorMessage(`Could not prepare the Gooo body-generation input: ${error.message}`);
+        return;
+      } finally {
+        await fs.rm(generationDir, { recursive: true, force: true });
+      }
       if (generated.code !== 0) {
         const details = generated.stderr.trim() || generated.stdout.trim() || 'the compiler returned no diagnostic';
         void vscode.window.showErrorMessage(`Gooo body generation failed: ${details}`);
@@ -278,11 +289,11 @@ function activate(context) {
           sourceAtApply = undefined;
         }
         if (editor?.document !== document ||
-            !canApplyGeneratedSource(generationVersion, document.version, result.report.source_digest, sourceAtApply)) {
+            !canApplyGeneratedSource(generationVersion, document.version, sourceDigest(sourceAtGeneration), sourceAtApply)) {
           void vscode.window.showWarningMessage('The source changed during generation. Review the generated preview before applying it.');
         } else {
           const applied = await editor.edit((edit) => {
-            if (!canApplyGeneratedSource(generationVersion, document.version, result.report.source_digest, sourceAtApply)) return;
+            if (!canApplyGeneratedSource(generationVersion, document.version, sourceDigest(sourceAtGeneration), sourceAtApply)) return;
             const end = document.positionAt(document.getText().length);
             edit.replace(new vscode.Range(new vscode.Position(0, 0), end), result.gooo_source);
           });
