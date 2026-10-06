@@ -1,20 +1,30 @@
+const { createHash } = require('node:crypto');
 const { spawn } = require('node:child_process');
 const fs = require('node:fs/promises');
+const os = require('node:os');
 const path = require('node:path');
 const vscode = require('vscode');
 const { LanguageClient, TransportKind } = require('vscode-languageclient/node');
 
 let languageClient;
 
-function runCompiler(args, title, cwd) {
+function sourceDigest(source) {
+  return `sha256:${createHash('sha256').update(source, 'utf8').digest('hex')}`;
+}
+
+function runCompiler(args, title, cwd, options = {}) {
+  const quiet = options.quiet === true;
   const executable = vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
   const environment = { ...process.env };
   const layaUrl = vscode.workspace.getConfiguration('gooo').get('layaUrl', '').trim();
   if (layaUrl) environment.GOOO_LAYA_URL = layaUrl;
-  const output = vscode.window.createOutputChannel('Gooo');
-  output.show(true);
-  output.appendLine(`$ ${executable} ${args.map((arg) => JSON.stringify(arg)).join(' ')}`);
+  const output = quiet ? undefined : vscode.window.createOutputChannel('Gooo');
+  if (output) {
+    output.show(true);
+    output.appendLine(`$ ${executable} ${args.map((arg) => JSON.stringify(arg)).join(' ')}`);
+  }
   let stdoutText = '';
+  let stderrText = '';
 
   return new Promise((resolve) => {
     const child = spawn(executable, args, {
@@ -26,22 +36,58 @@ function runCompiler(args, title, cwd) {
     child.stdout.on('data', (chunk) => {
       const text = chunk.toString();
       stdoutText += text;
-      output.append(text);
+      if (output) output.append(text);
     });
-    child.stderr.on('data', (chunk) => output.append(chunk.toString()));
+    child.stderr.on('data', (chunk) => {
+      const text = chunk.toString();
+      stderrText += text;
+      if (output) output.append(text);
+    });
     child.on('error', (error) => {
-      output.appendLine(`\n${error.message}`);
-      void vscode.window.showErrorMessage(`Could not start ${title}: ${error.message}`);
-      resolve({ code: 1, stdout: stdoutText });
+      if (output) output.appendLine(`\n${error.message}`);
+      if (!quiet) void vscode.window.showErrorMessage(`Could not start ${title}: ${error.message}`);
+      resolve({ code: 1, stdout: stdoutText, stderr: stderrText });
     });
     child.on('close', (code) => {
       const status = code ?? 1;
-      output.appendLine(`\n${title}: ${status === 0 ? 'finished' : `exit ${status}`}`);
-      if (status === 0) void vscode.window.showInformationMessage(`${title} finished.`);
-      else void vscode.window.showErrorMessage(`${title} failed. See the Gooo output.`);
-      resolve({ code: status, stdout: stdoutText });
+      if (output) output.appendLine(`\n${title}: ${status === 0 ? 'finished' : `exit ${status}`}`);
+      if (!quiet) {
+        if (status === 0) void vscode.window.showInformationMessage(`${title} finished.`);
+        else void vscode.window.showErrorMessage(`${title} failed. See the Gooo output.`);
+      }
+      resolve({ code: status, stdout: stdoutText, stderr: stderrText });
     });
   });
+}
+
+async function formatDocument(document) {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'gooo-format-'));
+  const tempFile = path.join(tempDir, path.basename(document.uri.fsPath) || 'document.gooo');
+  const original = document.getText();
+  try {
+    await fs.writeFile(tempFile, original, 'utf8');
+    const result = await runCompiler(['format', '--json', tempFile], 'Gooo format', tempDir, { quiet: true });
+    if (result.code !== 0) {
+      throw new Error(result.stderr.trim() || 'the compiler rejected this source for formatting');
+    }
+    const report = JSON.parse(result.stdout);
+    const formatted = typeof report.source === 'string'
+      ? report.source
+      : report.formatted_digest === sourceDigest('') ? '' : undefined;
+    const hasFormattedSource = typeof formatted === 'string';
+    const changed = hasFormattedSource && formatted !== original;
+    if (report.schema !== 'gooo/format-report/v1' || report.command !== 'format' ||
+        report.source_digest !== sourceDigest(original) ||
+        !hasFormattedSource || report.formatted_digest !== sourceDigest(formatted) ||
+        report.changed !== changed || report.status !== (changed ? 'formatted' : 'canonical') ||
+        report.direct_writes !== 0) {
+      throw new Error('the compiler returned an incomplete or unexpected format report');
+    }
+    const end = document.positionAt(original.length);
+    return [vscode.TextEdit.replace(new vscode.Range(new vscode.Position(0, 0), end), formatted)];
+  } finally {
+    await fs.rm(tempDir, { recursive: true, force: true });
+  }
 }
 
 function currentSource() {
@@ -75,6 +121,18 @@ function activate(context) {
   });
 
   context.subscriptions.push(
+    vscode.languages.registerDocumentFormattingEditProvider('gooo', {
+      async provideDocumentFormattingEdits(document) {
+        try {
+          return await formatDocument(document);
+        } catch (error) {
+          void vscode.window.showErrorMessage(`Gooo format failed: ${error.message}`);
+          return [];
+        }
+      }
+    }),
+    vscode.commands.registerCommand('gooo.formatCurrentFile', () =>
+      vscode.commands.executeCommand('editor.action.formatDocument')),
     vscode.commands.registerCommand('gooo.createLibraryWorkspace', async () => {
       const workspace = vscode.workspace.workspaceFolders?.[0];
       if (!workspace) {

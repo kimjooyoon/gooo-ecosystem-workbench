@@ -1,7 +1,7 @@
 {
   "name": "gooo-language-support",
   "displayName": "Gooo Language Support",
-  "description": "Syntax highlighting, Gooo snippets, and compiler commands for .gooo files.",
+  "description": "Gooo language server, deterministic formatting, snippets, and compiler commands for .gooo files.",
   "version": "0.1.0",
   "publisher": "kimjooyoon",
   "license": "MIT",
@@ -27,6 +27,7 @@
   },
   "activationEvents": [
     "onLanguage:gooo",
+    "onCommand:gooo.formatCurrentFile",
     "onCommand:gooo.createLibraryWorkspace",
     "onCommand:gooo.checkCurrentFile",
     "onCommand:gooo.generateActivityBody"
@@ -62,6 +63,10 @@
     ],
     "commands": [
       {
+        "command": "gooo.formatCurrentFile",
+        "title": "Gooo: Format Document"
+      },
+      {
         "command": "gooo.createLibraryWorkspace",
         "title": "Gooo: Create and Generate Library"
       },
@@ -92,6 +97,11 @@
     "menus": {
       "editor/title": [
         {
+          "command": "gooo.formatCurrentFile",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        },
+        {
           "command": "gooo.createLibraryWorkspace",
           "when": "resourceLangId == gooo",
           "group": "navigation"
@@ -103,6 +113,11 @@
         }
       ],
       "editor/context": [
+        {
+          "command": "gooo.formatCurrentFile",
+          "when": "resourceLangId == gooo",
+          "group": "navigation"
+        },
         {
           "command": "gooo.createLibraryWorkspace",
           "when": "resourceLangId == gooo",

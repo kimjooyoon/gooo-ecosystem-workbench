@@ -5,6 +5,8 @@
 `.gooo`, `.gooo.fixture`, `.gooo.template` 파일의 문법 색상과 시작 스니펫,
 Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를 연결해
 진단·자동완성·hover·정의 이동·참조·이름 변경·문서 기호를 제공합니다.
+**Gooo: Format Document**는 같은 컴파일러의 결정론적 포매터를 사용하고,
+사용자가 실행했을 때만 현재 편집기에 결과를 적용합니다.
 
 ### 설치
 
@@ -22,6 +24,7 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 ### 명령
 
+- **Gooo: Format Document**: `gooo format --json`으로 현재 버퍼를 포맷합니다.
 - **Gooo: Create and Generate Library**: 2개 패키지 시작 프로젝트를 만들고
   즉시 `gooo package execute`를 호출합니다. 검증된 `generated.gooo`를 편집기로 엽니다.
 - **Gooo: Check Current File**: 현재 파일을 저장한 뒤 `gooo check`를 실행합니다.
@@ -36,7 +39,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 This extension makes `.gooo`, `.gooo.fixture`, and `.gooo.template` files
 recognizable in VS Code. It starts the installed compiler's `gooo lsp` process
 over stdio for inline diagnostics, completion, hover, go to definition,
-references, rename, document symbols, and semantic tokens.
+references, rename, document symbols, and semantic tokens. **Gooo: Format
+Document** applies the compiler's deterministic formatter only when requested.
 
 ## Install from this repository
 
@@ -49,6 +53,7 @@ The editor commands save the current buffer before invoking the compiler.
 
 ## Commands
 
+- **Gooo: Format Document** formats the current buffer through `gooo format --json`.
 - **Gooo: Check Current File** runs `gooo check <file>` and displays compiler output.
 - **Gooo: Generate Activity Body** asks for an activity name and runs
   `gooo body-codegen --json --activity <name> <file>`.
