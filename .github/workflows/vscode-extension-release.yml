@@ -1,0 +1,45 @@
+name: Release Gooo VS Code extension
+on:
+  push:
+    tags:
+      - 'vscode-v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Verify tag, test, and package extension
+        working-directory: editors/vscode
+        run: |
+          expected_version="${GITHUB_REF_NAME#vscode-v}"
+          actual_version="$(node -p 'require("./package.json").version')"
+          test "$expected_version" = "$actual_version"
+          node -e 'for (const file of ["package.json", "language-configuration.json", "syntaxes/gooo.tmLanguage.json", "snippets/gooo.json"]) JSON.parse(require("node:fs").readFileSync(file,"utf8"))'
+          node -c extension.js
+          node --test test/*.test.js
+          npm ci
+          npx --yes @vscode/vsce package
+          shasum -a 256 "gooo-language-support-${actual_version}.vsix" > checksums.sha256
+      - name: Publish versioned VSIX and checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="$GITHUB_REF_NAME"
+          version="${tag#vscode-v}"
+          vsix="editors/vscode/gooo-language-support-${version}.vsix"
+          checksums="editors/vscode/checksums.sha256"
+          notes="Gooo Language Support ${version}. Includes compiler-backed Gooo editing, deterministic formatting, starter projects, and verified activity-body generation with preview and explicit apply. Download the VSIX and verify it with checksums.sha256."
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$vsix" "$checksums" --clobber
+          else
+            gh release create "$tag" "$vsix" "$checksums" \
+              --title "Gooo Language Support ${version}" \
+              --notes "$notes" --prerelease
+          fi
