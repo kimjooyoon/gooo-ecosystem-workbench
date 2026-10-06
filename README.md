@@ -19,7 +19,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 인보이스 승인 예제 | 레코드 상태와 검토자 조건으로 승인 결과 구성 | `verify`의 3개 고정 사례·저장 재실행 |
 | CI 계획 예제 | 변경 파일 묶음을 등록된 확인 항목에 결정론적으로 대응 | `verify`의 12개 고정 사례·24개 활동 출력 |
 | 기능 탐색 연결 | JEV의 한·영 기능 카탈로그 결과를 Gooo 평가·재실행과 연결 | `discover`의 출처 바인딩·미해결 단계 기록 |
-| VS Code 편집기 | `.gooo` 문법 색상, LSP 진단·완성·이동·이름 변경, 결정론적 포맷, 본문 생성 명령 | [`editors/vscode`](editors/vscode) |
+| VS Code 편집기 | `.gooo` 문법 색상, LSP 진단·완성·이동·이름 변경, 결정론적 포맷, 본문 생성, 앱/라이브러리 프로젝트 시작 | [`editors/vscode`](editors/vscode) |
 
 [표준 함수](recipes/stdlib.gooo)는 `Min`, `Max`, `Clamp`, `AbsSaturating`,
 `Sign`, `IsZero`, `InRange`, `And`, `Or`, `Not`, `CoalesceText`, `ChooseText`,

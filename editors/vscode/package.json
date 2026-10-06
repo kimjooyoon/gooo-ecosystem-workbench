@@ -28,6 +28,7 @@
   "activationEvents": [
     "onLanguage:gooo",
     "onCommand:gooo.formatCurrentFile",
+    "onCommand:gooo.createProject",
     "onCommand:gooo.createLibraryWorkspace",
     "onCommand:gooo.checkCurrentFile",
     "onCommand:gooo.generateActivityBody"
@@ -67,6 +68,10 @@
         "title": "Gooo: Format Document"
       },
       {
+        "command": "gooo.createProject",
+        "title": "Gooo: New Project"
+      },
+      {
         "command": "gooo.createLibraryWorkspace",
         "title": "Gooo: Create and Generate Library"
       },
@@ -95,6 +100,11 @@
       }
     },
     "menus": {
+      "commandPalette": [
+        {
+          "command": "gooo.createProject"
+        }
+      ],
       "editor/title": [
         {
           "command": "gooo.formatCurrentFile",
