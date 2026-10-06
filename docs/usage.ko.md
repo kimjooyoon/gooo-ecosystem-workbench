@@ -6,7 +6,7 @@ Go1.27.1을 사용합니다. 이 저장소에서 변경 없는 고정 컴파일�
 
 ```sh
 git clone https://github.com/kimjooyoon/meta-ontology-go.git .compiler
-git -C .compiler switch --detach f144dddb8261b9b525181dee510afc65f1603153
+git -C .compiler switch --detach 884d44096455aa8a47ac63e378b7a05f10665bfe
 cd .compiler
 go build -trimpath -o ../.gooo ./cmd/gooo
 cd ..

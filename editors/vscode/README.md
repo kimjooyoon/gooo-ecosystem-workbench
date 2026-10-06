@@ -31,7 +31,10 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 - **Gooo: Create and Generate Library**: 2개 패키지 시작 프로젝트를 만들고
   즉시 `gooo package execute`를 호출합니다. 검증된 `generated.gooo`를 편집기로 엽니다.
 - **Gooo: Check Current File**: 현재 파일을 저장한 뒤 `gooo check`를 실행합니다.
-- **Gooo: Generate Activity Body**: activity 이름을 물어보고 본문 생성을 실행합니다.
+- **Gooo: Generate Activity Body**: activity 본문을 생성한 뒤 검사 기록을 보여주고,
+  완성된 Gooo 소스는 미리보기 또는 현재 파일에 적용할 수 있습니다. 생성 중
+  편집 내용이 바뀌면 적용을 막고 미리보기로 전환합니다. Gooo 소스 결과가 없는
+  기존 body-codegen 경로는 Go projection만 별도 문서로 미리 봅니다.
 
 스니펫 접두사는 `gooo-package`, `gooo-entity`, `gooo-record`, `gooo-activity`,
 `gooo-assembling`, `gooo-bind`입니다. 스니펫은 시작점이며 최종 구문 확인은
@@ -62,16 +65,24 @@ The editor commands save the current buffer before invoking the compiler.
   Gooo source.
 - **Gooo: Format Document** formats the current buffer through `gooo format --json`.
 - **Gooo: Check Current File** runs `gooo check <file>` and displays compiler output.
-- **Gooo: Generate Activity Body** asks for an activity name and runs
-  `gooo body-codegen --json --activity <name> <file>`.
+- **Gooo: Generate Activity Body** runs `gooo body-codegen --json`, summarizes the
+  compiler's source-bound check and replay results, and offers a preview or explicit
+  apply action when the compiler returns completed Gooo source. If the document
+  changed during generation, the extension opens a preview instead of applying a
+  stale result. Legacy projection-only results open as a separate Go preview.
 - **Gooo: Create and Generate Library** writes the compiler's two-package library
   starter, calls `gooo package execute`, and opens the validated `generated.gooo` source.
 
 The check and body-generation commands save the current editor buffer first.
-Their output is shown in the Gooo output panel and does not modify the source
-file. Model-assisted assembly remains opt-in through the compiler's existing
-model configuration. With no configured provider, generation follows the
-compiler's deterministic path.
+Check output is shown in the Gooo output panel. Body generation first shows a
+separate receipt with route, case coverage, and provider latency. A compiler-filled
+Gooo source is previewed or applied only after choosing an action. The extension
+generation runs from a private snapshot of the saved source and checks the
+original source digest and document version before applying; an intervening edit
+sends the result to preview rather than replacing newer text. Projection-only results
+open as a separate Go document. Model-assisted assembly remains opt-in through
+the compiler's existing model configuration. With no configured provider,
+generation follows the compiler's deterministic path.
 
 The library command uses `gooo init --template library` followed immediately by
 `gooo package execute`. Set `gooo.layaUrl` to a local Laya `/v1/systemone`
