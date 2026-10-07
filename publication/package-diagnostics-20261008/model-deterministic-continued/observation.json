@@ -1,0 +1,8 @@
+{
+  "unit": "activity_outputs",
+  "passed": 4,
+  "total": 4,
+  "rejected": 0,
+  "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+  "input_sha256": "c719dd96578b70c385d8d5da5c5ee169cc27462ecaf498dff18c68c35ea3ef28"
+}
