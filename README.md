@@ -118,6 +118,10 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 불일치로 진단하며 소스 예산을 보존합니다. 타입 검사에서 탈락한
 후보도 이미 사용한 시도로 셉니다. 선택된 활동 ID와 입력 원본 해시를 함께 남깁니다.
 
+[시도 한도 관측 예제](examples/source-budget/README.md)는 같은 여덟 후보에 한도
+1·3·8·16을 적용합니다. [실행 기록](publication/source-budget-20261008/README.md)에
+고정 순서와 자체 소형 모델의 결과, Gooo가 고른 다음 행동을 함께 공개했습니다.
+
 `construction-next-steps.json`에 각 제안이, `construction-next/`에 Gooo 소스와
 실행 결과가 저장됩니다. 이 프로그램의 분기는 Gooo 코드로 실행하며 새 모델 호출은
 없습니다. 기본 진단 프로그램을 조립할 때는 기존의 선택적 모델을 사용할 수 있습니다.

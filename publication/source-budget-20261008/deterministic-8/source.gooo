@@ -1,0 +1,28 @@
+package records
+namespace fieldupdates
+entity Text id "fieldupdates://text"
+entity Boolean id "fieldupdates://boolean"
+entity Candidate id "fieldupdates://candidate" fields {
+    field title id "fieldupdates://candidate/title" type string required one
+    field state id "fieldupdates://candidate/state" type string required one
+    field reason id "fieldupdates://candidate/reason" type string required one
+}
+activity Select(Candidate, Boolean) -> Candidate computes `let copy = input0
+if input1 && copy.state != "ready" {
+    copy.title = "draft"
+    copy.state = "wait"
+    copy.reason = "deferred"
+}
+return copy` assembling {
+    choice "title" field_update at "0" alternative "input0.title" intent "원래 제목을 사용한다. Keep the original title."
+    choice "state" field_update at "1" alternative "\"ready\"" intent "선택된 기록의 상태는 ready이다. Set state to ready."
+    choice "reason" field_update at "2" alternative "copy.title + \":\" + copy.state" intent "현재 제목과 갱신된 상태를 합친다. Join the current title and updated state."
+    value_case "[{\"title\":\"한글\",\"state\":\"queued\",\"reason\":\"검토\"},true]" -> "{\"title\":\"한글\",\"state\":\"ready\",\"reason\":\"한글:ready\"}"
+    value_case "[{\"title\":\"English\",\"state\":\"queued\",\"reason\":\"review\"},true]" -> "{\"title\":\"English\",\"state\":\"ready\",\"reason\":\"English:ready\"}"
+    value_case "[{\"title\":\"\",\"state\":\"queued\",\"reason\":\"\"},true]" -> "{\"title\":\"\",\"state\":\"ready\",\"reason\":\":ready\"}"
+    value_case "[{\"title\":\"kept\",\"state\":\"queued\",\"reason\":\"later\"},false]" -> "{\"title\":\"kept\",\"state\":\"queued\",\"reason\":\"later\"}"
+    value_case "[{\"title\":\"already\",\"state\":\"ready\",\"reason\":\"done\"},true]" -> "{\"title\":\"already\",\"state\":\"ready\",\"reason\":\"done\"}"
+    attempts "8"
+}
+activity Label(Candidate) -> Text computes `return input.title + ":" + input.state + ":" + input.reason`
+bind Select.result -> Label.input
