@@ -154,14 +154,15 @@ type constructionStep struct {
 		Report struct {
 			ActivityID string `json:"activity_id"`
 			Assembly   *struct {
-				CasePassed *int64               `json:"passed"`
-				CaseTotal  *int64               `json:"total"`
-				Ranking    []uint16             `json:"ranking"`
-				Control    *constructionControl `json:"control"`
-				Calls      int                  `json:"model_calls"`
-				Passed     int                  `json:"fields_passed"`
-				Total      int                  `json:"fields_total"`
-				Attempts   []struct {
+				AttemptBudget *int64               `json:"attempt_budget"`
+				CasePassed    *int64               `json:"passed"`
+				CaseTotal     *int64               `json:"total"`
+				Ranking       []uint16             `json:"ranking"`
+				Control       *constructionControl `json:"control"`
+				Calls         int                  `json:"model_calls"`
+				Passed        int                  `json:"fields_passed"`
+				Total         int                  `json:"fields_total"`
+				Attempts      []struct {
 					Mask   *uint16 `json:"mask"`
 					Status string  `json:"status"`
 					Reason string  `json:"reason"`

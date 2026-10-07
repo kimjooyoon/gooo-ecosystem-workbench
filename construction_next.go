@@ -9,17 +9,18 @@ import (
 )
 
 // ConstructionObservation transports recorded counts, not a continuation decision.
-// BudgetKnown is false when a receipt has no policy observation of the source budget.
+// BudgetKnown is false when neither a source nor a policy budget was recorded.
 type ConstructionObservation struct {
-	ActivityID  string `json:"activity_id"`
-	Matched     int64  `json:"matched"`
-	Total       int64  `json:"total"`
-	Scored      int64  `json:"scored"`
-	Ranked      int64  `json:"ranked"`
-	Budget      int64  `json:"budget"`
-	Observed    bool   `json:"observed"`
-	BudgetKnown bool   `json:"budget_known"`
-	Consistent  bool   `json:"consistent"`
+	ActivityID   string `json:"activity_id"`
+	Matched      int64  `json:"matched"`
+	Total        int64  `json:"total"`
+	Scored       int64  `json:"scored"`
+	Ranked       int64  `json:"ranked"`
+	Budget       int64  `json:"budget"`
+	Observed     bool   `json:"observed"`
+	BudgetKnown  bool   `json:"budget_known"`
+	BudgetSource string `json:"budget_source"`
+	Consistent   bool   `json:"consistent"`
 }
 
 type constructionControl struct {
@@ -50,7 +51,11 @@ func constructionObservations(r result) []ConstructionObservation {
 				continue
 			}
 			o := ConstructionObservation{ActivityID: step.Generation.Report.ActivityID,
-				Scored: int64(len(a.Attempts)), Ranked: int64(len(a.Ranking)), Consistent: true}
+				Scored: int64(len(a.Attempts)), Ranked: int64(len(a.Ranking)), Consistent: true,
+				BudgetSource: "unavailable"}
+			if a.AttemptBudget != nil {
+				o.Budget, o.BudgetKnown, o.BudgetSource = *a.AttemptBudget, true, "source_contract"
+			}
 			o.Observed = a.CasePassed != nil && a.CaseTotal != nil
 			if o.Observed {
 				o.Matched, o.Total = *a.CasePassed, *a.CaseTotal
@@ -79,7 +84,9 @@ func constructionObservations(r result) []ConstructionObservation {
 					if o.BudgetKnown && o.Budget != *d.Input.Budget || *d.Input.Scored < 1 || *d.Input.Scored > o.Scored {
 						o.Consistent = false
 					}
-					o.Budget, o.BudgetKnown = *d.Input.Budget, true
+					if !o.BudgetKnown {
+						o.Budget, o.BudgetKnown, o.BudgetSource = *d.Input.Budget, true, "policy_observation"
+					}
 				}
 				if a.Control.Entry != nil {
 					observe(*a.Control.Entry)

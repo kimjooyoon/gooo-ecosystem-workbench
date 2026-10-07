@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 884d44096455aa8a47ac63e378b7a05f10665bfe
+          ref: cdb60e90f911d53d7c02790579e5f72941a2b71a
           path: .compiler
       - name: Build the published Gooo compiler
         working-directory: .compiler
@@ -26,7 +26,7 @@ jobs:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
           GOWORK: 'off'
         run: |
-          test -z "$(gofmt -l assets.go workbench.go workbench_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go experiments/construction-loop/main.go cmd/workbench/main.go)"
+          test -z "$(gofmt -l assets.go workbench.go workbench_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go source_budget_test.go experiments/construction-loop/main.go experiments/source-budget/main.go cmd/workbench/main.go)"
           go vet ./...
           go test -race ./...
       - name: Verify typed IR body fill through the editor result contract
