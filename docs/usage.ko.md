@@ -46,12 +46,15 @@ go run ./cmd/workbench diagnose --compiler ./.gooo \
 ```
 
 이 예제의 `diagnostic.json`에는 부분 충족과 `repair-and-replay`가 남습니다.
-`observation.json`은 실제 값에서 다시 센17/21필드, 타입 탈락1개와 상세 내용을 담습니다.
+`observation.json`은 실제 값에서 다시 센 활동 출력 6/14, 타입 탈락 1개와 상세 내용을 담습니다.
+이 입력에는 레코드와 문자열 출력이 함께 있으므로 `unit`은 `activity_outputs`입니다.
+레코드만 있는 입력은 필드별로 집계하고 `record_fields`로 표시합니다.
+`--input`에는 `gooo package execute`, `resume`, `replay`의 JSON 영수증도 넣을 수 있습니다.
 외부 프로그램이 이 두 파일을 읽어 다음 작업을 만들 수 있습니다. 현재 도구는
 작업을 분류하고 구성합니다. 본문을 자동으로 수정하는 후속 실행기는 별도 구현 과제입니다.
 
 `captured-input.json`은 원래 입력 전체를 보관합니다. 전달할 상세 문장은
-현재 Text 입력의1,024바이트 범위에 맞춥니다. 상세가 더 길면 남은 필드 수와
+현재 Text 입력의 1,024바이트 범위에 맞춥니다. 상세가 더 길면 집계 단위·불일치 수와
 타입 탈락 수·원본 SHA256을 전달하고 `detail_limited`를 표시합니다.
 같은 결과의 필드 차이는 필드명 순서로 기록합니다.
 
