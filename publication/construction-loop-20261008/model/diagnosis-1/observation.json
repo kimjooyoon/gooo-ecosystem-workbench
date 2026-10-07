@@ -1,0 +1,21 @@
+{
+  "construction": [
+    {
+      "activity_id": "gooo-workspace://activity/gooo-package2activity-diagnose",
+      "matched": 5,
+      "total": 5,
+      "scored": 2,
+      "ranked": 8,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "consistent": true
+    }
+  ],
+  "unit": "activity_outputs",
+  "passed": 4,
+  "total": 4,
+  "rejected": 0,
+  "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+  "input_sha256": "ce65332b5df0ad701a8aedf152c38274f412aa13fc9efa26ad18e3564b9eced3"
+}

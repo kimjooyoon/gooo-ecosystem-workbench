@@ -1,0 +1,123 @@
+{
+  "schema": "gooo/construction-loop-study/v1",
+  "date": "2026-10-08",
+  "workbench_source": "a5a7b9c81f95e7233fb6899dc538ed69e4c60df7",
+  "compiler_source": "6fc331af1c4e2504e2d6e0cfe7222213ad45735b",
+  "initial_receipt_compiler": "e411aafeaf674e61d6998197f6d80b94d155d0f1",
+  "scope": "Two sequential bounded loops over one published workspace and finite input suite; explicit continuation policy; no source or model changes; uncontrolled host and caches.",
+  "round_limit_observation": "One diagnostic round retained resume-candidates as a proposal and dispatched no resume.",
+  "rows": [
+    {
+      "route": "deterministic",
+      "initial_native": [
+        2,
+        4
+      ],
+      "resumed_native": [
+        4,
+        4
+      ],
+      "new_resume_model_calls": 0,
+      "diagnostics": [
+        {
+          "round": 0,
+          "code": "partial",
+          "action": "resume-candidates",
+          "construction": {
+            "activity_id": "gooo-workspace://activity/gooo-package2activity-diagnose",
+            "matched": 3,
+            "total": 5,
+            "scored": 1,
+            "ranked": 8,
+            "budget": 8,
+            "observed": true,
+            "budget_known": true,
+            "consistent": true
+          },
+          "new_diagnostic_model_calls": 0,
+          "prediction_ns": 0
+        },
+        {
+          "round": 1,
+          "code": "complete",
+          "action": "observe-new-inputs",
+          "construction": {
+            "activity_id": "gooo-workspace://activity/gooo-package2activity-diagnose",
+            "matched": 5,
+            "total": 5,
+            "scored": 4,
+            "ranked": 8,
+            "budget": 8,
+            "observed": true,
+            "budget_known": true,
+            "consistent": true
+          },
+          "new_diagnostic_model_calls": 0,
+          "prediction_ns": 0
+        }
+      ],
+      "wall_seconds": 2.33,
+      "user_seconds": 0.82,
+      "system_seconds": 0.57,
+      "max_rss_bytes": 87179264,
+      "initial_sha256": "c8e3ac2194f84b3fe235c57d3396f0d149f4f4451672fa59dc752e18fa995838",
+      "resumed_sha256": "af988f0adfac4e9928ff40d225b2358788c2d4d74b6faae2041b9facbab2108b"
+    },
+    {
+      "route": "model",
+      "initial_native": [
+        2,
+        4
+      ],
+      "resumed_native": [
+        4,
+        4
+      ],
+      "new_resume_model_calls": 0,
+      "diagnostics": [
+        {
+          "round": 0,
+          "code": "partial",
+          "action": "resume-candidates",
+          "construction": {
+            "activity_id": "gooo-workspace://activity/gooo-package2activity-diagnose",
+            "matched": 3,
+            "total": 5,
+            "scored": 1,
+            "ranked": 8,
+            "budget": 8,
+            "observed": true,
+            "budget_known": true,
+            "consistent": true
+          },
+          "new_diagnostic_model_calls": 1,
+          "prediction_ns": 16083
+        },
+        {
+          "round": 1,
+          "code": "complete",
+          "action": "observe-new-inputs",
+          "construction": {
+            "activity_id": "gooo-workspace://activity/gooo-package2activity-diagnose",
+            "matched": 5,
+            "total": 5,
+            "scored": 2,
+            "ranked": 8,
+            "budget": 8,
+            "observed": true,
+            "budget_known": true,
+            "consistent": true
+          },
+          "new_diagnostic_model_calls": 1,
+          "prediction_ns": 18208
+        }
+      ],
+      "wall_seconds": 1.8,
+      "user_seconds": 0.84,
+      "system_seconds": 0.55,
+      "max_rss_bytes": 87326720,
+      "initial_sha256": "c361c37a3b61afdc495f3c1947f40407e7cfbf6ce7ada57d9172c503e8a14e6a",
+      "resumed_sha256": "ce65332b5df0ad701a8aedf152c38274f412aa13fc9efa26ad18e3564b9eced3"
+    }
+  ]
+}
