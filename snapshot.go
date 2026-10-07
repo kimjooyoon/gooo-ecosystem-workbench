@@ -68,6 +68,7 @@ func ReadSnapshot(raw []byte) (Snapshot, error) {
 	if err = json.Unmarshal(raw, &r); err != nil {
 		return s, err
 	}
+	s.Construction = constructionObservations(r)
 	if counts.FieldsTotal > 0 && recordFieldUnit(r) {
 		s.Unit, s.Passed, s.Total = "record_fields", int64(counts.FieldsPassed), int64(counts.FieldsTotal)
 	}

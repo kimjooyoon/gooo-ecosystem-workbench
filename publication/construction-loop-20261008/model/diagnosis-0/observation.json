@@ -1,0 +1,21 @@
+{
+  "construction": [
+    {
+      "activity_id": "gooo-workspace://activity/gooo-package2activity-diagnose",
+      "matched": 3,
+      "total": 5,
+      "scored": 1,
+      "ranked": 8,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "consistent": true
+    }
+  ],
+  "unit": "activity_outputs",
+  "passed": 2,
+  "total": 4,
+  "rejected": 0,
+  "detail": "{\"gaps\":[{\"activity\":\"gooo-workspace://activity/gooo-package3activity-main\",\"actual\":\"partial: 네 필드가 남았습니다 [accept]\",\"expected\":\"partial: 네 필드가 남았습니다 [repair-and-replay]\"},{\"activity\":\"gooo-workspace://activity/gooo-package3activity-main\",\"actual\":\"partial: two outputs differ [accept]\",\"expected\":\"partial: two outputs differ [expand-examples]\"}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+  "input_sha256": "c361c37a3b61afdc495f3c1947f40407e7cfbf6ce7ada57d9172c503e8a14e6a"
+}

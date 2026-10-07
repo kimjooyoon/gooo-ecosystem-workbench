@@ -20,12 +20,13 @@ import (
 
 type Options struct{ Compiler, Model, Out string }
 type Snapshot struct {
-	Unit     string `json:"unit"`
-	Passed   int64  `json:"passed"`
-	Total    int64  `json:"total"`
-	Rejected int64  `json:"rejected"`
-	Detail   string `json:"detail"`
-	InputSHA string `json:"input_sha256,omitempty"`
+	Construction []ConstructionObservation `json:"construction,omitempty"`
+	Unit         string                    `json:"unit"`
+	Passed       int64                     `json:"passed"`
+	Total        int64                     `json:"total"`
+	Rejected     int64                     `json:"rejected"`
+	Detail       string                    `json:"detail"`
+	InputSHA     string                    `json:"input_sha256,omitempty"`
 }
 type Project struct {
 	Filename string `json:"filename"`
@@ -151,13 +152,19 @@ type CompletenessReceipt struct {
 type constructionStep struct {
 	Generation struct {
 		Report struct {
-			Assembly *struct {
-				Calls    int `json:"model_calls"`
-				Passed   int `json:"fields_passed"`
-				Total    int `json:"fields_total"`
-				Attempts []struct {
-					Status string `json:"status"`
-					Reason string `json:"reason"`
+			ActivityID string `json:"activity_id"`
+			Assembly   *struct {
+				CasePassed *int64               `json:"passed"`
+				CaseTotal  *int64               `json:"total"`
+				Ranking    []uint16             `json:"ranking"`
+				Control    *constructionControl `json:"control"`
+				Calls      int                  `json:"model_calls"`
+				Passed     int                  `json:"fields_passed"`
+				Total      int                  `json:"fields_total"`
+				Attempts   []struct {
+					Mask   *uint16 `json:"mask"`
+					Status string  `json:"status"`
+					Reason string  `json:"reason"`
 				} `json:"attempts"`
 			} `json:"record_assembly"`
 		} `json:"report"`
@@ -178,6 +185,7 @@ type result struct {
 		Passed int    `json:"finite_passed"`
 		Total  int    `json:"finite_total"`
 		Traces []struct {
+			CaseIndex  int `json:"case_index"`
 			Deliveries []struct {
 				ID       string          `json:"activity_id"`
 				Actual   json.RawMessage `json:"actual"`
@@ -1137,6 +1145,24 @@ func Diagnose(ctx context.Context, o Options, s Snapshot) (json.RawMessage, erro
 	var actual json.RawMessage
 	if e = actualFor(r, "diagnostics://activity/diagnose", &actual); e != nil {
 		return nil, e
+	}
+	if len(s.Construction) > 0 {
+		plans, err := constructionNextSteps(ctx, o, root, s)
+		if err != nil {
+			return nil, err
+		}
+		var diagnostic map[string]json.RawMessage
+		if err = json.Unmarshal(actual, &diagnostic); err != nil {
+			return nil, err
+		}
+		diagnostic["construction_next_steps"], err = json.Marshal(plans)
+		if err != nil {
+			return nil, err
+		}
+		actual, err = json.Marshal(diagnostic)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return actual, write(filepath.Join(root, "diagnostic.json"), append(actual, '\n'))
 }

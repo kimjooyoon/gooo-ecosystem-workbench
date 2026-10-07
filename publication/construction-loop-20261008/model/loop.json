@@ -1,0 +1,24 @@
+{
+  "events": [
+    {
+      "round": 0,
+      "receipt": "initial.json",
+      "actions": [
+        "resume-candidates"
+      ],
+      "resumed": true
+    },
+    {
+      "round": 1,
+      "receipt": "resumed-0.json",
+      "actions": [
+        "observe-new-inputs"
+      ],
+      "resumed": false
+    }
+  ],
+  "final_receipt": "resumed-0.json",
+  "schema": "gooo/construction-loop-experiment/v1",
+  "scope": "bounded dispatch of Gooo proposals with an explicit workspace and policy; no source changes or model training",
+  "stop_reason": "no-resume-proposal"
+}
