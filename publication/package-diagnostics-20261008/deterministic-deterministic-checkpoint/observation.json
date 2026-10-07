@@ -1,0 +1,8 @@
+{
+  "unit": "activity_outputs",
+  "passed": 2,
+  "total": 4,
+  "rejected": 0,
+  "detail": "{\"gaps\":[{\"activity\":\"gooo-workspace://activity/gooo-package3activity-main\",\"actual\":\"complete: All observed fields matched. [repair-and-replay]\",\"expected\":\"partial: 네 필드가 남았습니다 [repair-and-replay]\"},{\"activity\":\"gooo-workspace://activity/gooo-package3activity-main\",\"actual\":\"complete: All observed fields matched. [expand-examples]\",\"expected\":\"partial: two outputs differ [expand-examples]\"}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+  "input_sha256": "c8e3ac2194f84b3fe235c57d3396f0d149f4f4451672fa59dc752e18fa995838"
+}

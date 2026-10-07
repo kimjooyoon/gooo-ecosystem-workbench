@@ -164,7 +164,7 @@ func TestSnapshotRecountsTheRetainedPartialProgram(t *testing.T) {
 		t.Fatal(err)
 	}
 	s, err := ReadSnapshot(raw)
-	if err != nil || s.Passed != 17 || s.Total != 21 || s.Rejected != 1 || !strings.Contains(s.Detail, "deferred") {
+	if err != nil || s.Unit != "activity_outputs" || s.Passed != 6 || s.Total != 14 || s.Rejected != 1 || !strings.Contains(s.Detail, `"gaps":8`) {
 		t.Fatal(s, err)
 	}
 	if _, err = ReadSnapshot([]byte(`{"detail":"missing observations"}`)); err == nil {

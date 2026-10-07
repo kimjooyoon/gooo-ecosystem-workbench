@@ -12,7 +12,6 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime/debug"
-	"slices"
 	"strings"
 	"time"
 
@@ -21,6 +20,7 @@ import (
 
 type Options struct{ Compiler, Model, Out string }
 type Snapshot struct {
+	Unit     string `json:"unit"`
 	Passed   int64  `json:"passed"`
 	Total    int64  `json:"total"`
 	Rejected int64  `json:"rejected"`
@@ -148,26 +148,29 @@ type CompletenessReceipt struct {
 	ProvenanceEvidence         string `json:"provenance_evidence"`
 	FirstUnresolvedStage       string `json:"first_unresolved_stage"`
 }
+type constructionStep struct {
+	Generation struct {
+		Report struct {
+			Assembly *struct {
+				Calls    int `json:"model_calls"`
+				Passed   int `json:"fields_passed"`
+				Total    int `json:"fields_total"`
+				Attempts []struct {
+					Status string `json:"status"`
+					Reason string `json:"reason"`
+				} `json:"attempts"`
+			} `json:"record_assembly"`
+		} `json:"report"`
+	} `json:"generation"`
+}
+
 type result struct {
 	Generated   bool `json:"generated_now"`
 	Composition struct {
-		OriginalSourceSHA string `json:"original_source_sha256"`
-		GeneratedSHA      string `json:"generated_sha256"`
-		Steps             []struct {
-			Generation struct {
-				Report struct {
-					Assembly *struct {
-						Calls    int `json:"model_calls"`
-						Passed   int `json:"fields_passed"`
-						Total    int `json:"fields_total"`
-						Attempts []struct {
-							Status string `json:"status"`
-							Reason string `json:"reason"`
-						} `json:"attempts"`
-					} `json:"record_assembly"`
-				} `json:"report"`
-			} `json:"generation"`
-		} `json:"steps"`
+		OriginalSourceSHA string             `json:"original_source_sha256"`
+		GeneratedSHA      string             `json:"generated_sha256"`
+		Steps             []constructionStep `json:"steps"`
+		Preparations      []constructionStep `json:"preparations"`
 	} `json:"composition"`
 	Runtime struct {
 		Source string `json:"producer_source_sha"`
@@ -296,77 +299,6 @@ func decodeValue(raw []byte) (any, error) {
 	return v, e
 }
 
-// ReadSnapshot accepts a compiler body-compose result or explicit counters.
-// It recounts actual values and transports the remaining gaps to the Gooo recipe.
-func ReadSnapshot(raw []byte) (Snapshot, error) {
-	var keys map[string]json.RawMessage
-	if err := json.Unmarshal(raw, &keys); err != nil {
-		return Snapshot{}, err
-	}
-	if keys["runtime"] == nil {
-		if keys["passed"] == nil || keys["total"] == nil {
-			return Snapshot{}, fmt.Errorf("provide a body-compose result or passed/total counters")
-		}
-		var s Snapshot
-		err := json.Unmarshal(raw, &s)
-		return s, err
-	}
-	counts, err := summarize(raw, "observation", "captured")
-	if err != nil {
-		return Snapshot{}, err
-	}
-	s := Snapshot{Passed: int64(counts.NamedPassed), Total: int64(counts.NamedTotal), Rejected: int64(counts.Rejected), InputSHA: fmt.Sprintf("%x", sha256.Sum256(raw))}
-	if counts.FieldsTotal > 0 {
-		s.Passed, s.Total = int64(counts.FieldsPassed), int64(counts.FieldsTotal)
-	}
-	var r result
-	if err = json.Unmarshal(raw, &r); err != nil {
-		return s, err
-	}
-	var gaps []map[string]any
-	var rejected []string
-	for _, trace := range r.Runtime.Traces {
-		for _, value := range trace.Deliveries {
-			if len(value.Expected) == 0 {
-				continue
-			}
-			actual, _ := decodeValue(value.Actual)
-			expected, _ := decodeValue(value.Expected)
-			if fields, ok := expected.(map[string]any); ok && counts.FieldsTotal > 0 {
-				a, _ := actual.(map[string]any)
-				names := make([]string, 0, len(fields))
-				for field := range fields {
-					names = append(names, field)
-				}
-				slices.Sort(names)
-				for _, field := range names {
-					want := fields[field]
-					got, exists := a[field]
-					if !exists || !reflect.DeepEqual(got, want) {
-						gaps = append(gaps, map[string]any{"activity": value.ID, "field": field, "actual": got, "expected": want})
-					}
-				}
-			} else if counts.FieldsTotal == 0 && !reflect.DeepEqual(actual, expected) {
-				gaps = append(gaps, map[string]any{"activity": value.ID, "actual": actual, "expected": expected})
-			}
-		}
-	}
-	for _, step := range r.Composition.Steps {
-		if a := step.Generation.Report.Assembly; a != nil {
-			for _, trial := range a.Attempts {
-				if trial.Status == "TYPECHECK_FAILED" {
-					rejected = append(rejected, trial.Reason)
-				}
-			}
-		}
-	}
-	detail, err := json.Marshal(map[string]any{"gaps": gaps, "type_rejections": rejected})
-	if len(detail) > 1024 {
-		detail, err = json.Marshal(map[string]any{"detail_limited": true, "field_gaps": len(gaps), "type_rejections": len(rejected), "input_sha256": s.InputSHA})
-	}
-	s.Detail = string(detail)
-	return s, err
-}
 func summarize(raw []byte, recipe, mode string) (Summary, error) {
 	s := Summary{Recipe: recipe, Mode: mode, ResultSHA: fmt.Sprintf("%x", sha256.Sum256(raw))}
 	var r result
@@ -374,14 +306,16 @@ func summarize(raw []byte, recipe, mode string) (Summary, error) {
 		return s, e
 	}
 	s.CompilerSource = r.Runtime.Source
-	for _, step := range r.Composition.Steps {
-		if a := step.Generation.Report.Assembly; a != nil {
-			s.ModelCalls += a.Calls
-			s.SelectionPassed += a.Passed
-			s.SelectionTotal += a.Total
-			for _, attempt := range a.Attempts {
-				if attempt.Status == "TYPECHECK_FAILED" {
-					s.Rejected++
+	for _, steps := range [][]constructionStep{r.Composition.Preparations, r.Composition.Steps} {
+		for _, step := range steps {
+			if a := step.Generation.Report.Assembly; a != nil {
+				s.ModelCalls += a.Calls
+				s.SelectionPassed += a.Passed
+				s.SelectionTotal += a.Total
+				for _, attempt := range a.Attempts {
+					if attempt.Status == "TYPECHECK_FAILED" {
+						s.Rejected++
+					}
 				}
 			}
 		}

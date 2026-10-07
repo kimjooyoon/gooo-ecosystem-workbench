@@ -41,9 +41,9 @@
         "Diagnose": {
           "action": "accept",
           "code": "complete",
-          "message": "All observed fields matched."
+          "message": "All observed expectations matched."
         },
-        "Explain": "complete: All observed fields matched. [accept]",
+        "Explain": "complete: All observed expectations matched. [accept]",
         "ObservationEcho": "historical rejections retained"
       },
       "inputs": {

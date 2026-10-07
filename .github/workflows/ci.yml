@@ -26,7 +26,7 @@ jobs:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
           GOWORK: 'off'
         run: |
-          test -z "$(gofmt -l assets.go workbench.go workbench_test.go cmd/workbench/main.go)"
+          test -z "$(gofmt -l assets.go workbench.go workbench_test.go snapshot.go workspace_snapshot_test.go cmd/workbench/main.go)"
           go vet ./...
           go test -race ./...
       - name: Verify typed IR body fill through the editor result contract

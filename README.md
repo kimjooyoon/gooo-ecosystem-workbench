@@ -70,15 +70,31 @@ Go 생성 결과가 남습니다. 만든 파일을 수정해 다음 프로그램
 
 ## 실행 결과를 다음 작업으로 연결하기
 
-`diagnose`는 기존 `body-compose` 결과에서 실제 값과 기대값을 다시 비교합니다.
-레코드 필드가 있으면 그 충족 수를 사용하고, 타입 탈락 이유와 남은 값도 전달합니다.
-공개 부분 결과는 **17/21필드·타입 탈락1개**이며, Gooo 진단 프로그램이
-`partial`과 `repair-and-replay`를 반환합니다. 다음 작업을 받는 프로그램은
-`diagnostic.json`과 원래 조립 기록을 함께 사용할 수 있습니다.
+`diagnose`는 `body-compose` 결과와 `gooo package execute` / `resume` / `replay`
+실행 영수증을 읽어 실제 값과 기대값을 다시 비교합니다. 보조 함수와 루트 활동의
+타입 탈락 기록도 함께 전달합니다. 부분 충족 여부와 다음 작업은
+[진단 Gooo 소스](recipes/diagnostics.gooo)가 계산합니다.
 
-원래 입력은 `captured-input.json`에 보관합니다. 상세 문장이 현재 컴파일러의
-1,024바이트 입력 범위를 넘으면, 남은 필드 수·타입 탈락 수·원본 해시를 담은
-요약을 전달합니다. 원본 기록으로 개별 값을 다시 확인할 수 있습니다.
+`observation.json`의 `unit`은 집계 단위를 표시합니다.
+
+- `activity_outputs`: 숫자·문자·레코드가 섞인 경우, 기대값이 있는 활동 출력 전체를 비교합니다.
+- `record_fields`: 모든 기대 출력이 비어 있지 않은 레코드이고 실제 값에 추가 필드가 없으면 필드별로 비교합니다.
+- `provided_counts`: 사용자가 직접 제공한 `passed` / `total`을 사용합니다.
+
+공개 부분 결과는 **활동 출력 6/14·타입 탈락 1개**입니다. 이전 도구는 레코드의
+17/21필드만 집계해, 함께 실행한 문자열 출력 7개를 분모에서 빠뜨렸습니다.
+이제 두 종류를 모두 포함하며, 진단 결과는 `partial`과 `repair-and-replay`입니다.
+기대값이 없는 실행은 0/0으로 남고 `unobserved`로 분류됩니다.
+
+```sh
+go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
+  --model builtin --out out/package-diagnosis
+```
+
+원래 입력은 `captured-input.json`에, 그 전체의 SHA256은 `observation.json`에
+보관합니다. 상세가 1,024바이트를 넘으면 집계 단위·불일치 수·타입 탈락 수·원본
+해시를 전달합니다. 개별 값은 원본 기록에서 확인할 수 있습니다. 모델을 생략해도
+같은 Gooo 진단 규칙으로 실행됩니다. 다음 행동은 제안이며 후속 코드 수정은 별도 실행입니다.
 
 ## 작은 도메인 사례: 인보이스 승인
 
