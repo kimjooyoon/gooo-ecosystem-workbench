@@ -1,0 +1,5 @@
+{"schema":"gooo/body-composition-cases/v1","cases":[
+{"inputs":{"Main":-9223372036854775808},"expected":{"Main":1}},
+{"inputs":{"Main":9007199254740993},"expected":{"Main":1}},
+{"inputs":{"Main":-7},"expected":{"Main":1}}
+]}

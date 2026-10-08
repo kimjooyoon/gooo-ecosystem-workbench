@@ -14,7 +14,19 @@ func jointInput(s Snapshot) map[string]any {
 		"caller_passed": j.CallerPassed, "caller_total": j.CallerTotal,
 		"evaluation_passed": s.Passed, "evaluation_total": s.Total,
 		"program_attempts": j.ProgramAttempts, "program_budget": j.ProgramBudget,
+		"program_faults": j.NativeFaults, "program_blocked": j.BlockedActivities,
+		"evaluation_faults": nativeActivityCount(s, false), "evaluation_blocked": nativeActivityCount(s, true),
 		"more_candidates": j.MoreCandidates, "other_inputs": *j.Inputs.Other}
+}
+
+func nativeActivityCount(s Snapshot, blocked bool) int64 {
+	if s.NativeOutcomes == nil {
+		return 0
+	}
+	if blocked {
+		return s.NativeOutcomes.BlockedActivities
+	}
+	return s.NativeOutcomes.FaultedActivities
 }
 
 func diagnoseJoint(ctx context.Context, o Options, root string, s Snapshot) (json.RawMessage, error) {

@@ -1,0 +1,161 @@
+{
+  "stop_reason": "add-different-evaluation-inputs",
+  "rounds": [
+    {
+      "program_attempts": 1,
+      "program_budget": 1,
+      "action": "add-counterexamples-to-construction"
+    },
+    {
+      "program_attempts": 1,
+      "program_budget": 1,
+      "action": "rerun-with-larger-program-budget"
+    },
+    {
+      "program_attempts": 2,
+      "program_budget": 2,
+      "action": "rerun-with-larger-program-budget"
+    },
+    {
+      "program_attempts": 4,
+      "program_budget": 4,
+      "action": "rerun-with-larger-program-budget"
+    },
+    {
+      "program_attempts": 6,
+      "program_budget": 8,
+      "action": "add-different-evaluation-inputs"
+    }
+  ],
+  "final_evaluation": {
+    "joint_construction": {
+      "initial_local_construction": [
+        {
+          "activity_id": "budgetplan://activity/plan-budget",
+          "kind": "source_fill",
+          "matched": 1,
+          "total": 1,
+          "scored": 4,
+          "rejected": 2,
+          "ranked": 6,
+          "budget": 6,
+          "observed": true,
+          "budget_known": true,
+          "budget_source": "source_contract",
+          "consistent": true,
+          "omitted": 0,
+          "space_known": true
+        }
+      ],
+      "program_history": [
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "PlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "PlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 2,
+          "caller_total": 2
+        }
+      ],
+      "program_attempts": 6,
+      "rejected_attempts": 2,
+      "native_program_attempts": 4,
+      "native_fault_attempts": 1,
+      "selected_faulted_activities": 0,
+      "selected_blocked_activities": 0,
+      "program_budget": 8,
+      "candidate_space": "6",
+      "candidate_kinds": [
+        "source_fill_index"
+      ],
+      "more_candidates": false,
+      "selected_attempt": 5,
+      "local_passed": 1,
+      "local_total": 1,
+      "fill_holdout_passed": 1,
+      "fill_holdout_total": 1,
+      "caller_passed": 2,
+      "caller_total": 2,
+      "decision": "COMPLETE_FINITE",
+      "stop_reason": "LOCAL_AND_CALLER_CASES_MATCHED",
+      "construction_replayed": true,
+      "new_model_calls": 0,
+      "reported_evaluation_inputs": {
+        "unique_inputs": 4,
+        "duplicate_rows": 0,
+        "construction_inputs": 0,
+        "other_inputs": 4,
+        "scope": "unique caller root-input tuples compared with consumed construction cases; local-example and model-training exposure are not established by this metric"
+      }
+    },
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "0a99f4402e70e73d80ac488d6e39f3b9f971380a741f15ee45fc85a98b13d6fd"
+  }
+}

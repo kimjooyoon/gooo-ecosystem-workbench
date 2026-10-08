@@ -65,6 +65,18 @@ func ReadSnapshot(raw []byte) (Snapshot, error) {
 			return Snapshot{}, fmt.Errorf("native runtime observation requires %s", field)
 		}
 	}
+	if observed, handled, err := readNativeOutcomes(keys["runtime"], inputSHA); err != nil || handled {
+		if err == nil {
+			var original result
+			if err = json.Unmarshal(raw, &original); err == nil {
+				observed.Construction = constructionObservations(original)
+				counts, countErr := summarize(raw, "observation", "captured")
+				err = countErr
+				observed.Rejected = int64(counts.Rejected)
+			}
+		}
+		return observed, err
+	}
 	counts, err := summarize(raw, "observation", "captured")
 	if err != nil {
 		return Snapshot{}, err

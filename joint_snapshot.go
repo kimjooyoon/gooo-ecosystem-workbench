@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/big"
 	"reflect"
+	"slices"
 )
 
 // JointObservation separates historical local preparation, whole-program search,
@@ -15,6 +16,9 @@ type JointObservation struct {
 	ProgramAttempts       int64                     `json:"program_attempts"`
 	RejectedAttempts      int64                     `json:"rejected_attempts"`
 	NativeProgramAttempts int64                     `json:"native_program_attempts"`
+	NativeFaultAttempts   int64                     `json:"native_fault_attempts"`
+	NativeFaults          int64                     `json:"selected_faulted_activities"`
+	BlockedActivities     int64                     `json:"selected_blocked_activities"`
 	ProgramBudget         int64                     `json:"program_budget"`
 	CandidateSpace        string                    `json:"candidate_space"`
 	CandidateKinds        []string                  `json:"candidate_kinds,omitempty"`
@@ -34,6 +38,7 @@ type JointObservation struct {
 }
 
 type JointAttemptObservation struct {
+	NativeOutcomes    *NativeOutcomes            `json:"native_outcomes,omitempty"`
 	Rejection         *JointRejectionObservation `json:"rejection,omitempty"`
 	LocalPassed       int64                      `json:"local_passed"`
 	LocalTotal        int64                      `json:"local_total"`
@@ -99,7 +104,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		return Snapshot{}, err
 	}
 	c, e := r.Construction, r.Evaluation
-	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" && c.Schema != "gooo/joint-construction/v3" && c.Schema != "gooo/joint-construction/v4" && c.Schema != "gooo/joint-construction/v5" || c.Stage != "COMPLETE" || c.Failure != "" ||
+	if !slices.Contains([]string{"gooo/joint-construction/v1", "gooo/joint-construction/v2", "gooo/joint-construction/v3", "gooo/joint-construction/v4", "gooo/joint-construction/v5", "gooo/joint-construction/v6"}, c.Schema) || c.Stage != "COMPLETE" || c.Failure != "" ||
 		c.Budget == nil || *c.Budget < 1 || *c.Budget > 64 || c.Selected == nil || *c.Selected < 0 || *c.Selected >= len(c.Attempts) ||
 		r.Generated == nil || e.Replayed == nil || *r.Generated == *e.Replayed || e.Calls == nil || *e.Calls != 0 {
 		return Snapshot{}, fmt.Errorf("joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation")
@@ -135,8 +140,8 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			initialFillRejections += o.Rejected
 		}
 	}
-	if initialFillRejections > 0 && c.Schema != "gooo/joint-construction/v5" {
-		return Snapshot{}, fmt.Errorf("initial fill rejections require v5")
+	if initialFillRejections > 0 && c.Schema != "gooo/joint-construction/v5" && c.Schema != "gooo/joint-construction/v6" {
+		return Snapshot{}, fmt.Errorf("initial fill rejections require v5/v6")
 	}
 	fillRejected := false
 	for index, a := range c.Attempts {
@@ -148,8 +153,13 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			j.RejectedAttempts++
 			fillRejected = fillRejected || a.Rejection.Stage == "LOCAL_SOURCE_FILL"
 		} else {
-			if _, err := readJointRuntime(a.Runtime); err != nil {
+			native, err := readJointRuntime(a.Runtime)
+			if err != nil {
 				return Snapshot{}, fmt.Errorf("joint attempt %d caller: %w", index, err)
+			}
+			o.NativeOutcomes = native.NativeOutcomes
+			if o.NativeOutcomes != nil {
+				j.NativeFaultAttempts++
 			}
 			// Caller scores use whole named outputs even when they return records.
 			summary, err := summarize(append(append([]byte(`{"runtime":`), a.Runtime...), '}'), "caller", "recorded")
@@ -223,6 +233,9 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		j.History = append(j.History, o)
 	}
 	selected := j.History[j.SelectedAttempt]
+	if (c.Schema == "gooo/joint-construction/v6") != (j.NativeFaultAttempts > 0) {
+		return Snapshot{}, fmt.Errorf("v6 must describe native fault observations")
+	}
 	if c.Schema == "gooo/joint-construction/v5" && initialFillRejections == 0 && !fillRejected {
 		return Snapshot{}, fmt.Errorf("v5 requires a recorded fill rejection")
 	}
@@ -232,7 +245,11 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 	j.LocalPassed, j.LocalTotal = selected.LocalPassed, selected.LocalTotal
 	j.FillHoldoutPassed, j.FillHoldoutTotal = selected.FillHoldoutPassed, selected.FillHoldoutTotal
 	j.CallerPassed, j.CallerTotal = selected.CallerPassed, selected.CallerTotal
-	complete := j.LocalPassed == j.LocalTotal && j.CallerTotal > 0 && j.CallerPassed == j.CallerTotal
+	if selected.NativeOutcomes != nil {
+		j.NativeFaults, j.BlockedActivities = selected.NativeOutcomes.FaultedActivities, selected.NativeOutcomes.BlockedActivities
+	}
+	complete := j.LocalPassed == j.LocalTotal && j.CallerTotal > 0 && j.CallerPassed == j.CallerTotal &&
+		j.NativeFaults == 0 && j.BlockedActivities == 0
 	wantDecision, wantStop := "PARTIAL_FINITE", "PROGRAM_BUDGET_EXHAUSTED"
 	if !j.MoreCandidates {
 		wantStop = "DECLARED_SPACE_EXHAUSTED"

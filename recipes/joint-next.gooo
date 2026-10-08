@@ -10,6 +10,10 @@ entity Observation id "gooo://jointnext/observation" fields {
     field evaluation_total id "gooo://jointnext/evaluation-total" type integer required one
     field program_attempts id "gooo://jointnext/program-attempts" type integer required one
     field program_budget id "gooo://jointnext/program-budget" type integer required one
+    field program_faults id "gooo://jointnext/program-faults" type integer required one
+    field program_blocked id "gooo://jointnext/program-blocked" type integer required one
+    field evaluation_faults id "gooo://jointnext/evaluation-faults" type integer required one
+    field evaluation_blocked id "gooo://jointnext/evaluation-blocked" type integer required one
     field more_candidates id "gooo://jointnext/more-candidates" type boolean required one
     field other_inputs id "gooo://jointnext/other-inputs" type integer required one
 }
@@ -20,10 +24,10 @@ entity NextStep id "gooo://jointnext/next-step" fields {
     field next_program_budget id "gooo://jointnext/next-program-budget" type integer required one
 }
 
-activity Next(Observation) -> NextStep computes `if input.local_passed < 0 || input.local_total < 1 || input.local_passed > input.local_total || input.caller_passed < 0 || input.caller_total < 1 || input.caller_passed > input.caller_total || input.evaluation_passed < 0 || input.evaluation_total < 0 || input.evaluation_passed > input.evaluation_total || input.program_attempts < 1 || input.program_attempts > input.program_budget || input.program_budget > 64 || input.other_inputs < 0 {
+activity Next(Observation) -> NextStep computes `if input.local_passed < 0 || input.local_total < 1 || input.local_passed > input.local_total || input.caller_passed < 0 || input.caller_total < 1 || input.caller_passed > input.caller_total || input.evaluation_passed < 0 || input.evaluation_total < 0 || input.evaluation_passed > input.evaluation_total || input.program_attempts < 1 || input.program_attempts > input.program_budget || input.program_budget > 64 || input.other_inputs < 0 || input.program_faults < 0 || input.program_blocked < 0 || input.evaluation_faults < 0 || input.evaluation_blocked < 0 {
     return NextStep{code: "inconsistent-observation", action: "replay-construction", message: "원래 소스와 저장한 조립 기록으로 실행 결과를 다시 확인하세요.", next_program_budget: 0}
 }
-if input.local_passed < input.local_total || input.caller_passed < input.caller_total {
+if input.local_passed < input.local_total || input.caller_passed < input.caller_total || input.program_faults > 0 || input.program_blocked > 0 {
     if input.more_candidates && input.program_budget < 64 {
         let next = input.program_budget * 2
         if next > 64 { next = 64 }
@@ -42,6 +46,9 @@ if input.evaluation_total == 0 {
 }
 if input.evaluation_passed < input.evaluation_total {
     return NextStep{code: "evaluation-gap", action: "add-counterexamples-to-construction", message: "실패한 평가 사례를 기대값 그대로 다음 조립 조건에 추가할 수 있습니다.", next_program_budget: input.program_budget}
+}
+if input.evaluation_faults > 0 || input.evaluation_blocked > 0 {
+    return NextStep{code: "evaluation-fault-outside-expectations", action: "add-fault-expectations", message: "점수를 매긴 출력은 맞았지만 다른 활동에서 실행이 실패했습니다. 해당 입력과 기대 동작을 다음 조립 조건에 추가하세요.", next_program_budget: input.program_budget}
 }
 if input.other_inputs == 0 {
     return NextStep{code: "consumed-inputs-only", action: "add-different-evaluation-inputs", message: "평가한 입력이 모두 조립에 사용됐습니다. 다른 입력에서도 결과를 관측하세요.", next_program_budget: 0}

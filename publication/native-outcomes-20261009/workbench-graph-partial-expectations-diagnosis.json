@@ -1,0 +1,24 @@
+{
+  "action": "add-fault-expectations",
+  "code": "unscored-native-fault",
+  "evaluation": {
+    "passed": 6,
+    "total": 6,
+    "unit": "activity_outputs"
+  },
+  "input_sha256": "91962dca9f444a753f3b5d38657ff9046b3ef732f2e2c7504ab82e2c7b37d4d3",
+  "message": "점수를 매긴 출력 외에 실행이 실패한 활동이 있습니다. 해당 입력의 기대 동작도 조립 조건으로 남기세요.",
+  "model_requested": false,
+  "model_used": false,
+  "native_outcomes": {
+    "matched": 6,
+    "mismatched": 0,
+    "faulted": 0,
+    "blocked": 0,
+    "unobserved": 0,
+    "faulted_activities": 1,
+    "blocked_activities": 1
+  },
+  "new_model_calls": 0,
+  "scope": "deterministic Gooo advice from recounted receipt values; diagnose does not rerun the original program or independently verify its source; no proposed action is executed"
+}

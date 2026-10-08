@@ -23,7 +23,7 @@ CI와 같은 소스를 직접 빌드할 수도 있습니다.
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin dc75f59fbee16e776dca13288efe1036d1bb5fab
+git -C .compiler fetch --depth 1 origin 3b762198b42d9ab552421b19519d3d4834b34ab3
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
@@ -36,14 +36,43 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 
 [다섯 후보 예제](../examples/caller-fill-rejection/README.md)는
 탈락한 후보를 시도 한도에 포함하고, 사례를 실행해 얻은 점수와 따로 기록하는 과정을 보여줍니다.
-실제 호출 프로그램의 실행 오류·시간 초과·취소는 요청을 종료합니다.
-이 경로의 실패 기록은 [다음 개선 사례](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에 남겼습니다.
+공개 0.6.15에서는 실제 호출 프로그램의 실행 오류가 요청을 종료합니다.
+위 개발 소스에서는 int64의 0 나눗셈·나머지 연산 실패를 기록하고 다음 조합을 확인합니다.
+시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
 `version --build --json`의 버전 문자열은 `0.6.15-dev`이며, 소스 리비전은
-위 고정한 리비전과 같습니다. 공개 파일도 같은 소스에서 빌드했습니다.
+위 고정한 리비전과 같습니다. 공개 파일은 이전 배포 소스 `dc75f59`에서 빌드했습니다.
 [버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.15-dev/docs/releases/0.6.15-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
+
+## 실행 중 계산 실패를 다음 조립에 반영하기
+
+위 개발 소스로 빌드한 `.gooo`를 지정합니다.
+
+```sh
+go run ./cmd/workbench construct --compiler ./.gooo \
+  --source examples/caller-native-failure/source.gooo --entry Main \
+  --construction-cases examples/caller-native-failure/initial-cases.json \
+  --evaluation-cases examples/caller-native-failure/evaluation-cases.json \
+  --holdout-cases examples/caller-native-failure/holdout-cases.json \
+  --max-program-budget 8 --max-rounds 5 --out out/native-fault
+```
+
+`program_attempts`는 모든 조합 시도입니다. `rejected_attempts`는 실행 전에 탈락한
+조합, `native_program_attempts`는 실행한 조합입니다. `native_fault_attempts`는
+실행한 조합 중 계산에 실패한 조합 수이므로 실행 수에 다시 더하지 않습니다.
+
+`native_outcomes`의 `matched`, `mismatched`, `faulted`, `blocked`, `unobserved`는
+기대값이 있는 출력의 결과입니다. `faulted_activities`, `blocked_activities`는
+기대값을 적지 않은 활동도 셉니다. 따라서 기대값이 있는 출력이 모두 맞아도 다른
+활동의 계산이 실패했다면 완료로 안내하지 않습니다.
+
+저장된 실행을 `diagnose`로 읽으면 [Gooo 진단 규칙](../recipes/native-next.gooo)이
+다음 작업을 제안합니다. 진단 명령은 저장된 값과 집계의 일관성을 확인합니다.
+원래 소스의 재실행은 컴파일러의 `--composition` 또는 `--construction` 경로에서 합니다.
+
+[전체 예제와 관측 범위](../examples/caller-native-failure/README.md).
 
 ## 여러 빈칸을 호출 결과로 조립하기
 

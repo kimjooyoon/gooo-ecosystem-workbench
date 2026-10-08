@@ -1,0 +1,16 @@
+--- FAIL: TestNativeFaultConstructionPreservesActualCounts (0.01s)
+    --- FAIL: TestNativeFaultConstructionPreservesActualCounts/budget-5 (0.00s)
+        native_outcome_test.go:40: joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation
+    --- FAIL: TestNativeFaultConstructionPreservesActualCounts/budget-6 (0.00s)
+        native_outcome_test.go:40: joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation
+    --- FAIL: TestNativeFaultConstructionPreservesActualCounts/budget-replay (0.00s)
+        native_outcome_test.go:40: joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation
+    --- FAIL: TestNativeFaultConstructionPreservesActualCounts/mixed-fixed (0.00s)
+        native_outcome_test.go:40: joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation
+    --- FAIL: TestNativeFaultConstructionPreservesActualCounts/mixed-model (0.00s)
+        native_outcome_test.go:40: joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation
+    --- FAIL: TestNativeFaultConstructionPreservesActualCounts/mixed-replay (0.00s)
+        native_outcome_test.go:40: joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation
+FAIL
+FAIL	github.com/kimjooyoon/gooo-ecosystem-workbench	0.455s
+FAIL
