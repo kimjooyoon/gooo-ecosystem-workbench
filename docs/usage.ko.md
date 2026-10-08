@@ -2,16 +2,23 @@
 
 ## Gooo 컴파일러 준비
 
-Go1.27.1을 사용합니다. 이 저장소에서 변경 없는 고정 컴파일러를 빌드합니다.
+Go 1.27.1을 사용합니다. CI와 같은 컴파일러 소스만 얕게 내려받아 빌드합니다.
+아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
 
 ```sh
-git clone https://github.com/kimjooyoon/meta-ontology-go.git .compiler
-git -C .compiler switch --detach 4421805b9db75e56bb97c571486afcf53f66089c
-cd .compiler
-go build -trimpath -o ../.gooo ./cmd/gooo
-cd ..
+git init .compiler
+git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
+git -C .compiler fetch --depth 1 origin 24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f
+git -C .compiler switch --detach FETCH_HEAD
+GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
+./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
+
+이 소스에는 후보가 일부 지역 변수를 쓰지 않아도 조립을 계속하는 개선이 들어 있습니다.
+공개된 0.6.7 실행 파일은 그 이전 빌드이며, 재시도 예제의 새 기본 본문을 조립할 때
+미사용 변수 오류가 납니다. 위 개발 소스도 버전 문자열은 `0.6.7-dev`이므로
+`version --build --json`의 소스 리비전을 함께 확인합니다.
 
 `summary.json`은 실제 기대값 충족 수, 선택 필드 수, 모델 호출 수와 저장 재실행
 확인을 보여줍니다. 각 작업의 `result.json`·`replay.json`과 조립 폴더도 보관합니다.
