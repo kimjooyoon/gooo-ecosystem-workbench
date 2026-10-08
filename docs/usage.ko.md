@@ -2,8 +2,8 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.1을 사용합니다. [Gooo 0.6.14 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.14-dev)의
-운영체제별 실행 파일에 여러 빈칸의 호출 기반 조립이 포함되어 있습니다.
+Go 1.27.1을 사용합니다. [Gooo 0.6.15 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.15-dev)의
+운영체제별 실행 파일에 여러 빈칸의 호출 기반 조립과 잘못된 빈칸 후보 이후의 탐색이 포함되어 있습니다.
 설치했다면 아래 명령의 `--compiler ./.gooo`에 설치한 실행 파일 경로를 지정합니다.
 `gooo`가 명령 경로에 있다면 다음처럼 바로 시작할 수 있습니다.
 
@@ -23,26 +23,25 @@ CI와 같은 소스를 직접 빌드할 수도 있습니다.
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin a6eac63de3ee602faec8788f503a2b2975bbe17b
+git -C .compiler fetch --depth 1 origin dc75f59fbee16e776dca13288efe1036d1bb5fab
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
 
-0.6.14는 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
-잘못된 정수 계산식은 이유를 남기고 다음 후보를 시도합니다.
+0.6.15는 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
+잘못된 정수 계산식과 빈칸 후보의 타입·학습용 계산 오류는 이유를 남기고 다음 후보를 시도합니다.
 패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
 
-위에 고정한 새 소스는 빈칸의 타입 오류와 조립 사례 실행 실패도 기록하고
-다음 후보로 넘어갑니다. [다섯 후보 예제](../examples/caller-fill-rejection/README.md)는
-탈락한 후보가 시도 한도에는 포함되고 정답률에는 섞이지 않는 과정을 보여줍니다.
-개발 버전 문자열은 여전히 0.6.14-dev이므로 `version --build --json`의 소스 커밋으로
-공개 0.6.14 바이너리와 구분할 수 있습니다.
+[다섯 후보 예제](../examples/caller-fill-rejection/README.md)는
+탈락한 후보를 시도 한도에 포함하고, 사례를 실행해 얻은 점수와 따로 기록하는 과정을 보여줍니다.
+실제 호출 프로그램의 실행 오류·시간 초과·취소는 요청을 종료합니다.
+이 경로의 실패 기록은 [다음 개선 사례](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에 남겼습니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.14-dev`이며, 소스 리비전은
+`version --build --json`의 버전 문자열은 `0.6.15-dev`이며, 소스 리비전은
 위 고정한 리비전과 같습니다. 공개 파일도 같은 소스에서 빌드했습니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.14-dev/docs/releases/0.6.14-dev.md)와
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.15-dev/docs/releases/0.6.15-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 
