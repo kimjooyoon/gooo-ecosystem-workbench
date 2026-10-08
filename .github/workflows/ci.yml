@@ -27,6 +27,7 @@ jobs:
           GOWORK: 'off'
         run: |
           test -z "$(gofmt -l assets.go workbench.go workbench_test.go compiler_diagnostic.go compiler_diagnostic_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go construction_search.go construction_search_test.go source_budget_test.go refine.go refine_execution.go refine_test.go search_refine_test.go search_policy_test.go calibrated_report_test.go experiments/construction-loop/main.go experiments/source-budget/main.go experiments/search-refinement/main.go experiments/search-policy/main.go experiments/calibrated-report/main.go cmd/workbench/main.go cmd/workbench/refine.go)"
+          test -z "$(gofmt -l retry_policy_test.go)"
           go vet ./...
           go test -race ./...
       - name: Verify typed IR body fill through the editor result contract
@@ -52,6 +53,16 @@ jobs:
         run: go run ./experiments/search-policy --compiler "$PWD/.gooo" --out out/ci-search-policy
       - name: Compose quadratic calibration with compact-model report fields
         run: go run ./experiments/calibrated-report --compiler "$PWD/.gooo" --out out/ci-calibrated-report
+      - name: Construct and reuse the Gooo retry policy
+        run: |
+          mkdir -p out/ci-retry-policy
+          ./.gooo body-compose --source examples/retry-policy/source.gooo --cases examples/retry-policy/cases.json --out out/ci-retry-policy/fixed > out/ci-retry-policy/fixed.json
+          ./.gooo body-compose --source examples/retry-policy/source.gooo --cases examples/retry-policy/cases.json --model models/shared-qat/model.json --out out/ci-retry-policy/model > out/ci-retry-policy/model.json
+          ./.gooo body-compose --source out/ci-retry-policy/model/original.gooo --composition out/ci-retry-policy/model/composition.json --cases examples/retry-policy/cases.json > out/ci-retry-policy/replay.json
+          for result in fixed model replay; do
+            jq -e '.runtime.finite_passed == 12 and .runtime.finite_total == 12 and .runtime.model_calls == 0' "out/ci-retry-policy/$result.json"
+          done
+          jq -e '.generated_now == false' out/ci-retry-policy/replay.json
       - name: Generate a public interface reference in Gooo
         run: go run ./cmd/workbench reference --compiler "$PWD/.gooo" --package examples/catalog --entry ApproveInvoice --out out/ci-reference
       - name: Run Korean and English capability discovery through Gooo
@@ -66,6 +77,7 @@ jobs:
         with:
           name: gooo-ecosystem-observations
           path: |
+            out/ci-retry-policy/
             out/ci-calibrated-report/
             out/ci-search-policy/
             out/ci-search-refinement/

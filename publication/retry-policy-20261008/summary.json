@@ -1,0 +1,132 @@
+{
+  "schema": "gooo/retry-policy-observation/v1",
+  "source_repository": "kimjooyoon/gooo-ecosystem-workbench",
+  "source_revision": "ec9371557b8d0e45bed814b7e49a6b0fe806a24a",
+  "compiler": {
+    "schema": "gooo/build-identity/v1",
+    "language": "gooo",
+    "version": "0.6.7-dev",
+    "status": "development",
+    "build_info_observed": true,
+    "go_version": "go1.27.1",
+    "module_version": "v0.6.4-dev.0.20261008015917-99473378b011",
+    "module": {
+      "path": "github.com/kimjooyoon/meta-ontology-go",
+      "version": "v0.6.4-dev.0.20261008015917-99473378b011"
+    },
+    "compiler_source_sha": "99473378b011dd61ab323daa96f94a5cfc2624a0",
+    "source_status": "CLEAN_VCS",
+    "vcs_revision": "99473378b011dd61ab323daa96f94a5cfc2624a0",
+    "vcs_modified": "false",
+    "decision_runtime": {
+      "module_path": "github.com/kimjooyoon/gooo-decision-runtime",
+      "version": "v0.2.24-experimental",
+      "replaced": false
+    },
+    "native_go_required": "go1.27.1"
+  },
+  "scope": "One native run of each construction mode and saved model-program replay on twelve explicit tuples. The 200-tuple arbitrary-precision oracle is a separate native regression in retry_policy_test.go. No general accuracy or end-to-end speedup claim.",
+  "fixed": {
+    "new_generation": true,
+    "plans_passed": 12,
+    "plans_total": 12,
+    "construction_cases_passed": 5,
+    "construction_cases_total": 5,
+    "construction_fields_passed": 15,
+    "construction_fields_total": 15,
+    "attempts": 8,
+    "candidate_count": 8,
+    "recorded_generation_calls": 0,
+    "new_generation_calls": 0,
+    "execution_model_calls": 0,
+    "input_separation": {
+      "status": "PASS",
+      "reason": "DISJOINT_EXPECTATIONS_MATCHED",
+      "unique_inputs": 12,
+      "duplicate_rows": 0,
+      "overlapping_inputs": 0,
+      "disjoint_inputs": 12,
+      "disjoint_cases_passed": 12,
+      "unknown_inputs": 0,
+      "scope": "unique root-input tuples; actual inputs at graph activities and constructed helper calls compared with source selection/holdout cases and recorded probes; all supplied expectations across duplicate rows must match; model-training exposure is unknown"
+    },
+    "predict_ns_recorded": 0,
+    "model": null
+  },
+  "model": {
+    "new_generation": true,
+    "plans_passed": 12,
+    "plans_total": 12,
+    "construction_cases_passed": 5,
+    "construction_cases_total": 5,
+    "construction_fields_passed": 15,
+    "construction_fields_total": 15,
+    "attempts": 1,
+    "candidate_count": 8,
+    "recorded_generation_calls": 1,
+    "new_generation_calls": 1,
+    "execution_model_calls": 0,
+    "input_separation": {
+      "status": "PASS",
+      "reason": "DISJOINT_EXPECTATIONS_MATCHED",
+      "unique_inputs": 12,
+      "duplicate_rows": 0,
+      "overlapping_inputs": 0,
+      "disjoint_inputs": 12,
+      "disjoint_cases_passed": 12,
+      "unknown_inputs": 0,
+      "scope": "unique root-input tuples; actual inputs at graph activities and constructed helper calls compared with source selection/holdout cases and recorded probes; all supplied expectations across duplicate rows must match; model-training exposure is unknown"
+    },
+    "predict_ns_recorded": 14875,
+    "model": {
+      "schema": "gooo/retained-path-model/v1",
+      "loaded": true,
+      "metadata_sha256": "f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d660059",
+      "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b",
+      "resident_tensor_bytes": 2096,
+      "setup_ms": 0.411917,
+      "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+      "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+      "feature_version": "triple_record_field_context_v1_shared_v1",
+      "arithmetic_version": "float32_separate_v1"
+    }
+  },
+  "replay": {
+    "new_generation": false,
+    "plans_passed": 12,
+    "plans_total": 12,
+    "construction_cases_passed": 5,
+    "construction_cases_total": 5,
+    "construction_fields_passed": 15,
+    "construction_fields_total": 15,
+    "attempts": 1,
+    "candidate_count": 8,
+    "recorded_generation_calls": 1,
+    "new_generation_calls": 0,
+    "execution_model_calls": 0,
+    "input_separation": {
+      "status": "PASS",
+      "reason": "DISJOINT_EXPECTATIONS_MATCHED",
+      "unique_inputs": 12,
+      "duplicate_rows": 0,
+      "overlapping_inputs": 0,
+      "disjoint_inputs": 12,
+      "disjoint_cases_passed": 12,
+      "unknown_inputs": 0,
+      "scope": "unique root-input tuples; actual inputs at graph activities and constructed helper calls compared with source selection/holdout cases and recorded probes; all supplied expectations across duplicate rows must match; model-training exposure is unknown"
+    },
+    "predict_ns_recorded": 14875,
+    "model": {
+      "schema": "gooo/retained-path-model/v1",
+      "loaded": true,
+      "metadata_sha256": "f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d660059",
+      "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b",
+      "resident_tensor_bytes": 2096,
+      "setup_ms": 0.411917,
+      "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+      "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+      "feature_version": "triple_record_field_context_v1_shared_v1",
+      "arithmetic_version": "float32_separate_v1"
+    }
+  }
+}
