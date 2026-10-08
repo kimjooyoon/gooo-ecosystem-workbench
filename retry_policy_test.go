@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -93,6 +94,23 @@ func TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries(t *testing.T) {
 			if err != nil || summary.NamedPassed != batchSize || summary.NamedTotal != batchSize || summary.FieldsPassed != 3*batchSize || summary.FieldsTotal != 3*batchSize || summary.ModelCalls != wantCalls || summary.SelectionPassed != 15 || summary.SelectionTotal != 15 {
 				t.Fatal("Gooo retry policy differs from the finite independent oracle", summary, err)
 			}
+			var built result
+			if err := json.Unmarshal(output, &built); err != nil || len(built.Composition.Steps) != 1 {
+				t.Fatal("retry construction did not retain its activity", err)
+			}
+			assembly := built.Composition.Steps[0].Generation.Report.Assembly
+			wantAttempts := 8
+			if mode == "model" {
+				wantAttempts = 1
+			}
+			if assembly == nil || len(assembly.Attempts) != wantAttempts {
+				t.Fatal("frozen retry fixture changed candidate order", assembly)
+			}
+			for _, attempt := range assembly.Attempts {
+				if attempt.Mask == nil || attempt.Status != "" || attempt.Reason != "" {
+					t.Fatal("unused candidate locals caused a rejection", attempt)
+				}
+			}
 			passed := 0
 			for _, casesPath := range casePaths {
 				replay, err := command(context.Background(), compiler, "body-compose", "--source", filepath.Join(composition, "original.gooo"), "--composition", filepath.Join(composition, "composition.json"), "--cases", casesPath)
@@ -108,6 +126,55 @@ func TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries(t *testing.T) {
 			}
 			t.Logf("%s: %d/%d distinct plans, %d/%d fields, construction calls %d, replay calls 0", mode, passed, len(cases), 3*passed, 3*len(cases), summary.ModelCalls)
 		})
+	}
+}
+
+func TestNativeRetryPolicyRetainsAnUnconnectedBaseline(t *testing.T) {
+	compiler := os.Getenv("GOOO_COMPILER")
+	if compiler == "" {
+		t.Skip("set GOOO_COMPILER for native Gooo execution")
+	}
+	source, err := os.ReadFile("examples/retry-policy/source.gooo")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Count(string(source), `attempts "8"`) != 1 {
+		t.Fatal("retry source no longer declares the eight-candidate budget")
+	}
+	root := t.TempDir()
+	sourcePath, out := filepath.Join(root, "source.gooo"), filepath.Join(root, "composition")
+	if err := write(sourcePath, []byte(strings.Replace(string(source), `attempts "8"`, `attempts "1"`, 1))); err != nil {
+		t.Fatal(err)
+	}
+	var selected string
+	for _, replay := range []bool{false, true} {
+		args := []string{"body-compose", "--source", sourcePath, "--cases", "examples/retry-policy/cases.json"}
+		if replay {
+			args = append(args, "--composition", filepath.Join(out, "composition.json"))
+		} else {
+			args = append(args, "--out", out)
+		}
+		raw, err := command(context.Background(), compiler, args...)
+		var observed result
+		if err != nil || json.Unmarshal(raw, &observed) != nil || len(observed.Composition.Steps) != 1 {
+			t.Fatal("unread locals prevented partial construction", err)
+		}
+		a := observed.Composition.Steps[0].Generation.Report.Assembly
+		if a == nil || a.CasePassed == nil || *a.CasePassed != 0 || a.CaseTotal == nil || *a.CaseTotal != 5 ||
+			a.Passed != 8 || a.Total != 15 || len(a.Attempts) != 1 || a.Calls != 0 {
+			t.Fatal("unconnected baseline lost its measured partial result", a)
+		}
+		attempt := a.Attempts[0]
+		if attempt.Mask == nil || *attempt.Mask != 0 || attempt.Status != "" || attempt.Reason != "" {
+			t.Fatal("unconnected baseline was rejected", attempt)
+		}
+		if observed.Generated == replay || observed.Runtime.Calls != 0 || observed.Runtime.Passed != 0 || observed.Runtime.Total != 12 {
+			t.Fatal("partial result acquired success or new inference", observed.Runtime)
+		}
+		if observed.Composition.GeneratedSHA == "" || (replay && selected != observed.Composition.GeneratedSHA) {
+			t.Fatal("saved baseline changed its generated program")
+		}
+		selected = observed.Composition.GeneratedSHA
 	}
 }
 

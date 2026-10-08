@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 4421805b9db75e56bb97c571486afcf53f66089c
+          ref: 24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f
           path: .compiler
       - name: Build the published Gooo compiler
         working-directory: .compiler

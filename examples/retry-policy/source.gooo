@@ -26,7 +26,7 @@ if input2 >= 0 && input3 >= 0 && input4 >= 0 && input5 >= 0 {
         }
     }
 }
-return Plan{retry: !again, delay_ms: -delay, reason: reason + "?"}` assembling {
+return Plan{retry: false, delay_ms: 0, reason: "pending"}` assembling {
     choice "retry" field_value at "0" alternative "again" intent "계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable."
     choice "delay" field_value at "1" alternative "delay" intent "상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable."
     choice "reason" field_value at "2" alternative "reason" intent "분기에서 고른 이유를 보존한다. Keep the current reason variable."
