@@ -1,0 +1,12 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs": {"Main": 3}, "expected": {"Main": 15}},
+    {"inputs": {"Main": 1}, "expected": {"Main": 5}},
+    {"inputs": {"Main": 2}, "expected": {"Main": 10}},
+    {"inputs": {"Main": 4}, "expected": {"Main": 20}},
+    {"inputs": {"Main": 0}, "expected": {"Main": 0}},
+    {"inputs": {"Main": -1}, "expected": {"Main": 0}},
+    {"inputs": {"Main": -3}, "expected": {"Main": 0}}
+  ]
+}

@@ -1,0 +1,16 @@
+package caller_model
+namespace caller_model
+entity Integer id "caller-model://integer"
+entity Plan id "caller-model://plan" fields {
+    field first id "caller-model://first" type integer required one
+    field second id "caller-model://second" type integer required one
+    field ready id "caller-model://ready" type boolean required one
+}
+activity Parts(Integer) -> Plan computes "return Plan{first: input, second: input, ready: input < 0}" assembling {
+    choice "first" field_value at "0" alternative "input * 2" intent "첫 항은 입력의 두 배이다. Double the input."
+    choice "second" field_value at "1" alternative "input * 3" intent "둘째 항은 입력의 세 배이다. Triple the input."
+    choice "ready" field_value at "2" alternative "input > 0" intent "양수일 때 합산한다. Sum for positive input."
+    value_case "[0]" -> "{\"first\":0,\"second\":0,\"ready\":false}"
+    attempts "8"
+}
+activity Main(Integer) -> Integer computes "let parts = Parts(input); if parts.ready { return parts.first + parts.second }; return 0"

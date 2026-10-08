@@ -9,13 +9,16 @@ import (
 	"slices"
 )
 
-// ReadSnapshot recounts native observations from body-compose or package execution.
+// ReadSnapshot recounts native composition, joint construction or package execution.
 // Classification and the proposed next action remain in the Gooo diagnostics recipe.
 func ReadSnapshot(raw []byte) (Snapshot, error) {
 	inputSHA := fmt.Sprintf("%x", sha256.Sum256(raw))
 	var keys map[string]json.RawMessage
 	if err := json.Unmarshal(raw, &keys); err != nil {
 		return Snapshot{}, err
+	}
+	if keys["evaluation"] != nil {
+		return readJointSnapshot(raw, inputSHA)
 	}
 	if keys["result"] != nil || keys["schema"] != nil && keys["runtime"] == nil {
 		var envelope struct {
@@ -42,6 +45,9 @@ func ReadSnapshot(raw []byte) (Snapshot, error) {
 		raw = envelope.Result
 	}
 	if keys["runtime"] == nil {
+		if keys["joint_construction"] != nil {
+			return Snapshot{}, fmt.Errorf("joint diagnosis requires the original body-construct output")
+		}
 		if !present(keys["passed"]) || !present(keys["total"]) {
 			return Snapshot{}, fmt.Errorf("provide a body-compose result, package execution receipt, or passed/total counters")
 		}

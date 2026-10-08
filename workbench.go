@@ -20,6 +20,7 @@ import (
 
 type Options struct{ Compiler, Model, Out string }
 type Snapshot struct {
+	Joint        *JointObservation         `json:"joint_construction,omitempty"`
 	Construction []ConstructionObservation `json:"construction,omitempty"`
 	Unit         string                    `json:"unit"`
 	Passed       int64                     `json:"passed"`
@@ -1142,6 +1143,9 @@ func Diagnose(ctx context.Context, o Options, s Snapshot) (json.RawMessage, erro
 	root, e := newOutput(o.Out)
 	if e != nil {
 		return nil, e
+	}
+	if s.Joint != nil {
+		return diagnoseJoint(ctx, o, root, s)
 	}
 	model, e := prepareModel(o.Model, root)
 	if e != nil {

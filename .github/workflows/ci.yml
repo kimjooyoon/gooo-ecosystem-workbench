@@ -16,16 +16,16 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 27594824ad628ef0e8362bbc1e0e034aee88e07c
+          ref: 4a0cfdd8b23f8ace5f1ad1e0d29bc35c6e61c32c
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
         run: go build -trimpath -o ../.gooo ./cmd/gooo
-      - name: Observe the released compiler identity
+      - name: Observe the pinned compiler identity
         run: |
           mkdir -p out
           ./.gooo version --build --json > out/compiler-build.json
-          jq -e '.version == "0.6.11-dev" and .go_version == "go1.27.1" and .vcs_revision == "27594824ad628ef0e8362bbc1e0e034aee88e07c" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
+          jq -e '.version == "0.6.12-dev" and .go_version == "go1.27.1" and .vcs_revision == "4a0cfdd8b23f8ace5f1ad1e0d29bc35c6e61c32c" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -36,9 +36,25 @@ jobs:
           test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go feature_audit_graph_test.go feature_audit_graph_model_test.go experiments/graph-feature-fixture/main.go)"
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
+          test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go)"
           test -z "$(gofmt -l splice.go splice_execution.go splice_test.go experiments/dependent-splice/*.go)"
           go vet ./...
           go test -race ./...
+      - name: Let Gooo drive whole-program construction budgets
+        run: |
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --source examples/joint-diagnostics/source.gooo --entry Main \
+            --construction-cases examples/joint-diagnostics/construction-cases.json \
+            --evaluation-cases examples/joint-diagnostics/evaluation-cases.json \
+            --max-program-budget 8 --max-rounds 4 --out out/ci-joint-fixed
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --source examples/joint-diagnostics/source.gooo --entry Main \
+            --construction-cases examples/joint-diagnostics/construction-cases.json \
+            --evaluation-cases examples/joint-diagnostics/evaluation-cases.json \
+            --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+            --max-program-budget 8 --max-rounds 4 --out out/ci-joint-model
+          jq -e '.stop_reason == "observe-new-inputs" and (.rounds|length) == 4 and ([.rounds[].program_attempts]|add) == 15 and .rounds[-1].evaluation_passed == 7' out/ci-joint-fixed/joint-loop.json
+          jq -e '.stop_reason == "observe-new-inputs" and (.rounds|length) == 1 and .rounds[0].program_attempts == 1 and .rounds[0].evaluation_passed == 7' out/ci-joint-model/joint-loop.json
       - name: Verify typed IR body fill through the editor result contract
         run: |
           mkdir -p out
@@ -131,6 +147,8 @@ jobs:
           name: gooo-ecosystem-observations
           path: |
             out/compiler-build.json
+            out/ci-joint-fixed/
+            out/ci-joint-model/
             out/ci-dependent-splice/
             out/ci-graph-training/
             out/ci-trained-graph-audit/

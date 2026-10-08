@@ -19,7 +19,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, splice, diagnose, refine, reference, discover, receipt, or feature-audit; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, or feature-audit; each command accepts --help")
 	}
 	if args[0] == "refine" {
 		return runRefine(args[1:])
@@ -32,9 +32,14 @@ func run(args []string) error {
 	profile := f.String("profile", "record", "starter profile: scalar, record, or library")
 	input := f.String("input", "", "splice/diagnostic/feature-audit input file, or completed verify output directory for receipt")
 	packageDir := f.String("package", "", "Gooo package directory for reference")
-	entry := f.String("entry", "", "public activity name for reference")
+	entry := f.String("entry", "", "entry activity for reference or construct")
 	query := f.String("query", "", "natural-language capability question for discover")
 	declaration := f.String("declaration", "", "optional .gooo declaration file to bind to the discovery")
+	sourceFile := f.String("source", "", "Gooo source for construct")
+	constructionCases := f.String("construction-cases", "", "caller expectations used by construct")
+	evaluationCases := f.String("evaluation-cases", "", "subsequent evaluation cases for construct")
+	maxPrograms := f.Int64("max-program-budget", 8, "construct ceiling for whole-program attempts per round (1..64)")
+	maxRounds := f.Int("max-rounds", 4, "construct ceiling for fresh construction rounds (1..16)")
 	if e := f.Parse(args[1:]); e != nil {
 		return e
 	}
@@ -45,6 +50,10 @@ func run(args []string) error {
 	var value any
 	var err error
 	switch args[0] {
+	case "construct":
+		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile,
+			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, Entry: *entry,
+			MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds})
 	case "splice":
 		if *input == "" {
 			return fmt.Errorf("splice requires --input")
@@ -105,7 +114,7 @@ func run(args []string) error {
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, diagnose, refine, reference, discover, receipt, or feature-audit", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, or feature-audit", args[0])
 	}
 	if err != nil {
 		return err
