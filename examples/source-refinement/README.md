@@ -9,6 +9,9 @@ replays the retained program, and diagnoses the result.
 The source, policy and cases come from the compiler's `assembly-feedback` example
 at `cdb60e90f911d53d7c02790579e5f72941a2b71a`.
 
+[Published deterministic, model and bounded runs](../../publication/source-refinement-20261008/README.md)
+retain successful and partial outcomes.
+
 ```sh
 go run ./cmd/workbench refine --compiler /path/to/gooo \
   --source examples/source-refinement/source.gooo --activity Select \

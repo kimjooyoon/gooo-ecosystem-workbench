@@ -1,0 +1,114 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PROGRESS",
+  "activity_id": "fieldupdates://activity/select",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 2,
+        "total": 5,
+        "scored": 2,
+        "ranked": 8,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 6,
+    "total": 14,
+    "rejected": 0,
+    "detail": "{\"detail_limited\":true,\"gaps\":8,\"input_sha256\":\"9f0d52d9b34497d0399f55a86ee0ede11beac242b6a7da41ea5bd394614fbc24\",\"type_rejections\":0,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "9f0d52d9b34497d0399f55a86ee0ede11beac242b6a7da41ea5bd394614fbc24"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 2,
+        "total": 6,
+        "scored": 2,
+        "ranked": 8,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 6,
+    "total": 14,
+    "rejected": 0,
+    "detail": "{\"detail_limited\":true,\"gaps\":8,\"input_sha256\":\"643033e5d6967fa230e28525e5d97e57455319ea6ce60137400403b933f4c8ae\",\"type_rejections\":0,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "643033e5d6967fa230e28525e5d97e57455319ea6ce60137400403b933f4c8ae"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "fieldupdates://activity/select",
+      "matched": 2,
+      "total": 5,
+      "scored": 2,
+      "ranked": 8,
+      "budget": 2,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "source_contract",
+      "consistent": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "fieldupdates://activity/select",
+      "matched": 2,
+      "total": 6,
+      "scored": 2,
+      "ranked": 8,
+      "budget": 2,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "source_contract",
+      "consistent": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PROGRESS",
+  "evaluation_status": "PROGRESS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 2,
+        "total": 6,
+        "scored": 2,
+        "ranked": 8,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 6,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"fieldupdates://activity/select\",\"actual\":{\"reason\":\"deferred\",\"state\":\"waiting\",\"title\":\"새 관측\"},\"expected\":{\"reason\":\"새 관측:ready\",\"state\":\"ready\",\"title\":\"새 관측\"}},{\"activity\":\"fieldupdates://activity/label\",\"actual\":\"새 관측:waiting:deferred\",\"expected\":\"새 관측:ready:새 관측:ready\"}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "315ea1ea42f33a8ab1f9f8e748a742db02bebcc1ba4b142fbdcd2dd81201b982"
+  },
+  "initial_model_calls": 0,
+  "refinement_model_calls": 0,
+  "refinement_rounds": 2,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations"
+}

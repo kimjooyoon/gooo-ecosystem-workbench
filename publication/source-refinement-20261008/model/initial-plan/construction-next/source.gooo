@@ -1,0 +1,55 @@
+package nextsteps
+namespace nextsteps
+
+entity ConstructionObservation id "gooo://nextsteps/construction-observation" fields {
+    field native_passed id "gooo://nextsteps/native-passed" type integer required one
+    field native_total id "gooo://nextsteps/native-total" type integer required one
+    field matched id "gooo://nextsteps/matched" type integer required one
+    field total id "gooo://nextsteps/total" type integer required one
+    field scored id "gooo://nextsteps/scored" type integer required one
+    field ranked id "gooo://nextsteps/ranked" type integer required one
+    field budget id "gooo://nextsteps/budget" type integer required one
+    field observed id "gooo://nextsteps/observed" type boolean required one
+    field budget_known id "gooo://nextsteps/budget-known" type boolean required one
+    field consistent id "gooo://nextsteps/consistent" type boolean required one
+}
+entity NextStep id "gooo://nextsteps/next-step" fields {
+    field code id "gooo://nextsteps/code" type string required one
+    field action id "gooo://nextsteps/action" type string required one
+    field message id "gooo://nextsteps/message" type string required one
+}
+
+activity Next(ConstructionObservation) -> NextStep computes `if input.native_passed < 0 || input.native_total < 0 || input.native_passed > input.native_total {
+    return NextStep{code: "invalid-counts", action: "fix-counts", message: "실행 관측 수를 확인하세요."}
+}
+if input.native_total == 0 {
+    return NextStep{code: "unobserved", action: "add-examples", message: "실행 결과와 비교할 기대값을 추가하세요."}
+}
+if !input.observed {
+    return NextStep{code: "unknown", action: "inspect-construction", message: "조립 사례의 관측 수가 기록되지 않았습니다."}
+}
+if !input.consistent || input.matched < 0 || input.total <= 0 || input.matched > input.total || input.scored < 1 || input.ranked < input.scored {
+    return NextStep{code: "inconsistent-history", action: "replay-construction", message: "조립 기록을 원래 소스에서 다시 확인하세요."}
+}
+if input.budget_known && (input.budget < 1 || input.budget < input.scored) {
+    return NextStep{code: "inconsistent-history", action: "replay-construction", message: "기록된 시도 수가 예산과 맞지 않습니다."}
+}
+if input.native_passed == input.native_total {
+    return NextStep{code: "observed-complete", action: "observe-new-inputs", message: "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."}
+}
+if input.matched == input.total {
+    return NextStep{code: "case-gap", action: "add-runtime-cases-to-construction", message: "조립 사례는 맞았지만 실행 사례가 남았습니다. 남은 사례를 조립 조건에 반영하세요."}
+}
+if !input.budget_known {
+    return NextStep{code: "unknown", action: "inspect-attempt-budget", message: "후보 순서는 있지만 선언한 시도 예산을 확인해야 합니다."}
+}
+if input.scored < input.budget && input.scored < input.ranked {
+    return NextStep{code: "continuable", action: "resume-candidates", message: "남은 후보와 예산이 있습니다. 이어가기 정책을 명시해 조립을 계속할 수 있습니다."}
+}
+if input.scored < input.ranked {
+    return NextStep{code: "budget-exhausted", action: "raise-attempt-budget", message: "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."}
+}
+return NextStep{code: "exhausted", action: "expand-declared-choices", message: "선언된 후보를 모두 확인했습니다. 남은 사례를 표현할 선택지를 소스에 추가하세요."}`
+
+activity ObservationEcho(ConstructionObservation) -> ConstructionObservation computes `return input`
+bind ObservationEcho.result -> Next.input
