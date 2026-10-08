@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 3b762198b42d9ab552421b19519d3d4834b34ab3
+          ref: 146a5085427972f3a50c38b33384e3911c9019eb
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p out
           ./.gooo version --build --json > out/compiler-build.json
-          jq -e '.version == "0.6.15-dev" and .go_version == "go1.27.1" and .vcs_revision == "3b762198b42d9ab552421b19519d3d4834b34ab3" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
+          jq -e '.version == "0.6.16-dev" and .go_version == "go1.27.1" and .vcs_revision == "146a5085427972f3a50c38b33384e3911c9019eb" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo

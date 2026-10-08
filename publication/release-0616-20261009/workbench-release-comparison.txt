@@ -1,0 +1,1 @@
+PASS all five budget-feedback and three adaptive-fault rounds: same original/selected source, unchanged construction cases, candidate selection, every native trace and exact fault operands/expectations. Original large JSON integers retained.

@@ -2,8 +2,8 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.1을 사용합니다. [Gooo 0.6.15 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.15-dev)의
-운영체제별 실행 파일에 여러 빈칸의 호출 기반 조립과 잘못된 빈칸 후보 이후의 탐색이 포함되어 있습니다.
+Go 1.27.1을 사용합니다. [Gooo 0.6.16 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.16-dev)의
+운영체제별 실행 파일에 여러 빈칸의 호출 기반 조립과 실제 계산 실패 이후의 탐색이 포함되어 있습니다.
 설치했다면 아래 명령의 `--compiler ./.gooo`에 설치한 실행 파일 경로를 지정합니다.
 `gooo`가 명령 경로에 있다면 다음처럼 바로 시작할 수 있습니다.
 
@@ -23,32 +23,32 @@ CI와 같은 소스를 직접 빌드할 수도 있습니다.
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin 3b762198b42d9ab552421b19519d3d4834b34ab3
+git -C .compiler fetch --depth 1 origin 146a5085427972f3a50c38b33384e3911c9019eb
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
 
-0.6.15는 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
+0.6.16은 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
 잘못된 정수 계산식과 빈칸 후보의 타입·학습용 계산 오류는 이유를 남기고 다음 후보를 시도합니다.
 패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
 
 [다섯 후보 예제](../examples/caller-fill-rejection/README.md)는
 탈락한 후보를 시도 한도에 포함하고, 사례를 실행해 얻은 점수와 따로 기록하는 과정을 보여줍니다.
-공개 0.6.15에서는 실제 호출 프로그램의 실행 오류가 요청을 종료합니다.
-위 개발 소스에서는 int64의 0 나눗셈·나머지 연산 실패를 기록하고 다음 조합을 확인합니다.
+실제 호출에서도 int64의 0 나눗셈·나머지 연산 실패를 기록하고 다음 조합을 확인합니다.
+앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.15-dev`이며, 소스 리비전은
-위 고정한 리비전과 같습니다. 공개 파일은 이전 배포 소스 `dc75f59`에서 빌드했습니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.15-dev/docs/releases/0.6.15-dev.md)와
+`version --build --json`의 버전 문자열은 `0.6.16-dev`이며, 공개 파일과 위 고정한
+소스의 리비전은 `146a5085427972f3a50c38b33384e3911c9019eb`입니다.
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.16-dev/docs/releases/0.6.16-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 
 ## 실행 중 계산 실패를 다음 조립에 반영하기
 
-위 개발 소스로 빌드한 `.gooo`를 지정합니다.
+공개 실행 파일 경로나 위 소스로 빌드한 `.gooo`를 지정합니다.
 
 ```sh
 go run ./cmd/workbench construct --compiler ./.gooo \

@@ -1,0 +1,71 @@
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"os"
+	"path/filepath"
+	"reflect"
+)
+
+func read(path string) map[string]any {
+	b, e := os.ReadFile(path)
+	if e != nil {
+		panic(e)
+	}
+	d := json.NewDecoder(bytes.NewReader(b))
+	d.UseNumber()
+	var v map[string]any
+	if e = d.Decode(&v); e != nil {
+		panic(e)
+	}
+	return v
+}
+func trace(v any) any { return v.(map[string]any)["runtime"].(map[string]any)["traces"] }
+func compare(a, b map[string]any) {
+	if !reflect.DeepEqual(trace(a["evaluation"]), trace(b["evaluation"])) {
+		panic("final native trace changed")
+	}
+	ac, bc := a["construction"].(map[string]any), b["construction"].(map[string]any)
+	for _, key := range []string{"original_source_sha256", "construction_cases", "selected_source", "candidate_space", "selected_attempt", "decision", "stop_reason"} {
+		if !reflect.DeepEqual(ac[key], bc[key]) {
+			panic("construction differs: " + key)
+		}
+	}
+	aa, ba := ac["attempts"].([]any), bc["attempts"].([]any)
+	if len(aa) != len(ba) {
+		panic("attempt count differs")
+	}
+	for i := range aa {
+		if !reflect.DeepEqual(trace(aa[i]), trace(ba[i])) {
+			panic(fmt.Sprintf("attempt %d trace changed", i))
+		}
+	}
+}
+func main() {
+	original, current := os.Args[1], os.Args[2]
+	for _, spec := range []struct {
+		folder string
+		rounds int
+	}{{"workbench-loop", 5}, {"workbench-adaptive", 3}} {
+		for i := range spec.rounds {
+			name := fmt.Sprintf("round-%d.json", i)
+			compare(read(filepath.Join(original, spec.folder, name)), read(filepath.Join(current, spec.folder, name)))
+			for _, file := range []string{"original.gooo", "selected.gooo", "construction-cases.json"} {
+				a, e := os.ReadFile(filepath.Join(original, spec.folder, fmt.Sprintf("round-%d", i), file))
+				if e != nil {
+					panic(e)
+				}
+				b, e := os.ReadFile(filepath.Join(current, spec.folder, fmt.Sprintf("round-%d", i), file))
+				if e != nil {
+					panic(e)
+				}
+				if !bytes.Equal(a, b) {
+					panic("original feedback source/cases changed: " + file)
+				}
+			}
+		}
+	}
+	fmt.Println("PASS all five budget-feedback and three adaptive-fault rounds: same original/selected source, unchanged construction cases, candidate selection, every native trace and exact fault operands/expectations. Original large JSON integers retained.")
+}
