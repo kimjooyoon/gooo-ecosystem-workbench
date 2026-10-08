@@ -10,30 +10,33 @@ import (
 // JointObservation separates historical local preparation, whole-program search,
 // and subsequent evaluation. Counts describe supplied finite observations.
 type JointObservation struct {
-	Initial         []ConstructionObservation `json:"initial_local_construction"`
-	History         []JointAttemptObservation `json:"program_history"`
-	ProgramAttempts int64                     `json:"program_attempts"`
-	ProgramBudget   int64                     `json:"program_budget"`
-	CandidateSpace  string                    `json:"candidate_space"`
-	CandidateKinds  []string                  `json:"candidate_kinds,omitempty"`
-	MoreCandidates  bool                      `json:"more_candidates"`
-	SelectedAttempt int                       `json:"selected_attempt"`
-	LocalPassed     int64                     `json:"local_passed"`
-	LocalTotal      int64                     `json:"local_total"`
-	CallerPassed    int64                     `json:"caller_passed"`
-	CallerTotal     int64                     `json:"caller_total"`
-	Decision        string                    `json:"decision"`
-	StopReason      string                    `json:"stop_reason"`
-	Replayed        bool                      `json:"construction_replayed"`
-	NewModelCalls   int64                     `json:"new_model_calls"`
-	Inputs          jointInputs               `json:"reported_evaluation_inputs"`
+	Initial               []ConstructionObservation `json:"initial_local_construction"`
+	History               []JointAttemptObservation `json:"program_history"`
+	ProgramAttempts       int64                     `json:"program_attempts"`
+	RejectedAttempts      int64                     `json:"rejected_attempts"`
+	NativeProgramAttempts int64                     `json:"native_program_attempts"`
+	ProgramBudget         int64                     `json:"program_budget"`
+	CandidateSpace        string                    `json:"candidate_space"`
+	CandidateKinds        []string                  `json:"candidate_kinds,omitempty"`
+	MoreCandidates        bool                      `json:"more_candidates"`
+	SelectedAttempt       int                       `json:"selected_attempt"`
+	LocalPassed           int64                     `json:"local_passed"`
+	LocalTotal            int64                     `json:"local_total"`
+	CallerPassed          int64                     `json:"caller_passed"`
+	CallerTotal           int64                     `json:"caller_total"`
+	Decision              string                    `json:"decision"`
+	StopReason            string                    `json:"stop_reason"`
+	Replayed              bool                      `json:"construction_replayed"`
+	NewModelCalls         int64                     `json:"new_model_calls"`
+	Inputs                jointInputs               `json:"reported_evaluation_inputs"`
 }
 
 type JointAttemptObservation struct {
-	LocalPassed  int64 `json:"local_passed"`
-	LocalTotal   int64 `json:"local_total"`
-	CallerPassed int64 `json:"caller_passed"`
-	CallerTotal  int64 `json:"caller_total"`
+	Rejection    *JointRejectionObservation `json:"rejection,omitempty"`
+	LocalPassed  int64                      `json:"local_passed"`
+	LocalTotal   int64                      `json:"local_total"`
+	CallerPassed int64                      `json:"caller_passed"`
+	CallerTotal  int64                      `json:"caller_total"`
 }
 
 type jointInputs struct {
@@ -58,10 +61,11 @@ type jointReceipt struct {
 		Decision string          `json:"decision"`
 		Stop     string          `json:"stop_reason"`
 		Attempts []struct {
-			Masks       []int           `json:"masks"`
-			LocalPassed *int64          `json:"local_passed"`
-			LocalTotal  *int64          `json:"local_total"`
-			Runtime     json.RawMessage `json:"runtime"`
+			Rejection   *JointRejectionObservation `json:"rejection"`
+			Masks       []int                      `json:"masks"`
+			LocalPassed *int64                     `json:"local_passed"`
+			LocalTotal  *int64                     `json:"local_total"`
+			Runtime     json.RawMessage            `json:"runtime"`
 			Candidates  []struct {
 				Attempt struct {
 					Passed *int64 `json:"passed"`
@@ -90,7 +94,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		return Snapshot{}, err
 	}
 	c, e := r.Construction, r.Evaluation
-	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" || c.Stage != "COMPLETE" || c.Failure != "" ||
+	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" && c.Schema != "gooo/joint-construction/v3" || c.Stage != "COMPLETE" || c.Failure != "" ||
 		c.Budget == nil || *c.Budget < 1 || *c.Budget > 64 || c.Selected == nil || *c.Selected < 0 || *c.Selected >= len(c.Attempts) ||
 		r.Generated == nil || e.Replayed == nil || *r.Generated == *e.Replayed || e.Calls == nil || *e.Calls != 0 {
 		return Snapshot{}, fmt.Errorf("joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation")
@@ -118,21 +122,31 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 	}
 	j.Initial = constructionObservations(initial)
 	for index, a := range c.Attempts {
-		_, err := readJointRuntime(a.Runtime)
-		if err != nil {
-			return Snapshot{}, fmt.Errorf("joint attempt %d caller: %w", index, err)
+		o := JointAttemptObservation{Rejection: a.Rejection}
+		if a.Rejection != nil {
+			if err := validateJointRejection(c.Schema, c.Kinds, a.Masks, a.Rejection, len(a.Candidates), a.SearchCandidates, a.Runtime); err != nil {
+				return Snapshot{}, err
+			}
+			j.RejectedAttempts++
+		} else {
+			if _, err := readJointRuntime(a.Runtime); err != nil {
+				return Snapshot{}, fmt.Errorf("joint attempt %d caller: %w", index, err)
+			}
+			// Caller scores use whole named outputs even when they return records.
+			summary, err := summarize(append(append([]byte(`{"runtime":`), a.Runtime...), '}'), "caller", "recorded")
+			if err != nil {
+				return Snapshot{}, err
+			}
+			o.CallerPassed, o.CallerTotal = int64(summary.NamedPassed), int64(summary.NamedTotal)
+			j.NativeProgramAttempts++
 		}
-		// Caller scores use whole named outputs even when they return records.
-		summary, err := summarize(append(append([]byte(`{"runtime":`), a.Runtime...), '}'), "caller", "recorded")
-		if err != nil {
-			return Snapshot{}, err
-		}
-		o := JointAttemptObservation{CallerPassed: int64(summary.NamedPassed), CallerTotal: int64(summary.NamedTotal)}
 		if len(a.Candidates)+len(a.SearchCandidates) == 0 {
 			return Snapshot{}, fmt.Errorf("joint attempt has no local candidates")
 		}
-		if err := validateJointKinds(c.Schema, c.Kinds, a.Masks, len(a.Candidates), len(a.SearchCandidates)); err != nil {
-			return Snapshot{}, err
+		if a.Rejection == nil {
+			if err := validateJointKinds(c.Schema, c.Kinds, a.Masks, len(a.Candidates), len(a.SearchCandidates)); err != nil {
+				return Snapshot{}, err
+			}
 		}
 		for _, candidate := range a.Candidates {
 			var matched int64
@@ -160,7 +174,10 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			o.LocalPassed += matched
 			o.LocalTotal += int64(len(candidate.Cases))
 		}
-		for _, candidate := range a.SearchCandidates {
+		for i, candidate := range a.SearchCandidates {
+			if a.Rejection != nil && i == len(a.SearchCandidates)-1 {
+				continue // This expression was checked above and has no local score.
+			}
 			matched, total, err := recountJointSearch(candidate)
 			if err != nil {
 				return Snapshot{}, err
@@ -174,6 +191,9 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		j.History = append(j.History, o)
 	}
 	selected := j.History[j.SelectedAttempt]
+	if selected.Rejection != nil || c.Schema == "gooo/joint-construction/v3" && j.RejectedAttempts == 0 {
+		return Snapshot{}, fmt.Errorf("joint rejection version or selected executable differs")
+	}
 	j.LocalPassed, j.LocalTotal = selected.LocalPassed, selected.LocalTotal
 	j.CallerPassed, j.CallerTotal = selected.CallerPassed, selected.CallerTotal
 	complete := j.LocalPassed == j.LocalTotal && j.CallerTotal > 0 && j.CallerPassed == j.CallerTotal

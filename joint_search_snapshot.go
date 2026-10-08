@@ -7,13 +7,20 @@ import (
 )
 
 type jointSearchCandidate struct {
-	Schema  string `json:"schema"`
-	Attempt struct {
-		Typed  *bool  `json:"typecheck_passed"`
-		Scored *bool  `json:"scoring_completed"`
-		Passed *int64 `json:"test_cases_passed"`
-		Total  *int64 `json:"test_cases_total"`
-		Cases  []struct {
+	Schema      string `json:"schema"`
+	Activity    string `json:"activity"`
+	InputSHA    string `json:"input_source_sha256"`
+	SelectedSHA string `json:"selected_source_sha256"`
+	PlanSHA     string `json:"plan_sha256"`
+	Attempt     struct {
+		ID       string   `json:"candidate_id"`
+		Error    string   `json:"error"`
+		Accuracy *float64 `json:"accuracy_percent"`
+		Typed    *bool    `json:"typecheck_passed"`
+		Scored   *bool    `json:"scoring_completed"`
+		Passed   *int64   `json:"test_cases_passed"`
+		Total    *int64   `json:"test_cases_total"`
+		Cases    []struct {
 			Actual   json.RawMessage `json:"actual"`
 			Expected json.RawMessage `json:"expected"`
 			Passed   *bool           `json:"passed"`
@@ -56,7 +63,7 @@ func validateJointKinds(schema string, kinds []string, masks []int, records, sea
 
 func recountJointSearch(candidate jointSearchCandidate) (int64, int64, error) {
 	a := candidate.Attempt
-	if candidate.Schema != "gooo/search-candidate/v1" || a.Typed == nil || !*a.Typed || a.Scored == nil || !*a.Scored || len(a.Cases) == 0 || a.Passed == nil || a.Total == nil {
+	if candidate.Schema != "gooo/search-candidate/v1" || a.Error != "" || a.Typed == nil || !*a.Typed || a.Scored == nil || !*a.Scored || len(a.Cases) == 0 || a.Passed == nil || a.Total == nil {
 		return 0, 0, fmt.Errorf("joint search candidate requires typed, scored local cases")
 	}
 	var passed int64
