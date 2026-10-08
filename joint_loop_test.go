@@ -3,6 +3,7 @@ package workbench
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"os"
 	"path/filepath"
 	"testing"
@@ -105,7 +106,15 @@ func TestJointLoopBoundsAndCancellation(t *testing.T) {
 	out := filepath.Join(t.TempDir(), "canceled")
 	_, err := ConstructJoint(ctx, Options{Compiler: "unused-compiler", Out: out}, JointRequest{Source: "examples/joint-diagnostics/source.gooo",
 		ConstructionCases: "examples/joint-diagnostics/construction-cases.json", EvaluationCases: "examples/joint-diagnostics/evaluation-cases.json", MaxProgramBudget: 8, MaxRounds: 4})
-	if err != context.Canceled {
+	if !errors.Is(err, context.Canceled) {
 		t.Fatal(err)
+	}
+	raw, readErr := os.ReadFile(filepath.Join(out, "joint-loop.json"))
+	if readErr != nil {
+		t.Fatal(readErr)
+	}
+	var retained JointLoop
+	if readErr = json.Unmarshal(raw, &retained); readErr != nil || retained.Failure == "" || len(retained.Rounds) != 0 {
+		t.Fatal("canceled progress not retained", retained, readErr)
 	}
 }

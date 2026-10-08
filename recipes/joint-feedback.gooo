@@ -1,0 +1,21 @@
+package jointfeedback
+namespace jointfeedback
+
+entity Observation id "gooo://jointfeedback/observation" fields {
+    field matched id "gooo://jointfeedback/matched" type integer required one
+    field total id "gooo://jointfeedback/total" type integer required one
+    field known id "gooo://jointfeedback/known" type boolean required one
+}
+entity Decision id "gooo://jointfeedback/decision" fields {
+    field include id "gooo://jointfeedback/include" type boolean required one
+    field reason id "gooo://jointfeedback/reason" type string required one
+}
+activity Decide(Observation) -> Decision computes `if input.matched < 0 || input.total < 0 || input.matched > input.total {
+    return Decision{include: false, reason: "invalid-observation"}
+}
+if input.total == 0 { return Decision{include: false, reason: "no-expectations"} }
+if input.known { return Decision{include: false, reason: "already-retained-or-duplicate"} }
+if input.matched < input.total { return Decision{include: true, reason: "counterexample"} }
+return Decision{include: false, reason: "matched"}`
+activity ObservationEcho(Observation) -> Observation computes `return input`
+bind ObservationEcho.result -> Decide.input

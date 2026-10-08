@@ -1,0 +1,71 @@
+{
+  "program_families": 2,
+  "runs": [
+    {
+      "run": "arithmetic-fixed",
+      "rounds": 5,
+      "program_attempts": 16,
+      "construction_command_ns": 6095343792,
+      "initial_model_calls": 0,
+      "predict_ns": [],
+      "added_rows": 2,
+      "holdout_passed": 4,
+      "holdout_total": 4,
+      "holdout_other_inputs": 4,
+      "holdout_new_model_calls": 0,
+      "selected_source_sha256": "246fc29396908681debfb6097aef56ca2f79684c8278b0d9e5e15e755adf9818"
+    },
+    {
+      "run": "arithmetic-model",
+      "rounds": 1,
+      "program_attempts": 1,
+      "construction_command_ns": 556061708,
+      "initial_model_calls": 1,
+      "predict_ns": [
+        28875
+      ],
+      "added_rows": 0,
+      "holdout_passed": 4,
+      "holdout_total": 4,
+      "holdout_other_inputs": 4,
+      "holdout_new_model_calls": 0,
+      "selected_source_sha256": "246fc29396908681debfb6097aef56ca2f79684c8278b0d9e5e15e755adf9818"
+    },
+    {
+      "run": "charge-fixed",
+      "rounds": 1,
+      "program_attempts": 1,
+      "construction_command_ns": 813356875,
+      "initial_model_calls": 0,
+      "predict_ns": [],
+      "added_rows": 0,
+      "holdout_passed": 4,
+      "holdout_total": 4,
+      "holdout_other_inputs": 4,
+      "holdout_new_model_calls": 0,
+      "selected_source_sha256": "8a35735baa3813d217bb282d4ddc87caa2f1a933c00b0bef3df3024ad9bf688a"
+    },
+    {
+      "run": "charge-model",
+      "rounds": 5,
+      "program_attempts": 16,
+      "construction_command_ns": 7515809334,
+      "initial_model_calls": 5,
+      "predict_ns": [
+        28375,
+        32875,
+        30833,
+        31875,
+        28833
+      ],
+      "added_rows": 4,
+      "holdout_passed": 4,
+      "holdout_total": 4,
+      "holdout_other_inputs": 4,
+      "holdout_new_model_calls": 0,
+      "selected_source_sha256": "8a35735baa3813d217bb282d4ddc87caa2f1a933c00b0bef3df3024ad9bf688a"
+    }
+  ],
+  "schema": "gooo/joint-feedback-study/v1",
+  "scope": "two frozen programs, four runs; no weight changes; finite holdout counts and exact counterexample preservation; repeated rounds are repeated work; timings are local observations while the test suite was also running"
+}

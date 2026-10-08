@@ -41,7 +41,7 @@ if input.evaluation_total == 0 {
     return NextStep{code: "evaluation-unobserved", action: "add-evaluation-expectations", message: "조립에 사용한 예제는 맞았습니다. 별도 평가에도 비교할 기대값을 추가하세요.", next_program_budget: 0}
 }
 if input.evaluation_passed < input.evaluation_total {
-    return NextStep{code: "evaluation-gap", action: "add-counterexamples-to-construction", message: "별도 평가에서 실패한 사례가 있습니다. 이를 다음 조립의 조건에 반영하고 새 평가 입력을 준비하세요.", next_program_budget: 0}
+    return NextStep{code: "evaluation-gap", action: "add-counterexamples-to-construction", message: "실패한 평가 사례를 기대값 그대로 다음 조립 조건에 추가할 수 있습니다.", next_program_budget: input.program_budget}
 }
 if input.other_inputs == 0 {
     return NextStep{code: "consumed-inputs-only", action: "add-different-evaluation-inputs", message: "평가한 입력이 모두 조립에 사용됐습니다. 다른 입력에서도 결과를 관측하세요.", next_program_budget: 0}

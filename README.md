@@ -221,10 +221,38 @@ go run ./cmd/workbench construct --compiler /path/to/gooo \
 - 선택한 프로그램의 별도 평가, 조립에 소비된 입력과 그 밖의 입력 수
 
 별도 평가가 모두 맞아도 부품이나 호출부의 조건이 남으면 완료로 안내하지 않습니다.
-평가에서 새로 실패한 사례는 다음 조립 조건으로 옮기도록 안내하며, 새 평가 입력도
-필요하다고 표시합니다. 후보 확장과 기대값 수정은 현재 자동 반복의 범위에 포함되지
-않습니다. 저장 기록의 실제 값을 다시 세는 작업과 원래 프로그램을 재실행하는 작업은
-별개입니다. [고정 관측과 검증 계획](examples/joint-diagnostics/PLAN.md)을 함께 확인할 수 있습니다.
+평가에서 실패하면 [Gooo 규칙](recipes/joint-feedback.gooo)이 다음 조립에 넣을
+사례를 고릅니다. 실행부는 그 사례의 입력과 기대값 전체를 그대로 복사하고 조립을
+이어갑니다. 같은 사례는 한 번만 추가합니다. 같은 입력에 다른 기대값이 있으면
+둘 다 남기므로, 모순된 요구는 실패로 드러납니다. 현재 선언된 후보 안에서 동작하며,
+새 표현을 추가하는 작업은 별도로 필요합니다.
+
+```sh
+go run ./cmd/workbench construct --compiler /path/to/gooo \
+  --source examples/joint-diagnostics/source.gooo --entry Main \
+  --construction-cases examples/joint-feedback/initial-cases.json \
+  --evaluation-cases examples/joint-feedback/adaptive-cases.json \
+  --holdout-cases examples/joint-feedback/holdout-cases.json \
+  --max-program-budget 8 --max-rounds 6 --out out/joint-feedback
+```
+
+`--evaluation-cases`는 반복 중 선택에 영향을 주는 예제입니다. 마지막에 따로
+확인할 예제는 `--holdout-cases`로 전달합니다. 이 파일은 처음 복사해 보관한 뒤,
+선택이 끝나야 저장된 조립 기록의 재실행에 사용됩니다. 마지막 평가에서는 모델을
+호출하지 않습니다. 결과의 입력 중복 수와 통과한 기대값 수를 함께 읽어야 하며,
+이 비율이 임의의 자연어 의도를 구현할 확률을 뜻하지는 않습니다.
+
+`joint-loop.json` v2에는 원래 사례·실행 결과의 해시, 추가한 행 번호, Gooo의 판단,
+다음 사례 파일을 준비했는지와 실제 다음 회차에서 사용했는지가 남습니다.
+원본 파일은 별도로 보존합니다. 회차/시도 상한과 컴파일러의 128행·32KiB 한도를
+넘으면 이유를 기록하고 멈춥니다. 오류나 취소가 발생해도 이미 관측한 진행을 남깁니다.
+[실험 전에 고정한 계획과 예제](examples/joint-feedback/PLAN.md)를 참고할 수 있습니다.
+[실제 두 프로그램의 비교 결과와 원본 기록](publication/joint-feedback-20261008/README.md)도
+공개했습니다. 산술 예제에서는 모델이 시도를 줄였고, 요금 계산에서는 기본 순서가
+더 빨랐습니다. 두 경로 모두 같은 최종 소스를 만들고 마지막 평가를 통과했습니다.
+
+저장 기록의 실제 값을 다시 세는 작업과 원래 프로그램을 재실행하는 작업은
+별개입니다. [기존 관측과 검증 계획](examples/joint-diagnostics/PLAN.md)도 함께 제공합니다.
 
 [공개 실행 파일·CI·로컬 관측](https://raw.githubusercontent.com/wiki/kimjooyoon/meta-ontology-go/observations/joint-loop-20261008/README.md)을
 별도로 남겼습니다. 같은 예제에서 고정 순서는 네 회차·15번의 프로그램 시도,

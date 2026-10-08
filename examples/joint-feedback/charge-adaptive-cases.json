@@ -1,0 +1,6 @@
+{"schema":"gooo/body-composition-cases/v1","cases":[
+ {"inputs":{"Main":49},"expected":{"Main":490}},
+ {"inputs":{"Main":50},"expected":{"Main":500}},
+ {"inputs":{"Main":99},"expected":{"Main":990}},
+ {"inputs":{"Main":100},"expected":{"Main":800}}
+]}

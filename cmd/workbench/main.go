@@ -37,7 +37,8 @@ func run(args []string) error {
 	declaration := f.String("declaration", "", "optional .gooo declaration file to bind to the discovery")
 	sourceFile := f.String("source", "", "Gooo source for construct")
 	constructionCases := f.String("construction-cases", "", "caller expectations used by construct")
-	evaluationCases := f.String("evaluation-cases", "", "subsequent evaluation cases for construct")
+	evaluationCases := f.String("evaluation-cases", "", "adaptive cases for construct; failures feed the next round")
+	holdoutCases := f.String("holdout-cases", "", "optional final evaluation after selection stops; never fed back")
 	maxPrograms := f.Int64("max-program-budget", 8, "construct ceiling for whole-program attempts per round (1..64)")
 	maxRounds := f.Int("max-rounds", 4, "construct ceiling for fresh construction rounds (1..16)")
 	if e := f.Parse(args[1:]); e != nil {
@@ -52,7 +53,7 @@ func run(args []string) error {
 	switch args[0] {
 	case "construct":
 		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile,
-			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, Entry: *entry,
+			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, HoldoutCases: *holdoutCases, Entry: *entry,
 			MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds})
 	case "splice":
 		if *input == "" {
