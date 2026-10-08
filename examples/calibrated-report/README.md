@@ -49,3 +49,6 @@ would need an expectation for that value.
 The two bounded controls retain incomplete results. Saved graph execution uses
 no new inference. Candidate-space coverage and functional output counts remain
 separate in the native records.
+
+[Published four-mode execution](../../publication/calibrated-report-20261008/README.md)
+includes the functional counts, candidate coverage, model predictions and replay.

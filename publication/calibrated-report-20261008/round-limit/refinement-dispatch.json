@@ -1,0 +1,175 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PROGRESS",
+  "activity_id": "calibrated://activity/energy",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 1,
+        "total": 10,
+        "scored": 8,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 2,
+    "total": 20,
+    "rejected": 0,
+    "detail": "{\"detail_limited\":true,\"gaps\":18,\"input_sha256\":\"b4e0aa0db564bd994eb7ff2976a68853e24f290598e4786dd704583c1f1e58a5\",\"type_rejections\":0,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "b4e0aa0db564bd994eb7ff2976a68853e24f290598e4786dd704583c1f1e58a5"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 1,
+        "total": 10,
+        "scored": 8,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 2,
+    "total": 20,
+    "rejected": 0,
+    "detail": "{\"detail_limited\":true,\"gaps\":18,\"input_sha256\":\"cb151593a8c0bf9437be9ca97fbf86404c56583d2a6cea3aef460075701a7a99\",\"type_rejections\":0,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "cb151593a8c0bf9437be9ca97fbf86404c56583d2a6cea3aef460075701a7a99"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "calibrated://activity/energy",
+      "kind": "integer_search",
+      "matched": 1,
+      "total": 10,
+      "scored": 8,
+      "ranked": 16,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 73,
+      "space_known": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "calibrated://activity/energy",
+      "kind": "integer_search",
+      "matched": 1,
+      "total": 10,
+      "scored": 8,
+      "ranked": 16,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 73,
+      "space_known": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PROGRESS",
+  "evaluation_status": "PROGRESS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 1,
+        "total": 10,
+        "scored": 8,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 0,
+    "total": 6,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"calibrated://activity/energy\",\"actual\":9,\"expected\":1},{\"activity\":\"calibrated://activity/report\",\"actual\":{\"elevated\":false,\"energy\":9,\"label\":\"calibrated\"},\"expected\":{\"elevated\":false,\"energy\":1,\"label\":\"calibrated\"}},{\"activity\":\"calibrated://activity/energy\",\"actual\":9,\"expected\":529},{\"activity\":\"calibrated://activity/report\",\"actual\":{\"elevated\":false,\"energy\":9,\"label\":\"calibrated\"},\"expected\":{\"elevated\":true,\"energy\":529,\"label\":\"calibrated\"}},{\"activity\":\"calibrated://activity/energy\",\"actual\":9,\"expected\":1521},{\"activity\":\"calibrated://activity/report\",\"actual\":{\"elevated\":false,\"energy\":9,\"label\":\"calibrated\"},\"expected\":{\"elevated\":true,\"energy\":1521,\"label\":\"calibrated\"}}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "76b1f761018b867e923f4c16874e10192292fb0740bc97b7b2fec274acea8135"
+  },
+  "initial_model_calls": 1,
+  "refinement_model_calls": 1,
+  "refinement_rounds": 1,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations",
+  "search_policy": true
+}

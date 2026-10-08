@@ -1,0 +1,53 @@
+{
+  "compiler_source": "14717427b49ddd7562503e25ada41245e0577262",
+  "input_sha256": "725b0647b929be99515389eea7d9ee7b894d3c5c8cc23146a1fdc458fab3ab57",
+  "native_passed": 2,
+  "native_total": 20,
+  "native_unit": "activity_outputs",
+  "new_model_calls": 0,
+  "plans": [
+    {
+      "observation": {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 1,
+        "total": 10,
+        "scored": 8,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      "code": "budget-exhausted",
+      "action": "raise-attempt-budget",
+      "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+    },
+    {
+      "observation": {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      },
+      "code": "case-gap",
+      "action": "add-runtime-cases-to-construction",
+      "message": "조립 사례는 맞았지만 실행 사례가 남았습니다. 남은 사례를 조립 조건에 반영하세요."
+    }
+  ],
+  "schema": "gooo/construction-next-steps/v1",
+  "scope": "Gooo proposals from recorded construction counts and recounted native expectations; per-activity plans do not establish which helper caused a native mismatch; explicit compiler resume revalidates the saved source and records",
+  "source_sha256": "f1e92ece1191d3c907820307f53211074a84360e94e27356220c445ae9104a23"
+}

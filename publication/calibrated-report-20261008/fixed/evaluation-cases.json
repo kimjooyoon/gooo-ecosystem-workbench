@@ -1,0 +1,8 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs":{"Energy":0},"expected":{"Energy":1,"Report":{"energy":1,"elevated":false,"label":"calibrated"}}},
+    {"inputs":{"Energy":11},"expected":{"Energy":529,"Report":{"energy":529,"elevated":true,"label":"calibrated"}}},
+    {"inputs":{"Energy":-20},"expected":{"Energy":1521,"Report":{"energy":1521,"elevated":true,"label":"calibrated"}}}
+  ]
+}
