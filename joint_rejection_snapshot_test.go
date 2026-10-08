@@ -102,11 +102,11 @@ func TestJointRejectionPrefixShape(t *testing.T) {
 	slot := 1
 	a.Rejection.Slot = &slot
 	if err := validateJointRejection(r.Construction.Schema, []string{"record_mask", "source_search_index"},
-		[]int{0, 1}, a.Rejection, 1, a.SearchCandidates, a.Runtime); err != nil {
+		[]int{0, 1}, a.Rejection, 1, a.SearchCandidates, 0, a.Runtime); err != nil {
 		t.Fatal("already scored record prefix was rejected", err)
 	}
 	if err := validateJointRejection(r.Construction.Schema, []string{"record_mask", "source_search_index"},
-		[]int{0, 1}, a.Rejection, 0, a.SearchCandidates, a.Runtime); err == nil {
+		[]int{0, 1}, a.Rejection, 0, a.SearchCandidates, 0, a.Runtime); err == nil {
 		t.Fatal("missing scored prefix accepted")
 	}
 	var noRejections jointReceipt

@@ -1,0 +1,165 @@
+{
+  "schema": "gooo/joint-construction-loop/v2",
+  "stop_reason": "add-different-evaluation-inputs",
+  "rounds": [
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-counterexamples-to-construction",
+      "proposed_program_budget": 1,
+      "construction_elapsed_ns": 803258583,
+      "result": "round-0.json",
+      "construction_cases_file": "construction-cases.json",
+      "feedback": {
+        "prepared": true,
+        "consumed_by_next_round": true,
+        "originating_result_sha256": "9cf00c3b6832fa600685ce1a62a871deb3e563ad631df7b6d514ed6eb2444580",
+        "evaluation_file_sha256": "8361ff8d1aae500b1c8b802fc4e04933cb0c32d91a8fb74d13184f59470faaa1",
+        "previous_cases_sha256": "0b1856589ff3eb638b35620aa50e10d8ff159c71ca97d9d6e0309bc8ba7b6305",
+        "next_cases_sha256": "94d6cc3379d9c3d457d84755117bed80be28f89eea7287aaf4cffc54906bebfc",
+        "next_cases_file": "round-0-feedback-cases.json",
+        "policy_result_sha256": "bd2c737beba6273269016817018274e41fdbd8faac06ef035d1b486d322fbe6a",
+        "added_indices": [
+          0
+        ],
+        "selected_indices": [
+          0
+        ],
+        "rows": [
+          {
+            "evaluation_index": 0,
+            "matched": 0,
+            "total": 1,
+            "already_retained_or_duplicate": false,
+            "original_row_sha256": "4bbefad6d0c63f311ded6bcef7860329a8fb9d00464d62744a4a0c0676e21b79",
+            "canonical_row_sha256": "57547947eafbe3fde14167220bbdc6fcfc6940f70fdbb71268f896ab5e4d7b83",
+            "include": true,
+            "reason": "counterexample"
+          }
+        ]
+      }
+    },
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 2,
+      "construction_elapsed_ns": 574666166,
+      "result": "round-1.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 2,
+      "program_attempts": 2,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 4,
+      "construction_elapsed_ns": 832400000,
+      "result": "round-2.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 4,
+      "program_attempts": 3,
+      "evaluation_passed": 1,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-different-evaluation-inputs",
+      "proposed_program_budget": 0,
+      "construction_elapsed_ns": 1128425666,
+      "result": "round-3.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    }
+  ],
+  "final_directory": "round-3",
+  "scope": "bounded Gooo budget and counterexample proposals; adaptive evaluation influences selection and is not held out; original expectations are preserved; every round restarts and repeated attempts count separately; optional holdout runs only after selection stops, with zero new inference; input separation is not training independence; no source changes or model training",
+  "final_evaluation": {
+    "joint_construction": {
+      "initial_local_construction": [
+        {
+          "activity_id": "budgetplan://activity/plan-budget",
+          "kind": "source_fill",
+          "matched": 1,
+          "total": 1,
+          "scored": 3,
+          "ranked": 3,
+          "budget": 3,
+          "observed": true,
+          "budget_known": true,
+          "budget_source": "source_contract",
+          "consistent": true,
+          "omitted": 0,
+          "space_known": true
+        }
+      ],
+      "program_history": [
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 2,
+          "caller_total": 2
+        }
+      ],
+      "program_attempts": 3,
+      "rejected_attempts": 0,
+      "native_program_attempts": 3,
+      "program_budget": 4,
+      "candidate_space": "3",
+      "candidate_kinds": [
+        "source_fill_index"
+      ],
+      "more_candidates": false,
+      "selected_attempt": 2,
+      "local_passed": 1,
+      "local_total": 1,
+      "fill_holdout_passed": 1,
+      "fill_holdout_total": 1,
+      "caller_passed": 2,
+      "caller_total": 2,
+      "decision": "COMPLETE_FINITE",
+      "stop_reason": "LOCAL_AND_CALLER_CASES_MATCHED",
+      "construction_replayed": true,
+      "new_model_calls": 0,
+      "reported_evaluation_inputs": {
+        "unique_inputs": 4,
+        "duplicate_rows": 0,
+        "construction_inputs": 0,
+        "other_inputs": 4,
+        "scope": "unique caller root-input tuples compared with consumed construction cases; local-example and model-training exposure are not established by this metric"
+      }
+    },
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "7eb6dafc1b40f39b46d6c3372a3e367f485608b00d6ed6e05073d9ce95fd30ce"
+  },
+  "holdout_elapsed_ns": 865134500
+}

@@ -13,6 +13,7 @@ import (
 
 type JointRequest struct {
 	Source, ConstructionCases, EvaluationCases, HoldoutCases, Entry string
+	FillModel                                                       string
 	MaxProgramBudget                                                int64
 	MaxRounds                                                       int
 }
@@ -84,6 +85,13 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 	if err != nil {
 		return loop, err
 	}
+	fillModel := ""
+	if request.FillModel != "" {
+		fillModel, err = filepath.Abs(request.FillModel)
+		if err != nil {
+			return loop, err
+		}
+	}
 	budget := int64(1)
 	currentCases, currentFile := inputs["construction-cases.json"], "construction-cases.json"
 	var pending *JointFeedbackUpdate
@@ -99,6 +107,9 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 		}
 		if model != "" {
 			args = append(args, "--model", model)
+		}
+		if fillModel != "" {
+			args = append(args, "--fill-model", fillModel)
 		}
 		started := time.Now()
 		raw, runErr := command(ctx, o.Compiler, args...)

@@ -155,6 +155,7 @@ type constructionStep struct {
 		Report struct {
 			ActivityID string              `json:"activity_id"`
 			Search     *constructionSearch `json:"body_search"`
+			Fill       *constructionFill   `json:"body_fill"`
 			Assembly   *struct {
 				AttemptBudget *int64               `json:"attempt_budget"`
 				CasePassed    *int64               `json:"passed"`
