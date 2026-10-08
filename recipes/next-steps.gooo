@@ -12,6 +12,8 @@ entity ConstructionObservation id "gooo://nextsteps/construction-observation" fi
     field observed id "gooo://nextsteps/observed" type boolean required one
     field budget_known id "gooo://nextsteps/budget-known" type boolean required one
     field consistent id "gooo://nextsteps/consistent" type boolean required one
+    field omitted id "gooo://nextsteps/omitted" type integer required one
+    field space_known id "gooo://nextsteps/space-known" type boolean required one
 }
 entity NextStep id "gooo://nextsteps/next-step" fields {
     field code id "gooo://nextsteps/code" type string required one
@@ -28,7 +30,7 @@ if input.native_total == 0 {
 if !input.observed {
     return NextStep{code: "unknown", action: "inspect-construction", message: "조립 사례의 관측 수가 기록되지 않았습니다."}
 }
-if !input.consistent || input.matched < 0 || input.total <= 0 || input.matched > input.total || input.scored < 1 || input.ranked < input.scored {
+if !input.consistent || input.matched < 0 || input.total <= 0 || input.matched > input.total || input.scored < 1 || input.ranked < input.scored || input.omitted < 0 {
     return NextStep{code: "inconsistent-history", action: "replay-construction", message: "조립 기록을 원래 소스에서 다시 확인하세요."}
 }
 if input.budget_known && (input.budget < 1 || input.budget < input.scored) {
@@ -49,7 +51,13 @@ if input.scored < input.budget && input.scored < input.ranked {
 if input.scored < input.ranked {
     return NextStep{code: "budget-exhausted", action: "raise-attempt-budget", message: "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."}
 }
-return NextStep{code: "exhausted", action: "expand-declared-choices", message: "선언된 후보를 모두 확인했습니다. 남은 사례를 표현할 선택지를 소스에 추가하세요."}`
+if !input.space_known {
+    return NextStep{code: "unknown-space", action: "inspect-search-space", message: "현재 탐색 목록을 확인했습니다. 목록 밖에 제외된 후보가 있는지 확인하세요."}
+}
+if input.omitted > 0 {
+    return NextStep{code: "space-truncated", action: "expand-search-space", message: "후보 수 제한으로 제외된 표현식이 있습니다. 소스의 탐색 범위를 검토하세요."}
+}
+return NextStep{code: "exhausted", action: "expand-declared-choices", message: "현재 탐색 목록의 후보를 모두 확인했습니다. 남은 사례를 표현할 선택지나 문법을 소스에 보완하세요."}`
 
 activity ObservationEcho(ConstructionObservation) -> ConstructionObservation computes `return input`
 bind ObservationEcho.result -> Next.input

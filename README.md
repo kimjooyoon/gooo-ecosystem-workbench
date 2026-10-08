@@ -137,6 +137,11 @@ Gooo가 한도 확대나 사례 추가를 제안하면 컴파일러의 `body-ref
 그 안의 Gooo 정책이 다음 한도와 유지할 결과를 정하며, 선택된 프로그램을 다시
 실행한 뒤 다음 행동도 갱신합니다. [실행 예제](examples/source-refinement/README.md).
 
+정수 표현식의 빈칸을 문법으로 채우는 [탐색 예제](examples/search-refinement/README.md)도
+같은 수정 루프를 사용합니다. 숫자식 결과를 자체 소형 모델이 조립한 레코드에 연결할
+수 있습니다. 현재 목록을 다 시도한 경우와 후보 수 제한으로 표현식이 제외된 경우를
+Gooo가 구분해 다음 행동을 제안합니다.
+
 ```sh
 go run ./cmd/workbench refine --compiler ./.gooo \
   --source examples/source-refinement/source.gooo --activity Select \

@@ -128,7 +128,7 @@ func TestNativeConstructionNextStepCasesAndIntegration(t *testing.T) {
 		t.Fatal(err)
 	}
 	summary, err := summarize(raw, "next-steps", "deterministic")
-	if err != nil || summary.NamedPassed != 30 || summary.NamedTotal != 30 || summary.FieldsPassed != 195 || summary.FieldsTotal != 195 || summary.ModelCalls != 0 {
+	if err != nil || summary.NamedPassed != 36 || summary.NamedTotal != 36 || summary.FieldsPassed != 270 || summary.FieldsTotal != 270 || summary.ModelCalls != 0 {
 		t.Fatal("Gooo next-step finite cases did not all match", summary, err)
 	}
 	for _, model := range []string{"", "builtin"} {

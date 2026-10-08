@@ -103,6 +103,13 @@ func ReadSnapshot(raw []byte) (Snapshot, error) {
 	}
 	for _, steps := range [][]constructionStep{r.Composition.Preparations, r.Composition.Steps} {
 		for _, step := range steps {
+			if search := step.Generation.Report.Search; search != nil {
+				for _, attempt := range search.Attempts {
+					if !attempt.TypecheckPassed {
+						rejected = append(rejected, attempt.Error)
+					}
+				}
+			}
 			if a := step.Generation.Report.Assembly; a != nil {
 				for _, trial := range a.Attempts {
 					if trial.Status == "TYPECHECK_FAILED" {

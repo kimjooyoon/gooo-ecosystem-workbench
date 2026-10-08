@@ -46,8 +46,9 @@ func prepareRefinement(ctx context.Context, o RefineOptions, root string) (sourc
 	if err = json.Unmarshal(raw, &plan); err != nil {
 		return
 	}
-	if plan.Schema != "gooo/record-assembly-input-export/v1" || plan.ActivityID == "" || plan.ExpandedPlan == nil || plan.ModelPredictions != 0 || plan.CandidateTests != 0 {
-		err = fmt.Errorf("refine requires a source-derived record assembly plan without inference or candidate outcomes")
+	supported := plan.Schema == "gooo/record-assembly-input-export/v1" || plan.Schema == "gooo/source-search-input-export/v1"
+	if !supported || plan.ActivityID == "" || plan.ExpandedPlan == nil || plan.ModelPredictions != 0 || plan.CandidateTests != 0 {
+		err = fmt.Errorf("refine requires a source-derived record or integer search plan without inference or candidate outcomes")
 		return
 	}
 	if plan.ExpandedPlan.MaxAttempts < 1 || plan.ExpandedPlan.MaxAttempts > o.MaxAttempts {

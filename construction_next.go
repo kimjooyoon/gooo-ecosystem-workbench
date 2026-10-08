@@ -12,6 +12,7 @@ import (
 // BudgetKnown is false when neither a source nor a policy budget was recorded.
 type ConstructionObservation struct {
 	ActivityID   string `json:"activity_id"`
+	Kind         string `json:"kind,omitempty"`
 	Matched      int64  `json:"matched"`
 	Total        int64  `json:"total"`
 	Scored       int64  `json:"scored"`
@@ -21,6 +22,8 @@ type ConstructionObservation struct {
 	BudgetKnown  bool   `json:"budget_known"`
 	BudgetSource string `json:"budget_source"`
 	Consistent   bool   `json:"consistent"`
+	Omitted      int64  `json:"omitted"`
+	SpaceKnown   bool   `json:"space_known"`
 }
 
 type constructionControl struct {
@@ -46,13 +49,21 @@ func constructionObservations(r result) []ConstructionObservation {
 	var observations []ConstructionObservation
 	for _, steps := range [][]constructionStep{r.Composition.Preparations, r.Composition.Steps} {
 		for _, step := range steps {
+			if search := step.Generation.Report.Search; search != nil {
+				o := searchObservation(step.Generation.Report.ActivityID, search)
+				if step.Generation.Report.Assembly != nil {
+					o.Consistent = false
+				}
+				observations = append(observations, o)
+				continue
+			}
 			a := step.Generation.Report.Assembly
 			if a == nil {
 				continue
 			}
 			o := ConstructionObservation{ActivityID: step.Generation.Report.ActivityID,
 				Scored: int64(len(a.Attempts)), Ranked: int64(len(a.Ranking)), Consistent: true,
-				BudgetSource: "unavailable"}
+				BudgetSource: "unavailable", Kind: "record_choices", SpaceKnown: true}
 			if a.AttemptBudget != nil {
 				o.Budget, o.BudgetKnown, o.BudgetSource = *a.AttemptBudget, true, "source_contract"
 			}
@@ -104,7 +115,8 @@ func constructionObservations(r result) []ConstructionObservation {
 func constructionInput(s Snapshot, o ConstructionObservation) map[string]any {
 	return map[string]any{"native_passed": s.Passed, "native_total": s.Total,
 		"matched": o.Matched, "total": o.Total, "scored": o.Scored, "ranked": o.Ranked,
-		"budget": o.Budget, "observed": o.Observed, "budget_known": o.BudgetKnown, "consistent": o.Consistent}
+		"budget": o.Budget, "observed": o.Observed, "budget_known": o.BudgetKnown, "consistent": o.Consistent,
+		"omitted": o.Omitted, "space_known": o.SpaceKnown}
 }
 
 // All action selection is executed from recipes/next-steps.gooo. No commands in
