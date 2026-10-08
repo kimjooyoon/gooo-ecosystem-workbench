@@ -1,0 +1,24 @@
+package division
+namespace division
+entity Integer id "division://integer"
+entity Result id "division://result" fields {
+    field valid id "division://result/valid" type boolean required one
+    field quotient id "division://result/quotient" type integer required one
+    field remainder id "division://result/remainder" type integer required one
+}
+activity Divide(Integer, Integer) -> Result computes `let valid = input1 != 0
+let divisor = input1
+if !valid { divisor = 1 }
+let quotient = input0 / divisor
+let remainder = input0 % divisor
+if !valid { quotient = 0; remainder = 0 }
+return Result{valid: valid, quotient: -quotient, remainder: remainder}` assembling {
+    choice "valid" field_value at "0" alternative "!valid" intent "Keep the computed nonzero-divisor result."
+    choice "quotient" field_value at "1" alternative "quotient" intent "Keep the sign and value of the computed integer quotient."
+    choice "remainder" field_value at "2" alternative "-remainder" intent "Keep the sign and value of the computed remainder."
+    value_case "[7,3]" -> "{\"valid\":true,\"quotient\":2,\"remainder\":1}"
+    value_case "[-7,3]" -> "{\"valid\":true,\"quotient\":-2,\"remainder\":-1}"
+    value_case "[7,-3]" -> "{\"valid\":true,\"quotient\":-2,\"remainder\":1}"
+    value_case "[7,0]" -> "{\"valid\":false,\"quotient\":0,\"remainder\":0}"
+    attempts "8"
+}

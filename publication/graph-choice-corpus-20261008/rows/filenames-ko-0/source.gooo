@@ -1,0 +1,31 @@
+package filenames
+namespace filenames
+entity Text id "gooo://filenames/text"
+entity Integer id "gooo://filenames/integer"
+entity Boolean id "gooo://filenames/boolean"
+entity FileInfo id "gooo://filenames/info" fields {
+    field source id "gooo://filenames/source" type boolean required one
+    field stem id "gooo://filenames/stem" type string required one
+    field bytes id "gooo://filenames/bytes" type integer required one
+}
+
+activity HasPrefix(Text, Text) -> Boolean computes `return len(input0) >= len(input1) && input0[:len(input1)] == input1`
+activity HasSuffix(Text, Text) -> Boolean computes `return len(input0) >= len(input1) && input0[len(input0)-len(input1):] == input1`
+activity StripSuffix(Text, Text) -> Text computes `if HasSuffix(input0, input1) { return input0[:len(input0)-len(input1)] }; return input0`
+activity ByteLength(Text) -> Integer computes `return int64(len(input))`
+
+activity Classify(Text) -> FileInfo computes `let suffix = HasSuffix(input, ".gooo")
+let visible = !HasPrefix(input, ".")
+let stem = StripSuffix(input, ".gooo")
+let bytes = ByteLength(input)
+return FileInfo{source: suffix || visible, stem: input, bytes: 0}` assembling {
+    choice "source" field_value at "0" alternative "suffix && visible" intent "확장자와 보이는 이름 조건을 모두 만족한다."
+    choice "stem" field_value at "1" alternative "stem" intent "접미사를 제거한 이름을 반환한다."
+    choice "bytes" field_value at "2" alternative "bytes" intent "입력 이름의 UTF-8 바이트 길이를 반환한다."
+    value_case "[\"main.gooo\"]" -> "{\"source\":true,\"stem\":\"main\",\"bytes\":9}"
+    value_case "[\".secret.gooo\"]" -> "{\"source\":false,\"stem\":\".secret\",\"bytes\":12}"
+    value_case "[\"notes.txt\"]" -> "{\"source\":false,\"stem\":\"notes.txt\",\"bytes\":9}"
+    value_case "[\"\"]" -> "{\"source\":false,\"stem\":\"\",\"bytes\":0}"
+    value_case "[\"언어.gooo\"]" -> "{\"source\":true,\"stem\":\"언어\",\"bytes\":11}"
+    attempts "8"
+}
