@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 146a5085427972f3a50c38b33384e3911c9019eb
+          ref: e6a22ba3329c4511ce53296b65b42dc79dbad263
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p out
           ./.gooo version --build --json > out/compiler-build.json
-          jq -e '.version == "0.6.16-dev" and .go_version == "go1.27.1" and .vcs_revision == "146a5085427972f3a50c38b33384e3911c9019eb" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
+          jq -e '.version == "0.6.16-dev" and .go_version == "go1.27.1" and .vcs_revision == "e6a22ba3329c4511ce53296b65b42dc79dbad263" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -37,6 +37,7 @@ jobs:
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
           test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go joint_feedback.go joint_feedback_test.go)"
+          test -z "$(gofmt -l package_joint.go package_joint_loop.go package_joint_test.go experiments/package-construction-observe/main.go)"
           test -z "$(gofmt -l experiments/joint-feedback-observe/main.go)"
           test -z "$(gofmt -l joint_search_snapshot.go joint_search_snapshot_test.go)"
           test -z "$(gofmt -l joint_rejection_snapshot.go joint_rejection_snapshot_test.go)"
@@ -53,6 +54,23 @@ jobs:
           cmp publication/caller-fill-rejection-20261009/summary.json out/fill-rejection-recount.json
           go run ./experiments/native-outcome-observe > out/native-outcome-recount.json
           cmp publication/native-outcomes-20261009/summary.json out/native-outcome-recount.json
+          go run ./experiments/package-construction-observe > out/package-construction-recount.json
+          cmp publication/package-construction-20261009/summary.json out/package-construction-recount.json
+      - name: Let Gooo continue package construction from caller failures
+        run: |
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --workspace examples/package-caller-construction/gooo.workspace.json \
+            --construction-cases examples/package-caller-construction/initial-cases.json \
+            --evaluation-cases examples/package-caller-construction/evaluation-cases.json \
+            --holdout-cases examples/package-caller-construction/holdout-cases.json \
+            --max-program-budget 8 --max-rounds 5 --out out/ci-package-loop
+          jq -e '.schema == "gooo/package-construction-loop/v1" and (.rounds|length) == 5 and ([.rounds[].program_attempts]|add) == 14 and .rounds[0].feedback.consumed_by_next_round and .final_evaluation.passed == 4 and .final_evaluation.total == 4 and .final_evaluation.package_construction.entry.package_path == "app/retry" and .final_evaluation.joint_construction.new_model_calls == 0' out/ci-package-loop/joint-loop.json
+          ./.gooo package construct --json \
+            --construction-cases examples/package-caller-construction/mixed-construction-cases.json \
+            --cases examples/package-caller-construction/mixed-evaluation-cases.json \
+            --attempts 48 --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+            examples/package-caller-construction/mixed.workspace.json > out/ci-package-model.json
+          jq -e '.decision == "COMPLETE_FINITE" and (.result.construction.attempts|length) == 41 and .result.evaluation.runtime.finite_passed == 4 and .result.evaluation.runtime.finite_total == 4 and .result.evaluation.new_model_calls == 0' out/ci-package-model.json
       - name: Continue after native arithmetic faults using Gooo feedback
         run: |
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
@@ -233,6 +251,9 @@ jobs:
           name: gooo-ecosystem-observations
           path: |
             out/compiler-build.json
+            out/ci-package-loop/
+            out/ci-package-model.json
+            out/package-construction-recount.json
             out/ci-native-fault/
             out/ci-native-model/
             out/ci-native-model.json

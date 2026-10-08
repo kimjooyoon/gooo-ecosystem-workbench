@@ -1,0 +1,11 @@
+package app
+namespace app
+import budget "tools/budget"
+import parts "tools/parts"
+activity Main(Work) -> Integer computes `let plan = budget.PlanBudget(input)
+let parts = parts.Pick(plan.next)
+if parts.ready {
+    if plan.exhausted { return -(parts.first + parts.second) }
+    return parts.first + parts.second
+}
+return 0`

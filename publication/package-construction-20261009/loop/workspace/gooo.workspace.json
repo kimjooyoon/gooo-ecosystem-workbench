@@ -1,0 +1,8 @@
+{
+  "schema": "gooo/package-workspace-manifest/v1",
+  "entry": {"package_path": "app/retry", "activity": "Main"},
+  "packages": [
+    {"path": "app/retry", "name": "app", "imports": ["tools/budget"], "sources": ["app.gooo.fixture"]},
+    {"path": "tools/budget", "name": "budgetplan", "imports": [], "sources": ["budget.gooo.fixture"]}
+  ]
+}

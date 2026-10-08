@@ -20,15 +20,16 @@ import (
 
 type Options struct{ Compiler, Model, Out string }
 type Snapshot struct {
-	NativeOutcomes *NativeOutcomes           `json:"native_outcomes,omitempty"`
-	Joint          *JointObservation         `json:"joint_construction,omitempty"`
-	Construction   []ConstructionObservation `json:"construction,omitempty"`
-	Unit           string                    `json:"unit"`
-	Passed         int64                     `json:"passed"`
-	Total          int64                     `json:"total"`
-	Rejected       int64                     `json:"rejected"`
-	Detail         string                    `json:"detail"`
-	InputSHA       string                    `json:"input_sha256,omitempty"`
+	Package        *PackageConstructionObservation `json:"package_construction,omitempty"`
+	NativeOutcomes *NativeOutcomes                 `json:"native_outcomes,omitempty"`
+	Joint          *JointObservation               `json:"joint_construction,omitempty"`
+	Construction   []ConstructionObservation       `json:"construction,omitempty"`
+	Unit           string                          `json:"unit"`
+	Passed         int64                           `json:"passed"`
+	Total          int64                           `json:"total"`
+	Rejected       int64                           `json:"rejected"`
+	Detail         string                          `json:"detail"`
+	InputSHA       string                          `json:"input_sha256,omitempty"`
 }
 type Project struct {
 	Filename string `json:"filename"`

@@ -1,0 +1,1 @@
+{"schema":"gooo/body-composition-cases/v1","cases":[{"inputs":{"app/retry:Main":{"used":0,"limit":8}},"expected":{"app/retry:Main":1}},{"inputs":{"app/retry:Main":{"used":8,"limit":8}},"expected":{"app/retry:Main":-8}}]}

@@ -1,0 +1,29 @@
+package budgetplan
+namespace budgetplan
+entity Integer id "budgetplan://integer"
+entity Work id "budgetplan://work" fields {
+    field used id "budgetplan://work/used" type integer required one
+    field limit id "budgetplan://work/limit" type integer required one
+}
+entity Budget id "budgetplan://budget" fields {
+    field next id "budgetplan://budget/next" type integer required one
+    field exhausted id "budgetplan://budget/exhausted" type boolean required one
+}
+
+activity PlanBudget(Work) -> Budget computes `let next = input.used + 1
+let exhausted = __GOOO_BODY_HOLE_boundary__
+if exhausted { next = __GOOO_BODY_HOLE_cap__ }
+return Budget{next: next, exhausted: exhausted}` assembling {
+    source_fill intent "다음 시도 예산을 계산하고 상한에 도달하면 그 상한을 유지한다. Keep the next budget within its declared limit." {
+        hole "boundary"
+        hole "cap"
+        candidate "late_unbounded" { fill "boundary" "input.used > input.limit" fill "cap" "input.used" }
+        candidate "bad_cap_type" { fill "boundary" "input.used >= input.limit" fill "cap" "true" }
+        candidate "bad_boundary_value" { fill "boundary" "(input.limit / (input.used - input.used)) > 0" fill "cap" "input.limit" }
+        candidate "early_wrong_cap" { fill "boundary" "input.used >= input.limit" fill "cap" "input.limit - 1" }
+        candidate "caller_zero_divisor" { fill "boundary" "input.used >= input.limit" fill "cap" "input.limit / (input.used - input.limit)" }
+        candidate "bounded" { fill "boundary" "input.used >= input.limit" fill "cap" "input.limit" }
+    }
+    value_case "[{\"used\":0,\"limit\":8}]" -> "{\"next\":1,\"exhausted\":false}"
+    holdout_value_case "[{\"used\":9,\"limit\":8}]" -> "{\"next\":8,\"exhausted\":true}"
+}

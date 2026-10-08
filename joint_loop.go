@@ -7,12 +7,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
 	"time"
 )
 
 type JointRequest struct {
 	Source, ConstructionCases, EvaluationCases, HoldoutCases, Entry string
+	Workspace                                                       string
 	FillModel                                                       string
 	MaxProgramBudget                                                int64
 	MaxRounds                                                       int
@@ -54,8 +54,15 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 		return loop, fmt.Errorf("joint construction requires a program budget of 1..64 and 1..16 rounds")
 	}
 	// Read all inputs before creating output, and use these bytes in every round.
-	inputs := map[string][]byte{}
-	files := map[string]string{"source.gooo": request.Source, "construction-cases.json": request.ConstructionCases, "evaluation-cases.json": request.EvaluationCases}
+	inputs, err := jointSourceInputs(request)
+	if err != nil {
+		return loop, err
+	}
+	if request.Workspace != "" {
+		loop.Schema = "gooo/package-construction-loop/v1"
+		loop.Scope += "; original workspace manifest and listed sources copied before construction; package-keyed feedback rows remain unchanged"
+	}
+	files := map[string]string{"construction-cases.json": request.ConstructionCases, "evaluation-cases.json": request.EvaluationCases}
 	if request.HoldoutCases != "" {
 		files["holdout-cases.json"] = request.HoldoutCases
 	}
@@ -77,6 +84,9 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 		}
 	}()
 	for name, b := range inputs {
+		if err = os.MkdirAll(filepath.Dir(filepath.Join(root, name)), 0755); err != nil {
+			return loop, err
+		}
 		if err = write(filepath.Join(root, name), b); err != nil {
 			return loop, err
 		}
@@ -100,17 +110,7 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 			return loop, err
 		}
 		dir := fmt.Sprintf("round-%d", round)
-		args := []string{"body-construct", "--source", filepath.Join(root, "source.gooo"), "--construction-cases", filepath.Join(root, currentFile),
-			"--cases", filepath.Join(root, "evaluation-cases.json"), "--attempts", strconv.FormatInt(budget, 10), "--out", filepath.Join(root, dir)}
-		if request.Entry != "" {
-			args = append(args, "--entry", request.Entry)
-		}
-		if model != "" {
-			args = append(args, "--model", model)
-		}
-		if fillModel != "" {
-			args = append(args, "--fill-model", fillModel)
-		}
+		args := jointRoundArgs(root, dir, currentFile, budget, request, model, fillModel)
 		started := time.Now()
 		raw, runErr := command(ctx, o.Compiler, args...)
 		elapsed := time.Since(started).Nanoseconds()
@@ -127,6 +127,14 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 		}
 		if s.Joint == nil {
 			return loop, fmt.Errorf("compiler omitted joint construction")
+		}
+		if request.Workspace != "" {
+			if s.Package == nil {
+				return loop, fmt.Errorf("compiler omitted package construction")
+			}
+			if err = savePackageJointRound(root, dir, raw); err != nil {
+				return loop, err
+			}
 		}
 		if pending != nil {
 			pending.Consumed = true
@@ -197,8 +205,7 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 			return loop, err
 		}
 		started := time.Now()
-		raw, runErr := command(ctx, o.Compiler, "body-construct", "--source", filepath.Join(root, "source.gooo"),
-			"--construction", filepath.Join(root, loop.FinalDirectory, "construction.json"), "--cases", filepath.Join(root, "holdout-cases.json"))
+		raw, runErr := command(ctx, o.Compiler, jointHoldoutArgs(root, loop.FinalDirectory, request)...)
 		loop.HoldoutElapsedNS = time.Since(started).Nanoseconds()
 		if err = write(filepath.Join(root, "holdout-result.json"), raw); err != nil {
 			return loop, err

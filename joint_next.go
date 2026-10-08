@@ -68,6 +68,9 @@ func diagnoseJoint(ctx context.Context, o Options, root string, s Snapshot) (jso
 		"evaluation":         map[string]any{"unit": s.Unit, "passed": s.Passed, "total": s.Total, "detail": s.Detail},
 		"joint_construction": s.Joint, "new_model_calls": 0, "model_requested": o.Model != "", "model_used": false,
 		"scope": "Gooo advice from recounted receipt values; original program execution, source identity and root-input membership are not independently reverified by diagnose; no proposed action is executed; diagnostic rules are deterministic"}
+	if s.Package != nil {
+		value["package_construction"] = s.Package
+	}
 	raw, err := json.Marshal(value)
 	if err != nil {
 		return nil, err

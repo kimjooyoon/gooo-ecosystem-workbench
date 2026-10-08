@@ -17,6 +17,10 @@ func ReadSnapshot(raw []byte) (Snapshot, error) {
 	if err := json.Unmarshal(raw, &keys); err != nil {
 		return Snapshot{}, err
 	}
+	var schema string
+	if json.Unmarshal(keys["schema"], &schema) == nil && schema == packageJointSchema {
+		return readPackageJointSnapshot(raw, inputSHA)
+	}
 	if keys["evaluation"] != nil {
 		return readJointSnapshot(raw, inputSHA)
 	}
