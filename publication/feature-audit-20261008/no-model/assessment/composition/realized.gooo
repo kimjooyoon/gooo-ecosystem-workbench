@@ -1,0 +1,28 @@
+package featureaudit
+namespace featureaudit
+entity Observation id "gooo://featureaudit/observation" fields {
+    field rows id "gooo://featureaudit/rows" type integer required one
+    field maximum id "gooo://featureaudit/maximum" type integer required one
+    field model_observed id "gooo://featureaudit/model-observed" type boolean required one
+    field model_matched id "gooo://featureaudit/model-matched" type integer required one
+}
+entity Assessment id "gooo://featureaudit/assessment" fields {
+    field code id "gooo://featureaudit/code" type string required one
+    field action id "gooo://featureaudit/action" type string required one
+    field message id "gooo://featureaudit/message" type string required one
+}
+activity Assess(Observation) -> Assessment computes `if input.rows < 1 || input.maximum < 1 || input.maximum > input.rows || input.model_matched < 0 || input.model_matched > input.maximum {
+    return Assessment{code: "invalid-counts", action: "recount-inputs", message: "입력과 관측 수를 다시 확인한다."}
+}
+if input.maximum < input.rows {
+    return Assessment{code: "representation-collision", action: "preserve-distinguishing-source-facts", message: "같은 모델 입력에 서로 다른 선택이 필요하다. 구분에 필요한 연산과 값의 출처를 입력에 보존한다."}
+}
+if !input.model_observed {
+    return Assessment{code: "input-consistent", action: "evaluate-chooser", message: "제공된 자료에서 충돌을 찾지 못했다. 후보 판단을 별도로 측정한다."}
+}
+if input.model_matched < input.rows {
+    return Assessment{code: "chooser-gap", action: "balance-candidate-training", message: "입력에서 구분할 수 있는 사례가 남았다. 후보 배치와 원본 프로그램별 학습 분할을 점검한다."}
+}
+return Assessment{code: "observed-fit", action: "evaluate-separated-programs", message: "제공된 선택을 만족했다. 별도 프로그램에서 다음 관측을 진행한다."}`
+activity ObservationEcho(Observation) -> Observation computes `return input`
+bind ObservationEcho.result -> Assess.input
