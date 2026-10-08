@@ -1,0 +1,29 @@
+{
+  "files": {
+    "README.md": "84ab84205038020cd308a1afba0fec88a132bae007aa03d541e5f3a20bbd2d52",
+    "compiler-build.json": "65d1cee447e19b61c55ea9e39832b48210a42ae4ad6cdcff94afb202f476513f",
+    "fixed.json": "57683faeb3575cd315b6d4da0bc10b16e5b5aa4e2312ea0567083e7128d04119",
+    "fixed/cases.json": "87f8a16255cac2d6da741d02e9e7773a9125cb67eb1934c069c3163bb9289363",
+    "fixed/composition.json": "de361a0a33f8d702014e3feb836540837521c008287085f38d84820cff2b3751",
+    "fixed/generated.go": "54397e2943710da73fceae357b9ea27e5940a245b95797ffdebf96fa20214af0",
+    "fixed/go.mod": "b6add991655f4ae0924850447d13b7fa14bd8a78407e7cdbc386714a40f77390",
+    "fixed/main.go": "e660ba24eee7d56125935f8d857c2bcdb22e757768dbd719c3a9f5aa2bbe2feb",
+    "fixed/original.gooo": "51ecbe7944069289cf6189cbb38c4f1d4d2f031394589a6d404b71d82c88202a",
+    "fixed/realized.gooo": "eda2457dcc20b87ddfc49cb1f69de18421cd6e4cd12fcf280bace84f6919ec45",
+    "fixed/runtime.json": "8f00044b04dd94ca20aa9b19930178e9d6dcf2111308b1994fb41368214a4343",
+    "model.json": "27d63f9e89775ed98cbd0f705f7ab2cab82d5ea9df463043fd1d1e45ccd367d2",
+    "model/cases.json": "87f8a16255cac2d6da741d02e9e7773a9125cb67eb1934c069c3163bb9289363",
+    "model/composition.json": "7ac2ed50f6e0e43155b0570d67d3f0ede23fdd0966947952c660725be42dc2c2",
+    "model/generated.go": "54397e2943710da73fceae357b9ea27e5940a245b95797ffdebf96fa20214af0",
+    "model/go.mod": "b6add991655f4ae0924850447d13b7fa14bd8a78407e7cdbc386714a40f77390",
+    "model/main.go": "e660ba24eee7d56125935f8d857c2bcdb22e757768dbd719c3a9f5aa2bbe2feb",
+    "model/original.gooo": "51ecbe7944069289cf6189cbb38c4f1d4d2f031394589a6d404b71d82c88202a",
+    "model/realized.gooo": "eda2457dcc20b87ddfc49cb1f69de18421cd6e4cd12fcf280bace84f6919ec45",
+    "model/runtime.json": "37f2939c70404702c4a441201bc5eecf09de69e908320d237fb24cc50dc88063",
+    "native-oracle.log": "77b6725064adf19c1c13de5b6372a72af87d646d7c812b0a2b6aea3b8be3adcb",
+    "replay.json": "4dd14e72cf17dfa80852125cd78a0c2286578a0922105b5bcf063c6726a68237",
+    "summary.json": "bbcc65f5ad3896b2c769c0e9fd8165bd2178fb5f1b3e5001e515fb2a6b6d8573"
+  },
+  "schema": "gooo/publication-file-hashes/v1",
+  "scope": "All retained files except this manifest"
+}

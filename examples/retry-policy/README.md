@@ -64,3 +64,6 @@ construction model calls and new execution calls are checked separately.
 
 These finite checks describe this declared policy and its result assembly. The
 caller still needs to decide which operations and failures permit retries.
+
+[Published native observations](../../publication/retry-policy-20261008/README.md)
+retain the selected sources, candidate counts, model call and saved execution.

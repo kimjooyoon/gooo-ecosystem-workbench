@@ -1,0 +1,17 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":7,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":true,"delay_ms":14,"reason":"retry"}}},
+    {"inputs":{"PlanRetry.input0":true,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":7,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":false,"delay_ms":0,"reason":"completed"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":false,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":7,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":false,"delay_ms":0,"reason":"permanent-failure"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":4,"PlanRetry.input3":4,"PlanRetry.input4":7,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":false,"delay_ms":0,"reason":"attempt-limit"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":-2,"PlanRetry.input3":4,"PlanRetry.input4":7,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":false,"delay_ms":0,"reason":"invalid-input"}}},
+    {"inputs":{"PlanRetry.input0":true,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":-1,"PlanRetry.input4":7,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":false,"delay_ms":0,"reason":"invalid-input"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":0,"PlanRetry.input5":100},"expected":{"PlanRetry":{"retry":true,"delay_ms":1,"reason":"retry"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":0,"PlanRetry.input5":0},"expected":{"PlanRetry":{"retry":true,"delay_ms":0,"reason":"retry"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":11,"PlanRetry.input5":21},"expected":{"PlanRetry":{"retry":true,"delay_ms":21,"reason":"retry"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":10,"PlanRetry.input5":21},"expected":{"PlanRetry":{"retry":true,"delay_ms":20,"reason":"retry"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":9223372036854775807,"PlanRetry.input5":9223372036854775807},"expected":{"PlanRetry":{"retry":true,"delay_ms":9223372036854775807,"reason":"retry"}}},
+    {"inputs":{"PlanRetry.input0":false,"PlanRetry.input1":true,"PlanRetry.input2":2,"PlanRetry.input3":4,"PlanRetry.input4":4611686018427387903,"PlanRetry.input5":9223372036854775807},"expected":{"PlanRetry":{"retry":true,"delay_ms":9223372036854775806,"reason":"retry"}}}
+  ]
+}

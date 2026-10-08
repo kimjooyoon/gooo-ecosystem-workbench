@@ -1,0 +1,24 @@
+package retry
+namespace retry
+entity Integer id "gooo://retry/integer"
+entity Boolean id "gooo://retry/boolean"
+entity Plan id "gooo://retry/plan" fields {
+    field retry id "gooo://retry/plan/retry" type boolean required one
+    field delay_ms id "gooo://retry/plan/delay-ms" type integer required one
+    field reason id "gooo://retry/plan/reason" type string required one
+}
+activity PlanRetry(Boolean, Boolean, Integer, Integer, Integer, Integer) -> Plan computes "var again = false\nvar delay = 0\nvar reason = \"invalid-input\"\nif input2 >= 0 && input3 >= 0 && input4 >= 0 && input5 >= 0 {\n    reason = \"completed\"\n    if !input0 {\n        reason = \"permanent-failure\"\n        if input1 {\n            reason = \"attempt-limit\"\n            if input2 < input3 {\n                again = true\n                reason = \"retry\"\n                delay = input5\n                if input4 <= input5 - input4 { delay = input4 * 2 }\n                if input4 == 0 && input5 > 0 { delay = 1 }\n            }\n        }\n    }\n}\nreturn Plan{retry: (again), delay_ms: (delay), reason: (reason)}" assembling {
+    baseline "let again = false\nlet delay = 0\nlet reason = \"invalid-input\"\nif input2 >= 0 && input3 >= 0 && input4 >= 0 && input5 >= 0 {\n    reason = \"completed\"\n    if !input0 {\n        reason = \"permanent-failure\"\n        if input1 {\n            reason = \"attempt-limit\"\n            if input2 < input3 {\n                again = true\n                reason = \"retry\"\n                delay = input5\n                if input4 <= input5 - input4 { delay = input4 * 2 }\n                if input4 == 0 && input5 > 0 { delay = 1 }\n            }\n        }\n    }\n}\nreturn Plan{retry: !again, delay_ms: -delay, reason: reason + \"?\"}"
+    picked "retry" -> "value_second"
+    picked "delay" -> "value_second"
+    picked "reason" -> "value_second"
+    choice "retry" field_value at "0" alternative "again" intent "계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable."
+    choice "delay" field_value at "1" alternative "delay" intent "상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable."
+    choice "reason" field_value at "2" alternative "reason" intent "분기에서 고른 이유를 보존한다. Keep the current reason variable."
+    value_case "[false,true,1,3,10,100]" -> "{\"delay_ms\":20,\"reason\":\"retry\",\"retry\":true}"
+    value_case "[true,true,1,3,10,100]" -> "{\"delay_ms\":0,\"reason\":\"completed\",\"retry\":false}"
+    value_case "[false,false,1,3,10,100]" -> "{\"delay_ms\":0,\"reason\":\"permanent-failure\",\"retry\":false}"
+    value_case "[false,true,3,3,10,100]" -> "{\"delay_ms\":0,\"reason\":\"attempt-limit\",\"retry\":false}"
+    value_case "[false,true,-1,3,10,100]" -> "{\"delay_ms\":0,\"reason\":\"invalid-input\",\"retry\":false}"
+    attempts "8"
+}

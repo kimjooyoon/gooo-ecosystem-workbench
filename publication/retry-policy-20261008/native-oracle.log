@@ -1,0 +1,12 @@
+=== RUN   TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries
+=== RUN   TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries/fixed
+    retry_policy_test.go:109: fixed: 200/200 distinct plans, 600/600 fields, construction calls 0, replay calls 0
+=== RUN   TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries/model
+    retry_policy_test.go:109: model: 200/200 distinct plans, 600/600 fields, construction calls 1, replay calls 0
+--- PASS: TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries (3.86s)
+    --- PASS: TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries/fixed (2.03s)
+    --- PASS: TestNativeRetryPolicyKeepsBranchesAndIntegerBoundaries/model (1.83s)
+=== RUN   TestRetryOracleExamples
+--- PASS: TestRetryOracleExamples (0.00s)
+PASS
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	5.104s
