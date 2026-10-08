@@ -1,0 +1,12 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs":{"Select.input0":{"title":"한글","state":"queued","reason":"검토"},"Select.input1":true},"expected":{"Select":{"title":"한글","state":"ready","reason":"한글:ready"},"Label":"한글:ready:한글:ready"}},
+    {"inputs":{"Select.input0":{"title":"English","state":"queued","reason":"review"},"Select.input1":true},"expected":{"Select":{"title":"English","state":"ready","reason":"English:ready"},"Label":"English:ready:English:ready"}},
+    {"inputs":{"Select.input0":{"title":"","state":"queued","reason":""},"Select.input1":true},"expected":{"Select":{"title":"","state":"ready","reason":":ready"},"Label":":ready::ready"}},
+    {"inputs":{"Select.input0":{"title":"kept","state":"queued","reason":"later"},"Select.input1":false},"expected":{"Select":{"title":"kept","state":"queued","reason":"later"},"Label":"kept:queued:later"}},
+    {"inputs":{"Select.input0":{"title":"already","state":"ready","reason":"done"},"Select.input1":true},"expected":{"Select":{"title":"already","state":"ready","reason":"done"},"Label":"already:ready:done"}},
+    {"inputs":{"Select.input0":{"title":"new\n\"title\"","state":"waiting","reason":"다음"},"Select.input1":true},"expected":{"Select":{"title":"new\n\"title\"","state":"ready","reason":"new\n\"title\":ready"},"Label":"new\n\"title\":ready:new\n\"title\":ready"}},
+    {"inputs":{"Select.input0":{"title":"later","state":"ready","reason":"retained"},"Select.input1":false},"expected":{"Select":{"title":"later","state":"ready","reason":"retained"},"Label":"later:ready:retained"}}
+  ]
+}

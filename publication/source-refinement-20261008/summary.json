@@ -1,0 +1,140 @@
+{
+  "schema": "gooo/source-refinement-dispatch-study/v1",
+  "compiler": "cdb60e90f911d53d7c02790579e5f72941a2b71a",
+  "workbench": "be791d9612d39de9d7cd36290fe989629482e9a8",
+  "builds_clean": true,
+  "go_version": "go1.27.1",
+  "platform": "darwin/arm64",
+  "observations": [
+    {
+      "mode": "deterministic",
+      "status": "PASS",
+      "initial_native": [
+        6,
+        14
+      ],
+      "final_native": [
+        14,
+        14
+      ],
+      "final_evaluation": [
+        6,
+        6
+      ],
+      "unit": "activity_outputs",
+      "initial_action": "raise-attempt-budget",
+      "final_action": "observe-new-inputs",
+      "initial_model_calls": 0,
+      "refinement_model_calls": 0,
+      "rounds": [
+        {
+          "budget": 2,
+          "action": "INCORPORATE",
+          "feedback_added": 1,
+          "native_passed": 6,
+          "candidate_attempts": 2,
+          "predict_ns": []
+        },
+        {
+          "budget": 4,
+          "action": "CONTINUE",
+          "feedback_added": 0,
+          "native_passed": 6,
+          "candidate_attempts": 4,
+          "predict_ns": []
+        },
+        {
+          "budget": 8,
+          "action": "STOP",
+          "feedback_added": 0,
+          "native_passed": 14,
+          "candidate_attempts": 7,
+          "predict_ns": []
+        }
+      ]
+    },
+    {
+      "mode": "model",
+      "status": "PASS",
+      "initial_native": [
+        6,
+        14
+      ],
+      "final_native": [
+        14,
+        14
+      ],
+      "final_evaluation": [
+        6,
+        6
+      ],
+      "unit": "activity_outputs",
+      "initial_action": "raise-attempt-budget",
+      "final_action": "observe-new-inputs",
+      "initial_model_calls": 1,
+      "refinement_model_calls": 2,
+      "rounds": [
+        {
+          "budget": 2,
+          "action": "INCORPORATE",
+          "feedback_added": 1,
+          "native_passed": 6,
+          "candidate_attempts": 2,
+          "predict_ns": [
+            17625
+          ]
+        },
+        {
+          "budget": 4,
+          "action": "STOP",
+          "feedback_added": 0,
+          "native_passed": 14,
+          "candidate_attempts": 4,
+          "predict_ns": [
+            20791
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "bounded",
+      "status": "PROGRESS",
+      "initial_native": [
+        6,
+        14
+      ],
+      "final_native": [
+        6,
+        14
+      ],
+      "final_evaluation": [
+        4,
+        6
+      ],
+      "unit": "activity_outputs",
+      "initial_action": "raise-attempt-budget",
+      "final_action": "raise-attempt-budget",
+      "initial_model_calls": 0,
+      "refinement_model_calls": 0,
+      "rounds": [
+        {
+          "budget": 2,
+          "action": "INCORPORATE",
+          "feedback_added": 1,
+          "native_passed": 6,
+          "candidate_attempts": 2,
+          "predict_ns": []
+        },
+        {
+          "budget": 2,
+          "action": "STOP",
+          "feedback_added": 0,
+          "native_passed": 6,
+          "candidate_attempts": 2,
+          "predict_ns": []
+        }
+      ]
+    }
+  ],
+  "scope": "One program, seven adaptive feedback inputs, three separate final inputs. No new model training. Initial construction is repeated inside refinement; model calls are counted separately. Final feedback and evaluation replay make zero new predictions."
+}

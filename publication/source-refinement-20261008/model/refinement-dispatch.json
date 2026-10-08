@@ -1,0 +1,114 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PASS",
+  "activity_id": "fieldupdates://activity/select",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 2,
+        "total": 5,
+        "scored": 2,
+        "ranked": 8,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 6,
+    "total": 14,
+    "rejected": 0,
+    "detail": "{\"detail_limited\":true,\"gaps\":8,\"input_sha256\":\"36b1239066ec577fa57f2c490c7993e5f1b5d9d315088cedef9de7d9b795c963\",\"type_rejections\":0,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "36b1239066ec577fa57f2c490c7993e5f1b5d9d315088cedef9de7d9b795c963"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 6,
+        "total": 6,
+        "scored": 4,
+        "ranked": 8,
+        "budget": 4,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 14,
+    "total": 14,
+    "rejected": 1,
+    "detail": "{\"gaps\":null,\"type_rejections\":[\"typecheck generated activity: body.goo:11:5: declared and not used: saved\"],\"unit\":\"activity_outputs\"}",
+    "input_sha256": "03bb65b8fe8943c85b05a9025de94aab6d14c4b305a51b51c3c029e12725ceb8"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "fieldupdates://activity/select",
+      "matched": 2,
+      "total": 5,
+      "scored": 2,
+      "ranked": 8,
+      "budget": 2,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "source_contract",
+      "consistent": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "fieldupdates://activity/select",
+      "matched": 6,
+      "total": 6,
+      "scored": 4,
+      "ranked": 8,
+      "budget": 4,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "source_contract",
+      "consistent": true
+    },
+    "code": "observed-complete",
+    "action": "observe-new-inputs",
+    "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PASS",
+  "evaluation_status": "PASS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 6,
+        "total": 6,
+        "scored": 4,
+        "ranked": 8,
+        "budget": 4,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 6,
+    "total": 6,
+    "rejected": 1,
+    "detail": "{\"gaps\":null,\"type_rejections\":[\"typecheck generated activity: body.goo:11:5: declared and not used: saved\"],\"unit\":\"activity_outputs\"}",
+    "input_sha256": "d5e891e1bf1a8a3964555b6bd64403ce8a54edbba495136e8e9b560e486bdfb6"
+  },
+  "initial_model_calls": 1,
+  "refinement_model_calls": 2,
+  "refinement_rounds": 2,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations"
+}

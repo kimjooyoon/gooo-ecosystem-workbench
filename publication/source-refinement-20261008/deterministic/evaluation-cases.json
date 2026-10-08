@@ -1,0 +1,8 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs":{"Select.input0":{"title":"새 관측","state":"waiting","reason":"later"},"Select.input1":true},"expected":{"Select":{"title":"새 관측","state":"ready","reason":"새 관측:ready"},"Label":"새 관측:ready:새 관측:ready"}},
+    {"inputs":{"Select.input0":{"title":"separate","state":"queued","reason":"keep"},"Select.input1":false},"expected":{"Select":{"title":"separate","state":"queued","reason":"keep"},"Label":"separate:queued:keep"}},
+    {"inputs":{"Select.input0":{"title":"other","state":"ready","reason":"existing"},"Select.input1":true},"expected":{"Select":{"title":"other","state":"ready","reason":"existing"},"Label":"other:ready:existing"}}
+  ]
+}

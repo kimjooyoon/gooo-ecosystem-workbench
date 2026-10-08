@@ -1,0 +1,30 @@
+package records
+namespace fieldupdates
+entity Text id "fieldupdates://text"
+entity Boolean id "fieldupdates://boolean"
+entity Candidate id "fieldupdates://candidate" fields {
+    field title id "fieldupdates://candidate/title" type string required one
+    field state id "fieldupdates://candidate/state" type string required one
+    field reason id "fieldupdates://candidate/reason" type string required one
+}
+activity Select(Candidate, Boolean) -> Candidate computes `let copy = input0
+let saved = copy
+if input1 && copy.state != "ready" {
+    copy.title = saved.title
+    copy.state = saved.state
+    copy.reason = "deferred"
+}
+return copy` assembling {
+    choice "title" field_update at "0" alternative "input0.title" intent "원래 제목을 사용한다. Keep the original title."
+    choice "state" field_update at "1" alternative "\"ready\"" intent "선택된 기록의 상태는 ready이다. Set state to ready."
+    choice "reason" field_update at "2" alternative "copy.title + \":\" + copy.state" intent "현재 제목과 갱신된 상태를 합친다. Join the current title and updated state."
+    value_case "[{\"reason\":\"검토\",\"state\":\"queued\",\"title\":\"한글\"},true]" -> "{\"reason\":\"한글:ready\",\"state\":\"ready\",\"title\":\"한글\"}"
+    value_case "[{\"reason\":\"review\",\"state\":\"queued\",\"title\":\"English\"},true]" -> "{\"reason\":\"English:ready\",\"state\":\"ready\",\"title\":\"English\"}"
+    value_case "[{\"reason\":\"\",\"state\":\"queued\",\"title\":\"\"},true]" -> "{\"reason\":\":ready\",\"state\":\"ready\",\"title\":\"\"}"
+    value_case "[{\"reason\":\"later\",\"state\":\"queued\",\"title\":\"kept\"},false]" -> "{\"reason\":\"later\",\"state\":\"queued\",\"title\":\"kept\"}"
+    value_case "[{\"reason\":\"done\",\"state\":\"ready\",\"title\":\"already\"},true]" -> "{\"reason\":\"done\",\"state\":\"ready\",\"title\":\"already\"}"
+    value_case "[{\"reason\":\"다음\",\"state\":\"waiting\",\"title\":\"new\\n\\\"title\\\"\"},true]" -> "{\"reason\":\"new\\n\\\"title\\\":ready\",\"state\":\"ready\",\"title\":\"new\\n\\\"title\\\"\"}"
+    attempts "4"
+}
+activity Label(Candidate) -> Text computes `return input.title + ":" + input.state + ":" + input.reason`
+bind Select.result -> Label.input

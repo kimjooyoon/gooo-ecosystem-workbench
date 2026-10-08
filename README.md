@@ -13,6 +13,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | --- | --- | --- |
 | 표준 함수 13개 | 정수 범위·최솟값·최댓값, 논리 연산, 텍스트 선택 | `verify` |
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
+| 소스 수정 이어가기 | Gooo의 다음 행동에 따라 사례·시도 한도를 수정하고 다시 조립 | `refine` |
 | 시작 도구 | scalar/record/library 요청에 맞는 Gooo 소스와 다음 명령 생성 | `scaffold` |
 | API 참조 생성 | 컴파일러가 해석한 공개 이름·시그니처·안정 타입 ID를 문서화 | `reference` |
 | 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
@@ -106,7 +107,8 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 | 관측 | Gooo가 제안하는 행동 |
 | --- | --- |
 | 조립 사례가 남았고 후보와 예산도 남음 | `resume-candidates` — 이어가기 정책을 정해 계속 조립 |
-| 후보 또는 예산을 다 씀 | `expand-declared-choices` — 소스의 선택지·예산 보완 |
+| 후보는 남았고 예산을 다 씀 | `raise-attempt-budget` — 허용된 범위에서 소스의 시도 한도 확대 |
+| 후보를 모두 확인함 | `expand-declared-choices` — 남은 사례를 표현할 선택지 보완 |
 | 조립 사례는 맞았지만 실행 사례가 남음 | `add-runtime-cases-to-construction` — 남은 실행 사례를 조립 조건에 반영 |
 | 제공된 실행 기대값을 모두 만족 | `observe-new-inputs` — 새로운 입력 관측 |
 | 시도 예산이 기록되지 않음 | `inspect-attempt-budget` — 선언한 예산 확인 |
@@ -127,6 +129,28 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 없습니다. 기본 진단 프로그램을 조립할 때는 기존의 선택적 모델을 사용할 수 있습니다.
 각 활동의 제안은 전체 실행에서 실패를 일으킨 활동을 확정하는 인과 분석까지 포함하지
 않습니다. 실제 이어가기는 컴파일러가 원래 소스와 기록을 다시 확인한 뒤 수행합니다.
+
+### 진단에서 소스 수정까지 이어가기
+
+`refine`는 조립할 활동과 피드백 사례, Gooo 정책을 받아 첫 프로그램을 실행합니다.
+Gooo가 한도 확대나 사례 추가를 제안하면 컴파일러의 `body-refine`를 실행합니다.
+그 안의 Gooo 정책이 다음 한도와 유지할 결과를 정하며, 선택된 프로그램을 다시
+실행한 뒤 다음 행동도 갱신합니다. [실행 예제](examples/source-refinement/README.md).
+
+```sh
+go run ./cmd/workbench refine --compiler ./.gooo \
+  --source examples/source-refinement/source.gooo --activity Select \
+  --cases examples/source-refinement/feedback-cases.json \
+  --evaluation-cases examples/source-refinement/evaluation-cases.json \
+  --policy examples/source-refinement/policy.gooo \
+  --max-attempts 8 --max-rounds 4 --out out/refined
+```
+
+`--model builtin`을 더하면 자체 소형 모델이 조립 후보 순서를 정합니다. 모델을
+생략하면 고정 순서로 실행합니다. 원본 파일은 보존하고 수정본을 출력 폴더에 남깁니다.
+처음 실행과 수정 루프의 모델 호출 수를 따로 기록하며, 수정 루프는 첫 조립을 다시
+실행합니다. 최종 평가는 선택이 끝난 뒤 실행하므로 정책의 입력에 포함되지 않습니다.
+한도 안에서 해결되지 않은 사례는 `PROGRESS`로 남습니다.
 
 ## 작은 도메인 사례: 인보이스 승인
 
