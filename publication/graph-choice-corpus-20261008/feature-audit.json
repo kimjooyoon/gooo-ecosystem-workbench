@@ -1,0 +1,1250 @@
+{
+  "schema": "gooo/record-feature-audit/v1",
+  "input_sha256": "84b0c1c515c185bb602281f268c60f3b54b949b86182d5963934fda235bc42bc",
+  "feature_version": "triple_record_value_graph_v3_shared_v1",
+  "projection_module_version": "v0.2.26-experimental",
+  "label_source": "Separate finite source-case observations; compiler e0d046503939883330eb37f998a2e0e8fc5154e5; see corpus-index.json and rows/",
+  "rows": 72,
+  "families": 3,
+  "distinct_feature_vectors": 72,
+  "conflicting_feature_groups": 0,
+  "maximum_compatible_rows": 72,
+  "groups": [
+    {
+      "feature_sha256": "30c5fafad807c174fda42a8a6c0e35f96f05bf75dabcf7cb5869d008470f22d5",
+      "rows": [
+        "division-en-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "11d8c96dfbd18cb3f789b812a12c0a99d363279380c24e5a36fca3524be21433",
+      "rows": [
+        "division-en-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "7981cb00ff43516ecd0c593acc4850236139344ff012f88d9eca0ab2ab24731f",
+      "rows": [
+        "division-en-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "d763efb1e5ee47b66e3ed38d0f9bdf68967cab0cd9db0e7dca3e6011d129e4fc",
+      "rows": [
+        "division-en-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "d00bdc4becf6232fac298b35f1d7b8dde324555e8ada13104445cc490740212a",
+      "rows": [
+        "division-en-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "2d1569f006fe8997f9a43b635ffff93c4a3fbe09348e7389df32b70450de6c8c",
+      "rows": [
+        "division-en-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "4badc33f018fb0813f25610582caecb95a38f4f197305f00638ddf6a0cd92250",
+      "rows": [
+        "division-en-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "3bbf0b26112485c28342da730fdedbc442a0ad5b38ebeb45f4583ad0287eb0e2",
+      "rows": [
+        "division-en-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "a0fa0fccc56f1378cc3f650ff3b376c283c1389bc788e32865f5acf091671890",
+      "rows": [
+        "division-ko-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "3076b635791c2e24d516f5663b9f19bdbd2b921511a2b7eef621945e667664f7",
+      "rows": [
+        "division-ko-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "4ab9b95137696ba3535ebbce1ff0f5c27e45e6ace85be8a127db0b2c498da7fa",
+      "rows": [
+        "division-ko-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "a82137c0c27c54a75a0174b8fb9c3a0a641292a9416b22beddcbfef6eb548741",
+      "rows": [
+        "division-ko-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "79bd0e4bc79d8f4a1b3f4223c4ca1c5c1fed2559f305c2e7c1eb852f00715259",
+      "rows": [
+        "division-ko-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "c1c08c25d4db630160a7b32152e85eac3a1219d0e305d7914e2c6a2e16ce1845",
+      "rows": [
+        "division-ko-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "805a39f7b0c7345c7f8814dc94428ccf5c442810bd23db5967dc23579b03720f",
+      "rows": [
+        "division-ko-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "6d118d7443ea94da3af7693546a7af8ee832ccafb5683cc7719b56cbb52a6b9d",
+      "rows": [
+        "division-ko-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "32e6aea1a111ad496618c31b753abee8d34d08fade864981cd22096803c81067",
+      "rows": [
+        "division-mixed-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "19c5a0b9fdc2818c31cf2521390072bdd62e4c46f05f5aee2215a23ede5ec073",
+      "rows": [
+        "division-mixed-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "91b274c5eb1b04cea6c12a14382dae8d33c751854c383958bff06231641f83ba",
+      "rows": [
+        "division-mixed-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "2b9332772803859442269efe644755822cb58c390075d4184321eb0916e1eb5c",
+      "rows": [
+        "division-mixed-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "c392de853b7448bb1e007ae111e758e0eea886e30645cb4afd30757f6f283f7b",
+      "rows": [
+        "division-mixed-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "ac3d8901fc6e3fc8fecfeeccbfc1a184a8d5c7239b1c532a239e35853e659b39",
+      "rows": [
+        "division-mixed-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "570b3cc2771df46ad32ef6654749f85c8ab306c6f27a4eefc5cc5af16756cde2",
+      "rows": [
+        "division-mixed-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "efa6389e0396257897f73122003eb9b3f7c9a638baf67b82f5a6c5e2f210e9f0",
+      "rows": [
+        "division-mixed-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "3f83064fc2e5109b52a9e317f1ed08cc3bd10e685d736c70005f437df7c871b2",
+      "rows": [
+        "filenames-en-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "b3ecab9e0cfafa8f5df335c1e74a8c1797665f3757a3e158f2624f71eb9ed872",
+      "rows": [
+        "filenames-en-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "6e3cf6056c13a3e50ab4a75e12672fe6e380cfcfc0e63bb8918ed1995061a7a7",
+      "rows": [
+        "filenames-en-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "e42782c609abb7fc5792d94a21d43a14b117da799bd281ed6c0319022cf43eb1",
+      "rows": [
+        "filenames-en-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "d70ca21c871f6185fa98b566e77c1d72c79585e81748175050c0d43031bb7f49",
+      "rows": [
+        "filenames-en-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "5d36151358917ce4070ae7b01c95f19def392e94c37993f32678b433b6a73130",
+      "rows": [
+        "filenames-en-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "d1976b3bc974f669e609812d8c776eaa1c4ec6bc3f6afca3f0af285d014ef784",
+      "rows": [
+        "filenames-en-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "4f28cfe1b2a3dc8e1f9d5303240446fe0302451f6b525bf3c613f612f06e7ba9",
+      "rows": [
+        "filenames-en-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "bab1fd80155dd1b3969cceeae5c83ec43f00310590d66da2bb89588ea32cd5a5",
+      "rows": [
+        "filenames-ko-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "a05c519bae5b69d79e98c07edf8ba0f429f2005d5855de3768cb581860335dc8",
+      "rows": [
+        "filenames-ko-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "55dd03be60ecfbc52d2615efbfdc7a9452211510ba628387410f5db5e1e70869",
+      "rows": [
+        "filenames-ko-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "f553ce99fa1ffe4946c2c5199a87f72027d144d214fef525a99e1086aa74749a",
+      "rows": [
+        "filenames-ko-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "aac1f8e9f82668315e1a2fe7835adc294b8b92fdfdb4948a73317d8a4730afbb",
+      "rows": [
+        "filenames-ko-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "42c16b518f6c6b05337b34c776fd1f459979802fcaa8a95cd2b8de92e9d6fde2",
+      "rows": [
+        "filenames-ko-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "db30ad070dd5be757b18d2bb55bef50f45f9524864f877edf3c246e1007e8129",
+      "rows": [
+        "filenames-ko-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "30686484081c79021350f0f9e54185e2e33627bf316542757df97ed12e2f4400",
+      "rows": [
+        "filenames-ko-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "cbc2f6a8f3b2e7b3e63a84e799cb47659a52630788d1a00e596ea49f246350ff",
+      "rows": [
+        "filenames-mixed-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "72293135be32ee8de07641a527d3da7ade57445e672ccc15d5967209bf6b6895",
+      "rows": [
+        "filenames-mixed-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "791c5be13497add297a11a8516b0e5f3f152e3acded0e70d115a0c7ea2f8f34c",
+      "rows": [
+        "filenames-mixed-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "2000f90c663828425987e1c1e6fe0b88f90f733d7d42c59f974f717209fd0edb",
+      "rows": [
+        "filenames-mixed-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "fff21ccbfd2cdafa299d9ea8121e8f8692cb9c4c87e5b27fedbb15ebcea47941",
+      "rows": [
+        "filenames-mixed-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "64afb62c32b1aa4dc4e38c6fbcde0e6298a105f75ff8a98c41db308d620f5a92",
+      "rows": [
+        "filenames-mixed-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "bb107d4b6519d6fd2a669f2036852066b6dd90264b8626b6bd154be6913b18ee",
+      "rows": [
+        "filenames-mixed-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "850b5a59b583c04d8e2ffcabf4a07078f0ec4fceb6475d9383f2c83ca374a2ca",
+      "rows": [
+        "filenames-mixed-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "7f44e169da712408e54ef8438fa4fe22193f9b7dabab4e01d1403f305611d243",
+      "rows": [
+        "retry-en-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "aa55a958baa8715bd7f9200b0007f997f9c6843e50e9e1249473befdfd3c0fb4",
+      "rows": [
+        "retry-en-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "8694d2b5b21d21b8df1bbfddb4b339d871dc85b9ed26a0ca4d96aaa685bb4c5a",
+      "rows": [
+        "retry-en-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "5708895acdf154f6913b812f147416e22b5f86028b29995dca3c86a79c23e5f7",
+      "rows": [
+        "retry-en-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "1eea95f09100ce2dde5a9daced46ccaca294c16583f702662f66cb556013d4a1",
+      "rows": [
+        "retry-en-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "bcd97879dd696d041c25358ec23b19e48fc8792de52f660e2d97f37b9824ef78",
+      "rows": [
+        "retry-en-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "b02eb9a79611301b4950999a85dbc6b4831f2209e52e3250e194b906fb01f1ff",
+      "rows": [
+        "retry-en-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "c87060955717c552077394690fe5725fc7ebb83fd3abd20562d5c44035d379e9",
+      "rows": [
+        "retry-en-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "3cd10a839f13a17457944c6bfc5beb148915271f92585e0e320df4679fdc2508",
+      "rows": [
+        "retry-ko-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "7df0dfcd3c3f4cd0b6a0b8f5bd4a1fb253eeb396a170bee9c1a6807ef2977070",
+      "rows": [
+        "retry-ko-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "5bb081b57c534cf670111f7ca112aab8ddc0dbc69d8d3d4b91dd4015abaa1a3a",
+      "rows": [
+        "retry-ko-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "c7b08a7dd8bf6d6358e0a117067677d7881dc92ed279de6f7987de174ac6e09f",
+      "rows": [
+        "retry-ko-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "ea7e8c2bd013345ca57dd7eba44b092514071ffa9077a7e16164994a1f6a5c25",
+      "rows": [
+        "retry-ko-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "af57f673ede5cb733ac284403a44c0cd5b0707dc3e8fa7a9487231f29db729ba",
+      "rows": [
+        "retry-ko-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "68efec0e0372559d3b4858efab2f2bc98f6358563041d74b82905236dbe59e50",
+      "rows": [
+        "retry-ko-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "076d9efe8ff706a11febdb6a75bc727695eccd8643c376f1e5c97e54e24d3526",
+      "rows": [
+        "retry-ko-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "b75413bc1a0428b24077b748e427ce04724e2e505ef86e3df5965535295e95ef",
+      "rows": [
+        "retry-mixed-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "b3bc8f0f2d23d8be0d1e8487bd7d9208ec0411f302d995aca1016433af480d35",
+      "rows": [
+        "retry-mixed-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "b1f18d7c771240809a5e761bc9a6cfa37478ca8e0cff74dfff77d7fc72c8b7cb",
+      "rows": [
+        "retry-mixed-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "67011c9d023e809bd37f9652bd13b0c284a666e2bc494a3478a37cb7b7132503",
+      "rows": [
+        "retry-mixed-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "7a3be9bac117b75c5d915a75f4f6298a5007d86c1e5ae24204c41ea97e77214b",
+      "rows": [
+        "retry-mixed-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "92e7f02b1e31881f597082a2c57868bae3b89bcbed591359fcc04125d13f5eb3",
+      "rows": [
+        "retry-mixed-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "aa6872933835865c36f1dda50b8395ed60835cc51d4f5a024b1823918a0f9d0d",
+      "rows": [
+        "retry-mixed-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "72d26906e16b00ac5ae748a488d0934eee183e9fa45b71c5e394bc6c3b1508de",
+      "rows": [
+        "retry-mixed-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    }
+  ],
+  "model_observed": false,
+  "model_calls": 0,
+  "model_satisfied_rows": 0,
+  "policy": {
+    "code": "input-consistent",
+    "action": "evaluate-chooser",
+    "message": "제공된 자료에서 충돌을 찾지 못했다. 후보 판단을 별도로 측정한다."
+  },
+  "policy_source_sha256": "sha256:9f52ef4311ed97833ecf344fdb908855cbb90f74858bdb51927a03b151787bbf",
+  "policy_compiler_source_sha": "e0d046503939883330eb37f998a2e0e8fc5154e5",
+  "policy_runtime_replayed": true,
+  "scope": "Empirical row-weighted upper bound for a deterministic chooser using exactly these features and the supplied accepted-mask labels; repeated source families are counted separately; no generalization, label correctness, training or runtime claim."
+}
