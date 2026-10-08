@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 86b182da4543efa24ea5bcb504e7b13ea1449c39
+          ref: 6c4a2b14f6f70c8efca4e08df4ac5e6ce572f9ff
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
@@ -93,6 +93,21 @@ jobs:
           done
           jq -e '.distinct_feature_vectors == 576 and .maximum_compatible_rows == 576 and .policy.action == "evaluate-chooser"' out/ci-intent-full/feature-audit.json
           jq -e '.distinct_feature_vectors == 24 and .maximum_compatible_rows == 72 and .policy.code == "representation-collision"' out/ci-intent-ablated/feature-audit.json
+      - name: Reproduce the frozen source graph training study
+        run: |
+          go run ./experiments/graph-chooser --out out/ci-graph-training
+          for fold in filenames division retry all-data-demonstration; do
+            for variant in fp32 ptq_ternary qat_ternary; do
+              for file in model.json weights.bin; do
+                cmp "models/graph-chooser-20261008/$fold/$variant/$file" "out/ci-graph-training/$fold/$variant/$file"
+              done
+            done
+          done
+          go run ./cmd/workbench feature-audit --compiler "$PWD/.gooo" \
+            --input out/intent-full.json \
+            --model out/ci-graph-training/all-data-demonstration/qat_ternary/model.json \
+            --out out/ci-trained-graph-audit
+          jq -e '.rows == 576 and .model_calls == 576 and .model_satisfied_rows == 297 and .maximum_compatible_rows == 576 and .policy_runtime_replayed == true' out/ci-trained-graph-audit/feature-audit.json
       - name: Run Korean and English capability discovery through Gooo
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -105,6 +120,8 @@ jobs:
         with:
           name: gooo-ecosystem-observations
           path: |
+            out/ci-graph-training/
+            out/ci-trained-graph-audit/
             out/ci-feature-audit/
             out/ci-origin-feature-audit/
             out/ci-graph-feature-audit/

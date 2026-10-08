@@ -12,8 +12,12 @@ import (
 )
 
 func nativeEvidence(t *testing.T) map[string][]byte {
+	return readNativeEvidence(t, "../../publication/intent-contrasts-20261008/native-evidence.tar.gz")
+}
+
+func readNativeEvidence(t *testing.T, path string) map[string][]byte {
 	t.Helper()
-	f, err := os.Open("../../publication/intent-contrasts-20261008/native-evidence.tar.gz")
+	f, err := os.Open(path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -33,7 +37,7 @@ func nativeEvidence(t *testing.T) map[string][]byte {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !strings.HasSuffix(h.Name, "/result.json") && !strings.HasSuffix(h.Name, "/replay.json") && !strings.HasSuffix(h.Name, "/original.gooo") {
+		if !strings.HasSuffix(h.Name, "/result.json") && !strings.HasSuffix(h.Name, "/replay.json") && !strings.HasSuffix(h.Name, "/original.gooo") && !strings.HasSuffix(h.Name, "/source.gooo") && !strings.HasSuffix(h.Name, "/generation.json") {
 			continue
 		}
 		if h.Size > 2<<20 {

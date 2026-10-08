@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/kimjooyoon/gooo-decision-runtime/jointdecision"
 )
 
 type nativeExport struct {
@@ -33,6 +35,10 @@ type nativeExport struct {
 }
 
 func checkNative(raw, source []byte, family familySpec, requested uint16, compiler string, generated bool) error {
+	return checkNativeModel(raw, source, family, requested, compiler, generated, 0)
+}
+
+func checkNativeModel(raw, source []byte, family familySpec, requested uint16, compiler string, generated bool, modelCalls int) error {
 	var result nativeExport
 	if err := json.Unmarshal(raw, &result); err != nil {
 		return err
@@ -47,8 +53,14 @@ func checkNative(raw, source []byte, family familySpec, requested uint16, compil
 		return fmt.Errorf("one constructed entry required")
 	}
 	a := result.Composition.Steps[0].Generation.Report.Assembly
-	if a.Mask == nil || *a.Mask != requested || a.Calls == nil || *a.Calls != 0 || a.SourceSHA != digest(source) {
+	if a.Mask == nil || *a.Mask != requested || a.Calls == nil || *a.Calls != modelCalls || a.SourceSHA != digest(source) {
 		return fmt.Errorf("native construction choice differs or used inference")
+	}
+	if modelCalls == 1 && (a.Prediction == nil || a.Prediction.Mask > 7 || a.Context == nil || a.Context.Feature != jointdecision.RecordGraphSharedFeatureVersion) {
+		return fmt.Errorf("source graph model proposal required")
+	}
+	if modelCalls == 1 && (a.Model == nil || !a.Model.Loaded || len(a.Model.MetadataSHA) != 64 || len(a.Model.WeightsSHA) != 64) {
+		return fmt.Errorf("loaded model identities required")
 	}
 	for i, trace := range r.Traces {
 		if trace.Index != i || len(trace.Deliveries) != 1 {

@@ -1,0 +1,10 @@
+{
+  "schema": "gooo/corpus-release-equivalence/v1",
+  "original_compiler": "e0d046503939883330eb37f998a2e0e8fc5154e5",
+  "release_compiler": "6c4a2b14f6f70c8efca4e08df4ac5e6ce572f9ff",
+  "original_label_source": "Separate finite source-case observations; compiler e0d046503939883330eb37f998a2e0e8fc5154e5; see corpus-index.json and rows/",
+  "release_label_source": "Separate finite source-case observations; compiler 6c4a2b14f6f70c8efca4e08df4ac5e6ce572f9ff; see corpus-index.json and rows/",
+  "rows": 576,
+  "equal_except_label_source": true,
+  "scope": "Complete decoded feature-audit input equality except compiler-specific label_source; includes every graph, intent, row ID, family and finite label."
+}
