@@ -12,9 +12,10 @@
 
 ## 실행
 
-Go 1.27.1과 컴파일러 커밋 `e6150a231f44aedb6e7414e71bfe56b7a5de0cb2` 이후의
-패키지 문자열 연산 수정이 필요합니다. 원래 0.6.9-dev 바이너리는 이 패키지 실행
-경로에서 `len`을 처리하지 못합니다. 수정 내용은 [컴파일러 PR 1378](https://github.com/kimjooyoon/meta-ontology-go/pull/1378)에 있습니다.
+Go 1.27.1과 [Gooo 0.6.10 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.10-dev)을
+사용합니다. 배포 소스는 `eb0dc4704705147f9ba944db3df2ba5e3225cbff`입니다.
+패키지의 `len` 처리 수정은 [컴파일러 PR 1378](https://github.com/kimjooyoon/meta-ontology-go/pull/1378)에 있으며,
+이번 배포 파일에 포함됐습니다. 아래의 동결 실험 원본은 최초 관측 당시의 소스를 유지합니다.
 
 저장소 루트에서, 준비한 컴파일러 경로를 지정합니다.
 

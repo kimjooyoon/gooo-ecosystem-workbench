@@ -40,10 +40,10 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.1과 [Gooo 0.6.9 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.9-dev)이
-필요합니다. 새 `splice` 명령은 패키지의 문자열 길이 계산을 수정한 컴파일러
-[`e6150a23`](https://github.com/kimjooyoon/meta-ontology-go/commit/e6150a231f44aedb6e7414e71bfe56b7a5de0cb2)가
-필요하며 CI도 이 소스를 고정합니다. 소스의 연산자·값 관계와 의도를 작은 모델에 전달하는 경로를 포함합니다.
+Go 1.27.1과 [Gooo 0.6.10 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.10-dev)을
+사용합니다. `splice`에 필요한 패키지 문자열 연산 수정이 배포 파일에 포함됐습니다.
+CI는 배포 소스 `eb0dc4704705147f9ba944db3df2ba5e3225cbff`를 고정하고 빌드한 버전과 출처를 확인합니다.
+소스의 연산자·값 관계와 의도를 작은 모델에 전달하는 경로도 포함합니다.
 `gooo version --build --json`으로 설치 버전과 소스를 확인할 수 있습니다.
 설치 후 이 저장소에서:
 
