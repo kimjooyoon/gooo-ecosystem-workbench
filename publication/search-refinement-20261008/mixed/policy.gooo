@@ -1,0 +1,37 @@
+package feedback
+namespace feedback
+
+entity Observation id "gooo://feedback/observation" fields {
+    field matched id "gooo://feedback/observation/matched" type integer required one
+    field total id "gooo://feedback/observation/total" type integer required one
+    field best id "gooo://feedback/observation/best" type integer required one
+    field attempts id "gooo://feedback/observation/attempts" type integer required one
+    field limit id "gooo://feedback/observation/limit" type integer required one
+    field round id "gooo://feedback/observation/round" type integer required one
+    field round_limit id "gooo://feedback/observation/round-limit" type integer required one
+    field counterexamples id "gooo://feedback/observation/counterexamples" type integer required one
+}
+entity Decision id "gooo://feedback/decision" fields {
+    field action id "gooo://feedback/decision/action" type string required one
+    field next_attempts id "gooo://feedback/decision/next-attempts" type integer required one
+    field retain id "gooo://feedback/decision/retain" type boolean required one
+    field reason id "gooo://feedback/decision/reason" type string required one
+}
+activity Decide(Observation) -> Decision computes `let keep = input.matched >= input.best
+if input.total > 0 && input.matched == input.total {
+    return Decision{action: "STOP", next_attempts: input.attempts, retain: keep, reason: "피드백 사례를 만족했습니다."}
+}
+if input.round >= input.round_limit {
+    return Decision{action: "STOP", next_attempts: input.attempts, retain: keep, reason: "선언된 탐색 한도에서 미충족 사례가 남았습니다."}
+}
+let next = input.attempts * 2
+if next > input.limit {
+    next = input.limit
+}
+if input.counterexamples > 0 {
+    return Decision{action: "INCORPORATE", next_attempts: next, retain: keep, reason: "실패한 직접 입력을 선언된 사례에 추가하고 다시 조립합니다."}
+}
+if input.attempts >= input.limit {
+    return Decision{action: "STOP", next_attempts: input.attempts, retain: keep, reason: "현재 후보와 사례에서 시도 한도에 도달했습니다."}
+}
+return Decision{action: "CONTINUE", next_attempts: next, retain: keep, reason: "허용된 후보를 더 관측하고 다시 비교합니다."}`

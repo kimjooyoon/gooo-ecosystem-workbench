@@ -1,0 +1,174 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PASS",
+  "activity_id": "offset://activity/add",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 0,
+        "total": 1,
+        "scored": 1,
+        "ranked": 5,
+        "budget": 1,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      },
+      {
+        "activity_id": "offset://activity/describe",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 0,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"offset://activity/add\",\"actual\":2,\"expected\":3},{\"activity\":\"offset://activity/describe\",\"actual\":{\"label\":\"assembled\",\"positive\":true,\"value\":2},\"expected\":{\"label\":\"assembled\",\"positive\":true,\"value\":3}},{\"activity\":\"offset://activity/add\",\"actual\":10,\"expected\":11},{\"activity\":\"offset://activity/describe\",\"actual\":{\"label\":\"assembled\",\"positive\":true,\"value\":10},\"expected\":{\"label\":\"assembled\",\"positive\":true,\"value\":11}}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "83786c5b5734e0d012451dde7bd3c3a63d9785a7d26d61544891cb16bb31f229"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 2,
+        "total": 2,
+        "scored": 5,
+        "ranked": 6,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      },
+      {
+        "activity_id": "offset://activity/describe",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "565c80acaa86944958536c96468e7d09b764a69b16f4cf37fd79a4072eef67da"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "offset://activity/add",
+      "kind": "integer_search",
+      "matched": 0,
+      "total": 1,
+      "scored": 1,
+      "ranked": 5,
+      "budget": 1,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 0,
+      "space_known": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "offset://activity/add",
+      "kind": "integer_search",
+      "matched": 2,
+      "total": 2,
+      "scored": 5,
+      "ranked": 6,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 0,
+      "space_known": true
+    },
+    "code": "observed-complete",
+    "action": "observe-new-inputs",
+    "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PASS",
+  "evaluation_status": "PASS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 2,
+        "total": 2,
+        "scored": 5,
+        "ranked": 6,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      },
+      {
+        "activity_id": "offset://activity/describe",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "2b6c3fee25f9bb1c16833892909d87d2e0f612be3c350cc7dc68585784462f38"
+  },
+  "initial_model_calls": 0,
+  "refinement_model_calls": 0,
+  "refinement_rounds": 4,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations"
+}

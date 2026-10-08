@@ -23,7 +23,7 @@ func runRefine(args []string) error {
 	f.StringVar(&o.Cases, "cases", "", "adaptive feedback cases with explicit expected outputs")
 	f.StringVar(&o.Policy, "policy", "", "Gooo source revision policy")
 	f.StringVar(&o.EvaluationCases, "evaluation-cases", "", "optional final cases withheld until source selection")
-	f.IntVar(&o.MaxAttempts, "max-attempts", 8, "maximum source attempt budget per refinement round")
+	f.IntVar(&o.MaxAttempts, "max-attempts", 8, "maximum selected activity attempt budget per refinement round")
 	f.IntVar(&o.MaxRounds, "max-rounds", 4, "maximum source refinement rounds (1..8)")
 	if err := f.Parse(args); err != nil {
 		return err

@@ -1,0 +1,8 @@
+package offset
+namespace offset
+entity Integer id "offset://integer"
+activity Add(Integer) -> Integer computes "return input + __GOOO_BODY_HOLE_offset__" assembling {
+    search hole "offset" grammar "integer-offset-constant/v1" intent "입력에 1을 더한다. Add one to the input." max_candidates "16"
+    case "2" -> "3"
+    attempts "1"
+}

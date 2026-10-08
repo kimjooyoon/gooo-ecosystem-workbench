@@ -152,7 +152,8 @@ type CompletenessReceipt struct {
 type constructionStep struct {
 	Generation struct {
 		Report struct {
-			ActivityID string `json:"activity_id"`
+			ActivityID string              `json:"activity_id"`
+			Search     *constructionSearch `json:"body_search"`
 			Assembly   *struct {
 				AttemptBudget *int64               `json:"attempt_budget"`
 				CasePassed    *int64               `json:"passed"`
@@ -317,6 +318,13 @@ func summarize(raw []byte, recipe, mode string) (Summary, error) {
 	s.CompilerSource = r.Runtime.Source
 	for _, steps := range [][]constructionStep{r.Composition.Preparations, r.Composition.Steps} {
 		for _, step := range steps {
+			if search := step.Generation.Report.Search; search != nil {
+				for _, attempt := range search.Attempts {
+					if !attempt.TypecheckPassed {
+						s.Rejected++
+					}
+				}
+			}
 			if a := step.Generation.Report.Assembly; a != nil {
 				s.ModelCalls += a.Calls
 				s.SelectionPassed += a.Passed

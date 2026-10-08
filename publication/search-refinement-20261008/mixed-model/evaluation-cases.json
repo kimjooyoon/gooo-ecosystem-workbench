@@ -1,0 +1,7 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs": {"Add": -3}, "expected": {"Add": -2, "Describe": {"value": -2, "positive": false, "label": "assembled"}}},
+    {"inputs": {"Add": 0}, "expected": {"Add": 1, "Describe": {"value": 1, "positive": true, "label": "assembled"}}}
+  ]
+}

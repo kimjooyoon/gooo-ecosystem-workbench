@@ -1,0 +1,22 @@
+package offset
+namespace offset
+entity Integer id "offset://integer"
+entity Summary id "offset://summary" fields {
+    field value id "offset://summary/value" type integer required one
+    field positive id "offset://summary/positive" type boolean required one
+    field label id "offset://summary/label" type string required one
+}
+activity Add(Integer) -> Integer computes "return __GOOO_BODY_HOLE_offset__" assembling {
+    search hole "offset" grammar "integer-offset-constant/v1" intent "입력에 1을 더한다. Add one to the input." max_candidates "16"
+    case "2" -> "3"
+    attempts "1"
+}
+activity Describe(Integer) -> Summary computes `return Summary{value: 0, positive: false, label: "pending"}` assembling {
+    choice "value" field_value at "0" alternative "input" intent "받은 값을 보존한다. Preserve the received integer."
+    choice "positive" field_value at "1" alternative "input > 0" intent "양수인지 표시한다. Mark whether the value is positive."
+    choice "label" field_value at "2" alternative "\"assembled\"" intent "조립된 결과로 표시한다. Label the result assembled."
+    value_case "[3]" -> "{\"value\":3,\"positive\":true,\"label\":\"assembled\"}"
+    value_case "[-2]" -> "{\"value\":-2,\"positive\":false,\"label\":\"assembled\"}"
+    attempts "8"
+}
+bind Add.result -> Describe.input
