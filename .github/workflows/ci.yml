@@ -26,7 +26,7 @@ jobs:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
           GOWORK: 'off'
         run: |
-          test -z "$(gofmt -l assets.go workbench.go workbench_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go source_budget_test.go experiments/construction-loop/main.go experiments/source-budget/main.go cmd/workbench/main.go)"
+          test -z "$(gofmt -l assets.go workbench.go workbench_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go source_budget_test.go refine.go refine_execution.go refine_test.go experiments/construction-loop/main.go experiments/source-budget/main.go cmd/workbench/main.go cmd/workbench/refine.go)"
           go vet ./...
           go test -race ./...
       - name: Verify typed IR body fill through the editor result contract
@@ -38,6 +38,14 @@ jobs:
         run: go run ./cmd/workbench verify --compiler "$PWD/.gooo" --model builtin --out out/ci-verification
       - name: Build a Gooo completeness receipt from verified evidence
         run: go run ./cmd/workbench receipt --compiler "$PWD/.gooo" --input out/ci-verification --out out/ci-completeness
+      - name: Let Gooo dispatch source refinement with the own compact model
+        run: |
+          go run ./cmd/workbench refine --compiler "$PWD/.gooo" \
+            --source examples/source-refinement/source.gooo --activity Select \
+            --cases examples/source-refinement/feedback-cases.json \
+            --evaluation-cases examples/source-refinement/evaluation-cases.json \
+            --policy examples/source-refinement/policy.gooo --model builtin \
+            --max-attempts 8 --max-rounds 4 --out out/ci-refinement
       - name: Generate a public interface reference in Gooo
         run: go run ./cmd/workbench reference --compiler "$PWD/.gooo" --package examples/catalog --entry ApproveInvoice --out out/ci-reference
       - name: Run Korean and English capability discovery through Gooo
@@ -52,6 +60,18 @@ jobs:
         with:
           name: gooo-ecosystem-observations
           path: |
+            out/ci-refinement/refinement-dispatch.json
+            out/ci-refinement/source-plan.json
+            out/ci-refinement/source.gooo
+            out/ci-refinement/policy.gooo
+            out/ci-refinement/feedback-cases.json
+            out/ci-refinement/evaluation-cases.json
+            out/ci-refinement/initial-result.json
+            out/ci-refinement/refinement-result.json
+            out/ci-refinement/final-result.json
+            out/ci-refinement/evaluation-result.json
+            out/ci-refinement/initial-plan/construction-next-steps.json
+            out/ci-refinement/final-plan/construction-next-steps.json
             out/editor-body-generation.json
             out/ci-verification/summary.json
             out/ci-verification/*/result.json

@@ -46,7 +46,10 @@ if !input.budget_known {
 if input.scored < input.budget && input.scored < input.ranked {
     return NextStep{code: "continuable", action: "resume-candidates", message: "남은 후보와 예산이 있습니다. 이어가기 정책을 명시해 조립을 계속할 수 있습니다."}
 }
-return NextStep{code: "exhausted", action: "expand-declared-choices", message: "현재 선택지 또는 시도 예산을 다 썼습니다. 남은 사례를 보고 소스의 조립 조건을 보완하세요."}`
+if input.scored < input.ranked {
+    return NextStep{code: "budget-exhausted", action: "raise-attempt-budget", message: "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."}
+}
+return NextStep{code: "exhausted", action: "expand-declared-choices", message: "선언된 후보를 모두 확인했습니다. 남은 사례를 표현할 선택지를 소스에 추가하세요."}`
 
 activity ObservationEcho(ConstructionObservation) -> ConstructionObservation computes `return input`
 bind ObservationEcho.result -> Next.input

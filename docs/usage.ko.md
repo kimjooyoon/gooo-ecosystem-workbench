@@ -71,6 +71,29 @@ go run ./cmd/workbench diagnose --compiler ./.gooo \
 두 기록이 다르면 불일치로 진단합니다. 예산이 없으면 후보 수로 대신 추정하지 않고
 `inspect-attempt-budget`으로 남깁니다.
 
+## Gooo의 제안을 소스 수정으로 이어가기
+
+`refine`는 처음 조립한 프로그램을 Gooo로 진단하고, 한도 확대나 사례 추가가
+제안되면 지정된 Gooo 정책으로 소스를 수정해 다시 실행합니다.
+
+```sh
+go run ./cmd/workbench refine --compiler ./.gooo \
+  --source examples/source-refinement/source.gooo --activity Select \
+  --cases examples/source-refinement/feedback-cases.json \
+  --policy examples/source-refinement/policy.gooo \
+  --evaluation-cases examples/source-refinement/evaluation-cases.json \
+  --max-attempts 8 --max-rounds 4 --out out/refinement
+```
+
+자체 소형 모델을 사용하려면 `--model builtin`을 더합니다. 다음 행동과 수정 규칙은
+Gooo 프로그램으로 실행됩니다. 한도가 남아 있는지와 원래 선언한 후보를 모두
+확인했는지를 구분하며, 수정 정책의 한도 안에서 해결되지 않은 결과도 남깁니다.
+
+출력의 `refinement-dispatch.json`에는 수정 전후 관측, 다음 행동, 모델 호출 수가
+있습니다. `selected_source`는 유지한 소스를 가리킵니다. 원본 파일은 보존하고,
+피드백과 별도로 제공한 최종 평가는 소스 선택 후에 실행합니다.
+[정책과 기록 설명](../examples/source-refinement/README.md)을 함께 볼 수 있습니다.
+
 ## 공개 API 참조 만들기
 
 컴파일러가 공개 시그니처와 타입 ID를 읽고 Gooo 템플릿으로 참조 문서를 만듭니다.

@@ -19,7 +19,10 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, diagnose, reference, discover, or receipt; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, diagnose, refine, reference, discover, or receipt; each command accepts --help")
+	}
+	if args[0] == "refine" {
+		return runRefine(args[1:])
 	}
 	f := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	var o workbench.Options
@@ -80,7 +83,7 @@ func run(args []string) error {
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, reference, discover, or receipt", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, refine, reference, discover, or receipt", args[0])
 	}
 	if err != nil {
 		return err

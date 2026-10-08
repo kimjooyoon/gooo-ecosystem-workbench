@@ -42,7 +42,7 @@ func TestNativeGenerationReportsBudgetWithoutPolicy(t *testing.T) {
 				t.Fatal("native source limit lost", o)
 			}
 			plans, err := constructionNextSteps(ctx, Options{Compiler: compiler}, root, s)
-			want := "expand-declared-choices"
+			want := "raise-attempt-budget"
 			if budget >= 8 {
 				want = "observe-new-inputs"
 			}
