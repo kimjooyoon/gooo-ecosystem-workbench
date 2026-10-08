@@ -2,7 +2,7 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.1을 사용합니다. [Gooo 0.6.11 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.11-dev)의
+Go 1.27.1을 사용합니다. [Gooo 0.6.13 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.13-dev)의
 운영체제별 실행 파일을 사용하거나, 아래처럼 CI와 같은 배포 소스만 얕게 내려받아 빌드합니다.
 배포 파일을 사용한다면 아래 명령의 `--compiler ./.gooo`에 설치한 실행 파일 경로를 지정합니다.
 아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
@@ -10,18 +10,18 @@ Go 1.27.1을 사용합니다. [Gooo 0.6.11 개발판](https://github.com/kimjooy
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin 27594824ad628ef0e8362bbc1e0e034aee88e07c
+git -C .compiler fetch --depth 1 origin 772acf4abaa93c01e666909e1c8b9029406f003a
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
 
-0.6.11은 패키지 이름과 import를 Gooo 소스에서 읽는 작업공간 설정을 지원합니다.
-앞선 0.6.10의 `splice`용 패키지 문자열 연산 수정도 포함합니다.
+0.6.13은 호출 결과에 따른 정수식·레코드 조립과 잘못된 계산식 거절 후 이어가기를 지원합니다.
+패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`에서 `0.6.11-dev`와 소스 리비전 `27594824…`를 확인합니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/27594824ad628ef0e8362bbc1e0e034aee88e07c/docs/releases/0.6.11-dev.md)와
+`version --build --json`에서 `0.6.13-dev`와 소스 리비전 `772acf4a…`를 확인합니다.
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/772acf4abaa93c01e666909e1c8b9029406f003a/docs/releases/0.6.13-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 
@@ -127,6 +127,37 @@ Gooo 프로그램으로 실행됩니다. 한도가 남아 있는지와 원래 �
 
 명령이 JSON으로 오류를 반환하면 실행 도구가 그 `error` 또는 `failure` 내용을
 실패 메시지에 포함합니다. 소스의 어느 선언이 잘못됐는지 원인을 함께 확인할 수 있습니다.
+
+## 잘못된 계산식을 지나가며 전체 프로그램 조립하기
+
+Gooo 0.6.13의 `body-construct`는 레코드 선택과 정수 계산식을 함께 고릅니다.
+아래 예제는 지역 계산식의 타입 검사 실패를 기록하고 다음 조합을 시도합니다.
+위에서 준비한 `.compiler` 소스와 실행 파일을 사용합니다.
+
+```sh
+go run ./cmd/workbench construct --compiler ./.gooo \
+  --source .compiler/examples/caller-search-rejection/mixed-model.gooo.fixture --entry Main \
+  --construction-cases examples/joint-feedback/initial-cases.json \
+  --evaluation-cases .compiler/examples/caller-search-rejection/mixed-construction-cases.json \
+  --holdout-cases .compiler/examples/caller-search-rejection/mixed-evaluation-cases.json \
+  --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+  --max-program-budget 40 --max-rounds 8 --out out/caller-search
+```
+
+처음 조건은 `0 → 0` 하나입니다. Gooo 피드백 규칙이 실패 사례의 원래 기대값을
+다음 회차에 추가합니다. 모델은 레코드 순서를 제안하고 계산식은 정해진 순서로
+살핍니다. `--model`을 빼면 전체 후보 순서가 결정론적입니다.
+
+`joint-loop.json`에서 회차별 `program_attempts`와 마지막
+`final_evaluation.joint_construction`의 `rejected_attempts`,
+`native_program_attempts`를 구분해 읽습니다. 실행 전에 거절한 조합도 예산에
+포함되며 호출부 점수는 없습니다. `final_evaluation.passed/total`은 선택이 끝난
+뒤 주어진 평가 사례를 얼마나 맞혔는지 나타냅니다.
+
+기존 모델 관측은 7회차·49번의 조합 시도 후 마지막 평가 4/4입니다. 마지막 회차의
+17번 중 8번은 지역 검사에서 거절됐고 9개 프로그램을 실행했습니다.
+가중치와 원래 기대값을 유지한 한 프로그램의 기록입니다.
+[관측 범위와 원본](../publication/joint-rejection-20261009/README.md).
 
 ## 공개 API 참조 만들기
 
