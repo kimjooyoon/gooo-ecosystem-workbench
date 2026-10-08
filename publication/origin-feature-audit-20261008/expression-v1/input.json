@@ -1,0 +1,223 @@
+{
+  "cases": [
+    {
+      "id": "filename-order-0",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix \u0026\u0026 visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        7
+      ]
+    },
+    {
+      "id": "filename-order-1",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix \u0026\u0026 visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        6
+      ]
+    },
+    {
+      "id": "filename-order-2",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix \u0026\u0026 visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        5
+      ]
+    },
+    {
+      "id": "filename-order-3",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix \u0026\u0026 visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        4
+      ]
+    },
+    {
+      "id": "filename-order-4",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix \u0026\u0026 visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        3
+      ]
+    },
+    {
+      "id": "filename-order-5",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix \u0026\u0026 visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        2
+      ]
+    },
+    {
+      "id": "filename-order-6",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix \u0026\u0026 visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        1
+      ]
+    },
+    {
+      "id": "filename-order-7",
+      "family": "filename-classifier",
+      "choices": [
+        {
+          "field": "source",
+          "first": "suffix \u0026\u0026 visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename."
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem."
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length."
+        }
+      ],
+      "accepted_masks": [
+        0
+      ]
+    }
+  ],
+  "feature_version": "triple_record_field_context_v1_shared_v1",
+  "label_source": "https://raw.githubusercontent.com/wiki/kimjooyoon/meta-ontology-go/observations/text-operations-20261008/order-ablation/summary.json",
+  "schema": "gooo/record-feature-audit-input/v1"
+}

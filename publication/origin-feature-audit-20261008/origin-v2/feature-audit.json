@@ -1,0 +1,98 @@
+{
+  "schema": "gooo/record-feature-audit/v1",
+  "input_sha256": "50b2b820bbc9d5f492ee639aefbf4e40cb1aac231008be8e991d08d3339b7d33",
+  "feature_version": "triple_record_field_flow_v2_shared_v1",
+  "projection_module_version": "v0.2.25-experimental",
+  "label_source": "https://github.com/kimjooyoon/meta-ontology-go/wiki/Helper-Value-Flow (246fdf5b source contexts; accepted mask 7-order inherited from the filename order study)",
+  "rows": 8,
+  "families": 1,
+  "distinct_feature_vectors": 4,
+  "conflicting_feature_groups": 4,
+  "maximum_compatible_rows": 4,
+  "groups": [
+    {
+      "feature_sha256": "f7d076d5e38fb7dee1bce724388a66f472e083e2ed836882f4bec3c5b075e980",
+      "rows": [
+        "filename-order-0",
+        "filename-order-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "4a83e1d780d3076ea32985488fe8245f03350feec52f5c204b7b98718b54d347",
+      "rows": [
+        "filename-order-2",
+        "filename-order-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "7f7fb9c6be0d2357c7413288f64bb6c0ed25500d401e2dcfb3ba9ddd5a94425a",
+      "rows": [
+        "filename-order-4",
+        "filename-order-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "19ef78f3b8a0cd5d9ad7b1737b75235543a223b1e50bb510c3f72f0c0b8845be",
+      "rows": [
+        "filename-order-6",
+        "filename-order-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    }
+  ],
+  "model_observed": false,
+  "model_calls": 0,
+  "model_satisfied_rows": 0,
+  "policy": {
+    "code": "representation-collision",
+    "action": "preserve-distinguishing-source-facts",
+    "message": "같은 모델 입력에 서로 다른 선택이 필요하다. 구분에 필요한 연산과 값의 출처를 입력에 보존한다."
+  },
+  "policy_source_sha256": "sha256:9f52ef4311ed97833ecf344fdb908855cbb90f74858bdb51927a03b151787bbf",
+  "policy_compiler_source_sha": "86b182da4543efa24ea5bcb504e7b13ea1449c39",
+  "policy_runtime_replayed": true,
+  "scope": "Empirical row-weighted upper bound for a deterministic chooser using exactly these features and the supplied accepted-mask labels; repeated source families are counted separately; no generalization, label correctness, training or runtime claim."
+}
