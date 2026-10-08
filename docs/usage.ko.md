@@ -2,7 +2,7 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.1을 사용합니다. [Gooo 0.6.10 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.10-dev)의
+Go 1.27.1을 사용합니다. [Gooo 0.6.11 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.11-dev)의
 운영체제별 실행 파일을 사용하거나, 아래처럼 CI와 같은 배포 소스만 얕게 내려받아 빌드합니다.
 배포 파일을 사용한다면 아래 명령의 `--compiler ./.gooo`에 설치한 실행 파일 경로를 지정합니다.
 아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
@@ -10,17 +10,18 @@ Go 1.27.1을 사용합니다. [Gooo 0.6.10 개발판](https://github.com/kimjooy
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin eb0dc4704705147f9ba944db3df2ba5e3225cbff
+git -C .compiler fetch --depth 1 origin 27594824ad628ef0e8362bbc1e0e034aee88e07c
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
 
-0.6.10에는 `splice`가 쓰는 패키지 문자열 연산 수정이 포함됐습니다.
+0.6.11은 패키지 이름과 import를 Gooo 소스에서 읽는 작업공간 설정을 지원합니다.
+앞선 0.6.10의 `splice`용 패키지 문자열 연산 수정도 포함합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`에서 `0.6.10-dev`와 소스 리비전 `eb0dc470…`를 확인합니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/eb0dc4704705147f9ba944db3df2ba5e3225cbff/docs/releases/0.6.10-dev.md)와
+`version --build --json`에서 `0.6.11-dev`와 소스 리비전 `27594824…`를 확인합니다.
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/27594824ad628ef0e8362bbc1e0e034aee88e07c/docs/releases/0.6.11-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 
