@@ -28,7 +28,7 @@ jobs:
         run: |
           test -z "$(gofmt -l assets.go workbench.go workbench_test.go compiler_diagnostic.go compiler_diagnostic_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go construction_search.go construction_search_test.go source_budget_test.go refine.go refine_execution.go refine_test.go search_refine_test.go search_policy_test.go calibrated_report_test.go experiments/construction-loop/main.go experiments/source-budget/main.go experiments/search-refinement/main.go experiments/search-policy/main.go experiments/calibrated-report/main.go cmd/workbench/main.go cmd/workbench/refine.go)"
           test -z "$(gofmt -l retry_policy_test.go)"
-          test -z "$(gofmt -l feature_audit.go feature_audit_test.go)"
+          test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go)"
           go vet ./...
           go test -race ./...
       - name: Verify typed IR body fill through the editor result contract
@@ -71,6 +71,9 @@ jobs:
           go run ./cmd/workbench feature-audit --compiler "$PWD/.gooo" \
             --input examples/feature-audit/filename-order.json --model builtin --out out/ci-feature-audit
           jq -e '.rows == 8 and .families == 1 and .distinct_feature_vectors == 2 and .maximum_compatible_rows == 2 and .model_satisfied_rows == 1 and .policy.code == "representation-collision"' out/ci-feature-audit/feature-audit.json
+          go run ./cmd/workbench feature-audit --compiler "$PWD/.gooo" \
+            --input examples/feature-audit/filename-origin-order.json --out out/ci-origin-feature-audit
+          jq -e '.rows == 8 and .families == 1 and .distinct_feature_vectors == 4 and .maximum_compatible_rows == 4 and .model_observed == false and .model_calls == 0 and .policy_runtime_replayed == true and .policy.code == "representation-collision"' out/ci-origin-feature-audit/feature-audit.json
       - name: Run Korean and English capability discovery through Gooo
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -84,6 +87,7 @@ jobs:
           name: gooo-ecosystem-observations
           path: |
             out/ci-feature-audit/
+            out/ci-origin-feature-audit/
             out/ci-retry-policy/
             out/ci-calibrated-report/
             out/ci-search-policy/
