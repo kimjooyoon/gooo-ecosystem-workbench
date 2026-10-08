@@ -1,0 +1,52 @@
+package jointnext
+namespace jointnext
+
+entity Observation id "gooo://jointnext/observation" fields {
+    field local_passed id "gooo://jointnext/local-passed" type integer required one
+    field local_total id "gooo://jointnext/local-total" type integer required one
+    field caller_passed id "gooo://jointnext/caller-passed" type integer required one
+    field caller_total id "gooo://jointnext/caller-total" type integer required one
+    field evaluation_passed id "gooo://jointnext/evaluation-passed" type integer required one
+    field evaluation_total id "gooo://jointnext/evaluation-total" type integer required one
+    field program_attempts id "gooo://jointnext/program-attempts" type integer required one
+    field program_budget id "gooo://jointnext/program-budget" type integer required one
+    field more_candidates id "gooo://jointnext/more-candidates" type boolean required one
+    field other_inputs id "gooo://jointnext/other-inputs" type integer required one
+}
+entity NextStep id "gooo://jointnext/next-step" fields {
+    field code id "gooo://jointnext/code" type string required one
+    field action id "gooo://jointnext/action" type string required one
+    field message id "gooo://jointnext/message" type string required one
+    field next_program_budget id "gooo://jointnext/next-program-budget" type integer required one
+}
+
+activity Next(Observation) -> NextStep computes `if input.local_passed < 0 || input.local_total < 1 || input.local_passed > input.local_total || input.caller_passed < 0 || input.caller_total < 1 || input.caller_passed > input.caller_total || input.evaluation_passed < 0 || input.evaluation_total < 0 || input.evaluation_passed > input.evaluation_total || input.program_attempts < 1 || input.program_attempts > input.program_budget || input.program_budget > 64 || input.other_inputs < 0 {
+    return NextStep{code: "inconsistent-observation", action: "replay-construction", message: "원래 소스와 저장한 조립 기록으로 실행 결과를 다시 확인하세요.", next_program_budget: 0}
+}
+if input.local_passed < input.local_total || input.caller_passed < input.caller_total {
+    if input.more_candidates && input.program_budget < 64 {
+        let next = input.program_budget * 2
+        if next > 64 { next = 64 }
+        return NextStep{code: "program-budget-exhausted", action: "rerun-with-larger-program-budget", message: "확인하지 않은 조합이 남았습니다. 전체 프로그램의 시도 한도를 늘려 처음부터 다시 조립할 수 있습니다.", next_program_budget: next}
+    }
+    if input.more_candidates {
+        return NextStep{code: "program-limit-reached", action: "refine-declared-choices", message: "전체 프로그램의 시도 한도 64회에 도달했습니다. 기대값을 유지하면서 후보 구성을 다듬으세요.", next_program_budget: 0}
+    }
+    if input.local_passed < input.local_total {
+        return NextStep{code: "local-obligations-unmet", action: "review-local-and-caller-expectations", message: "현재 조합들이 부품과 전체의 기대값을 함께 만족하지 못했습니다. 실패한 예제와 선택지를 함께 확인하세요.", next_program_budget: 0}
+    }
+    return NextStep{code: "caller-space-exhausted", action: "expand-declared-choices", message: "허용된 조합을 모두 확인했지만 전체 결과가 맞지 않습니다. 남은 사례를 표현할 선택지를 추가하세요.", next_program_budget: 0}
+}
+if input.evaluation_total == 0 {
+    return NextStep{code: "evaluation-unobserved", action: "add-evaluation-expectations", message: "조립에 사용한 예제는 맞았습니다. 별도 평가에도 비교할 기대값을 추가하세요.", next_program_budget: 0}
+}
+if input.evaluation_passed < input.evaluation_total {
+    return NextStep{code: "evaluation-gap", action: "add-counterexamples-to-construction", message: "별도 평가에서 실패한 사례가 있습니다. 이를 다음 조립의 조건에 반영하고 새 평가 입력을 준비하세요.", next_program_budget: 0}
+}
+if input.other_inputs == 0 {
+    return NextStep{code: "consumed-inputs-only", action: "add-different-evaluation-inputs", message: "평가한 입력이 모두 조립에 사용됐습니다. 다른 입력에서도 결과를 관측하세요.", next_program_budget: 0}
+}
+return NextStep{code: "observed-complete", action: "observe-new-inputs", message: "주어진 부품·전체·평가 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.", next_program_budget: 0}`
+
+activity ObservationEcho(Observation) -> Observation computes `return input`
+bind ObservationEcho.result -> Next.input

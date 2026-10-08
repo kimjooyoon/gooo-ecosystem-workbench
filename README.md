@@ -13,6 +13,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | --- | --- | --- |
 | 표준 함수 13개 | 정수 범위·최솟값·최댓값, 논리 연산, 텍스트 선택 | `verify` |
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
+| 전체 조립 반복 | 부품·호출부·평가 결과를 구분하고 Gooo가 다음 시도 한도를 계산 | `construct` |
 | 모델 입력 검사 | 입력에서 사라진 구분과 선택기의 남은 오차를 나눠 다음 작업 구성 | `feature-audit` |
 | 소스 수정 이어가기 | Gooo의 다음 행동에 따라 사례·시도 한도를 수정하고 다시 조립 | `refine` |
 | 소스 조각 바꾸기 | 원문 확인 → 조건부 교체 → 바뀐 길이를 순서대로 구성 | [`splice`](examples/source-splice/README.md) |
@@ -187,6 +188,43 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 없습니다. 기본 진단 프로그램을 조립할 때는 기존의 선택적 모델을 사용할 수 있습니다.
 각 활동의 제안은 전체 실행에서 실패를 일으킨 활동을 확정하는 인과 분석까지 포함하지
 않습니다. 실제 이어가기는 컴파일러가 원래 소스와 기록을 다시 확인한 뒤 수행합니다.
+
+### 부품을 맞춰도 전체가 틀리는 경우
+
+`body-construct`가 있는 컴파일러에서는 다음 명령으로 전체 조립을 반복할 수 있습니다.
+[Gooo 규칙](recipes/joint-next.gooo)이 결과를 읽고 다음 시도 한도를 계산하며,
+Go 실행부가 정해둔 상한 안에서 그 제안을 실행합니다.
+
+```sh
+go run ./cmd/workbench construct --compiler /path/to/gooo \
+  --source examples/joint-diagnostics/source.gooo --entry Main \
+  --construction-cases examples/joint-diagnostics/construction-cases.json \
+  --evaluation-cases examples/joint-diagnostics/evaluation-cases.json \
+  --max-program-budget 8 --max-rounds 4 --out out/joint-fixed
+```
+
+기본 순서는 결정론적입니다. 자체 그래프 모델을 쓰려면
+`--model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json`을
+추가합니다. 모델은 각 조립 실행의 초기 후보 순서를 제안합니다. 진단 규칙과
+다음 한도 계산은 모델 없이 Gooo 코드로 실행됩니다.
+
+각 회차는 처음부터 다시 조립합니다. 예를 들어 1·2·4·8회 한도를 순서대로
+사용하면 최대 15번의 프로그램 시도가 생깁니다. `joint-loop.json`은 회차별
+실제 시도 수와 다음 행동을, `round-N.json`은 원래 결과를 남깁니다.
+마지막 `round-N/`에는 선택한 Gooo 소스와 다시 실행할 조립 기록이 있습니다.
+
+기존 결과만 살펴보려면 `diagnose --input /path/to/body-construct-result.json`을
+사용합니다. 이 경로는 다음 관측을 분리합니다.
+
+- 처음 각 부품을 준비할 때의 사례와 시도 수
+- 각 전체 프로그램 조합의 부품 검사와 호출부 검사
+- 선택한 프로그램의 별도 평가, 조립에 소비된 입력과 그 밖의 입력 수
+
+별도 평가가 모두 맞아도 부품이나 호출부의 조건이 남으면 완료로 안내하지 않습니다.
+평가에서 새로 실패한 사례는 다음 조립 조건으로 옮기도록 안내하며, 새 평가 입력도
+필요하다고 표시합니다. 후보 확장과 기대값 수정은 현재 자동 반복의 범위에 포함되지
+않습니다. 저장 기록의 실제 값을 다시 세는 작업과 원래 프로그램을 재실행하는 작업은
+별개입니다. [고정 관측과 검증 계획](examples/joint-diagnostics/PLAN.md)을 함께 확인할 수 있습니다.
 
 ### 진단에서 소스 수정까지 이어가기
 
