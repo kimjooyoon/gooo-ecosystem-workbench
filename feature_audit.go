@@ -14,10 +14,11 @@ import (
 )
 
 type FeatureAuditCase struct {
-	ID            string                       `json:"id"`
-	Family        string                       `json:"family"`
-	Choices       []jointdecision.RecordChoice `json:"choices"`
-	AcceptedMasks []uint16                     `json:"accepted_masks"`
+	ID            string                             `json:"id"`
+	Family        string                             `json:"family"`
+	Choices       []jointdecision.RecordChoice       `json:"choices,omitempty"`
+	OriginChoices []jointdecision.RecordOriginChoice `json:"origin_choices,omitempty"`
+	AcceptedMasks []uint16                           `json:"accepted_masks"`
 }
 
 type FeatureAuditInput struct {
@@ -76,13 +77,13 @@ func readFeatureAuditInput(raw []byte) (FeatureAuditInput, error) {
 	if err := json.Unmarshal(raw, &input); err != nil {
 		return input, err
 	}
-	if input.Schema != "gooo/record-feature-audit-input/v1" || input.FeatureVersion != jointdecision.RecordSharedFeatureVersion ||
+	if input.Schema != "gooo/record-feature-audit-input/v1" || !auditFeatureVersion(input.FeatureVersion) ||
 		input.LabelSource == "" || len(input.Cases) == 0 || len(input.Cases) > 4096 {
 		return input, fmt.Errorf("a supported feature contract, label source and 1..4096 cases are required")
 	}
 	seen := make(map[string]bool, len(input.Cases))
 	for _, row := range input.Cases {
-		if row.ID == "" || row.Family == "" || seen[row.ID] || len(row.AcceptedMasks) == 0 || len(row.Choices) != 3 {
+		if row.ID == "" || row.Family == "" || seen[row.ID] || len(row.AcceptedMasks) == 0 || !auditChoiceShape(row, input.FeatureVersion) {
 			return input, fmt.Errorf("unique row IDs, source families, exactly three choices and nonempty accepted masks are required")
 		}
 		seen[row.ID] = true
@@ -105,6 +106,9 @@ func auditFeatureRows(ctx context.Context, input FeatureAuditInput, model *joint
 		ProjectionVersion: moduleVersion("github.com/kimjooyoon/gooo-decision-runtime"),
 		LabelSource:       input.LabelSource, Rows: len(input.Cases), ModelObserved: model != nil,
 		Scope: "Empirical row-weighted upper bound for a deterministic chooser using exactly these features and the supplied accepted-mask labels; repeated source families are counted separately; no generalization, label correctness, training or runtime claim."}
+	if !auditFeatureVersion(input.FeatureVersion) || model != nil && model.FeatureVersion() != input.FeatureVersion {
+		return r, fmt.Errorf("audit projection and model require the same explicit feature contract")
+	}
 	groups := map[string]*FeatureCollisionGroup{}
 	families := map[string]bool{}
 	var features [jointdecision.ThreeFeatureDim]float32
@@ -114,15 +118,8 @@ func auditFeatureRows(ctx context.Context, input FeatureAuditInput, model *joint
 		if err := ctx.Err(); err != nil {
 			return r, err
 		}
-		if len(row.Choices) != 3 {
-			return r, fmt.Errorf("%s: exactly three source choices are required", row.ID)
-		}
-		text, err := jointdecision.EncodeRecordThree([3]jointdecision.RecordChoice(row.Choices))
-		if err != nil {
+		if err := projectAuditRow(row, input.FeatureVersion, &features); err != nil {
 			return r, fmt.Errorf("%s: %w", row.ID, err)
-		}
-		if err = jointdecision.FeaturesIntoRecordThree(text, &features); err != nil {
-			return r, err
 		}
 		for i, value := range features {
 			binary.LittleEndian.PutUint32(bits[4*i:], math.Float32bits(value))
@@ -139,7 +136,7 @@ func auditFeatureRows(ctx context.Context, input FeatureAuditInput, model *joint
 		families[row.Family] = true
 		if model != nil {
 			var prediction jointdecision.ThreePrediction
-			if err = model.PredictRecordSharedFeaturesInto(&features, &workspace, &prediction); err != nil {
+			if err := predictAuditFeatures(model, &features, &workspace, &prediction); err != nil {
 				return r, err
 			}
 			matched := slices.Contains(row.AcceptedMasks, prediction.Mask)
@@ -182,7 +179,7 @@ func AuditRecordFeatures(ctx context.Context, o Options, raw []byte) (FeatureAud
 		return FeatureAuditReport{}, err
 	}
 	if modelPath != "" {
-		model, err = jointdecision.LoadRecordSharedThree(modelPath)
+		model, err = loadAuditModel(modelPath, input.FeatureVersion)
 		if err != nil {
 			return FeatureAuditReport{}, err
 		}

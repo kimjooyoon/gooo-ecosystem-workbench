@@ -80,6 +80,11 @@ Go는 실제 float32 배열을 비트 단위로 묶고, Gooo의 [평가 규칙](
 `preserve-distinguishing-source-facts`를 다음 작업으로 반환합니다. 입력·집계·Gooo 소스·
 실행 기록을 함께 저장합니다. [입력 형식과 측정 범위](examples/feature-audit/README.md).
 
+함수 안의 값 출처를 포함하는 v2 입력은 `filename-origin-order.json`으로 검사합니다.
+같은 여덟 배치에서 배열이 네 종류로 늘고, 제공된 정답 기준 최대치는 4/8입니다.
+`&&`와 `||`는 여전히 합쳐집니다. 이 비교는 입력이 얼마나 구분되는지 측정하며,
+v2 모델을 학습하거나 정답률을 측정한 결과는 아닙니다. v2 검사는 모델 없이 실행합니다.
+
 ## Gooo가 Gooo 파일 만들기
 
 [시작 프로그램](recipes/starter.gooo)은 템플릿을 Gooo 지역 변수에 보관하고,

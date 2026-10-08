@@ -1,7 +1,7 @@
 # Can the model input distinguish the supplied choices?
 
-`feature-audit` compares the actual float32 feature arrays of the existing
-shared-field model. Go owns projection and exact grouping; the next action is
+`feature-audit` compares the actual float32 feature arrays of the expression and
+source-origin shared-field contracts. Go owns projection and exact grouping; the next action is
 computed by [a Gooo activity](../../recipes/feature-audit.gooo).
 
 ```sh
@@ -51,6 +51,34 @@ independence. Repeated source families are counted and should stay together when
 constructing later training splits. This is a row-weighted empirical bound, not
 the general accuracy ceiling of Gooo or language models.
 
+## Follow values through source helpers
+
+The origin fixture uses the same eight arrangements, with the compiler's actual
+ancestor counts through `HasSuffix`, `HasPrefix`, `StripSuffix` and `ByteLength`:
+
+```sh
+go run ./cmd/workbench feature-audit --compiler /path/to/gooo \
+  --input examples/feature-audit/filename-origin-order.json --out out/origin-audit
+```
+
+Its source contexts were exported from compiler `246fdf5b0d40a1d1e148560f8389cdfb364da998`.
+The complete exports, original Gooo variants and reproduction tool are retained
+in [the helper-flow observation](https://github.com/kimjooyoon/meta-ontology-go/wiki/Helper-Value-Flow).
+Each `origin_choices` item is the decoded corresponding `context.parts` item.
+`accepted_masks` remains the prior study's label assumption `7 - order`; this
+audit does not execute those candidates or establish new labels.
+
+| Feature contract | Source families | Arrangements | Different arrays | Maximum compatible rows |
+| --- | ---: | ---: | ---: | ---: |
+| Expression v1 | 1 | 8 | 2 | 2/8 |
+| Source origin v2 | 1 | 8 | 4 | 4/8 |
+
+Origin v2 separates the original name from the computed stem. AND/OR still
+collide, leaving four groups of two incompatible rows. The Gooo assessment
+therefore requests `preserve-distinguishing-source-facts` for both inputs.
+These are representation measurements. No v2 weights were trained or measured.
+The bundled model is v1 and is rejected when requested with v2 input.
+
 ## Output and implementation
 
 `feature-audit.json` contains the groups, exact-array hashes, accepted-mask counts,
@@ -59,11 +87,16 @@ maximum compatible rows, optional model predictions and Gooo's assessment.
 input cases, generated code and native composition for replay. No weights are
 updated. The original model hashes are recorded when inference is requested.
 
-The feature contract is `triple_record_field_context_v1_shared_v1`, from runtime
-`v0.2.25-experimental`. Other versions are rejected. Each row has a unique `id`,
+The supported contracts are `triple_record_field_context_v1_shared_v1` and
+`triple_record_field_flow_v2_shared_v1`, from runtime `v0.2.25-experimental`.
+Other versions are rejected. Each row has a unique `id`,
 nonempty `family`, exactly three source choices and one or more distinct
 `accepted_masks` in 0..7. The file includes `schema`, `feature_version` and a
-`label_source` reference. `filename-order.json` is a complete example.
+`label_source` reference. Expression v1 rows use `choices`; origin v2 rows use
+`origin_choices` with the SDK's two 16-slot `origins` arrays per choice. Mixed or
+mismatched rows are rejected. An optional model must declare the same contract,
+even though both versions use 768 floats. Changing accepted-mask labels never
+changes the model input arrays. Both filename JSON files are complete examples.
 
 The Gooo policy returns one of:
 

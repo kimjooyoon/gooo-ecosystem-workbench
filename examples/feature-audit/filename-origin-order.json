@@ -1,0 +1,1135 @@
+{
+  "schema": "gooo/record-feature-audit-input/v1",
+  "feature_version": "triple_record_field_flow_v2_shared_v1",
+  "label_source": "https://github.com/kimjooyoon/meta-ontology-go/wiki/Helper-Value-Flow (246fdf5b source contexts; accepted mask 7-order inherited from the filename order study)",
+  "cases": [
+    {
+      "id": "filename-order-0",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix && visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        7
+      ]
+    },
+    {
+      "id": "filename-order-1",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix && visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        6
+      ]
+    },
+    {
+      "id": "filename-order-2",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix && visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        5
+      ]
+    },
+    {
+      "id": "filename-order-3",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix && visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "0",
+          "second": "bytes",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        4
+      ]
+    },
+    {
+      "id": "filename-order-4",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix && visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        3
+      ]
+    },
+    {
+      "id": "filename-order-5",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix && visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "input",
+          "second": "stem",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        2
+      ]
+    },
+    {
+      "id": "filename-order-6",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix || visible",
+          "second": "suffix && visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        1
+      ]
+    },
+    {
+      "id": "filename-order-7",
+      "family": "filename-classifier",
+      "origin_choices": [
+        {
+          "field": "source",
+          "first": "suffix && visible",
+          "second": "suffix || visible",
+          "intent": "확장자가 .gooo이고 숨김 이름이 아닌 두 조건을 모두 만족한다. Require both the Gooo suffix and a visible filename.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              3,
+              21,
+              0,
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              23
+            ]
+          ]
+        },
+        {
+          "field": "stem",
+          "first": "stem",
+          "second": "input",
+          "intent": "접미사를 제거한 이름을 연결한다. Return the computed stem.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              2,
+              16,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              23
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "field": "bytes",
+          "first": "bytes",
+          "second": "0",
+          "intent": "UTF-8 바이트 길이를 연결한다. Return the computed byte length.",
+          "origins": [
+            [
+              0,
+              0,
+              1,
+              0,
+              2,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              6
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      ],
+      "accepted_masks": [
+        0
+      ]
+    }
+  ]
+}
