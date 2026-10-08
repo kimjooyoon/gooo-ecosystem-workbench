@@ -1,0 +1,129 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PASS",
+  "activity_id": "offset://activity/add",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 0,
+        "total": 1,
+        "scored": 1,
+        "ranked": 5,
+        "budget": 1,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 0,
+    "total": 2,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"offset://activity/add\",\"actual\":2,\"expected\":3},{\"activity\":\"offset://activity/add\",\"actual\":10,\"expected\":11}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "eb753703d62eff5da204d896e086bc59461d5f7db04597a999ca1f588aa099c3"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 2,
+        "total": 2,
+        "scored": 5,
+        "ranked": 6,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 2,
+    "total": 2,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "64a81aecded4c9999f2c220e8c7cc81da033719a56298a93a0743ca3fd97e64c"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "offset://activity/add",
+      "kind": "integer_search",
+      "matched": 0,
+      "total": 1,
+      "scored": 1,
+      "ranked": 5,
+      "budget": 1,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 0,
+      "space_known": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "offset://activity/add",
+      "kind": "integer_search",
+      "matched": 2,
+      "total": 2,
+      "scored": 5,
+      "ranked": 6,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 0,
+      "space_known": true
+    },
+    "code": "observed-complete",
+    "action": "observe-new-inputs",
+    "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PASS",
+  "evaluation_status": "PASS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 2,
+        "total": 2,
+        "scored": 5,
+        "ranked": 6,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 2,
+    "total": 2,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "7113772d28157da8fac5119529a0738cda54058b022efa2964e87cbd0cf29293"
+  },
+  "initial_model_calls": 0,
+  "refinement_model_calls": 0,
+  "refinement_rounds": 4,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations"
+}

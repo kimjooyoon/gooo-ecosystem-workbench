@@ -1,0 +1,53 @@
+{
+  "compiler_source": "661ec03c5145a252564df2919a109f4a5d8834d8",
+  "input_sha256": "565c80acaa86944958536c96468e7d09b764a69b16f4cf37fd79a4072eef67da",
+  "native_passed": 4,
+  "native_total": 4,
+  "native_unit": "activity_outputs",
+  "new_model_calls": 0,
+  "plans": [
+    {
+      "observation": {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 2,
+        "total": 2,
+        "scored": 5,
+        "ranked": 6,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      },
+      "code": "observed-complete",
+      "action": "observe-new-inputs",
+      "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+    },
+    {
+      "observation": {
+        "activity_id": "offset://activity/describe",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      },
+      "code": "observed-complete",
+      "action": "observe-new-inputs",
+      "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+    }
+  ],
+  "schema": "gooo/construction-next-steps/v1",
+  "scope": "Gooo proposals from recorded construction counts and recounted native expectations; per-activity plans do not establish which helper caused a native mismatch; explicit compiler resume revalidates the saved source and records",
+  "source_sha256": "f1e92ece1191d3c907820307f53211074a84360e94e27356220c445ae9104a23"
+}
