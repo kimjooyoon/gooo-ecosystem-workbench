@@ -24,6 +24,6 @@ return output` assembling {
     value_case "[\"\",\"\",\"\",\"\",\"x\"]" -> "{\"changed\":true,\"source\":\"x\",\"bytes\":1}"
     value_case "[\"drop\",\"\",\"drop\",\"\",\"\"]" -> "{\"changed\":true,\"source\":\"\",\"bytes\":0}"
     value_case "[\"x+x\",\"x+\",\"x\",\"\",\"y\"]" -> "{\"changed\":true,\"source\":\"x+y\",\"bytes\":3}"
-    value_case "[\"a\nb\",\"a\",\"\n\",\"b\",\"\r\n\"]" -> "{\"changed\":true,\"source\":\"a\r\nb\",\"bytes\":4}"
+    value_case "[\"a\\nb\",\"a\",\"\\n\",\"b\",\"\\r\\n\"]" -> "{\"changed\":true,\"source\":\"a\\r\\nb\",\"bytes\":4}"
     attempts "8"
 }
