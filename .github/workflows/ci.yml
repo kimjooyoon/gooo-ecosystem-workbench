@@ -37,6 +37,7 @@ jobs:
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
           test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go joint_feedback.go joint_feedback_test.go)"
+          test -z "$(gofmt -l experiments/joint-feedback-observe/main.go)"
           test -z "$(gofmt -l splice.go splice_execution.go splice_test.go experiments/dependent-splice/*.go)"
           go vet ./...
           go test -race ./...
@@ -76,7 +77,7 @@ jobs:
                 --holdout-cases "${prefix}holdout-cases.json" \
                 --max-program-budget 8 --max-rounds 6 "${model_args[@]}" \
                 --out "out/ci-feedback-$family-$mode"
-              jq -e '.schema == "gooo/joint-construction-loop/v2" and .final_evaluation.passed == 4 and .final_evaluation.total == 4 and .final_evaluation.joint_construction.replayed == true and .final_evaluation.joint_construction.new_model_calls == 0' "out/ci-feedback-$family-$mode/joint-loop.json"
+              jq -e '.schema == "gooo/joint-construction-loop/v2" and .final_evaluation.passed == 4 and .final_evaluation.total == 4 and .final_evaluation.joint_construction.construction_replayed == true and .final_evaluation.joint_construction.new_model_calls == 0' "out/ci-feedback-$family-$mode/joint-loop.json"
             done
           done
       - name: Verify typed IR body fill through the editor result contract

@@ -247,6 +247,9 @@ go run ./cmd/workbench construct --compiler /path/to/gooo \
 원본 파일은 별도로 보존합니다. 회차/시도 상한과 컴파일러의 128행·32KiB 한도를
 넘으면 이유를 기록하고 멈춥니다. 오류나 취소가 발생해도 이미 관측한 진행을 남깁니다.
 [실험 전에 고정한 계획과 예제](examples/joint-feedback/PLAN.md)를 참고할 수 있습니다.
+[실제 두 프로그램의 비교 결과와 원본 기록](publication/joint-feedback-20261008/README.md)도
+공개했습니다. 산술 예제에서는 모델이 시도를 줄였고, 요금 계산에서는 기본 순서가
+더 빨랐습니다. 두 경로 모두 같은 최종 소스를 만들고 마지막 평가를 통과했습니다.
 
 저장 기록의 실제 값을 다시 세는 작업과 원래 프로그램을 재실행하는 작업은
 별개입니다. [기존 관측과 검증 계획](examples/joint-diagnostics/PLAN.md)도 함께 제공합니다.
