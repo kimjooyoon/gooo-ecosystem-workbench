@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 4a0cfdd8b23f8ace5f1ad1e0d29bc35c6e61c32c
+          ref: ae3890c241575d6bbbe2a9d730fd015d36b97ccd
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p out
           ./.gooo version --build --json > out/compiler-build.json
-          jq -e '.version == "0.6.12-dev" and .go_version == "go1.27.1" and .vcs_revision == "4a0cfdd8b23f8ace5f1ad1e0d29bc35c6e61c32c" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
+          jq -e '.version == "0.6.12-dev" and .go_version == "go1.27.1" and .vcs_revision == "ae3890c241575d6bbbe2a9d730fd015d36b97ccd" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -39,9 +39,20 @@ jobs:
           test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go joint_feedback.go joint_feedback_test.go)"
           test -z "$(gofmt -l experiments/joint-feedback-observe/main.go)"
           test -z "$(gofmt -l joint_search_snapshot.go joint_search_snapshot_test.go)"
+          test -z "$(gofmt -l joint_rejection_snapshot.go joint_rejection_snapshot_test.go)"
           test -z "$(gofmt -l splice.go splice_execution.go splice_test.go experiments/dependent-splice/*.go)"
           go vet ./...
           go test -race ./...
+      - name: Continue past rejected expressions using Gooo feedback and the own model
+        run: |
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --source .compiler/examples/caller-search-rejection/mixed-model.gooo.fixture --entry Main \
+            --construction-cases examples/joint-feedback/initial-cases.json \
+            --evaluation-cases .compiler/examples/caller-search-rejection/mixed-construction-cases.json \
+            --holdout-cases .compiler/examples/caller-search-rejection/mixed-evaluation-cases.json \
+            --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+            --max-program-budget 40 --max-rounds 8 --out out/ci-joint-rejection
+          jq -e '.stop_reason == "add-different-evaluation-inputs" and (.rounds|length) == 7 and ([.rounds[].program_attempts]|add) == 49 and .final_evaluation.passed == 4 and .final_evaluation.total == 4 and .final_evaluation.joint_construction.rejected_attempts == 8 and .final_evaluation.joint_construction.native_program_attempts == 9 and .final_evaluation.joint_construction.new_model_calls == 0' out/ci-joint-rejection/joint-loop.json
       - name: Let Gooo drive whole-program construction budgets
         run: |
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
@@ -175,6 +186,7 @@ jobs:
             out/compiler-build.json
             out/ci-joint-fixed/
             out/ci-joint-model/
+            out/ci-joint-rejection/
             out/ci-feedback-*/
             out/ci-dependent-splice/
             out/ci-graph-training/
