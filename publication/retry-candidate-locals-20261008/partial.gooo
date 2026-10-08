@@ -35,5 +35,5 @@ return Plan{retry: false, delay_ms: 0, reason: "pending"}` assembling {
     value_case "[false,false,1,3,10,100]" -> "{\"retry\":false,\"delay_ms\":0,\"reason\":\"permanent-failure\"}"
     value_case "[false,true,3,3,10,100]" -> "{\"retry\":false,\"delay_ms\":0,\"reason\":\"attempt-limit\"}"
     value_case "[false,true,-1,3,10,100]" -> "{\"retry\":false,\"delay_ms\":0,\"reason\":\"invalid-input\"}"
-    attempts "8"
+    attempts "1"
 }

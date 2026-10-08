@@ -6,6 +6,12 @@ and a reason. The conditions, local variables and bounded arithmetic live in
 each. The optional compact model ranks those eight combinations; Gooo checks the
 five declared construction cases before saving the selected program.
 
+The baseline returns `false`, `0` and `pending`. The source prepares the computed
+values in locals, and the three choices can connect them to the result. All eight
+combinations remain valid typed programs, including the unconnected baseline.
+With only one deterministic attempt, that baseline matches 0/5 whole construction
+cases and 8/15 individual fields. Both counts remain visible in its saved result.
+
 ## Inputs and behavior
 
 | Input | Meaning |
@@ -30,8 +36,9 @@ random jitter in this policy.
 
 ## Construct, then reuse
 
-Use the compiler revision pinned in this repository's CI or a later compatible
-revision. From the repository root:
+Use the compiler revision `24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f` pinned in
+this repository's CI, or a later compatible revision with unread-local support.
+The published 0.6.7-dev binary predates that change. From the repository root:
 
 ```sh
 gooo body-compose --source examples/retry-policy/source.gooo \
@@ -61,9 +68,14 @@ distinct tuples per mode against a Go oracle using arbitrary-precision arithmeti
 It splits those evaluations into four files within the compiler's 32 KiB bound,
 and reuses one saved program in each mode. Field matches, whole-plan matches,
 construction model calls and new execution calls are checked separately.
+An additional one-attempt regression retains the unconnected result, checks all
+twelve native outcomes as measured failures and replays it without inference.
 
 These finite checks describe this declared policy and its result assembly. The
 caller still needs to decide which operations and failures permit retries.
 
 [Published native observations](../../publication/retry-policy-20261008/README.md)
 retain the selected sources, candidate counts, model call and saved execution.
+[Prepared-local observations](../../publication/retry-candidate-locals-20261008/README.md)
+retain the updated baseline, both complete runs, a one-attempt partial result and
+their saved replay, together with the earlier compiler's reproduced failure.
