@@ -31,7 +31,7 @@
     "keywords": {
       "patterns": [
         {"name": "keyword.control.gooo", "match": "\\b(if|else|return|for|while|match|case|default)\\b"},
-        {"name": "keyword.other.gooo", "match": "\\b(fields|required|optional|one|many|computes|assembling|choice|alternative|intent|at|attempts|bind)\\b"},
+        {"name": "keyword.other.gooo", "match": "\\b(fields|required|optional|one|many|computes|assembling|choice|alternative|intent|at|attempts|bind|search|search_alternative|hole|grammar|max_candidates|holdout_case)\\b"},
         {"name": "constant.language.gooo", "match": "\\b(true|false|null|none)\\b"}
       ]
     },

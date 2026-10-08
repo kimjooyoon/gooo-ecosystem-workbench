@@ -51,6 +51,10 @@ func prepareRefinement(ctx context.Context, o RefineOptions, root string) (sourc
 		err = fmt.Errorf("refine requires a source-derived record or integer search plan without inference or candidate outcomes")
 		return
 	}
+	if o.SearchPolicy && plan.Schema != "gooo/source-search-input-export/v1" {
+		err = fmt.Errorf("search policy requires a source-owned integer search")
+		return
+	}
 	if plan.ExpandedPlan.MaxAttempts < 1 || plan.ExpandedPlan.MaxAttempts > o.MaxAttempts {
 		err = fmt.Errorf("source attempt budget %d exceeds requested range 1..%d", plan.ExpandedPlan.MaxAttempts, o.MaxAttempts)
 		return
@@ -62,11 +66,13 @@ func prepareRefinement(ctx context.Context, o RefineOptions, root string) (sourc
 
 func executeRefinement(ctx context.Context, o RefineOptions, root, model, selected string, report *RefinementReport) (string, error) {
 	report.StopReason = "no-source-revision-proposal"
-	switch report.InitialPlan.Action {
-	case "raise-attempt-budget", "add-runtime-cases-to-construction":
+	if shouldRefine(report.InitialPlan.Action, o.SearchPolicy) {
 		report.Dispatched = true
 		refinementDir := filepath.Join(root, "source-refinement")
 		args := []string{"body-refine", "--source", filepath.Join(root, "source.gooo"), "--activity", o.Activity, "--feedback-cases", filepath.Join(root, "feedback-cases.json"), "--policy", filepath.Join(root, "policy.gooo"), "--max-attempts", strconv.Itoa(o.MaxAttempts), "--max-rounds", strconv.Itoa(o.MaxRounds), "--out", refinementDir}
+		if o.SearchPolicy {
+			args = append(args, "--search-policy")
+		}
 		if model != "" {
 			args = append(args, "--model", model)
 		}
@@ -103,4 +109,9 @@ func executeRefinement(ctx context.Context, o RefineOptions, root, model, select
 		selected = filepath.Join(refinementDir, "selected")
 	}
 	return selected, nil
+}
+
+func shouldRefine(action string, searchPolicy bool) bool {
+	return action == "raise-attempt-budget" || action == "add-runtime-cases-to-construction" ||
+		searchPolicy && (action == "expand-search-space" || action == "expand-declared-choices")
 }

@@ -11,6 +11,7 @@ type RefineOptions struct {
 	Options
 	Source, Activity, Cases, Policy, EvaluationCases string
 	MaxAttempts, MaxRounds                           int
+	SearchPolicy                                     bool
 }
 
 type RefinementReport struct {
@@ -32,12 +33,13 @@ type RefinementReport struct {
 	Rounds               int                  `json:"refinement_rounds"`
 	SelectedSource       string               `json:"selected_source"`
 	Scope                string               `json:"scope"`
+	SearchPolicy         bool                 `json:"search_policy,omitempty"`
 }
 
 // Refine dispatches source-owned next steps to the compiler's Gooo feedback
 // policy. All inputs are copied; source revisions belong to new output artifacts.
 func Refine(ctx context.Context, o RefineOptions) (report RefinementReport, err error) {
-	report = RefinementReport{Schema: "gooo/workbench-refinement/v1", Status: "PROGRESS", RefinementStatus: "NOT_RUN", EvaluationStatus: "UNKNOWN",
+	report = RefinementReport{Schema: "gooo/workbench-refinement/v1", Status: "PROGRESS", RefinementStatus: "NOT_RUN", EvaluationStatus: "UNKNOWN", SearchPolicy: o.SearchPolicy,
 		Scope: "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations"}
 	if o.Source == "" || o.Activity == "" || o.Cases == "" || o.Policy == "" || o.MaxAttempts < 1 || o.MaxAttempts > 64 || o.MaxRounds < 1 || o.MaxRounds > 8 {
 		return report, fmt.Errorf("refine requires source, activity, cases, policy, 1..64 max-attempts and 1..8 max-rounds")
