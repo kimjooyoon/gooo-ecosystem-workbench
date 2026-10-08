@@ -16,11 +16,16 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: e6150a231f44aedb6e7414e71bfe56b7a5de0cb2
+          ref: eb0dc4704705147f9ba944db3df2ba5e3225cbff
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
         run: go build -trimpath -o ../.gooo ./cmd/gooo
+      - name: Observe the released compiler identity
+        run: |
+          mkdir -p out
+          ./.gooo version --build --json > out/compiler-build.json
+          jq -e '.version == "0.6.10-dev" and .go_version == "go1.27.1" and .vcs_revision == "eb0dc4704705147f9ba944db3df2ba5e3225cbff" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -125,6 +130,7 @@ jobs:
         with:
           name: gooo-ecosystem-observations
           path: |
+            out/compiler-build.json
             out/ci-dependent-splice/
             out/ci-graph-training/
             out/ci-trained-graph-audit/
