@@ -29,7 +29,7 @@ jobs:
           test -z "$(gofmt -l assets.go workbench.go workbench_test.go compiler_diagnostic.go compiler_diagnostic_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go construction_search.go construction_search_test.go source_budget_test.go refine.go refine_execution.go refine_test.go search_refine_test.go search_policy_test.go calibrated_report_test.go experiments/construction-loop/main.go experiments/source-budget/main.go experiments/search-refinement/main.go experiments/search-policy/main.go experiments/calibrated-report/main.go cmd/workbench/main.go cmd/workbench/refine.go)"
           test -z "$(gofmt -l retry_policy_test.go)"
           test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go feature_audit_graph_test.go feature_audit_graph_model_test.go experiments/graph-feature-fixture/main.go)"
-          test -z "$(gofmt -l feature_audit_corpus_test.go experiments/graph-choice-corpus/*.go)"
+          test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           go vet ./...
           go test -race ./...
       - name: Verify typed IR body fill through the editor result contract
@@ -81,6 +81,17 @@ jobs:
           go run ./cmd/workbench feature-audit --compiler "$PWD/.gooo" \
             --input examples/feature-audit/three-family-graph.json --out out/ci-graph-corpus-audit
           jq -e '.rows == 72 and .families == 3 and .distinct_feature_vectors == 72 and .maximum_compatible_rows == 72 and .model_calls == 0 and .model_observed == false and .policy_runtime_replayed == true and .policy.action == "evaluate-chooser"' out/ci-graph-corpus-audit/feature-audit.json
+      - name: Compare intent contrasts with identical code graphs
+        run: |
+          gzip -dc examples/feature-audit/three-family-intent-contrasts.json.gz > out/intent-full.json
+          gzip -dc examples/feature-audit/three-family-intent-ablated.json.gz > out/intent-ablated.json
+          for mode in full ablated; do
+            go run ./cmd/workbench feature-audit --compiler "$PWD/.gooo" \
+              --input "out/intent-$mode.json" --out "out/ci-intent-$mode"
+            jq -e '.rows == 576 and .families == 3 and .model_calls == 0 and .model_observed == false and .policy_runtime_replayed == true' "out/ci-intent-$mode/feature-audit.json"
+          done
+          jq -e '.distinct_feature_vectors == 576 and .maximum_compatible_rows == 576 and .policy.action == "evaluate-chooser"' out/ci-intent-full/feature-audit.json
+          jq -e '.distinct_feature_vectors == 24 and .maximum_compatible_rows == 72 and .policy.code == "representation-collision"' out/ci-intent-ablated/feature-audit.json
       - name: Run Korean and English capability discovery through Gooo
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -97,6 +108,10 @@ jobs:
             out/ci-origin-feature-audit/
             out/ci-graph-feature-audit/
             out/ci-graph-corpus-audit/
+            out/ci-intent-full/feature-audit.json
+            out/ci-intent-full/assessment/result.json
+            out/ci-intent-ablated/feature-audit.json
+            out/ci-intent-ablated/assessment/result.json
             out/ci-retry-policy/
             out/ci-calibrated-report/
             out/ci-search-policy/

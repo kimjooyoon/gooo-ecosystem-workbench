@@ -21,6 +21,8 @@ func main() {
 	expected := flag.String("expected-compiler", "", "required clean compiler source SHA")
 	sources := flag.String("sources", "examples/graph-choice-corpus", "three Gooo source families")
 	out := flag.String("out", "", "new observation directory")
+	contrasts := flag.Bool("intent-contrasts", false, "request all eight behaviors while preserving source choices")
+	native := flag.String("native-contrasts", "", "existing contrast corpus for separate native inputs and saved replay")
 	flag.Parse()
 	if *compiler == "" || len(*expected) != 40 || *out == "" {
 		panic("compiler, expected-compiler and new out directory required")
@@ -38,43 +40,83 @@ func main() {
 	}
 	must(os.Mkdir(*out, 0755))
 	write(*out, "compiler.json", build)
+	if *native != "" {
+		must(nativeContrasts(ctx, *compiler, *expected, *native, *out))
+		must(archiveEvidence(*out))
+		return
+	}
 	input := workbench.FeatureAuditInput{Schema: "gooo/record-feature-audit-input/v1",
 		FeatureVersion: jointdecision.RecordGraphSharedFeatureVersion,
 		LabelSource:    "Separate finite source-case observations; compiler " + *expected + "; see corpus-index.json and rows/"}
-	rows := make([]rowReceipt, 0, 72)
+	requests := []int{7}
+	if *contrasts {
+		requests = []int{0, 1, 2, 3, 4, 5, 6, 7}
+	}
+	rows := make([]rowReceipt, 0, 72*len(requests))
 	for _, family := range families {
 		raw, err := os.ReadFile(filepath.Join(*sources, family.source))
 		must(err)
-		for _, language := range []string{"ko", "en", "mixed"} {
-			for order := range 8 {
-				id := fmt.Sprintf("%s-%s-%d", family.name, language, order)
-				directory := filepath.Join(*out, "rows", id)
-				must(os.MkdirAll(directory, 0755))
-				text, err := variant(string(raw), family, order, language)
-				must(err)
-				write(directory, "source.gooo", []byte(text))
-				source := filepath.Join(directory, "source.gooo")
-				exported := command(ctx, *compiler, "body-context", "--value-flow", "--activity", family.activity,
-					"--feature-version", input.FeatureVersion, source)
-				write(directory, "context.json", exported)
-				finite := command(ctx, *compiler, "body-codegen", "--json", "--activity", family.activity, source)
-				write(directory, "finite.json", finite)
-				graph, row, err := observe([]byte(text), exported, finite, order)
-				must(err)
-				row.ID, row.Family, row.Language, row.Arrangement = id, family.name, language, order
-				rows = append(rows, row)
-				input.Cases = append(input.Cases, workbench.FeatureAuditCase{ID: id, Family: family.name,
-					Graph: &graph, AcceptedMasks: []uint16{row.Selected}})
+		for _, requested := range requests {
+			for _, language := range []string{"ko", "en", "mixed"} {
+				for order := range 8 {
+					id := fmt.Sprintf("%s-%s-%d", family.name, language, order)
+					if *contrasts {
+						id = fmt.Sprintf("%s-request%d", id, requested)
+					}
+					directory := filepath.Join(*out, "rows", id)
+					must(os.MkdirAll(directory, 0755))
+					text, err := variant(string(raw), family, order, language)
+					if *contrasts {
+						text, err = contrastSource(string(raw), family, order, language, uint16(requested))
+					}
+					must(err)
+					write(directory, "source.gooo", []byte(text))
+					source := filepath.Join(directory, "source.gooo")
+					exported := command(ctx, *compiler, "body-context", "--value-flow", "--activity", family.activity,
+						"--feature-version", input.FeatureVersion, source)
+					write(directory, "context.json", exported)
+					finite := command(ctx, *compiler, "body-codegen", "--json", "--activity", family.activity, source)
+					write(directory, "finite.json", finite)
+					graph, row, err := observeMask([]byte(text), exported, finite, uint16(requested^order))
+					must(err)
+					row.ID, row.Family, row.Language, row.Arrangement = id, family.name, language, order
+					if *contrasts {
+						mask := uint16(requested)
+						row.Requested = &mask
+					}
+					rows = append(rows, row)
+					input.Cases = append(input.Cases, workbench.FeatureAuditCase{ID: id, Family: family.name,
+						Graph: &graph, AcceptedMasks: []uint16{row.Selected}})
+				}
 			}
 		}
 	}
 	writeJSON(*out, "audit-input.json", input)
-	writeJSON(*out, "corpus-index.json", map[string]any{
+	index := map[string]any{
 		"schema": "gooo/graph-choice-corpus/v1", "compiler_source_sha": *expected,
 		"source_families": len(families), "arrangements_per_source": 8, "intent_forms": 3, "rows": rows,
 		"model_calls": 0, "trained": false,
 		"scope": "Three source families with repeated arrangements and wording; finite source-case labels; no held-out execution or learned accuracy claim.",
-	})
+	}
+	if *contrasts {
+		index["schema"] = "gooo/graph-intent-contrast-corpus/v1"
+		index["requested_behaviors_per_source"] = 8
+		index["scope"] = "Three source families; eight source-declared output policies, arrangements and wording; independent Go oracles for finite labels; no learned accuracy or native holdout claim."
+	}
+	writeJSON(*out, "corpus-index.json", index)
+	if *contrasts {
+		// Copy each fixed-size choice array; retain the source graph and labels.
+		for i := range input.Cases {
+			graph := *input.Cases[i].Graph
+			for bit := range graph.Choices {
+				graph.Choices[bit].Intent = "intent withheld"
+			}
+			input.Cases[i].Graph = &graph
+		}
+		input.LabelSource += "; intent ablation preserves graph, ordering and finite labels"
+		writeJSON(*out, "intent-ablated-input.json", input)
+		must(archiveEvidence(*out))
+	}
 	fmt.Printf("%d rows, %d source families; zero model calls and no training\n", len(rows), len(families))
 }
 
