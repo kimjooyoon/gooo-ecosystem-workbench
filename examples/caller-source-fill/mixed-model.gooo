@@ -1,0 +1,46 @@
+package budgetplan
+namespace budgetplan
+entity Integer id "budgetplan://integer"
+entity Work id "budgetplan://work" fields {
+    field used id "budgetplan://work/used" type integer required one
+    field limit id "budgetplan://work/limit" type integer required one
+}
+entity Budget id "budgetplan://budget" fields {
+    field next id "budgetplan://budget/next" type integer required one
+    field exhausted id "budgetplan://budget/exhausted" type boolean required one
+}
+
+activity PlanBudget(Work) -> Budget computes `let next = input.used + 1
+let exhausted = __GOOO_BODY_HOLE_boundary__
+if exhausted { next = __GOOO_BODY_HOLE_cap__ }
+return Budget{next: next, exhausted: exhausted}` assembling {
+    source_fill intent "다음 시도 예산을 계산하고 상한에 도달하면 그 상한을 유지한다. Keep the next budget within its declared limit." {
+        hole "boundary"
+        hole "cap"
+        candidate "late_unbounded" { fill "boundary" "input.used > input.limit" fill "cap" "input.used" }
+        candidate "early_wrong_cap" { fill "boundary" "input.used >= input.limit" fill "cap" "input.limit - 1" }
+        candidate "bounded" { fill "boundary" "input.used >= input.limit" fill "cap" "input.limit" }
+    }
+    value_case "[{\"used\":0,\"limit\":8}]" -> "{\"next\":1,\"exhausted\":false}"
+    holdout_value_case "[{\"used\":9,\"limit\":8}]" -> "{\"next\":8,\"exhausted\":true}"
+}
+
+entity Parts id "budgetplan://parts" fields {
+    field first id "budgetplan://parts/first" type integer required one
+    field second id "budgetplan://parts/second" type integer required one
+    field ready id "budgetplan://parts/ready" type boolean required one
+}
+activity Pick(Integer) -> Parts computes "return Parts{first:input,second:input,ready:input < 0}" assembling {
+    choice "first" field_value at "0" alternative "input * 2" intent "첫 계산은 입력의 두 배이다. Double the input."
+    choice "second" field_value at "1" alternative "input * 3" intent "두 번째 계산은 입력의 세 배이다. Triple the input."
+    choice "ready" field_value at "2" alternative "input > 0" intent "양수일 때 준비된다. Ready when the input is positive."
+    value_case "[0]" -> "{\"first\":0,\"second\":0,\"ready\":false}"
+    attempts "8"
+}
+activity Main(Work) -> Integer computes `let plan = PlanBudget(input)
+let parts = Pick(plan.next)
+if parts.ready {
+    if plan.exhausted { return -(parts.first + parts.second) }
+    return parts.first + parts.second
+}
+return 0`

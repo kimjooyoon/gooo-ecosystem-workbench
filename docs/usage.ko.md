@@ -3,14 +3,15 @@
 ## Gooo 컴파일러 준비
 
 Go 1.27.1을 사용합니다. [Gooo 0.6.13 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.13-dev)의
-운영체제별 실행 파일을 사용하거나, 아래처럼 CI와 같은 배포 소스만 얕게 내려받아 빌드합니다.
+운영체제별 실행 파일을 사용할 수 있습니다. 여러 빈칸의 호출 기반 조립까지 사용하려면
+아래처럼 CI와 같은 최신 기능 소스를 내려받아 빌드합니다.
 배포 파일을 사용한다면 아래 명령의 `--compiler ./.gooo`에 설치한 실행 파일 경로를 지정합니다.
 아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
 
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin 772acf4abaa93c01e666909e1c8b9029406f003a
+git -C .compiler fetch --depth 1 origin e115bb775e6a8a418dbb85eba13c16c606836f8f
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
@@ -20,10 +21,41 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 0.6.13은 호출 결과에 따른 정수식·레코드 조립과 잘못된 계산식 거절 후 이어가기를 지원합니다.
 패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`에서 `0.6.13-dev`와 소스 리비전 `772acf4a…`를 확인합니다.
+위 빌드는 `version --build --json`에서 버전 문자열 `0.6.13-dev`, 소스 리비전
+`e115bb77…`로 표시됩니다. 공개 0.6.13 실행 파일의 소스는 `772acf4a…`이며,
+새 `source_fill` 조립 경로는 위 소스 빌드에 들어 있습니다.
 [버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/772acf4abaa93c01e666909e1c8b9029406f003a/docs/releases/0.6.13-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
+
+## 여러 빈칸을 호출 결과로 조립하기
+
+```sh
+go run ./cmd/workbench construct --compiler ./.gooo \
+  --source examples/caller-source-fill/source.gooo --entry Main \
+  --construction-cases examples/caller-source-fill/initial-cases.json \
+  --evaluation-cases examples/caller-source-fill/evaluation-cases.json \
+  --holdout-cases examples/caller-source-fill/holdout-cases.json \
+  --max-program-budget 4 --max-rounds 4 --out out/source-fill
+```
+
+처음에는 정상 입력 한 개로 조립합니다. 상한에 도달한 입력에서 틀리면
+Gooo 피드백 규칙이 그 사례를 다음 조립 조건에 추가합니다. 각 회차의 시도 한도는
+1 → 1 → 2 → 4이고 실제 시도 수는 1 + 1 + 2 + 3 = 7입니다.
+마지막 별도 평가는 선택이 끝난 뒤 실행합니다.
+
+`joint-loop.json`의 `local_passed/local_total`은 부품의 학습용 사례,
+`caller_passed/caller_total`은 호출부 사례입니다. `fill_holdout_passed/total`은
+소스에 적힌 별도 평가이며 선택 점수에 더하지 않습니다. 최종 입력의 결과는
+`final_evaluation.passed/total`에서 봅니다. 조립에 사용된 입력 수와 다른 입력 수도
+별도로 남습니다. 이 값들은 제공한 사례의 충족 수를 뜻합니다.
+
+`--model`은 레코드 후보를 고르는 모델이고, `--fill-model /path/to/model.json`은
+초기 빈칸 조립용 operation-classifier 모델입니다. 둘은 입력 형식이 다릅니다.
+생략하면 소스 후보 순서로 진행합니다. 이번 관측은 기존 그래프 모델을 레코드
+선택에 사용했고, 빈칸 후보는 결정론적으로 골랐습니다.
+
+## 결과 파일 읽기
 
 `summary.json`은 실제 기대값 충족 수, 선택 필드 수, 모델 호출 수와 저장 재실행
 확인을 보여줍니다. 각 작업의 `result.json`·`replay.json`과 조립 폴더도 보관합니다.
