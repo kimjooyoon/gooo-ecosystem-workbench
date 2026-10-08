@@ -39,6 +39,7 @@ func run(args []string) error {
 	constructionCases := f.String("construction-cases", "", "caller expectations used by construct")
 	evaluationCases := f.String("evaluation-cases", "", "adaptive cases for construct; failures feed the next round")
 	holdoutCases := f.String("holdout-cases", "", "optional final evaluation after selection stops; never fed back")
+	fillModel := f.String("fill-model", "", "optional operation-classifier model for construct source_fill preparation")
 	maxPrograms := f.Int64("max-program-budget", 8, "construct ceiling for whole-program attempts per round (1..64)")
 	maxRounds := f.Int("max-rounds", 4, "construct ceiling for fresh construction rounds (1..16)")
 	if e := f.Parse(args[1:]); e != nil {
@@ -47,6 +48,9 @@ func run(args []string) error {
 	if f.NArg() != 0 {
 		return fmt.Errorf("unexpected positional arguments")
 	}
+	if *fillModel != "" && args[0] != "construct" {
+		return fmt.Errorf("--fill-model requires construct")
+	}
 	ctx := context.Background()
 	var value any
 	var err error
@@ -54,7 +58,7 @@ func run(args []string) error {
 	case "construct":
 		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile,
 			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, HoldoutCases: *holdoutCases, Entry: *entry,
-			MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds})
+			MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds, FillModel: *fillModel})
 	case "splice":
 		if *input == "" {
 			return fmt.Errorf("splice requires --input")

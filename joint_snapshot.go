@@ -22,6 +22,8 @@ type JointObservation struct {
 	SelectedAttempt       int                       `json:"selected_attempt"`
 	LocalPassed           int64                     `json:"local_passed"`
 	LocalTotal            int64                     `json:"local_total"`
+	FillHoldoutPassed     int64                     `json:"fill_holdout_passed"`
+	FillHoldoutTotal      int64                     `json:"fill_holdout_total"`
 	CallerPassed          int64                     `json:"caller_passed"`
 	CallerTotal           int64                     `json:"caller_total"`
 	Decision              string                    `json:"decision"`
@@ -32,11 +34,13 @@ type JointObservation struct {
 }
 
 type JointAttemptObservation struct {
-	Rejection    *JointRejectionObservation `json:"rejection,omitempty"`
-	LocalPassed  int64                      `json:"local_passed"`
-	LocalTotal   int64                      `json:"local_total"`
-	CallerPassed int64                      `json:"caller_passed"`
-	CallerTotal  int64                      `json:"caller_total"`
+	Rejection         *JointRejectionObservation `json:"rejection,omitempty"`
+	LocalPassed       int64                      `json:"local_passed"`
+	LocalTotal        int64                      `json:"local_total"`
+	FillHoldoutPassed int64                      `json:"fill_holdout_passed"`
+	FillHoldoutTotal  int64                      `json:"fill_holdout_total"`
+	CallerPassed      int64                      `json:"caller_passed"`
+	CallerTotal       int64                      `json:"caller_total"`
 }
 
 type jointInputs struct {
@@ -78,6 +82,7 @@ type jointReceipt struct {
 				} `json:"cases"`
 			} `json:"candidates"`
 			SearchCandidates []jointSearchCandidate `json:"search_candidates"`
+			FillCandidates   []jointFillCandidate   `json:"fill_candidates"`
 		} `json:"attempts"`
 	} `json:"construction"`
 	Evaluation struct {
@@ -94,7 +99,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		return Snapshot{}, err
 	}
 	c, e := r.Construction, r.Evaluation
-	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" && c.Schema != "gooo/joint-construction/v3" || c.Stage != "COMPLETE" || c.Failure != "" ||
+	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" && c.Schema != "gooo/joint-construction/v3" && c.Schema != "gooo/joint-construction/v4" || c.Stage != "COMPLETE" || c.Failure != "" ||
 		c.Budget == nil || *c.Budget < 1 || *c.Budget > 64 || c.Selected == nil || *c.Selected < 0 || *c.Selected >= len(c.Attempts) ||
 		r.Generated == nil || e.Replayed == nil || *r.Generated == *e.Replayed || e.Calls == nil || *e.Calls != 0 {
 		return Snapshot{}, fmt.Errorf("joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation")
@@ -124,7 +129,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 	for index, a := range c.Attempts {
 		o := JointAttemptObservation{Rejection: a.Rejection}
 		if a.Rejection != nil {
-			if err := validateJointRejection(c.Schema, c.Kinds, a.Masks, a.Rejection, len(a.Candidates), a.SearchCandidates, a.Runtime); err != nil {
+			if err := validateJointRejection(c.Schema, c.Kinds, a.Masks, a.Rejection, len(a.Candidates), a.SearchCandidates, len(a.FillCandidates), a.Runtime); err != nil {
 				return Snapshot{}, err
 			}
 			j.RejectedAttempts++
@@ -140,11 +145,11 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			o.CallerPassed, o.CallerTotal = int64(summary.NamedPassed), int64(summary.NamedTotal)
 			j.NativeProgramAttempts++
 		}
-		if len(a.Candidates)+len(a.SearchCandidates) == 0 {
+		if len(a.Candidates)+len(a.SearchCandidates)+len(a.FillCandidates) == 0 {
 			return Snapshot{}, fmt.Errorf("joint attempt has no local candidates")
 		}
 		if a.Rejection == nil {
-			if err := validateJointKinds(c.Schema, c.Kinds, a.Masks, len(a.Candidates), len(a.SearchCandidates)); err != nil {
+			if err := validateJointKinds(c.Schema, c.Kinds, a.Masks, len(a.Candidates), len(a.SearchCandidates), len(a.FillCandidates)); err != nil {
 				return Snapshot{}, err
 			}
 		}
@@ -185,6 +190,16 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			o.LocalPassed += matched
 			o.LocalTotal += total
 		}
+		for _, candidate := range a.FillCandidates {
+			local, holdout, err := recountJointFill(candidate)
+			if err != nil {
+				return Snapshot{}, err
+			}
+			o.LocalPassed += local.passed
+			o.LocalTotal += local.total
+			o.FillHoldoutPassed += holdout.passed
+			o.FillHoldoutTotal += holdout.total
+		}
 		if a.LocalPassed == nil || a.LocalTotal == nil || *a.LocalPassed != o.LocalPassed || *a.LocalTotal != o.LocalTotal {
 			return Snapshot{}, fmt.Errorf("joint local totals differ from candidate cases")
 		}
@@ -195,6 +210,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		return Snapshot{}, fmt.Errorf("joint rejection version or selected executable differs")
 	}
 	j.LocalPassed, j.LocalTotal = selected.LocalPassed, selected.LocalTotal
+	j.FillHoldoutPassed, j.FillHoldoutTotal = selected.FillHoldoutPassed, selected.FillHoldoutTotal
 	j.CallerPassed, j.CallerTotal = selected.CallerPassed, selected.CallerTotal
 	complete := j.LocalPassed == j.LocalTotal && j.CallerTotal > 0 && j.CallerPassed == j.CallerTotal
 	wantDecision, wantStop := "PARTIAL_FINITE", "PROGRAM_BUDGET_EXHAUSTED"

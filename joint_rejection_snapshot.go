@@ -16,12 +16,13 @@ type JointRejectionObservation struct {
 }
 
 func validateJointRejection(schema string, kinds []string, masks []int, rejected *JointRejectionObservation,
-	records int, searches []jointSearchCandidate, runtime json.RawMessage) error {
-	if schema != "gooo/joint-construction/v3" || rejected.Stage != "LOCAL_SOURCE_SEARCH" ||
+	records int, searches []jointSearchCandidate, fills int, runtime json.RawMessage) error {
+	if schema != "gooo/joint-construction/v3" && schema != "gooo/joint-construction/v4" || rejected.Stage != "LOCAL_SOURCE_SEARCH" ||
 		rejected.Slot == nil || *rejected.Slot < 0 || *rejected.Slot >= len(kinds) || kinds[*rejected.Slot] != "source_search_index" {
-		return fmt.Errorf("joint rejection requires a v3 source-search slot")
+		return fmt.Errorf("joint rejection requires a v3/v4 source-search slot")
 	}
 	allRecords, allSearches, prefixRecords, prefixSearches := 0, 0, 0, 0
+	allFills, prefixFills := 0, 0
 	for i, kind := range kinds {
 		if kind == "record_mask" {
 			allRecords++
@@ -33,12 +34,17 @@ func validateJointRejection(schema string, kinds []string, masks []int, rejected
 			if i <= *rejected.Slot {
 				prefixSearches++
 			}
+		} else if kind == "source_fill_index" {
+			allFills++
+			if i <= *rejected.Slot {
+				prefixFills++
+			}
 		}
 	}
-	if err := validateJointKinds(schema, kinds, masks, allRecords, allSearches); err != nil {
+	if err := validateJointKinds(schema, kinds, masks, allRecords, allSearches, allFills); err != nil {
 		return err
 	}
-	if records != prefixRecords || len(searches) != prefixSearches || len(searches) == 0 {
+	if records != prefixRecords || len(searches) != prefixSearches || len(searches) == 0 || fills != prefixFills {
 		return fmt.Errorf("joint rejected observations differ from the evaluated prefix")
 	}
 	candidate := searches[len(searches)-1]
