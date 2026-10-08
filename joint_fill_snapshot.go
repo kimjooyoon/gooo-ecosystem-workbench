@@ -13,17 +13,24 @@ type fillCase struct {
 }
 
 type jointFillCandidate struct {
-	Schema        string     `json:"schema"`
-	ID            string     `json:"candidate_id"`
-	Count         *int       `json:"candidate_count"`
-	Passed        *int64     `json:"test_cases_passed"`
-	Total         *int64     `json:"test_cases_total"`
-	Cases         []fillCase `json:"case_results"`
-	Values        []fillCase `json:"value_case_results"`
-	HoldoutPassed *int64     `json:"holdout_cases_passed"`
-	HoldoutTotal  *int64     `json:"holdout_cases_total"`
-	Holdout       []fillCase `json:"holdout_case_results"`
-	ValueHoldout  []fillCase `json:"value_holdout_results"`
+	Rejection     *fillRejection  `json:"rejection"`
+	Activity      string          `json:"activity"`
+	ActivityID    string          `json:"activity_id"`
+	InputSHA      string          `json:"input_source_sha256"`
+	SelectedSHA   string          `json:"selected_source_sha256"`
+	PlanSHA       string          `json:"plan_sha256"`
+	Fills         json.RawMessage `json:"hole_fills"`
+	Schema        string          `json:"schema"`
+	ID            string          `json:"candidate_id"`
+	Count         *int            `json:"candidate_count"`
+	Passed        *int64          `json:"test_cases_passed"`
+	Total         *int64          `json:"test_cases_total"`
+	Cases         []fillCase      `json:"case_results"`
+	Values        []fillCase      `json:"value_case_results"`
+	HoldoutPassed *int64          `json:"holdout_cases_passed"`
+	HoldoutTotal  *int64          `json:"holdout_cases_total"`
+	Holdout       []fillCase      `json:"holdout_case_results"`
+	ValueHoldout  []fillCase      `json:"value_holdout_results"`
 }
 
 type fillCount struct{ passed, total int64 }
@@ -55,7 +62,7 @@ func recountFillCases(rows []fillCase, passed, total *int64) (fillCount, error) 
 
 func recountJointFill(c jointFillCandidate) (fillCount, fillCount, error) {
 	var zero fillCount
-	if c.Schema != "gooo/fill-candidate/v1" || c.ID == "" || c.Count == nil || *c.Count < 2 || *c.Count > 16 ||
+	if c.Rejection != nil || c.Schema != "gooo/fill-candidate/v1" || c.ID == "" || c.Count == nil || *c.Count < 2 || *c.Count > 16 ||
 		(len(c.Cases) == 0) == (len(c.Values) == 0) || len(c.Cases) > 0 && len(c.ValueHoldout) > 0 || len(c.Values) > 0 && len(c.Holdout) > 0 {
 		return zero, zero, fmt.Errorf("fill assignment requires one local case format and 2..16 candidates")
 	}

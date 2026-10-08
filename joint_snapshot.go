@@ -99,7 +99,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		return Snapshot{}, err
 	}
 	c, e := r.Construction, r.Evaluation
-	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" && c.Schema != "gooo/joint-construction/v3" && c.Schema != "gooo/joint-construction/v4" || c.Stage != "COMPLETE" || c.Failure != "" ||
+	if c.Schema != "gooo/joint-construction/v1" && c.Schema != "gooo/joint-construction/v2" && c.Schema != "gooo/joint-construction/v3" && c.Schema != "gooo/joint-construction/v4" && c.Schema != "gooo/joint-construction/v5" || c.Stage != "COMPLETE" || c.Failure != "" ||
 		c.Budget == nil || *c.Budget < 1 || *c.Budget > 64 || c.Selected == nil || *c.Selected < 0 || *c.Selected >= len(c.Attempts) ||
 		r.Generated == nil || e.Replayed == nil || *r.Generated == *e.Replayed || e.Calls == nil || *e.Calls != 0 {
 		return Snapshot{}, fmt.Errorf("joint construction requires complete finite observations, a selected program and explicit zero-inference evaluation")
@@ -126,13 +126,27 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		return Snapshot{}, err
 	}
 	j.Initial = constructionObservations(initial)
+	var initialFillRejections int64
+	for _, o := range j.Initial {
+		if o.Kind == "source_fill" {
+			if !o.Consistent {
+				return Snapshot{}, fmt.Errorf("initial fill assignments disagree with their observations")
+			}
+			initialFillRejections += o.Rejected
+		}
+	}
+	if initialFillRejections > 0 && c.Schema != "gooo/joint-construction/v5" {
+		return Snapshot{}, fmt.Errorf("initial fill rejections require v5")
+	}
+	fillRejected := false
 	for index, a := range c.Attempts {
 		o := JointAttemptObservation{Rejection: a.Rejection}
 		if a.Rejection != nil {
-			if err := validateJointRejection(c.Schema, c.Kinds, a.Masks, a.Rejection, len(a.Candidates), a.SearchCandidates, len(a.FillCandidates), a.Runtime); err != nil {
+			if err := validateJointRejection(c.Schema, c.Kinds, a.Masks, a.Rejection, len(a.Candidates), a.SearchCandidates, a.FillCandidates, a.Runtime); err != nil {
 				return Snapshot{}, err
 			}
 			j.RejectedAttempts++
+			fillRejected = fillRejected || a.Rejection.Stage == "LOCAL_SOURCE_FILL"
 		} else {
 			if _, err := readJointRuntime(a.Runtime); err != nil {
 				return Snapshot{}, fmt.Errorf("joint attempt %d caller: %w", index, err)
@@ -180,7 +194,7 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			o.LocalTotal += int64(len(candidate.Cases))
 		}
 		for i, candidate := range a.SearchCandidates {
-			if a.Rejection != nil && i == len(a.SearchCandidates)-1 {
+			if a.Rejection != nil && a.Rejection.Stage == "LOCAL_SOURCE_SEARCH" && i == len(a.SearchCandidates)-1 {
 				continue // This expression was checked above and has no local score.
 			}
 			matched, total, err := recountJointSearch(candidate)
@@ -190,7 +204,10 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 			o.LocalPassed += matched
 			o.LocalTotal += total
 		}
-		for _, candidate := range a.FillCandidates {
+		for i, candidate := range a.FillCandidates {
+			if a.Rejection != nil && a.Rejection.Stage == "LOCAL_SOURCE_FILL" && i == len(a.FillCandidates)-1 {
+				continue
+			}
 			local, holdout, err := recountJointFill(candidate)
 			if err != nil {
 				return Snapshot{}, err
@@ -206,6 +223,9 @@ func readJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 		j.History = append(j.History, o)
 	}
 	selected := j.History[j.SelectedAttempt]
+	if c.Schema == "gooo/joint-construction/v5" && initialFillRejections == 0 && !fillRejected {
+		return Snapshot{}, fmt.Errorf("v5 requires a recorded fill rejection")
+	}
 	if selected.Rejection != nil || c.Schema == "gooo/joint-construction/v3" && j.RejectedAttempts == 0 {
 		return Snapshot{}, fmt.Errorf("joint rejection version or selected executable differs")
 	}

@@ -29,6 +29,7 @@ type jointSearchCandidate struct {
 }
 
 func validateJointKinds(schema string, kinds []string, masks []int, records, searches, fills int) error {
+	fillSchema := schema == "gooo/joint-construction/v4" || schema == "gooo/joint-construction/v5"
 	if schema == "gooo/joint-construction/v1" {
 		if len(kinds) != 0 || searches != 0 || fills != 0 {
 			return fmt.Errorf("v1 joint construction cannot contain search candidates")
@@ -53,15 +54,15 @@ func validateJointKinds(schema string, kinds []string, masks []int, records, sea
 			}
 		case "source_fill_index":
 			nf++
-			if schema != "gooo/joint-construction/v4" || masks[i] > 15 {
-				return fmt.Errorf("joint fill selector requires v4 and a bounded assignment")
+			if !fillSchema || masks[i] > 15 {
+				return fmt.Errorf("joint fill selector requires v4/v5 and a bounded assignment")
 			}
 		default:
 			return fmt.Errorf("unknown joint candidate kind")
 		}
 	}
 	if nr != records || ns != searches || nf != fills ||
-		schema == "gooo/joint-construction/v4" && nf < 1 || schema != "gooo/joint-construction/v4" && ns < 1 {
+		fillSchema && nf < 1 || !fillSchema && ns < 1 {
 		return fmt.Errorf("joint candidate kinds disagree with observations")
 	}
 	return nil
