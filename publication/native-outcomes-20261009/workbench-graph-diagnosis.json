@@ -1,0 +1,24 @@
+{
+  "action": "revise-and-replay",
+  "code": "native-fault",
+  "evaluation": {
+    "passed": 6,
+    "total": 8,
+    "unit": "activity_outputs"
+  },
+  "input_sha256": "2b21135e9239dbf334a02d16dee503640808d7d1c6dac427875c0de5876109ba",
+  "message": "계산이 실패한 활동과 그 결과를 기다리던 활동이 있습니다. 원래 입력과 기대값을 유지하며 다른 구현을 확인하세요.",
+  "model_requested": false,
+  "model_used": false,
+  "native_outcomes": {
+    "matched": 6,
+    "mismatched": 0,
+    "faulted": 1,
+    "blocked": 1,
+    "unobserved": 0,
+    "faulted_activities": 1,
+    "blocked_activities": 1
+  },
+  "new_model_calls": 0,
+  "scope": "deterministic Gooo advice from recounted receipt values; diagnose does not rerun the original program or independently verify its source; no proposed action is executed"
+}

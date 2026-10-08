@@ -30,6 +30,11 @@ func TestNativeJointDiagnosticPolicy(t *testing.T) {
 		{"exhausted", "caller-space-exhausted", "expand-declared-choices", map[string]any{"caller_passed": 0, "more_candidates": false}},
 		{"local obligations despite passing evaluation", "local-obligations-unmet", "review-local-and-caller-expectations", map[string]any{"local_passed": 0, "more_candidates": false}},
 		{"invalid counts", "inconsistent-observation", "replay-construction", map[string]any{"caller_passed": 2}},
+		{"fault outside expectations", "program-budget-exhausted", "rerun-with-larger-program-budget", map[string]any{"program_faults": 1, "more_candidates": true}},
+		{"blocked outside expectations", "caller-space-exhausted", "expand-declared-choices", map[string]any{"program_blocked": 1, "more_candidates": false}},
+		{"unscored evaluation fault", "evaluation-fault-outside-expectations", "add-fault-expectations", map[string]any{"evaluation_faults": 1}},
+		{"unscored evaluation block", "evaluation-fault-outside-expectations", "add-fault-expectations", map[string]any{"evaluation_blocked": 1}},
+		{"invalid fault count", "inconsistent-observation", "replay-construction", map[string]any{"program_faults": -1}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			input := jointInput(base)

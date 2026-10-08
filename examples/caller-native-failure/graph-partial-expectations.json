@@ -1,0 +1,4 @@
+{"schema":"gooo/body-composition-cases/v1","cases":[
+{"inputs":{"First":9007199254740992,"Divide.input1":0,"Independent":7},"expected":{"First":9007199254740993,"Independent":14}},
+{"inputs":{"First":7,"Divide.input1":2,"Independent":4},"expected":{"First":8,"Divide":4,"Dependent":5,"Independent":8}}
+]}

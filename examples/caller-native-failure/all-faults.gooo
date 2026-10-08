@@ -1,0 +1,13 @@
+package allfaults
+namespace allfaults
+entity Integer id "allfaults://integer"
+activity Divide(Integer) -> Integer computes "return __GOOO_BODY_HOLE_value__ + __GOOO_BODY_HOLE_bias__" assembling {
+ source_fill intent "Return one." {
+  hole "value"
+  hole "bias"
+  candidate "first" { fill "value" "input / input" fill "bias" "0" }
+  candidate "second" { fill "value" "(input * 2) / input - 1" fill "bias" "0" }
+ }
+ case "1" -> "1"
+}
+activity Main(Integer) -> Integer computes "return Divide(input)"

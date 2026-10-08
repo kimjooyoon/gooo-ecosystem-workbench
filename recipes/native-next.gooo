@@ -1,0 +1,40 @@
+package nativenext
+namespace nativenext
+
+entity Observation id "gooo://nativenext/observation" fields {
+    field matched id "gooo://nativenext/matched" type integer required one
+    field mismatched id "gooo://nativenext/mismatched" type integer required one
+    field faulted id "gooo://nativenext/faulted" type integer required one
+    field blocked id "gooo://nativenext/blocked" type integer required one
+    field unobserved id "gooo://nativenext/unobserved" type integer required one
+    field faulted_activities id "gooo://nativenext/faulted-activities" type integer required one
+    field blocked_activities id "gooo://nativenext/blocked-activities" type integer required one
+}
+entity Diagnostic id "gooo://nativenext/diagnostic" fields {
+    field code id "gooo://nativenext/code" type string required one
+    field message id "gooo://nativenext/message" type string required one
+    field action id "gooo://nativenext/action" type string required one
+}
+
+activity Next(Observation) -> Diagnostic computes `if input.matched < 0 || input.mismatched < 0 || input.faulted < 0 || input.blocked < 0 || input.unobserved < 0 || input.faulted_activities < input.faulted || input.blocked_activities < input.blocked {
+    return Diagnostic{code: "inconsistent-observation", message: "실행 원본의 결과와 개수를 다시 확인하세요.", action: "replay-composition"}
+}
+if input.unobserved > 0 {
+    return Diagnostic{code: "unobserved", message: "아직 실행 결과가 없는 기대값이 남았습니다.", action: "complete-observation"}
+}
+if input.faulted > 0 || input.blocked > 0 {
+    return Diagnostic{code: "native-fault", message: "계산이 실패한 활동과 그 결과를 기다리던 활동이 있습니다. 원래 입력과 기대값을 유지하며 다른 구현을 확인하세요.", action: "revise-and-replay"}
+}
+if input.faulted_activities > 0 || input.blocked_activities > 0 {
+    return Diagnostic{code: "unscored-native-fault", message: "점수를 매긴 출력 외에 실행이 실패한 활동이 있습니다. 해당 입력의 기대 동작도 조립 조건으로 남기세요.", action: "add-fault-expectations"}
+}
+if input.mismatched > 0 {
+    return Diagnostic{code: "partial", message: "기대값과 다른 출력이 남았습니다.", action: "add-counterexamples-to-construction"}
+}
+if input.matched == 0 {
+    return Diagnostic{code: "unobserved", message: "비교할 기대값을 추가하세요.", action: "add-examples"}
+}
+return Diagnostic{code: "observed-complete", message: "주어진 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.", action: "observe-new-inputs"}`
+
+activity ObservationEcho(Observation) -> Observation computes "return input"
+bind ObservationEcho.result -> Next.input

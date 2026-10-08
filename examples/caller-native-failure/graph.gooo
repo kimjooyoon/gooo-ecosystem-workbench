@@ -1,0 +1,9 @@
+package faults
+namespace faults
+entity Integer id "faults://integer"
+activity First(Integer) -> Integer computes "return input + 1"
+activity Divide(Integer, Integer) -> Integer computes "return input0 / input1"
+activity Dependent(Integer) -> Integer computes "return input + 1"
+activity Independent(Integer) -> Integer computes "return input * 2"
+bind First.result -> Divide.input0
+bind Divide.result -> Dependent.input

@@ -19,13 +19,13 @@ type JointRejectionObservation struct {
 func validateJointRejection(schema string, kinds []string, masks []int, rejected *JointRejectionObservation,
 	records int, searches []jointSearchCandidate, fills []jointFillCandidate, runtime json.RawMessage) error {
 	kind := "source_search_index"
-	if rejected.Stage == "LOCAL_SOURCE_FILL" && schema == "gooo/joint-construction/v5" {
+	if rejected.Stage == "LOCAL_SOURCE_FILL" && (schema == "gooo/joint-construction/v5" || schema == "gooo/joint-construction/v6") {
 		kind = "source_fill_index"
 	}
-	if schema != "gooo/joint-construction/v3" && schema != "gooo/joint-construction/v4" && schema != "gooo/joint-construction/v5" ||
+	if schema != "gooo/joint-construction/v3" && schema != "gooo/joint-construction/v4" && schema != "gooo/joint-construction/v5" && schema != "gooo/joint-construction/v6" ||
 		(rejected.Stage != "LOCAL_SOURCE_SEARCH" && kind != "source_fill_index") ||
 		rejected.Slot == nil || *rejected.Slot < 0 || *rejected.Slot >= len(kinds) || kinds[*rejected.Slot] != kind {
-		return fmt.Errorf("joint rejection requires a bound search slot or v5 fill slot")
+		return fmt.Errorf("joint rejection requires a bound search slot or v5/v6 fill slot")
 	}
 	allRecords, allSearches, prefixRecords, prefixSearches := 0, 0, 0, 0
 	allFills, prefixFills := 0, 0
