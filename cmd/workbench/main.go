@@ -6,7 +6,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
 	"path/filepath"
+	"syscall"
 
 	"github.com/kimjooyoon/gooo-ecosystem-workbench"
 )
@@ -36,6 +38,7 @@ func run(args []string) error {
 	query := f.String("query", "", "natural-language capability question for discover")
 	declaration := f.String("declaration", "", "optional .gooo declaration file to bind to the discovery")
 	sourceFile := f.String("source", "", "Gooo source for construct")
+	workspaceFile := f.String("workspace", "", "Gooo package manifest for construct; exclusive with --source/--entry")
 	constructionCases := f.String("construction-cases", "", "caller expectations used by construct")
 	evaluationCases := f.String("evaluation-cases", "", "adaptive cases for construct; failures feed the next round")
 	holdoutCases := f.String("holdout-cases", "", "optional final evaluation after selection stops; never fed back")
@@ -51,12 +54,16 @@ func run(args []string) error {
 	if *fillModel != "" && args[0] != "construct" {
 		return fmt.Errorf("--fill-model requires construct")
 	}
-	ctx := context.Background()
+	if *workspaceFile != "" && args[0] != "construct" {
+		return fmt.Errorf("--workspace requires construct")
+	}
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 	var value any
 	var err error
 	switch args[0] {
 	case "construct":
-		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile,
+		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile, Workspace: *workspaceFile,
 			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, HoldoutCases: *holdoutCases, Entry: *entry,
 			MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds, FillModel: *fillModel})
 	case "splice":

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "loop",
+    "rounds": 5,
+    "attempts_including_restarts": 14,
+    "initial_model_calls": 0,
+    "rejected_attempts_including_restarts": 5,
+    "native_fault_attempts_including_restarts": 1,
+    "holdout_passed": 4,
+    "holdout_total": 4,
+    "holdout_new_model_calls": 0
+  },
+  {
+    "name": "model-loop",
+    "rounds": 8,
+    "attempts_including_restarts": 105,
+    "initial_model_calls": 8,
+    "rejected_attempts_including_restarts": 40,
+    "native_fault_attempts_including_restarts": 8,
+    "holdout_passed": 4,
+    "holdout_total": 4,
+    "holdout_new_model_calls": 0
+  }
+]

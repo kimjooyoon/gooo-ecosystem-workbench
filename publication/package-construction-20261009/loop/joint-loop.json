@@ -1,0 +1,245 @@
+{
+  "schema": "gooo/package-construction-loop/v1",
+  "stop_reason": "add-different-evaluation-inputs",
+  "rounds": [
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-counterexamples-to-construction",
+      "proposed_program_budget": 1,
+      "construction_elapsed_ns": 821328833,
+      "result": "round-0.json",
+      "construction_cases_file": "construction-cases.json",
+      "feedback": {
+        "prepared": true,
+        "consumed_by_next_round": true,
+        "originating_result_sha256": "af6c4b74e6c5b3aa383a591a41c6f1a8bb9cffc69c407add815cbb33efb0891b",
+        "evaluation_file_sha256": "b1b5291288e05ee207226fea2ec9a7b7bb65845bf1ddba47be4c63170db2feae",
+        "previous_cases_sha256": "8eb57d4661ff685190388d308e7fb83334ee7a411d8dc7adbf5c5300e35ab100",
+        "next_cases_sha256": "06bcd932131c56d6f55d3e072c8ed49fcb0574c6624caee2def68955dda3f68d",
+        "next_cases_file": "round-0-feedback-cases.json",
+        "policy_result_sha256": "dcb950d16990d6a32397c5db9c34ba5cc0b9ec537c5b5466886d1951edafff83",
+        "added_indices": [
+          0
+        ],
+        "selected_indices": [
+          0
+        ],
+        "rows": [
+          {
+            "evaluation_index": 0,
+            "matched": 0,
+            "total": 1,
+            "already_retained_or_duplicate": false,
+            "original_row_sha256": "f6015599c4c45067ca060f2cfdd2d59cf010c5c36990fb023ba301cf955d0145",
+            "canonical_row_sha256": "41b0ff8550efc391328f1d75693d3815e6d969b424f8998977749cda4b43f038",
+            "include": true,
+            "reason": "counterexample"
+          }
+        ]
+      }
+    },
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 2,
+      "construction_elapsed_ns": 602954792,
+      "result": "round-1.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 2,
+      "program_attempts": 2,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 4,
+      "construction_elapsed_ns": 604187000,
+      "result": "round-2.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 4,
+      "program_attempts": 4,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 8,
+      "construction_elapsed_ns": 919935000,
+      "result": "round-3.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 8,
+      "program_attempts": 6,
+      "evaluation_passed": 1,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-different-evaluation-inputs",
+      "proposed_program_budget": 0,
+      "construction_elapsed_ns": 1535667917,
+      "result": "round-4.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    }
+  ],
+  "final_directory": "round-4",
+  "scope": "bounded Gooo budget and counterexample proposals; adaptive evaluation influences selection and is not held out; original expectations are preserved; every round restarts and repeated attempts count separately; optional holdout runs only after selection stops, with zero new inference; input separation is not training independence; no source changes or model training; original workspace manifest and listed sources copied before construction; package-keyed feedback rows remain unchanged",
+  "final_evaluation": {
+    "package_construction": {
+      "manifest_sha256": "sha256:32fe318779b8f76c5fd2a521b86cd8335b2a5e0edef223e9e629905082f32317",
+      "lowered_source_sha256": "sha256:6bb4b89bd16f70cb2b298fe9bbc123a80252cd9ab58362c4ee872fc047c3b729",
+      "entry": {
+        "package_path": "app/retry",
+        "activity": "Main",
+        "lowered_name": "GoooPackage1ActivityMain"
+      },
+      "activities": [
+        {
+          "package_path": "app/retry",
+          "activity": "Main",
+          "lowered_name": "GoooPackage1ActivityMain"
+        }
+      ],
+      "scope": "reported package bindings and original caller rows checked against lowered observations; native source and execution are verified by compiler replay"
+    },
+    "joint_construction": {
+      "initial_local_construction": [
+        {
+          "activity_id": "gooo-workspace://activity/gooo-package0activity-plan-budget",
+          "kind": "source_fill",
+          "matched": 1,
+          "total": 1,
+          "scored": 4,
+          "rejected": 2,
+          "ranked": 6,
+          "budget": 6,
+          "observed": true,
+          "budget_known": true,
+          "budget_source": "source_contract",
+          "consistent": true,
+          "omitted": 0,
+          "space_known": true
+        }
+      ],
+      "program_history": [
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 1,
+          "local_total": 1,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 2,
+          "caller_total": 2
+        }
+      ],
+      "program_attempts": 6,
+      "rejected_attempts": 2,
+      "native_program_attempts": 4,
+      "native_fault_attempts": 1,
+      "selected_faulted_activities": 0,
+      "selected_blocked_activities": 0,
+      "program_budget": 8,
+      "candidate_space": "6",
+      "candidate_kinds": [
+        "source_fill_index"
+      ],
+      "more_candidates": false,
+      "selected_attempt": 5,
+      "local_passed": 1,
+      "local_total": 1,
+      "fill_holdout_passed": 1,
+      "fill_holdout_total": 1,
+      "caller_passed": 2,
+      "caller_total": 2,
+      "decision": "COMPLETE_FINITE",
+      "stop_reason": "LOCAL_AND_CALLER_CASES_MATCHED",
+      "construction_replayed": true,
+      "new_model_calls": 0,
+      "reported_evaluation_inputs": {
+        "unique_inputs": 4,
+        "duplicate_rows": 0,
+        "construction_inputs": 0,
+        "other_inputs": 4,
+        "scope": "unique caller root-input tuples compared with consumed construction cases; local-example and model-training exposure are not established by this metric"
+      }
+    },
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "5623f99806d2e0170cd41763f7a0fc90822f8cd156b8ccbaf69e6bdc848fa90b"
+  },
+  "holdout_elapsed_ns": 1765513791
+}

@@ -91,6 +91,23 @@ func collectJointFeedback(current, evaluation, raw []byte) (jointCases, []JointF
 	if err != nil {
 		return doc, nil, err
 	}
+	var envelope struct {
+		Schema string `json:"schema"`
+	}
+	if err = json.Unmarshal(raw, &envelope); err != nil {
+		return doc, nil, err
+	}
+	aliases := map[string]string{}
+	if envelope.Schema == packageJointSchema {
+		var observed *PackageConstructionObservation
+		raw, observed, err = packageJointOutput(raw)
+		if err != nil {
+			return doc, nil, err
+		}
+		for _, activity := range observed.Activities {
+			aliases[activity.Lowered] = activity.Package + ":" + activity.Activity
+		}
+	}
 	var report struct {
 		Construction struct {
 			Selected struct {
@@ -107,6 +124,9 @@ func collectJointFeedback(current, evaluation, raw []byte) (jointCases, []JointF
 	names := map[string]string{}
 	ids := map[string]bool{}
 	for _, activity := range report.Construction.Selected.Plan.Activities {
+		if name := aliases[activity.Name]; name != "" {
+			activity.Name = name
+		}
 		if activity.Name == "" || activity.ID == "" || names[activity.Name] != "" || ids[activity.ID] {
 			return doc, nil, fmt.Errorf("ambiguous evaluation activity identity")
 		}

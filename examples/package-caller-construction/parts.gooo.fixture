@@ -1,0 +1,15 @@
+package parts
+namespace parts
+entity Integer id "budgetplan://integer"
+entity Parts id "budgetplan://parts" fields {
+    field first id "budgetplan://parts/first" type integer required one
+    field second id "budgetplan://parts/second" type integer required one
+    field ready id "budgetplan://parts/ready" type boolean required one
+}
+activity Pick(Integer) -> Parts computes "return Parts{first:input,second:input,ready:input < 0}" assembling {
+    choice "first" field_value at "0" alternative "input * 2" intent "첫 계산은 입력의 두 배이다. Double the input."
+    choice "second" field_value at "1" alternative "input * 3" intent "두 번째 계산은 입력의 세 배이다. Triple the input."
+    choice "ready" field_value at "2" alternative "input > 0" intent "양수일 때 준비된다. Ready when the input is positive."
+    value_case "[0]" -> "{\"first\":0,\"second\":0,\"ready\":false}"
+    attempts "8"
+}

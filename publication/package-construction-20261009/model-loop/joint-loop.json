@@ -1,0 +1,739 @@
+{
+  "schema": "gooo/package-construction-loop/v1",
+  "stop_reason": "add-different-evaluation-inputs",
+  "rounds": [
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-counterexamples-to-construction",
+      "proposed_program_budget": 1,
+      "construction_elapsed_ns": 1084339208,
+      "result": "round-0.json",
+      "construction_cases_file": "construction-cases.json",
+      "feedback": {
+        "prepared": true,
+        "consumed_by_next_round": true,
+        "originating_result_sha256": "7cfe856b2d7ec00e05d898851de9215295bd12aab3f98b32ea3483a1defe041b",
+        "evaluation_file_sha256": "6d3cd56a444528d3bb8666022800e03e72529ad776af048ae78002281933d722",
+        "previous_cases_sha256": "119a34402f1c99f352d33910ec12def3e810bb85293e74eb99d7f6cc5655b165",
+        "next_cases_sha256": "dff07f21a7de3bacd2f73c59b11e925c0cb655ccc976374c259b7a76229f8085",
+        "next_cases_file": "round-0-feedback-cases.json",
+        "policy_result_sha256": "76555e170ed2b96367854004d4d9195e70bac305e4560dff01d1df6d044c310a",
+        "added_indices": [
+          0
+        ],
+        "selected_indices": [
+          0
+        ],
+        "rows": [
+          {
+            "evaluation_index": 0,
+            "matched": 0,
+            "total": 1,
+            "already_retained_or_duplicate": false,
+            "original_row_sha256": "4106bfe8151accb4f995a741d67a8472a36acbd3f202fddcd0ee6a5b1543a580",
+            "canonical_row_sha256": "447d8b091d8f58b4165f1184fecae060383ea672e70df7c7870301c2b6e52246",
+            "include": true,
+            "reason": "counterexample"
+          }
+        ]
+      }
+    },
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 2,
+      "construction_elapsed_ns": 797336625,
+      "result": "round-1.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 2,
+      "program_attempts": 2,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 4,
+      "construction_elapsed_ns": 1495367834,
+      "result": "round-2.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 4,
+      "program_attempts": 4,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 8,
+      "construction_elapsed_ns": 2181050250,
+      "result": "round-3.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 8,
+      "program_attempts": 8,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 16,
+      "construction_elapsed_ns": 5025010209,
+      "result": "round-4.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 16,
+      "program_attempts": 16,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 32,
+      "construction_elapsed_ns": 3263163833,
+      "result": "round-5.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 32,
+      "program_attempts": 32,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 64,
+      "construction_elapsed_ns": 7304143208,
+      "result": "round-6.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    },
+    {
+      "program_budget": 64,
+      "program_attempts": 41,
+      "evaluation_passed": 1,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-different-evaluation-inputs",
+      "proposed_program_budget": 0,
+      "construction_elapsed_ns": 11043873167,
+      "result": "round-7.json",
+      "construction_cases_file": "round-0-feedback-cases.json"
+    }
+  ],
+  "final_directory": "round-7",
+  "scope": "bounded Gooo budget and counterexample proposals; adaptive evaluation influences selection and is not held out; original expectations are preserved; every round restarts and repeated attempts count separately; optional holdout runs only after selection stops, with zero new inference; input separation is not training independence; no source changes or model training; original workspace manifest and listed sources copied before construction; package-keyed feedback rows remain unchanged",
+  "final_evaluation": {
+    "package_construction": {
+      "manifest_sha256": "sha256:e9e895158cac79792d394d5d75be27f8cddf1dfcb37ae227635544890fe5bf26",
+      "lowered_source_sha256": "sha256:acb5440707024722016f591648813565f2c9abd4dc170c72d58efbd4c61966b1",
+      "entry": {
+        "package_path": "app/retry",
+        "activity": "Main",
+        "lowered_name": "GoooPackage2ActivityMain"
+      },
+      "activities": [
+        {
+          "package_path": "app/retry",
+          "activity": "Main",
+          "lowered_name": "GoooPackage2ActivityMain"
+        }
+      ],
+      "scope": "reported package bindings and original caller rows checked against lowered observations; native source and execution are verified by compiler replay"
+    },
+    "joint_construction": {
+      "initial_local_construction": [
+        {
+          "activity_id": "gooo-workspace://activity/gooo-package0activity-plan-budget",
+          "kind": "source_fill",
+          "matched": 1,
+          "total": 1,
+          "scored": 4,
+          "rejected": 2,
+          "ranked": 6,
+          "budget": 6,
+          "observed": true,
+          "budget_known": true,
+          "budget_source": "source_contract",
+          "consistent": true,
+          "omitted": 0,
+          "space_known": true
+        },
+        {
+          "activity_id": "gooo-workspace://activity/gooo-package1activity-pick",
+          "kind": "record_choices",
+          "matched": 1,
+          "total": 1,
+          "scored": 1,
+          "rejected": 0,
+          "ranked": 8,
+          "budget": 8,
+          "observed": true,
+          "budget_known": true,
+          "budget_source": "source_contract",
+          "consistent": true,
+          "omitted": 0,
+          "space_known": true
+        }
+      ],
+      "program_history": [
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_cap_type",
+            "reason": "typecheck generated activity: body.goo:17:23: cannot use true (untyped bool constant) as int64 value in assignment"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "rejection": {
+            "stage": "LOCAL_SOURCE_FILL",
+            "slot": 0,
+            "activity": "GoooPackage0ActivityPlanBudget",
+            "candidate_id": "bad_boundary_value",
+            "reason": "record case did not return: zero divisor for integer operator /"
+          },
+          "local_passed": 0,
+          "local_total": 0,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 0,
+          "caller_passed": 0,
+          "caller_total": 0
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 0,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "native_outcomes": {
+            "matched": 1,
+            "mismatched": 0,
+            "faulted": 1,
+            "blocked": 0,
+            "unobserved": 0,
+            "faulted_activities": 1,
+            "blocked_activities": 0
+          },
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 1,
+          "caller_total": 2
+        },
+        {
+          "local_passed": 2,
+          "local_total": 2,
+          "fill_holdout_passed": 1,
+          "fill_holdout_total": 1,
+          "caller_passed": 2,
+          "caller_total": 2
+        }
+      ],
+      "program_attempts": 41,
+      "rejected_attempts": 16,
+      "native_program_attempts": 25,
+      "native_fault_attempts": 8,
+      "selected_faulted_activities": 0,
+      "selected_blocked_activities": 0,
+      "program_budget": 64,
+      "candidate_space": "48",
+      "candidate_kinds": [
+        "source_fill_index",
+        "record_mask"
+      ],
+      "more_candidates": true,
+      "selected_attempt": 40,
+      "local_passed": 2,
+      "local_total": 2,
+      "fill_holdout_passed": 1,
+      "fill_holdout_total": 1,
+      "caller_passed": 2,
+      "caller_total": 2,
+      "decision": "COMPLETE_FINITE",
+      "stop_reason": "LOCAL_AND_CALLER_CASES_MATCHED",
+      "construction_replayed": true,
+      "new_model_calls": 0,
+      "reported_evaluation_inputs": {
+        "unique_inputs": 4,
+        "duplicate_rows": 0,
+        "construction_inputs": 0,
+        "other_inputs": 4,
+        "scope": "unique caller root-input tuples compared with consumed construction cases; local-example and model-training exposure are not established by this metric"
+      }
+    },
+    "unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "16505770d377e88bca4ba8619a5a8c4527eacf6e2d8cafb9d276042bf79748d4"
+  },
+  "holdout_elapsed_ns": 8732906083
+}

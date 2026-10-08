@@ -17,13 +17,13 @@ go run ./cmd/workbench construct --compiler gooo \
   --max-program-budget 4 --max-rounds 4 --out out/source-fill-public
 ```
 
-CI와 같은 소스를 직접 빌드할 수도 있습니다.
+패키지 조립을 사용하려면 CI와 같은 개발 소스를 빌드합니다.
 아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
 
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin 146a5085427972f3a50c38b33384e3911c9019eb
+git -C .compiler fetch --depth 1 origin e6a22ba3329c4511ce53296b65b42dc79dbad263
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
@@ -40,8 +40,22 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.16-dev`이며, 공개 파일과 위 고정한
-소스의 리비전은 `146a5085427972f3a50c38b33384e3911c9019eb`입니다.
+`version --build --json`의 버전 문자열은 `0.6.16-dev`입니다. 공개 파일은
+`146a5085427972f3a50c38b33384e3911c9019eb`, 위 개발 소스 빌드는 `e6a22ba3`입니다.
+개발 소스의 새 패키지 명령을 쓰는 예제는 다음과 같습니다.
+
+```sh
+go run ./cmd/workbench construct --compiler ./.gooo \
+  --workspace examples/package-caller-construction/gooo.workspace.json \
+  --construction-cases examples/package-caller-construction/initial-cases.json \
+  --evaluation-cases examples/package-caller-construction/evaluation-cases.json \
+  --holdout-cases examples/package-caller-construction/holdout-cases.json \
+  --max-program-budget 8 --max-rounds 5 --out out/package-loop
+```
+
+원래 매니페스트와 명시된 소스만 새 출력 폴더에 복사해 모든 회차에서 사용합니다.
+실패한 평가 행은 패키지 이름과 큰 정수를 보존한 채 다음 조립 사례에 추가합니다.
+마지막 홀드아웃은 선택이 끝난 뒤에만 실행하며, 그 결과를 다시 조립에 사용하지 않습니다.
 [버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.16-dev/docs/releases/0.6.16-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.

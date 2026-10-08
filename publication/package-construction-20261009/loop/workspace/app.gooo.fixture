@@ -1,0 +1,6 @@
+package app
+namespace app
+import budget "tools/budget"
+activity Main(Work) -> Integer computes `let plan = budget.PlanBudget(input)
+if plan.exhausted { return -plan.next }
+return plan.next`
