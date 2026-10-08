@@ -14,10 +14,12 @@ next action from recounted values. Transport and exact JSON-number handling use 
   compares source hashes, original construction cases, final expectations and
   native outputs; it also requires the workbench reader to produce the same counts.
 - Those originals used clean compiler `717d876e481c233ae3587488077be87843175fe6`.
-  The workbench CI pins `3b762198b42d9ab552421b19519d3d4834b34ab3`, which adds the
+  The workbench CI for this study pinned `3b762198b42d9ab552421b19519d3d4834b34ab3`, which adds the
   compiler's retained evidence and documentation to that implementation.
-- The local feedback run and model run use that clean CI revision. Public
-  `v0.6.15-dev` assets remain source `dc75f59`; this feature has no new release tag yet.
+- The local feedback run and model run use that clean CI revision. At observation
+  time, public `v0.6.15-dev` assets remained source `dc75f59`. The subsequent
+  `v0.6.16-dev` release includes this feature at source
+  `146a5085427972f3a50c38b33384e3911c9019eb`; the original study records retain their revisions.
 - The `loop-*.json.gz` and `adaptive-*.json.gz` files preserve every local round,
   feedback update, original cases and final evaluation. The latter starts with a
   native fault on an evaluation-only input; that unchanged row is consumed in
