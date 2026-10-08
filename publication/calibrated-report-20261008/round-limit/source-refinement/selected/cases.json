@@ -1,0 +1,135 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {
+      "inputs": {
+        "Energy": 1
+      },
+      "expected": {
+        "Energy": 9,
+        "Report": {
+          "energy": 9,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 2
+      },
+      "expected": {
+        "Energy": 25,
+        "Report": {
+          "energy": 25,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 3
+      },
+      "expected": {
+        "Energy": 49,
+        "Report": {
+          "energy": 49,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 4
+      },
+      "expected": {
+        "Energy": 81,
+        "Report": {
+          "energy": 81,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 5
+      },
+      "expected": {
+        "Energy": 121,
+        "Report": {
+          "energy": 121,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 6
+      },
+      "expected": {
+        "Energy": 169,
+        "Report": {
+          "energy": 169,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 7
+      },
+      "expected": {
+        "Energy": 225,
+        "Report": {
+          "energy": 225,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 8
+      },
+      "expected": {
+        "Energy": 289,
+        "Report": {
+          "energy": 289,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 9
+      },
+      "expected": {
+        "Energy": 361,
+        "Report": {
+          "energy": 361,
+          "elevated": false,
+          "label": "calibrated"
+        }
+      }
+    },
+    {
+      "inputs": {
+        "Energy": 10
+      },
+      "expected": {
+        "Energy": 441,
+        "Report": {
+          "energy": 441,
+          "elevated": true,
+          "label": "calibrated"
+        }
+      }
+    }
+  ]
+}

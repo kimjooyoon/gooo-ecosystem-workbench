@@ -1,0 +1,175 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PASS",
+  "activity_id": "calibrated://activity/energy",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 1,
+        "total": 10,
+        "scored": 8,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 2,
+    "total": 20,
+    "rejected": 0,
+    "detail": "{\"detail_limited\":true,\"gaps\":18,\"input_sha256\":\"1648fe2cff7d71a43b02e52862d3fe760b51733ed1a82dd8514d4f7d296a7827\",\"type_rejections\":0,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "1648fe2cff7d71a43b02e52862d3fe760b51733ed1a82dd8514d4f7d296a7827"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 10,
+        "total": 10,
+        "scored": 1,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 20,
+    "total": 20,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "66a405315053fc1ed7d7814833c357f545da5d58796afc6992ac5054ec1aad03"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "calibrated://activity/energy",
+      "kind": "integer_search",
+      "matched": 1,
+      "total": 10,
+      "scored": 8,
+      "ranked": 16,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 73,
+      "space_known": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "calibrated://activity/energy",
+      "kind": "integer_search",
+      "matched": 10,
+      "total": 10,
+      "scored": 1,
+      "ranked": 16,
+      "budget": 8,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 73,
+      "space_known": true
+    },
+    "code": "observed-complete",
+    "action": "observe-new-inputs",
+    "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PASS",
+  "evaluation_status": "PASS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "calibrated://activity/energy",
+        "kind": "integer_search",
+        "matched": 10,
+        "total": 10,
+        "scored": 1,
+        "ranked": 16,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 73,
+        "space_known": true
+      },
+      {
+        "activity_id": "calibrated://activity/report",
+        "kind": "record_choices",
+        "matched": 2,
+        "total": 2,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true,
+        "omitted": 0,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 6,
+    "total": 6,
+    "rejected": 0,
+    "detail": "{\"gaps\":null,\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "8f003078304242fd0399ee4622c5bc0213bf62cc0e1773e183d2e0cf39ea1011"
+  },
+  "initial_model_calls": 1,
+  "refinement_model_calls": 2,
+  "refinement_rounds": 2,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations",
+  "search_policy": true
+}

@@ -1,0 +1,33 @@
+package calibrated
+namespace calibrated
+entity Integer id "calibrated://integer"
+entity Reading id "calibrated://reading" fields {
+    field energy id "calibrated://reading/energy" type integer required one
+    field elevated id "calibrated://reading/elevated" type boolean required one
+    field label id "calibrated://reading/label" type string required one
+}
+activity Energy(Integer) -> Integer computes `let calibrated = __GOOO_BODY_HOLE_calibration__
+return calibrated * calibrated` assembling {
+    search hole "calibration" grammar "integer-hole-quadratic/v2" intent "원시값을 두 배 하고 1을 더한 값의 제곱을 구한다. Square the reading after scaling it by two and adding one." max_candidates "16"
+    search_alternative "shared_fit" grammar "integer-hole-quadratic/v2" max_candidates "16"
+    case "1" -> "9"
+    case "2" -> "25"
+    case "3" -> "49"
+    case "4" -> "81"
+    case "5" -> "121"
+    case "6" -> "169"
+    case "7" -> "225"
+    case "8" -> "289"
+    case "9" -> "361"
+    case "10" -> "441"
+    attempts "8"
+}
+activity Report(Integer) -> Reading computes `return Reading{energy: 0, elevated: false, label: "pending"}` assembling {
+    choice "energy" field_value at "0" alternative "input" intent "계산한 제곱값을 보존한다. Preserve the computed squared reading."
+    choice "elevated" field_value at "1" alternative "input >= 400" intent "제곱값이 400 이상인지 표시한다. Mark values at least 400 as elevated."
+    choice "label" field_value at "2" alternative "\"calibrated\"" intent "보정한 기록으로 표시한다. Label the reading calibrated."
+    value_case "[9]" -> "{\"energy\":9,\"elevated\":false,\"label\":\"calibrated\"}"
+    value_case "[441]" -> "{\"energy\":441,\"elevated\":true,\"label\":\"calibrated\"}"
+    attempts "8"
+}
+bind Energy.result -> Report.input

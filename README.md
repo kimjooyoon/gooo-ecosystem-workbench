@@ -14,6 +14,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 표준 함수 13개 | 정수 범위·최솟값·최댓값, 논리 연산, 텍스트 선택 | `verify` |
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
 | 소스 수정 이어가기 | Gooo의 다음 행동에 따라 사례·시도 한도를 수정하고 다시 조립 | `refine` |
+| 보정값 보고서 예제 | 숫자식의 빈칸을 채우고 값·임계값 표시·문구를 레코드로 조립 | [네 조건의 실행](examples/calibrated-report/README.md) |
 | 시작 도구 | scalar/record/library 요청에 맞는 Gooo 소스와 다음 명령 생성 | `scaffold` |
 | API 참조 생성 | 컴파일러가 해석한 공개 이름·시그니처·안정 타입 ID를 문서화 | `reference` |
 | 완전성 영수증 | 선언·생성·역관찰·사례·경계·출처를 근거와 함께 단계별 기록 | `receipt` |
@@ -35,8 +36,9 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.1과 Gooo 컴파일러가 필요합니다. 현재 CI와 Gooo 본문 생성 연동은
-[`884d4409`](https://github.com/kimjooyoon/meta-ontology-go/tree/884d44096455aa8a47ac63e378b7a05f10665bfe)을 기준으로 확인합니다.
+Go 1.27.1과 Gooo 컴파일러가 필요합니다. 현재 CI는
+[`4421805b`](https://github.com/kimjooyoon/meta-ontology-go/tree/4421805b9db75e56bb97c571486afcf53f66089c)의
+컴파일러를 고정해 빌드합니다. 새 제곱식 문법을 포함한 공개 개발 소스입니다.
 이미 `gooo`가 설치됐다면 이 저장소에서:
 
 ```sh
@@ -146,6 +148,11 @@ Gooo가 구분해 다음 행동을 제안합니다.
 실제 탐색 설정 변경에 연결할 수 있습니다. Gooo 정책이 후보 제한을 넓히거나
 허용된 다른 문법으로 전환하며, 각 수정본과 실행 결과를 남깁니다.
 [선언과 실행 예제](examples/search-policy/README.md).
+
+[보정값 보고서](examples/calibrated-report/README.md)는 그 흐름을 두 활동으로 연결한
+작은 센서 예제입니다. 숫자식은 관측한 값으로 후보를 만들고, 자체 모델은 결과 레코드의
+세 필드 후보를 추천합니다. Gooo 정책이 다음 문법으로 옮길지 고릅니다. 고정 순서,
+모델 사용, 한 라운드 제한, 대안 문법 제거를 같은 입력으로 비교할 수 있습니다.
 
 ```sh
 go run ./cmd/workbench refine --compiler ./.gooo \

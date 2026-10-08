@@ -6,7 +6,7 @@ Go1.27.1을 사용합니다. 이 저장소에서 변경 없는 고정 컴파일�
 
 ```sh
 git clone https://github.com/kimjooyoon/meta-ontology-go.git .compiler
-git -C .compiler switch --detach 884d44096455aa8a47ac63e378b7a05f10665bfe
+git -C .compiler switch --detach 4421805b9db75e56bb97c571486afcf53f66089c
 cd .compiler
 go build -trimpath -o ../.gooo ./cmd/gooo
 cd ..
@@ -51,7 +51,8 @@ go run ./cmd/workbench diagnose --compiler ./.gooo \
 레코드만 있는 입력은 필드별로 집계하고 `record_fields`로 표시합니다.
 `--input`에는 `gooo package execute`, `resume`, `replay`의 JSON 영수증도 넣을 수 있습니다.
 외부 프로그램이 이 두 파일을 읽어 다음 작업을 만들 수 있습니다. 현재 도구는
-작업을 분류하고 구성합니다. 본문을 자동으로 수정하는 후속 실행기는 별도 구현 과제입니다.
+작업을 분류하고 구성합니다. 조립 사례·시도 한도·선언한 탐색 방법을 바꾸는 후속 실행은
+아래 `refine` 명령에 연결돼 있습니다.
 
 `captured-input.json`은 원래 입력 전체를 보관합니다. 전달할 상세 문장은
 현재 Text 입력의 1,024바이트 범위에 맞춥니다. 상세가 더 길면 집계 단위·불일치 수와
@@ -93,6 +94,14 @@ Gooo 프로그램으로 실행됩니다. 한도가 남아 있는지와 원래 �
 있습니다. `selected_source`는 유지한 소스를 가리킵니다. 원본 파일은 보존하고,
 피드백과 별도로 제공한 최종 평가는 소스 선택 후에 실행합니다.
 [정책과 기록 설명](../examples/source-refinement/README.md)을 함께 볼 수 있습니다.
+
+`--search-policy`를 주면 Gooo 소스의 `search_alternative`도 선택할 수 있습니다.
+[보정값 보고서](../examples/calibrated-report/README.md)에서는 숫자식과 레코드 조립을
+연결하고, 모델 유무와 중단 조건을 비교합니다. 후보를 얼마나 담았는지와 실행 기대값을
+몇 개 맞혔는지는 각각의 기록으로 읽습니다. 대안 ID는 `shared_fit`처럼 식별자로 적습니다.
+
+명령이 JSON으로 오류를 반환하면 실행 도구가 그 `error` 또는 `failure` 내용을
+실패 메시지에 포함합니다. 소스의 어느 선언이 잘못됐는지 원인을 함께 확인할 수 있습니다.
 
 ## 공개 API 참조 만들기
 
