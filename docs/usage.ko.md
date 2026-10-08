@@ -23,7 +23,7 @@ CI와 같은 소스를 직접 빌드할 수도 있습니다.
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin 2162809f3c49637f0db5d1003873db5e8189d16e
+git -C .compiler fetch --depth 1 origin a6eac63de3ee602faec8788f503a2b2975bbe17b
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
@@ -33,6 +33,12 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 0.6.14는 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
 잘못된 정수 계산식은 이유를 남기고 다음 후보를 시도합니다.
 패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
+
+위에 고정한 새 소스는 빈칸의 타입 오류와 조립 사례 실행 실패도 기록하고
+다음 후보로 넘어갑니다. [다섯 후보 예제](../examples/caller-fill-rejection/README.md)는
+탈락한 후보가 시도 한도에는 포함되고 정답률에는 섞이지 않는 과정을 보여줍니다.
+개발 버전 문자열은 여전히 0.6.14-dev이므로 `version --build --json`의 소스 커밋으로
+공개 0.6.14 바이너리와 구분할 수 있습니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
 `version --build --json`의 버전 문자열은 `0.6.14-dev`이며, 소스 리비전은
 위 고정한 리비전과 같습니다. 공개 파일도 같은 소스에서 빌드했습니다.

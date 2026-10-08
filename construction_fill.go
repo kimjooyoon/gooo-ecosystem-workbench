@@ -1,15 +1,16 @@
 package workbench
 
 type constructionFill struct {
-	Selected      string     `json:"selected_candidate_id"`
-	Passed        *int64     `json:"test_cases_passed"`
-	Total         *int64     `json:"test_cases_total"`
-	Cases         []fillCase `json:"selected_case_results"`
-	Values        []fillCase `json:"selected_value_case_results"`
-	HoldoutPassed *int64     `json:"holdout_cases_passed"`
-	HoldoutTotal  *int64     `json:"holdout_cases_total"`
-	Holdout       []fillCase `json:"holdout_case_results"`
-	ValueHoldout  []fillCase `json:"selected_value_holdout_case_results"`
+	Rejected      []fillRejection `json:"rejected_candidates"`
+	Selected      string          `json:"selected_candidate_id"`
+	Passed        *int64          `json:"test_cases_passed"`
+	Total         *int64          `json:"test_cases_total"`
+	Cases         []fillCase      `json:"selected_case_results"`
+	Values        []fillCase      `json:"selected_value_case_results"`
+	HoldoutPassed *int64          `json:"holdout_cases_passed"`
+	HoldoutTotal  *int64          `json:"holdout_cases_total"`
+	Holdout       []fillCase      `json:"holdout_case_results"`
+	ValueHoldout  []fillCase      `json:"selected_value_holdout_case_results"`
 	Scores        []struct {
 		ID     string `json:"id"`
 		Typed  *bool  `json:"typecheck_passed"`
@@ -22,8 +23,8 @@ type constructionFill struct {
 }
 
 func fillObservation(activity string, f *constructionFill) ConstructionObservation {
-	n := len(f.Scores)
-	o := ConstructionObservation{ActivityID: activity, Kind: "source_fill", Scored: int64(n), Ranked: int64(n),
+	n := len(f.Scores) + len(f.Rejected)
+	o := ConstructionObservation{ActivityID: activity, Kind: "source_fill", Scored: int64(len(f.Scores)), Rejected: int64(len(f.Rejected)), Ranked: int64(n),
 		Budget: int64(n), BudgetKnown: true, BudgetSource: "source_contract", SpaceKnown: true, Consistent: activity != ""}
 	candidate := jointFillCandidate{Schema: "gooo/fill-candidate/v1", ID: f.Selected, Count: &n,
 		Passed: f.Passed, Total: f.Total, Cases: f.Cases, Values: f.Values, HoldoutPassed: f.HoldoutPassed,
@@ -50,6 +51,12 @@ func fillObservation(activity string, f *constructionFill) ConstructionObservati
 	}
 	if !selected {
 		o.Consistent = false
+	}
+	for _, r := range f.Rejected {
+		if !validFillRejection(&r) || seen[r.ID] {
+			o.Consistent = false
+		}
+		seen[r.ID] = true
 	}
 	if f.Generation != nil {
 		if f.Generation.Omitted == nil || *f.Generation.Omitted < 0 {

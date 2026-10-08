@@ -87,7 +87,7 @@ func TestJointFillRejectedSearchPrefix(t *testing.T) {
 	a.Rejection.Slot = &slot
 	for _, count := range []int{0, 1, 2} {
 		err := validateJointRejection("gooo/joint-construction/v4", []string{"source_fill_index", "source_search_index", "record_mask"},
-			[]int{0, 1, 0}, a.Rejection, 0, a.SearchCandidates, count, a.Runtime)
+			[]int{0, 1, 0}, a.Rejection, 0, a.SearchCandidates, make([]jointFillCandidate, count), a.Runtime)
 		if (err == nil) != (count == 1) {
 			t.Fatal(count, err)
 		}

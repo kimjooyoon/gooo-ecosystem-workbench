@@ -16,6 +16,7 @@ type ConstructionObservation struct {
 	Matched      int64  `json:"matched"`
 	Total        int64  `json:"total"`
 	Scored       int64  `json:"scored"`
+	Rejected     int64  `json:"rejected"`
 	Ranked       int64  `json:"ranked"`
 	Budget       int64  `json:"budget"`
 	Observed     bool   `json:"observed"`
@@ -122,7 +123,7 @@ func constructionObservations(r result) []ConstructionObservation {
 
 func constructionInput(s Snapshot, o ConstructionObservation) map[string]any {
 	return map[string]any{"native_passed": s.Passed, "native_total": s.Total,
-		"matched": o.Matched, "total": o.Total, "scored": o.Scored, "ranked": o.Ranked,
+		"matched": o.Matched, "total": o.Total, "scored": o.Scored, "rejected": o.Rejected, "ranked": o.Ranked,
 		"budget": o.Budget, "observed": o.Observed, "budget_known": o.BudgetKnown, "consistent": o.Consistent,
 		"omitted": o.Omitted, "space_known": o.SpaceKnown}
 }

@@ -7,6 +7,7 @@ entity ConstructionObservation id "gooo://nextsteps/construction-observation" fi
     field matched id "gooo://nextsteps/matched" type integer required one
     field total id "gooo://nextsteps/total" type integer required one
     field scored id "gooo://nextsteps/scored" type integer required one
+    field rejected id "gooo://nextsteps/rejected" type integer required one
     field ranked id "gooo://nextsteps/ranked" type integer required one
     field budget id "gooo://nextsteps/budget" type integer required one
     field observed id "gooo://nextsteps/observed" type boolean required one
@@ -30,10 +31,11 @@ if input.native_total == 0 {
 if !input.observed {
     return NextStep{code: "unknown", action: "inspect-construction", message: "조립 사례의 관측 수가 기록되지 않았습니다."}
 }
-if !input.consistent || input.matched < 0 || input.total <= 0 || input.matched > input.total || input.scored < 1 || input.ranked < input.scored || input.omitted < 0 {
+let checked = input.scored + input.rejected
+if !input.consistent || input.matched < 0 || input.total <= 0 || input.matched > input.total || input.scored < 1 || input.rejected < 0 || input.ranked < checked || input.omitted < 0 {
     return NextStep{code: "inconsistent-history", action: "replay-construction", message: "조립 기록을 원래 소스에서 다시 확인하세요."}
 }
-if input.budget_known && (input.budget < 1 || input.budget < input.scored) {
+if input.budget_known && (input.budget < 1 || input.budget < checked) {
     return NextStep{code: "inconsistent-history", action: "replay-construction", message: "기록된 시도 수가 예산과 맞지 않습니다."}
 }
 if input.native_passed == input.native_total {
@@ -45,10 +47,10 @@ if input.matched == input.total {
 if !input.budget_known {
     return NextStep{code: "unknown", action: "inspect-attempt-budget", message: "후보 순서는 있지만 선언한 시도 예산을 확인해야 합니다."}
 }
-if input.scored < input.budget && input.scored < input.ranked {
+if checked < input.budget && checked < input.ranked {
     return NextStep{code: "continuable", action: "resume-candidates", message: "남은 후보와 예산이 있습니다. 이어가기 정책을 명시해 조립을 계속할 수 있습니다."}
 }
-if input.scored < input.ranked {
+if checked < input.ranked {
     return NextStep{code: "budget-exhausted", action: "raise-attempt-budget", message: "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."}
 }
 if !input.space_known {
