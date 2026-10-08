@@ -2,10 +2,9 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.1을 사용합니다. [Gooo 0.6.16 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.16-dev)의
-운영체제별 실행 파일에 여러 빈칸의 호출 기반 조립과 실제 계산 실패 이후의 탐색이 포함되어 있습니다.
-설치했다면 아래 명령의 `--compiler ./.gooo`에 설치한 실행 파일 경로를 지정합니다.
-`gooo`가 명령 경로에 있다면 다음처럼 바로 시작할 수 있습니다.
+Go 1.27.2와 아래에 고정한 Gooo 0.6.17 개발 소스를 사용합니다.
+컴파일러를 먼저 빌드한 뒤 각 명령의 `--compiler`에 그 실행 파일 경로를 지정합니다.
+이미 같은 리비전의 `gooo`를 설치했다면 다음처럼 시작합니다.
 
 ```sh
 gooo version --build --json
@@ -23,14 +22,14 @@ go run ./cmd/workbench construct --compiler gooo \
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin e6a22ba3329c4511ce53296b65b42dc79dbad263
+git -C .compiler fetch --depth 1 origin be4ef88cca4bc3df1e78ae91c8fe8388413f05c9
 git -C .compiler switch --detach FETCH_HEAD
-GOTOOLCHAIN=go1.27.1 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
+GOTOOLCHAIN=go1.27.2 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
 
-0.6.16은 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
+0.6.17은 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
 잘못된 정수 계산식과 빈칸 후보의 타입·학습용 계산 오류는 이유를 남기고 다음 후보를 시도합니다.
 패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
 
@@ -40,9 +39,9 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.16-dev`입니다. 공개 파일은
-`146a5085427972f3a50c38b33384e3911c9019eb`, 위 개발 소스 빌드는 `e6a22ba3`입니다.
-개발 소스의 새 패키지 명령을 쓰는 예제는 다음과 같습니다.
+`version --build --json`의 버전 문자열은 `0.6.17-dev`, Go 버전은 `go1.27.2`입니다.
+소스 리비전이 `be4ef88cca4bc3df1e78ae91c8fe8388413f05c9`와 같은지 확인합니다.
+패키지 조립 명령을 쓰는 예제는 다음과 같습니다.
 
 ```sh
 go run ./cmd/workbench construct --compiler ./.gooo \
@@ -56,7 +55,7 @@ go run ./cmd/workbench construct --compiler ./.gooo \
 원래 매니페스트와 명시된 소스만 새 출력 폴더에 복사해 모든 회차에서 사용합니다.
 실패한 평가 행은 패키지 이름과 큰 정수를 보존한 채 다음 조립 사례에 추가합니다.
 마지막 홀드아웃은 선택이 끝난 뒤에만 실행하며, 그 결과를 다시 조립에 사용하지 않습니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.16-dev/docs/releases/0.6.16-dev.md)와
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/be4ef88cca4bc3df1e78ae91c8fe8388413f05c9/docs/releases/0.6.17-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 

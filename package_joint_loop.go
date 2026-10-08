@@ -128,5 +128,5 @@ func savePackageJointRound(root, dir string, raw []byte) error {
 			return err
 		}
 	}
-	return write(filepath.Join(root, dir, "go.mod"), []byte("module gooo.observed.composition\n\ngo 1.27.1\n"))
+	return write(filepath.Join(root, dir, "go.mod"), []byte("module gooo.observed.composition\n\ngo 1.27.2\n"))
 }
