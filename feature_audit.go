@@ -18,6 +18,7 @@ type FeatureAuditCase struct {
 	Family        string                             `json:"family"`
 	Choices       []jointdecision.RecordChoice       `json:"choices,omitempty"`
 	OriginChoices []jointdecision.RecordOriginChoice `json:"origin_choices,omitempty"`
+	Graph         *jointdecision.RecordGraphInput    `json:"graph,omitempty"`
 	AcceptedMasks []uint16                           `json:"accepted_masks"`
 }
 
