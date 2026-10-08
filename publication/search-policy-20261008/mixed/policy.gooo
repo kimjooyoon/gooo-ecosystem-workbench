@@ -1,0 +1,45 @@
+package feedback
+namespace feedback
+entity Observation id "searchfeedback://observation" fields {
+    field matched id "searchfeedback://matched" type integer required one
+    field total id "searchfeedback://total" type integer required one
+    field best id "searchfeedback://best" type integer required one
+    field attempts id "searchfeedback://attempts" type integer required one
+    field limit id "searchfeedback://limit" type integer required one
+    field round id "searchfeedback://round" type integer required one
+    field round_limit id "searchfeedback://round-limit" type integer required one
+    field counterexamples id "searchfeedback://counterexamples" type integer required one
+    field search_attempted id "searchfeedback://search-attempted" type integer required one
+    field search_retained id "searchfeedback://search-retained" type integer required one
+    field search_omitted id "searchfeedback://search-omitted" type integer required one
+    field grammar id "searchfeedback://grammar" type string required one
+    field candidate_limit id "searchfeedback://candidate-limit" type integer required one
+    field next_search_id id "searchfeedback://next-search-id" type string required one
+    field next_grammar id "searchfeedback://next-grammar" type string required one
+    field next_attempt_limit id "searchfeedback://next-attempt-limit" type integer required one
+}
+entity Decision id "searchfeedback://decision" fields {
+    field action id "searchfeedback://action" type string required one
+    field next_attempts id "searchfeedback://next-attempts" type integer required one
+    field retain id "searchfeedback://retain" type boolean required one
+    field reason id "searchfeedback://reason" type string required one
+    field next_search_id id "searchfeedback://decision-search-id" type string required one
+}
+activity Decide(Observation) -> Decision computes `let keep = input.matched >= input.best
+if input.matched == input.total || input.round >= input.round_limit {
+    return Decision{action: "STOP", next_attempts: input.attempts, retain: keep, reason: "관측 결과와 라운드 한도에 따라 멈춥니다.", next_search_id: ""}
+}
+let next = input.attempts * 2
+if next > input.limit {
+    next = input.limit
+}
+if input.counterexamples > 0 {
+    return Decision{action: "INCORPORATE", next_attempts: next, retain: keep, reason: "실패한 직접 입력을 조립 사례에 반영합니다.", next_search_id: ""}
+}
+if input.search_attempted >= input.search_retained || input.attempts >= input.limit {
+    if input.next_search_id != "" {
+        return Decision{action: "ADVANCE_SEARCH", next_attempts: input.next_attempt_limit, retain: keep, reason: "소스에 선언한 다음 탐색 설정으로 이어갑니다.", next_search_id: input.next_search_id}
+    }
+    return Decision{action: "STOP", next_attempts: input.attempts, retain: keep, reason: "현재 소스에 더 시도할 탐색 설정이 없습니다.", next_search_id: ""}
+}
+return Decision{action: "CONTINUE", next_attempts: next, retain: keep, reason: "현재 탐색 목록의 후보를 더 확인합니다.", next_search_id: ""}`

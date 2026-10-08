@@ -25,6 +25,7 @@ func runRefine(args []string) error {
 	f.StringVar(&o.EvaluationCases, "evaluation-cases", "", "optional final cases withheld until source selection")
 	f.IntVar(&o.MaxAttempts, "max-attempts", 8, "maximum selected activity attempt budget per refinement round")
 	f.IntVar(&o.MaxRounds, "max-rounds", 4, "maximum source refinement rounds (1..8)")
+	f.BoolVar(&o.SearchPolicy, "search-policy", false, "use Gooo search observations and source-declared alternatives")
 	if err := f.Parse(args); err != nil {
 		return err
 	}

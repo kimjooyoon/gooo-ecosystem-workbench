@@ -142,6 +142,11 @@ Gooo가 한도 확대나 사례 추가를 제안하면 컴파일러의 `body-ref
 수 있습니다. 현재 목록을 다 시도한 경우와 후보 수 제한으로 표현식이 제외된 경우를
 Gooo가 구분해 다음 행동을 제안합니다.
 
+소스에 `search_alternative`를 선언하면 `refine --search-policy`로 그 제안을
+실제 탐색 설정 변경에 연결할 수 있습니다. Gooo 정책이 후보 제한을 넓히거나
+허용된 다른 문법으로 전환하며, 각 수정본과 실행 결과를 남깁니다.
+[선언과 실행 예제](examples/search-policy/README.md).
+
 ```sh
 go run ./cmd/workbench refine --compiler ./.gooo \
   --source examples/source-refinement/source.gooo --activity Select \

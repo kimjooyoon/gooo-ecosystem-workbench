@@ -1,0 +1,54 @@
+{
+  "arithmetic_version": "float32_separate_v1",
+  "feature_dim": 768,
+  "feature_version": "triple_record_field_context_v1_shared_v1",
+  "hidden_dim": 8,
+  "labels": [
+    "mask_0",
+    "mask_1",
+    "mask_2",
+    "mask_3",
+    "mask_4",
+    "mask_5",
+    "mask_6",
+    "mask_7"
+  ],
+  "max_bytes": 1600,
+  "schema": "gooo/tiny-shared-three-choice-path-model/v1",
+  "temperature": 0.5,
+  "tensors": [
+    {
+      "bytes": 410,
+      "cols": 256,
+      "count": 2048,
+      "encoding": "ternary_base3_5",
+      "name": "w1",
+      "offset": 0,
+      "rows": 8,
+      "scale": 0.675615668296814
+    },
+    {
+      "bytes": 32,
+      "cols": 8,
+      "count": 8,
+      "encoding": "float32_le",
+      "name": "b1",
+      "offset": 410,
+      "rows": 1,
+      "scale": 1.0
+    },
+    {
+      "bytes": 4,
+      "cols": 8,
+      "count": 16,
+      "encoding": "ternary_base3_5",
+      "name": "w2",
+      "offset": 442,
+      "rows": 2,
+      "scale": 3.337019920349121
+    }
+  ],
+  "variant": "qat_ternary",
+  "weights_file": "weights.bin",
+  "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b"
+}
