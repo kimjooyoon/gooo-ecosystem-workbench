@@ -2,7 +2,9 @@
 
 Observed on 2026-10-08 from clean workbench source
 `ab54d00b14c97beec14ed9053309f3b8c5849f72`, built with Go 1.27.1 and public
-decision runtime v0.2.26-experimental. The assessment uses the installed Gooo
+decision runtime v0.2.26-experimental. `workbench-build.txt` retains embedded
+source/module information with trailing whitespace removed; `workbench-sha256.txt`
+identifies the temporary executable. The assessment uses the installed Gooo
 0.6.8-dev compiler, source `86b182da4543efa24ea5bcb504e7b13ea1449c39`.
 The model-input graph was previously exported from compiler dea641f7;
 the installed compiler here executes the stable Gooo assessment recipe.
