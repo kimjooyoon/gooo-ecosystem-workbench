@@ -1,6 +1,6 @@
 module github.com/kimjooyoon/gooo-ecosystem-workbench
 
-go 1.27.1
+go 1.27.2
 
 require (
 	github.com/kimjooyoon/gooo-decision-runtime v0.2.26-experimental
