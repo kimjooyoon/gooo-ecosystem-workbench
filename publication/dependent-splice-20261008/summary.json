@@ -1,0 +1,4109 @@
+{
+  "compiler": {
+    "GoVersion": "go1.27.1",
+    "Path": "github.com/kimjooyoon/meta-ontology-go/cmd/gooo",
+    "Main": {
+      "Path": "github.com/kimjooyoon/meta-ontology-go",
+      "Version": "v0.6.8-dev.0.20261008092553-e6150a231f44"
+    },
+    "Deps": [
+      {
+        "Path": "github.com/kimjooyoon/gooo-decision-runtime",
+        "Version": "v0.2.26-experimental",
+        "Sum": "h1:L7knWc3XmvJnMV/a4uGophsNzY3sI8nxsmuubAguCBA="
+      },
+      {
+        "Path": "github.com/kimjooyoon/gooo-jev",
+        "Version": "v0.0.0-20260928032625-e146e6dbb34a",
+        "Sum": "h1:1/uDBg0hud6IiZzOhTKXokIWdmlnU4HdYz7TGl729+s="
+      }
+    ],
+    "Settings": [
+      {
+        "Key": "-buildmode",
+        "Value": "exe"
+      },
+      {
+        "Key": "-compiler",
+        "Value": "gc"
+      },
+      {
+        "Key": "-trimpath",
+        "Value": "true"
+      },
+      {
+        "Key": "CGO_ENABLED",
+        "Value": "1"
+      },
+      {
+        "Key": "GOARCH",
+        "Value": "arm64"
+      },
+      {
+        "Key": "GOOS",
+        "Value": "darwin"
+      },
+      {
+        "Key": "GOARM64",
+        "Value": "v8.0"
+      },
+      {
+        "Key": "vcs",
+        "Value": "git"
+      },
+      {
+        "Key": "vcs.revision",
+        "Value": "e6150a231f44aedb6e7414e71bfe56b7a5de0cb2"
+      },
+      {
+        "Key": "vcs.time",
+        "Value": "2026-10-08T09:25:53Z"
+      },
+      {
+        "Key": "vcs.modified",
+        "Value": "false"
+      }
+    ]
+  },
+  "digests": {
+    "experiments/dependent-splice/PLAN.md": "sha256:027c0cc8c380c73e66ae06181dea3fb92608d508fbe94f48a5b7eb8d9ad1754b",
+    "models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json": "sha256:3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+    "models/graph-chooser-20261008/all-data-demonstration/qat_ternary/weights.bin": "sha256:76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+    "recipes/splice.gooo": "sha256:4356b56c25efaed017e92ab9c58121ef13d4c99fcf670d30d89801dbf3551dd9"
+  },
+  "experiment": {
+    "GoVersion": "go1.27.1",
+    "Path": "github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/dependent-splice",
+    "Main": {
+      "Path": "github.com/kimjooyoon/gooo-ecosystem-workbench",
+      "Version": "(devel)"
+    },
+    "Deps": [
+      {
+        "Path": "github.com/kimjooyoon/gooo-decision-runtime",
+        "Version": "v0.2.26-experimental",
+        "Sum": "h1:L7knWc3XmvJnMV/a4uGophsNzY3sI8nxsmuubAguCBA="
+      },
+      {
+        "Path": "github.com/kimjooyoon/gooo-jev",
+        "Version": "v0.0.0-20261005004607-ae1a015c4b33",
+        "Sum": "h1:M4iA73HLw2iliWRu6Lb9vhEcyWpacNYsnsR3XSde6Ho="
+      }
+    ],
+    "Settings": [
+      {
+        "Key": "-buildmode",
+        "Value": "exe"
+      },
+      {
+        "Key": "-compiler",
+        "Value": "gc"
+      },
+      {
+        "Key": "CGO_ENABLED",
+        "Value": "1"
+      },
+      {
+        "Key": "CGO_CFLAGS"
+      },
+      {
+        "Key": "CGO_CPPFLAGS"
+      },
+      {
+        "Key": "CGO_CXXFLAGS"
+      },
+      {
+        "Key": "CGO_LDFLAGS"
+      },
+      {
+        "Key": "GOARCH",
+        "Value": "arm64"
+      },
+      {
+        "Key": "GOOS",
+        "Value": "darwin"
+      },
+      {
+        "Key": "GOARM64",
+        "Value": "v8.0"
+      }
+    ]
+  },
+  "program_families": 1,
+  "runs": [
+    {
+      "mode": "deterministic",
+      "budget": 1,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:55d10cc135285c583d658f9f72fe44082bf9b941f74c22a2b85c0e2b91803c2f",
+        "selected_source_sha256": "sha256:c2b4f5da5544163277ed3c33a1e8a935fe468b69c7bb42c9fbf1d37ed1aad435",
+        "contract_sha256": "sha256:b81820c03a8b1e64e679b9f5412f25b58d83af288da1053ecd9187eb9f167f1b",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 0,
+        "attempt_budget": 1,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_first"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_first"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_first"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 0,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a+b",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": false,
+              "source": "한글"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "한글",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": false,
+              "source": ""
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "0",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": false,
+              "source": "drop"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "drop",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "4",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "x+x"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+x",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a\nb"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\nb",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "3",
+                "passed": false
+              }
+            ]
+          }
+        ],
+        "passed": 2,
+        "total": 8,
+        "fields_passed": 9,
+        "fields_total": 24,
+        "status": "PARTIAL_FINITE",
+        "model_requested": false,
+        "model_calls": 0,
+        "predict_ns": 0,
+        "ranking": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "generation_ns": 4929334,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 963
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 963
+      },
+      "generated_sha256": "sha256:ca39a6b881e7c01d996b73ac8877b0d74d0660b2b2e1988a549cfe9b3be16dc5",
+      "duration_ms": 5811.002
+    },
+    {
+      "mode": "deterministic",
+      "budget": 2,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:03bf8bf8d3bc26f4cb3824690a13efb47308a4b78b1bbbe2e98c53f41382dacf",
+        "selected_source_sha256": "sha256:419d5a709fe83ba8daa80fcaf9b89d1f865237e0dd0eb9ec2ce957ed41d721ba",
+        "contract_sha256": "sha256:0f2fcf5f87f3022cf32dd5c5df291caafdcb9af3645ee63c113dab9eb109e260",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 1,
+        "attempt_budget": 2,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_second"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_first"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_first"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 0,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 1,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 15,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a+b"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a+b",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": true,
+              "source": "한글"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "한글",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "0",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": true,
+              "source": "drop"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "drop",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "4",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+x"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+x",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a\nb"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\nb",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "3",
+                "passed": false
+              }
+            ]
+          }
+        ],
+        "passed": 2,
+        "total": 8,
+        "fields_passed": 15,
+        "fields_total": 24,
+        "status": "PARTIAL_FINITE",
+        "model_requested": false,
+        "model_calls": 0,
+        "predict_ns": 0,
+        "ranking": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "generation_ns": 4539250,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 1184
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 1184
+      },
+      "generated_sha256": "sha256:900c19190f53d97240fde7d6d94d8e0daeb9a2db140bf287df5d9d95545ff43e",
+      "duration_ms": 5931.566
+    },
+    {
+      "mode": "deterministic",
+      "budget": 4,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:1f3aea3cd8b30329ee6e4ca3141485672c03396740f43e795831101b27ab8505",
+        "selected_source_sha256": "sha256:cde70491753cadf0986f777b16d347e59e0caeb4e8b717c2a3aa54f7bffd1fb6",
+        "contract_sha256": "sha256:4461e7d1b349b2da832d47cfc85175e76c6d2c30bef089a32c73f545ffbe3cc7",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 3,
+        "attempt_budget": 4,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_second"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_second"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_first"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 0,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 1,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 15,
+            "fields_total": 24
+          },
+          {
+            "mask": 2,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 3,
+            "passed": 5,
+            "total": 8,
+            "fields_passed": 21,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a-b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "영글",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": true,
+              "source": "x"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "x",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "0",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": true,
+              "source": ""
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "4",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+y",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\r\nb",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "3",
+                "passed": false
+              }
+            ]
+          }
+        ],
+        "passed": 5,
+        "total": 8,
+        "fields_passed": 21,
+        "fields_total": 24,
+        "status": "PARTIAL_FINITE",
+        "model_requested": false,
+        "model_calls": 0,
+        "predict_ns": 0,
+        "ranking": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "generation_ns": 5233417,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 1405
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 1405
+      },
+      "generated_sha256": "sha256:b0fcecb8c211f0f2035651b6d9061d1421f0b42dd0e9206f73cc69e74588dd00",
+      "duration_ms": 5890.489
+    },
+    {
+      "mode": "deterministic",
+      "budget": 8,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:4356b56c25efaed017e92ab9c58121ef13d4c99fcf670d30d89801dbf3551dd9",
+        "selected_source_sha256": "sha256:3995f63ce042bcb3ea7c21b6ee23c94e195c2b756e6be74b8d3b8bffe227e4af",
+        "contract_sha256": "sha256:6bb02762e26467e3884f147d708e05d1d82f1e3b43740629269d27e7764ec04f",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 7,
+        "attempt_budget": 8,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_second"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_second"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_second"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 0,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 1,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 15,
+            "fields_total": 24
+          },
+          {
+            "mask": 2,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 3,
+            "passed": 5,
+            "total": 8,
+            "fields_passed": 21,
+            "fields_total": 24
+          },
+          {
+            "mask": 4,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 5,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 15,
+            "fields_total": 24
+          },
+          {
+            "mask": 6,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 7,
+            "passed": 8,
+            "total": 8,
+            "fields_passed": 24,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a-b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "영글",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "x",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "1",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "0",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+y",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\r\nb",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "4",
+                "passed": true
+              }
+            ]
+          }
+        ],
+        "passed": 8,
+        "total": 8,
+        "fields_passed": 24,
+        "fields_total": 24,
+        "status": "COMPLETE_FINITE",
+        "model_requested": false,
+        "model_calls": 0,
+        "predict_ns": 0,
+        "ranking": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "generation_ns": 7100958,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 542,
+        "fields": 1626,
+        "fields_passed": 1626
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 542,
+        "fields": 1626,
+        "fields_passed": 1626
+      },
+      "generated_sha256": "sha256:1893403c0a14b9df0a2f0033fb8fee6df693a6a97443f9b1d9d6cac1dd633f73",
+      "duration_ms": 5958.773
+    },
+    {
+      "mode": "model",
+      "budget": 1,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:55d10cc135285c583d658f9f72fe44082bf9b941f74c22a2b85c0e2b91803c2f",
+        "selected_source_sha256": "sha256:1fb14dcc132d4059abfce8ddc0b0931dc76b469d7b8a896a35d5add1e9035ab0",
+        "contract_sha256": "sha256:b81820c03a8b1e64e679b9f5412f25b58d83af288da1053ecd9187eb9f167f1b",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 6,
+        "attempt_budget": 1,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_first"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_second"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_second"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 6,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a+b",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": false,
+              "source": "한글"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "한글",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": false,
+              "source": ""
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "0",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": false,
+              "source": "drop"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "drop",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "4",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "x+x"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+x",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a\nb"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\nb",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "3",
+                "passed": false
+              }
+            ]
+          }
+        ],
+        "passed": 2,
+        "total": 8,
+        "fields_passed": 9,
+        "fields_total": 24,
+        "status": "PARTIAL_FINITE",
+        "model_requested": true,
+        "model_calls": 1,
+        "predict_ns": 79167,
+        "model": {
+          "schema": "gooo/retained-path-model/v1",
+          "loaded": true,
+          "metadata_sha256": "3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+          "weights_sha256": "76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+          "resident_tensor_bytes": 2096,
+          "setup_ms": 0.537042,
+          "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+          "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "arithmetic_version": "float32_separate_v1"
+        },
+        "model_context": {
+          "schema": "gooo/record-value-graph-context/v3",
+          "status": "ENCODED",
+          "text": "gooo;record-graph3-v3|{\"choices\":[{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]},{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]},{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}],\"nodes\":[{\"kind\":\"input\",\"input\":1,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":2,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":3,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":4,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":5,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"0\",\"parents\":[0,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[6,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[7,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[8,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[13,14]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[15,16]},{\"kind\":\"expression\",\"operator\":\"==\",\"parents\":[12,17]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"!=\",\"parents\":[19,20]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[18,21]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[23,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[25,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[24,26]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[28,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[27,29]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"1024\",\"parents\":[0,0]},{\"kind\":\"expression\",\"operator\":\"\\u003c=\",\"parents\":[30,31]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[22,32]},{\"kind\":\"copy\",\"parents\":[33,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[34,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[35,36]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[37,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"guard\",\"operator\":\"true\",\"parents\":[39,0]},{\"kind\":\"guard\",\"operator\":\"false\",\"parents\":[39,0]},{\"kind\":\"read\",\"parents\":[1,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[2,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[5,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[43,44],\"guard\":40},{\"kind\":\"read\",\"parents\":[4,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[45,46],\"guard\":40},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[42,47],\"guard\":40},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[48,0],\"guard\":40},{\"kind\":\"join\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[49,10],\"condition\":39},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[51,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[52,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[54,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[55,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[53,56]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[57,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[58,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[59,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[60,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[61,0]}]}",
+          "sha256": "sha256:9e7066f8bde779dd1e6fa5a3aff7a104ccf47bf5fbbcd440cd29edac432a9930",
+          "parts": [
+            "{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]}",
+            "{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]}",
+            "{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}"
+          ],
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "value_flow_sha256": "sha256:e605ad83f59284feaa0c2d2cfcca247b8673f21f5d242e3da496963a25e22f2d",
+          "scope": "ordered source value graph, canonical literals, input types and complete intent; source provenance retained; inputs, expected outputs and predictions excluded"
+        },
+        "prediction": {
+          "logits": [
+            -0.35336733,
+            -2.240928,
+            0.39740443,
+            -1.490156,
+            1.490156,
+            -0.39740443,
+            2.240928,
+            0.35336733
+          ],
+          "probabilities": [
+            0.004351934,
+            0.0000998086,
+            0.019534143,
+            0.0004480022,
+            0.17375861,
+            0.003985035,
+            0.7799352,
+            0.017887276
+          ],
+          "proposed_mask": 6
+        },
+        "ranking": [
+          6,
+          4,
+          2,
+          7,
+          0,
+          5,
+          3,
+          1
+        ],
+        "generation_ns": 4496000,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 963
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 963
+      },
+      "generated_sha256": "sha256:f3cbc6edce6810e3aad7a0d3d71a48688b7f6c06af27b10c5083cdc36fd06988",
+      "duration_ms": 5804.37
+    },
+    {
+      "mode": "model",
+      "budget": 2,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:03bf8bf8d3bc26f4cb3824690a13efb47308a4b78b1bbbe2e98c53f41382dacf",
+        "selected_source_sha256": "sha256:79219baf9f11a8ba1751a563dff47d74d6d735fcf3ffd08735e06cdab8acfb7a",
+        "contract_sha256": "sha256:0f2fcf5f87f3022cf32dd5c5df291caafdcb9af3645ee63c113dab9eb109e260",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 6,
+        "attempt_budget": 2,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_first"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_second"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_second"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 6,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 4,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a+b",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": false,
+              "source": "한글"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "한글",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": false,
+              "source": ""
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "0",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": false,
+              "source": "drop"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "drop",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "4",
+                "passed": false
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "x+x"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+x",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a\nb"
+            },
+            "passed": false,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "false",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\nb",
+                "passed": false
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "3",
+                "passed": false
+              }
+            ]
+          }
+        ],
+        "passed": 2,
+        "total": 8,
+        "fields_passed": 9,
+        "fields_total": 24,
+        "status": "PARTIAL_FINITE",
+        "model_requested": true,
+        "model_calls": 1,
+        "predict_ns": 62416,
+        "model": {
+          "schema": "gooo/retained-path-model/v1",
+          "loaded": true,
+          "metadata_sha256": "3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+          "weights_sha256": "76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+          "resident_tensor_bytes": 2096,
+          "setup_ms": 0.245917,
+          "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+          "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "arithmetic_version": "float32_separate_v1"
+        },
+        "model_context": {
+          "schema": "gooo/record-value-graph-context/v3",
+          "status": "ENCODED",
+          "text": "gooo;record-graph3-v3|{\"choices\":[{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]},{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]},{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}],\"nodes\":[{\"kind\":\"input\",\"input\":1,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":2,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":3,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":4,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":5,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"0\",\"parents\":[0,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[6,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[7,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[8,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[13,14]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[15,16]},{\"kind\":\"expression\",\"operator\":\"==\",\"parents\":[12,17]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"!=\",\"parents\":[19,20]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[18,21]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[23,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[25,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[24,26]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[28,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[27,29]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"1024\",\"parents\":[0,0]},{\"kind\":\"expression\",\"operator\":\"\\u003c=\",\"parents\":[30,31]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[22,32]},{\"kind\":\"copy\",\"parents\":[33,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[34,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[35,36]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[37,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"guard\",\"operator\":\"true\",\"parents\":[39,0]},{\"kind\":\"guard\",\"operator\":\"false\",\"parents\":[39,0]},{\"kind\":\"read\",\"parents\":[1,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[2,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[5,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[43,44],\"guard\":40},{\"kind\":\"read\",\"parents\":[4,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[45,46],\"guard\":40},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[42,47],\"guard\":40},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[48,0],\"guard\":40},{\"kind\":\"join\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[49,10],\"condition\":39},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[51,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[52,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[54,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[55,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[53,56]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[57,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[58,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[59,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[60,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[61,0]}]}",
+          "sha256": "sha256:9e7066f8bde779dd1e6fa5a3aff7a104ccf47bf5fbbcd440cd29edac432a9930",
+          "parts": [
+            "{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]}",
+            "{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]}",
+            "{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}"
+          ],
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "value_flow_sha256": "sha256:e605ad83f59284feaa0c2d2cfcca247b8673f21f5d242e3da496963a25e22f2d",
+          "scope": "ordered source value graph, canonical literals, input types and complete intent; source provenance retained; inputs, expected outputs and predictions excluded"
+        },
+        "prediction": {
+          "logits": [
+            -0.35336733,
+            -2.240928,
+            0.39740443,
+            -1.490156,
+            1.490156,
+            -0.39740443,
+            2.240928,
+            0.35336733
+          ],
+          "probabilities": [
+            0.004351934,
+            0.0000998086,
+            0.019534143,
+            0.0004480022,
+            0.17375861,
+            0.003985035,
+            0.7799352,
+            0.017887276
+          ],
+          "proposed_mask": 6
+        },
+        "ranking": [
+          6,
+          4,
+          2,
+          7,
+          0,
+          5,
+          3,
+          1
+        ],
+        "generation_ns": 4210792,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 963
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 321,
+        "fields": 1626,
+        "fields_passed": 963
+      },
+      "generated_sha256": "sha256:f3cbc6edce6810e3aad7a0d3d71a48688b7f6c06af27b10c5083cdc36fd06988",
+      "duration_ms": 5841.64
+    },
+    {
+      "mode": "model",
+      "budget": 4,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:1f3aea3cd8b30329ee6e4ca3141485672c03396740f43e795831101b27ab8505",
+        "selected_source_sha256": "sha256:baaa6d7c270da0abdaf5ee1dd2d38f6d8e7ee827cfea36f7c6c67cb7ed8f83e9",
+        "contract_sha256": "sha256:4461e7d1b349b2da832d47cfc85175e76c6d2c30bef089a32c73f545ffbe3cc7",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 7,
+        "attempt_budget": 4,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_second"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_second"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_second"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 6,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 4,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 2,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 7,
+            "passed": 8,
+            "total": 8,
+            "fields_passed": 24,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a-b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "영글",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "x",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "1",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "0",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+y",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\r\nb",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "4",
+                "passed": true
+              }
+            ]
+          }
+        ],
+        "passed": 8,
+        "total": 8,
+        "fields_passed": 24,
+        "fields_total": 24,
+        "status": "COMPLETE_FINITE",
+        "model_requested": true,
+        "model_calls": 1,
+        "predict_ns": 97416,
+        "model": {
+          "schema": "gooo/retained-path-model/v1",
+          "loaded": true,
+          "metadata_sha256": "3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+          "weights_sha256": "76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+          "resident_tensor_bytes": 2096,
+          "setup_ms": 0.328666,
+          "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+          "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "arithmetic_version": "float32_separate_v1"
+        },
+        "model_context": {
+          "schema": "gooo/record-value-graph-context/v3",
+          "status": "ENCODED",
+          "text": "gooo;record-graph3-v3|{\"choices\":[{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]},{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]},{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}],\"nodes\":[{\"kind\":\"input\",\"input\":1,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":2,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":3,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":4,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":5,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"0\",\"parents\":[0,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[6,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[7,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[8,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[13,14]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[15,16]},{\"kind\":\"expression\",\"operator\":\"==\",\"parents\":[12,17]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"!=\",\"parents\":[19,20]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[18,21]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[23,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[25,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[24,26]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[28,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[27,29]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"1024\",\"parents\":[0,0]},{\"kind\":\"expression\",\"operator\":\"\\u003c=\",\"parents\":[30,31]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[22,32]},{\"kind\":\"copy\",\"parents\":[33,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[34,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[35,36]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[37,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"guard\",\"operator\":\"true\",\"parents\":[39,0]},{\"kind\":\"guard\",\"operator\":\"false\",\"parents\":[39,0]},{\"kind\":\"read\",\"parents\":[1,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[2,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[5,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[43,44],\"guard\":40},{\"kind\":\"read\",\"parents\":[4,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[45,46],\"guard\":40},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[42,47],\"guard\":40},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[48,0],\"guard\":40},{\"kind\":\"join\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[49,10],\"condition\":39},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[51,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[52,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[54,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[55,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[53,56]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[57,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[58,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[59,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[60,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[61,0]}]}",
+          "sha256": "sha256:9e7066f8bde779dd1e6fa5a3aff7a104ccf47bf5fbbcd440cd29edac432a9930",
+          "parts": [
+            "{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]}",
+            "{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]}",
+            "{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}"
+          ],
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "value_flow_sha256": "sha256:e605ad83f59284feaa0c2d2cfcca247b8673f21f5d242e3da496963a25e22f2d",
+          "scope": "ordered source value graph, canonical literals, input types and complete intent; source provenance retained; inputs, expected outputs and predictions excluded"
+        },
+        "prediction": {
+          "logits": [
+            -0.35336733,
+            -2.240928,
+            0.39740443,
+            -1.490156,
+            1.490156,
+            -0.39740443,
+            2.240928,
+            0.35336733
+          ],
+          "probabilities": [
+            0.004351934,
+            0.0000998086,
+            0.019534143,
+            0.0004480022,
+            0.17375861,
+            0.003985035,
+            0.7799352,
+            0.017887276
+          ],
+          "proposed_mask": 6
+        },
+        "ranking": [
+          6,
+          4,
+          2,
+          7,
+          0,
+          5,
+          3,
+          1
+        ],
+        "generation_ns": 4167292,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 542,
+        "fields": 1626,
+        "fields_passed": 1626
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 542,
+        "fields": 1626,
+        "fields_passed": 1626
+      },
+      "generated_sha256": "sha256:1893403c0a14b9df0a2f0033fb8fee6df693a6a97443f9b1d9d6cac1dd633f73",
+      "duration_ms": 5692.07
+    },
+    {
+      "mode": "model",
+      "budget": 8,
+      "assembly": {
+        "schema": "gooo/record-field-assembly/v1",
+        "original_source_sha256": "sha256:4356b56c25efaed017e92ab9c58121ef13d4c99fcf670d30d89801dbf3551dd9",
+        "selected_source_sha256": "sha256:3995f63ce042bcb3ea7c21b6ee23c94e195c2b756e6be74b8d3b8bffe227e4af",
+        "contract_sha256": "sha256:6bb02762e26467e3884f147d708e05d1d82f1e3b43740629269d27e7764ec04f",
+        "test_suite_sha256": "sha256:45b563ec9774021507fef9d18f769c3b65f34eb77b205b9b5ec82a3495eae6ca",
+        "selected_mask": 7,
+        "attempt_budget": 8,
+        "choices": [
+          {
+            "id": "changed",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/changed",
+            "field": "changed",
+            "occurrence": 0,
+            "intent": "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.",
+            "first": "false",
+            "second": "matches",
+            "picked": "value_second"
+          },
+          {
+            "id": "source",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/source",
+            "field": "source",
+            "occurrence": 1,
+            "intent": "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.",
+            "first": "input0",
+            "second": "input1 + input4 + input3",
+            "picked": "value_second"
+          },
+          {
+            "id": "bytes",
+            "kind": "field_update",
+            "record_id": "gooo://sourceedit/edit",
+            "field_id": "gooo://sourceedit/edit/bytes",
+            "field": "bytes",
+            "occurrence": 2,
+            "intent": "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.",
+            "first": "int64(len(input0))",
+            "second": "int64(len(output.source))",
+            "picked": "value_second"
+          }
+        ],
+        "attempts": [
+          {
+            "mask": 6,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 4,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 2,
+            "passed": 2,
+            "total": 8,
+            "fields_passed": 9,
+            "fields_total": 24
+          },
+          {
+            "mask": 7,
+            "passed": 8,
+            "total": 8,
+            "fields_passed": 24,
+            "fields_total": 24
+          }
+        ],
+        "cases": [
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "-"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "a-b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a-b",
+                "actual": "a-b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "한글",
+              "",
+              "한",
+              "글",
+              "영"
+            ],
+            "expected": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "actual": {
+              "bytes": 6,
+              "changed": true,
+              "source": "영글"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "영글",
+                "actual": "영글",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "6",
+                "actual": "6",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "-",
+              "b",
+              "*"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a+b",
+              "a",
+              "+",
+              "b",
+              "+"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": false,
+              "source": "a+b"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "false",
+                "actual": "false",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a+b",
+                "actual": "a+b",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "",
+              "",
+              "",
+              "",
+              "x"
+            ],
+            "expected": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "actual": {
+              "bytes": 1,
+              "changed": true,
+              "source": "x"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x",
+                "actual": "x",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "1",
+                "actual": "1",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "drop",
+              "",
+              "drop",
+              "",
+              ""
+            ],
+            "expected": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "actual": {
+              "bytes": 0,
+              "changed": true,
+              "source": ""
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "",
+                "actual": "",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "0",
+                "actual": "0",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "x+x",
+              "x+",
+              "x",
+              "",
+              "y"
+            ],
+            "expected": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "actual": {
+              "bytes": 3,
+              "changed": true,
+              "source": "x+y"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "x+y",
+                "actual": "x+y",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "3",
+                "actual": "3",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "inputs": [
+              "a\nb",
+              "a",
+              "\n",
+              "b",
+              "\r\n"
+            ],
+            "expected": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "actual": {
+              "bytes": 4,
+              "changed": true,
+              "source": "a\r\nb"
+            },
+            "passed": true,
+            "fields": [
+              {
+                "id": "gooo://sourceedit/edit/changed",
+                "name": "changed",
+                "type_id": "urn:gooo:type:boolean",
+                "expected": "true",
+                "actual": "true",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/source",
+                "name": "source",
+                "expected": "a\r\nb",
+                "actual": "a\r\nb",
+                "passed": true
+              },
+              {
+                "id": "gooo://sourceedit/edit/bytes",
+                "name": "bytes",
+                "type_id": "urn:gooo:type:integer",
+                "expected": "4",
+                "actual": "4",
+                "passed": true
+              }
+            ]
+          }
+        ],
+        "passed": 8,
+        "total": 8,
+        "fields_passed": 24,
+        "fields_total": 24,
+        "status": "COMPLETE_FINITE",
+        "model_requested": true,
+        "model_calls": 1,
+        "predict_ns": 85125,
+        "model": {
+          "schema": "gooo/retained-path-model/v1",
+          "loaded": true,
+          "metadata_sha256": "3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+          "weights_sha256": "76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+          "resident_tensor_bytes": 2096,
+          "setup_ms": 0.213625,
+          "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+          "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "arithmetic_version": "float32_separate_v1"
+        },
+        "model_context": {
+          "schema": "gooo/record-value-graph-context/v3",
+          "status": "ENCODED",
+          "text": "gooo;record-graph3-v3|{\"choices\":[{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]},{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]},{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}],\"nodes\":[{\"kind\":\"input\",\"input\":1,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":2,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":3,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":4,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"input\",\"input\":5,\"input_type\":\"string\",\"parents\":[0,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"0\",\"parents\":[0,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[6,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[7,0]},{\"kind\":\"copy\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[8,0]},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[13,14]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[15,16]},{\"kind\":\"expression\",\"operator\":\"==\",\"parents\":[12,17]},{\"kind\":\"read\",\"parents\":[3,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"!=\",\"parents\":[19,20]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[18,21]},{\"kind\":\"read\",\"parents\":[2,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[23,0]},{\"kind\":\"read\",\"parents\":[5,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[25,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[24,26]},{\"kind\":\"read\",\"parents\":[4,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[28,0]},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[27,29]},{\"kind\":\"literal\",\"operator\":\"INT\",\"literal\":\"1024\",\"parents\":[0,0]},{\"kind\":\"expression\",\"operator\":\"\\u003c=\",\"parents\":[30,31]},{\"kind\":\"expression\",\"operator\":\"\\u0026\\u0026\",\"parents\":[22,32]},{\"kind\":\"copy\",\"parents\":[33,0]},{\"kind\":\"literal\",\"operator\":\"BOOL\",\"literal\":\"false\",\"parents\":[0,0]},{\"kind\":\"read\",\"parents\":[34,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[35,36]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[37,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"guard\",\"operator\":\"true\",\"parents\":[39,0]},{\"kind\":\"guard\",\"operator\":\"false\",\"parents\":[39,0]},{\"kind\":\"read\",\"parents\":[1,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[2,0],\"guard\":40},{\"kind\":\"read\",\"parents\":[5,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[43,44],\"guard\":40},{\"kind\":\"read\",\"parents\":[4,0],\"guard\":40},{\"kind\":\"expression\",\"operator\":\"+\",\"parents\":[45,46],\"guard\":40},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[42,47],\"guard\":40},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[48,0],\"guard\":40},{\"kind\":\"join\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[49,10],\"condition\":39},{\"kind\":\"read\",\"parents\":[1,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[51,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[52,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"expression\",\"operator\":\"len\",\"parents\":[54,0]},{\"kind\":\"expression\",\"operator\":\"int64\",\"parents\":[55,0]},{\"kind\":\"choice\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[53,56]},{\"kind\":\"write\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[57,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[38,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[50,0]},{\"kind\":\"read\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[58,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"parents\":[59,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/source\",\"parents\":[60,0]},{\"kind\":\"return\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"parents\":[61,0]}]}",
+          "sha256": "sha256:9e7066f8bde779dd1e6fa5a3aff7a104ccf47bf5fbbcd440cd29edac432a9930",
+          "parts": [
+            "{\"field\":\"changed\",\"first\":\"false\",\"second\":\"matches\",\"intent\":\"원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound.\",\"field_id\":\"gooo://sourceedit/edit/changed\",\"roots\":[35,36]}",
+            "{\"field\":\"source\",\"first\":\"input0\",\"second\":\"input1 + input4 + input3\",\"intent\":\"앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix.\",\"field_id\":\"gooo://sourceedit/edit/source\",\"roots\":[42,47]}",
+            "{\"field\":\"bytes\",\"first\":\"int64(len(input0))\",\"second\":\"int64(len(output.source))\",\"intent\":\"앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices.\",\"field_id\":\"gooo://sourceedit/edit/bytes\",\"roots\":[53,56]}"
+          ],
+          "feature_version": "triple_record_value_graph_v3_shared_v1",
+          "value_flow_sha256": "sha256:e605ad83f59284feaa0c2d2cfcca247b8673f21f5d242e3da496963a25e22f2d",
+          "scope": "ordered source value graph, canonical literals, input types and complete intent; source provenance retained; inputs, expected outputs and predictions excluded"
+        },
+        "prediction": {
+          "logits": [
+            -0.35336733,
+            -2.240928,
+            0.39740443,
+            -1.490156,
+            1.490156,
+            -0.39740443,
+            2.240928,
+            0.35336733
+          ],
+          "probabilities": [
+            0.004351934,
+            0.0000998086,
+            0.019534143,
+            0.0004480022,
+            0.17375861,
+            0.003985035,
+            0.7799352,
+            0.017887276
+          ],
+          "proposed_mask": 6
+        },
+        "ranking": [
+          6,
+          4,
+          2,
+          7,
+          0,
+          5,
+          3,
+          1
+        ],
+        "generation_ns": 6144083,
+        "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+      },
+      "native": {
+        "cases": 542,
+        "passed": 542,
+        "fields": 1626,
+        "fields_passed": 1626
+      },
+      "replay": {
+        "cases": 542,
+        "passed": 542,
+        "fields": 1626,
+        "fields_passed": 1626
+      },
+      "generated_sha256": "sha256:1893403c0a14b9df0a2f0033fb8fee6df693a6a97443f9b1d9d6cac1dd633f73",
+      "duration_ms": 5740.685
+    }
+  ],
+  "schema": "gooo/dependent-splice-study/v1",
+  "scope": "One new program with three dependent binary field choices and fixed bilingual wording. Unchanged graph QAT trained on filenames, division and retry. Four attempt budgets per mode; each model construction predicts once. Native and saved executions predict zero times. Counts are finite supplied examples, not a probability of arbitrary intent completion. Dogfood runs are separate full-budget constructions.",
+  "selection_overlap": 0,
+  "unique_native_inputs": 542
+}
