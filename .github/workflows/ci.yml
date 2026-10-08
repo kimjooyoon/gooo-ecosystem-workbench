@@ -36,7 +36,7 @@ jobs:
           test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go feature_audit_graph_test.go feature_audit_graph_model_test.go experiments/graph-feature-fixture/main.go)"
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
-          test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go)"
+          test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go joint_feedback.go joint_feedback_test.go)"
           test -z "$(gofmt -l splice.go splice_execution.go splice_test.go experiments/dependent-splice/*.go)"
           go vet ./...
           go test -race ./...
@@ -55,6 +55,30 @@ jobs:
             --max-program-budget 8 --max-rounds 4 --out out/ci-joint-model
           jq -e '.stop_reason == "observe-new-inputs" and (.rounds|length) == 4 and ([.rounds[].program_attempts]|add) == 15 and .rounds[-1].evaluation_passed == 7' out/ci-joint-fixed/joint-loop.json
           jq -e '.stop_reason == "observe-new-inputs" and (.rounds|length) == 1 and .rounds[0].program_attempts == 1 and .rounds[0].evaluation_passed == 7' out/ci-joint-model/joint-loop.json
+      - name: Feed unchanged counterexamples back and evaluate final holdout
+        run: |
+          for family in arithmetic charge; do
+            source=examples/joint-diagnostics/source.gooo
+            prefix=examples/joint-feedback/
+            if [ "$family" = charge ]; then
+              source=examples/joint-feedback/charge.gooo
+              prefix=examples/joint-feedback/charge-
+            fi
+            for mode in fixed model; do
+              model_args=()
+              if [ "$mode" = model ]; then
+                model_args=(--model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json)
+              fi
+              go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+                --source "$source" --entry Main \
+                --construction-cases examples/joint-feedback/initial-cases.json \
+                --evaluation-cases "${prefix}adaptive-cases.json" \
+                --holdout-cases "${prefix}holdout-cases.json" \
+                --max-program-budget 8 --max-rounds 6 "${model_args[@]}" \
+                --out "out/ci-feedback-$family-$mode"
+              jq -e '.schema == "gooo/joint-construction-loop/v2" and .final_evaluation.passed == 4 and .final_evaluation.total == 4 and .final_evaluation.joint_construction.replayed == true and .final_evaluation.joint_construction.new_model_calls == 0' "out/ci-feedback-$family-$mode/joint-loop.json"
+            done
+          done
       - name: Verify typed IR body fill through the editor result contract
         run: |
           mkdir -p out
@@ -149,6 +173,7 @@ jobs:
             out/compiler-build.json
             out/ci-joint-fixed/
             out/ci-joint-model/
+            out/ci-feedback-*/
             out/ci-dependent-splice/
             out/ci-graph-training/
             out/ci-trained-graph-audit/
