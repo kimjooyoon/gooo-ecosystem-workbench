@@ -1,0 +1,14 @@
+{
+  "schema": "gooo/graph-chooser-study-plan/v1",
+  "seed": 20261008,
+  "feature_version": "triple_record_value_graph_v3_shared_v1",
+  "input": "examples/feature-audit/three-family-intent-contrasts.json.gz",
+  "fp32_epochs": 400,
+  "qat_epochs": 200,
+  "batch_fields": 64,
+  "fp32_learning_rate": 0.005,
+  "qat_learning_rate": 0.001,
+  "temperature": 0.5,
+  "benchmark_repeats": 16,
+  "folds": ["filenames", "division", "retry", "all-data-demonstration"]
+}
