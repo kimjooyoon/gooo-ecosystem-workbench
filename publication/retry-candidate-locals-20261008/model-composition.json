@@ -1,0 +1,1039 @@
+{
+  "schema": "gooo/body-composition/v1",
+  "stage": "COMPLETE",
+  "original_source_sha256": "sha256:26f87ae03e66cc5202131899a01ba799fdba7bfd80b2f0d1419963387d3b2dad",
+  "selected_source_sha256": "sha256:b76a08d857445f623cd7084ce4247e14f4a652297bd2defd8e9e27659252e7da",
+  "generated_sha256": "sha256:54397e2943710da73fceae357b9ea27e5940a245b95797ffdebf96fa20214af0",
+  "driver_sha256": "sha256:e660ba24eee7d56125935f8d857c2bcdb22e757768dbd719c3a9f5aa2bbe2feb",
+  "plan": {
+    "schema": "gooo/body-composition-plan/v1",
+    "typed_plan_sha256": "sha256:fd64eceb08db3d2b38b61a9514323419deb5405a9fda4a5dda6debbaed2f829b",
+    "semantic_fingerprint": "2bd5b009405d9a5835ac5f641442d240c6ee0a6e8b226bdc5f5ceeb4e0d2d5ee",
+    "activities": [
+      {
+        "name": "PlanRetry",
+        "id": "retry://activity/plan-retry",
+        "input_type": "Boolean",
+        "output_type": "Plan",
+        "input_entity_id": "gooo://retry/boolean",
+        "output_entity_id": "gooo://retry/plan",
+        "go_function": "GoooComposedActivity0",
+        "input_from": -1,
+        "assembling": true,
+        "inputs": [
+          {
+            "port": "input0",
+            "type": "Boolean",
+            "entity_id": "gooo://retry/boolean",
+            "from": -1
+          },
+          {
+            "port": "input1",
+            "type": "Boolean",
+            "entity_id": "gooo://retry/boolean",
+            "from": -1
+          },
+          {
+            "port": "input2",
+            "type": "Integer",
+            "entity_id": "gooo://retry/integer",
+            "from": -1
+          },
+          {
+            "port": "input3",
+            "type": "Integer",
+            "entity_id": "gooo://retry/integer",
+            "from": -1
+          },
+          {
+            "port": "input4",
+            "type": "Integer",
+            "entity_id": "gooo://retry/integer",
+            "from": -1
+          },
+          {
+            "port": "input5",
+            "type": "Integer",
+            "entity_id": "gooo://retry/integer",
+            "from": -1
+          }
+        ]
+      }
+    ],
+    "edges": [],
+    "record_types": [
+      {
+        "name": "Plan",
+        "id": "gooo://retry/plan",
+        "go_name": "GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540",
+        "fields": [
+          {
+            "name": "retry",
+            "id": "gooo://retry/plan/retry",
+            "type_id": "urn:gooo:type:boolean",
+            "go_name": "GoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a"
+          },
+          {
+            "name": "delay_ms",
+            "id": "gooo://retry/plan/delay-ms",
+            "type_id": "urn:gooo:type:integer",
+            "go_name": "GoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553"
+          },
+          {
+            "name": "reason",
+            "id": "gooo://retry/plan/reason",
+            "type_id": "urn:gooo:type:string",
+            "go_name": "GoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df"
+          }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "input_source_sha256": "sha256:26f87ae03e66cc5202131899a01ba799fdba7bfd80b2f0d1419963387d3b2dad",
+      "generation": {
+        "report": {
+          "schema": "gooo/body-codegen-report/v3",
+          "decision": "PASS",
+          "activity": "PlanRetry",
+          "activity_id": "retry://activity/plan-retry",
+          "input_type": "(bool,bool,int64,int64,int64,int64)",
+          "input_parameters": [
+            {
+              "name": "input0",
+              "type": "bool"
+            },
+            {
+              "name": "input1",
+              "type": "bool"
+            },
+            {
+              "name": "input2",
+              "type": "int64"
+            },
+            {
+              "name": "input3",
+              "type": "int64"
+            },
+            {
+              "name": "input4",
+              "type": "int64"
+            },
+            {
+              "name": "input5",
+              "type": "int64"
+            }
+          ],
+          "record_types": [
+            {
+              "name": "Plan",
+              "id": "gooo://retry/plan",
+              "go_name": "GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540",
+              "fields": [
+                {
+                  "name": "retry",
+                  "id": "gooo://retry/plan/retry",
+                  "type_id": "urn:gooo:type:boolean",
+                  "go_name": "GoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a"
+                },
+                {
+                  "name": "delay_ms",
+                  "id": "gooo://retry/plan/delay-ms",
+                  "type_id": "urn:gooo:type:integer",
+                  "go_name": "GoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553"
+                },
+                {
+                  "name": "reason",
+                  "id": "gooo://retry/plan/reason",
+                  "type_id": "urn:gooo:type:string",
+                  "go_name": "GoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df"
+                }
+              ]
+            }
+          ],
+          "output_type": "Plan",
+          "plan_sha256": "sha256:b65376f3ddc2ec6428b04cb52fd45c6e8f2fddc3c908fb1bdfabc9fdae1f6511",
+          "compiler_source_sha": "24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f",
+          "source_digest": "sha256:b76a08d857445f623cd7084ce4247e14f4a652297bd2defd8e9e27659252e7da",
+          "program_digest": "sha256:a451d24f53ce768b58ba955f39d7565ac5d7c2b5c050c74acd9cfaab0ca3174c",
+          "generated_digest": "sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4",
+          "replay_digest": "sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4",
+          "route": "preserve",
+          "route_decision": {
+            "schema": "gooo/typed-decision-receipt/v1",
+            "mode": "deterministic_fallback",
+            "selected": "preserve",
+            "fallback_reason": "NO_ALTERNATIVE_ROUTE",
+            "provider": "deterministic",
+            "request_sha256": ""
+          },
+          "route_selection": {
+            "method": "single_eligible_route",
+            "proposed_route": "preserve",
+            "final_route": "preserve"
+          },
+          "route_decision_latency_ms": 0,
+          "record_assembly": {
+            "schema": "gooo/record-field-assembly/v1",
+            "original_source_sha256": "sha256:26f87ae03e66cc5202131899a01ba799fdba7bfd80b2f0d1419963387d3b2dad",
+            "selected_source_sha256": "sha256:b76a08d857445f623cd7084ce4247e14f4a652297bd2defd8e9e27659252e7da",
+            "contract_sha256": "sha256:3b4db21d3e06bcc33ca26e193dd33f6f1cf9b5cd928ce4f49cc2e9a41da117e6",
+            "test_suite_sha256": "sha256:11703eca7a3dc1e235810785e64c6c841a8e5533a30eec025d9be27a72be7779",
+            "selected_mask": 7,
+            "attempt_budget": 8,
+            "choices": [
+              {
+                "id": "retry",
+                "record_id": "gooo://retry/plan",
+                "field_id": "gooo://retry/plan/retry",
+                "field": "retry",
+                "occurrence": 0,
+                "intent": "계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable.",
+                "first": "false",
+                "second": "again",
+                "picked": "value_second"
+              },
+              {
+                "id": "delay",
+                "record_id": "gooo://retry/plan",
+                "field_id": "gooo://retry/plan/delay-ms",
+                "field": "delay_ms",
+                "occurrence": 1,
+                "intent": "상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable.",
+                "first": "0",
+                "second": "delay",
+                "picked": "value_second"
+              },
+              {
+                "id": "reason",
+                "record_id": "gooo://retry/plan",
+                "field_id": "gooo://retry/plan/reason",
+                "field": "reason",
+                "occurrence": 2,
+                "intent": "분기에서 고른 이유를 보존한다. Keep the current reason variable.",
+                "first": "\"pending\"",
+                "second": "reason",
+                "picked": "value_second"
+              }
+            ],
+            "attempts": [
+              {
+                "mask": 7,
+                "passed": 5,
+                "total": 5,
+                "fields_passed": 15,
+                "fields_total": 15
+              }
+            ],
+            "cases": [
+              {
+                "inputs": [
+                  false,
+                  true,
+                  1,
+                  3,
+                  10,
+                  100
+                ],
+                "expected": {
+                  "delay_ms": 20,
+                  "reason": "retry",
+                  "retry": true
+                },
+                "actual": {
+                  "delay_ms": 20,
+                  "reason": "retry",
+                  "retry": true
+                },
+                "passed": true,
+                "fields": [
+                  {
+                    "id": "gooo://retry/plan/retry",
+                    "name": "retry",
+                    "type_id": "urn:gooo:type:boolean",
+                    "expected": "true",
+                    "actual": "true",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/delay-ms",
+                    "name": "delay_ms",
+                    "type_id": "urn:gooo:type:integer",
+                    "expected": "20",
+                    "actual": "20",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/reason",
+                    "name": "reason",
+                    "expected": "retry",
+                    "actual": "retry",
+                    "passed": true
+                  }
+                ]
+              },
+              {
+                "inputs": [
+                  true,
+                  true,
+                  1,
+                  3,
+                  10,
+                  100
+                ],
+                "expected": {
+                  "delay_ms": 0,
+                  "reason": "completed",
+                  "retry": false
+                },
+                "actual": {
+                  "delay_ms": 0,
+                  "reason": "completed",
+                  "retry": false
+                },
+                "passed": true,
+                "fields": [
+                  {
+                    "id": "gooo://retry/plan/retry",
+                    "name": "retry",
+                    "type_id": "urn:gooo:type:boolean",
+                    "expected": "false",
+                    "actual": "false",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/delay-ms",
+                    "name": "delay_ms",
+                    "type_id": "urn:gooo:type:integer",
+                    "expected": "0",
+                    "actual": "0",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/reason",
+                    "name": "reason",
+                    "expected": "completed",
+                    "actual": "completed",
+                    "passed": true
+                  }
+                ]
+              },
+              {
+                "inputs": [
+                  false,
+                  false,
+                  1,
+                  3,
+                  10,
+                  100
+                ],
+                "expected": {
+                  "delay_ms": 0,
+                  "reason": "permanent-failure",
+                  "retry": false
+                },
+                "actual": {
+                  "delay_ms": 0,
+                  "reason": "permanent-failure",
+                  "retry": false
+                },
+                "passed": true,
+                "fields": [
+                  {
+                    "id": "gooo://retry/plan/retry",
+                    "name": "retry",
+                    "type_id": "urn:gooo:type:boolean",
+                    "expected": "false",
+                    "actual": "false",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/delay-ms",
+                    "name": "delay_ms",
+                    "type_id": "urn:gooo:type:integer",
+                    "expected": "0",
+                    "actual": "0",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/reason",
+                    "name": "reason",
+                    "expected": "permanent-failure",
+                    "actual": "permanent-failure",
+                    "passed": true
+                  }
+                ]
+              },
+              {
+                "inputs": [
+                  false,
+                  true,
+                  3,
+                  3,
+                  10,
+                  100
+                ],
+                "expected": {
+                  "delay_ms": 0,
+                  "reason": "attempt-limit",
+                  "retry": false
+                },
+                "actual": {
+                  "delay_ms": 0,
+                  "reason": "attempt-limit",
+                  "retry": false
+                },
+                "passed": true,
+                "fields": [
+                  {
+                    "id": "gooo://retry/plan/retry",
+                    "name": "retry",
+                    "type_id": "urn:gooo:type:boolean",
+                    "expected": "false",
+                    "actual": "false",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/delay-ms",
+                    "name": "delay_ms",
+                    "type_id": "urn:gooo:type:integer",
+                    "expected": "0",
+                    "actual": "0",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/reason",
+                    "name": "reason",
+                    "expected": "attempt-limit",
+                    "actual": "attempt-limit",
+                    "passed": true
+                  }
+                ]
+              },
+              {
+                "inputs": [
+                  false,
+                  true,
+                  -1,
+                  3,
+                  10,
+                  100
+                ],
+                "expected": {
+                  "delay_ms": 0,
+                  "reason": "invalid-input",
+                  "retry": false
+                },
+                "actual": {
+                  "delay_ms": 0,
+                  "reason": "invalid-input",
+                  "retry": false
+                },
+                "passed": true,
+                "fields": [
+                  {
+                    "id": "gooo://retry/plan/retry",
+                    "name": "retry",
+                    "type_id": "urn:gooo:type:boolean",
+                    "expected": "false",
+                    "actual": "false",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/delay-ms",
+                    "name": "delay_ms",
+                    "type_id": "urn:gooo:type:integer",
+                    "expected": "0",
+                    "actual": "0",
+                    "passed": true
+                  },
+                  {
+                    "id": "gooo://retry/plan/reason",
+                    "name": "reason",
+                    "expected": "invalid-input",
+                    "actual": "invalid-input",
+                    "passed": true
+                  }
+                ]
+              }
+            ],
+            "passed": 5,
+            "total": 5,
+            "fields_passed": 15,
+            "fields_total": 15,
+            "status": "COMPLETE_FINITE",
+            "model_requested": true,
+            "model_calls": 1,
+            "predict_ns": 46042,
+            "model": {
+              "schema": "gooo/retained-path-model/v1",
+              "loaded": true,
+              "metadata_sha256": "f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d660059",
+              "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b",
+              "resident_tensor_bytes": 2096,
+              "setup_ms": 1.049583,
+              "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+              "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+              "feature_version": "triple_record_field_context_v1_shared_v1",
+              "arithmetic_version": "float32_separate_v1"
+            },
+            "model_context": {
+              "schema": "gooo/record-field-expression-context/v1",
+              "status": "ENCODED",
+              "text": "gooo;joint3|177:{\"field\":\"retry\",\"first\":\"false\",\"second\":\"again\",\"intent\":\"계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable.\"}156:{\"field\":\"delay_ms\",\"first\":\"0\",\"second\":\"delay\",\"intent\":\"상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable.\"}147:{\"field\":\"reason\",\"first\":\"\\\"pending\\\"\",\"second\":\"reason\",\"intent\":\"분기에서 고른 이유를 보존한다. Keep the current reason variable.\"}",
+              "sha256": "sha256:6606f549d549c0278ae891da10b60267dbe52a0e24e96f7f66df747a60872609",
+              "parts": [
+                "{\"field\":\"retry\",\"first\":\"false\",\"second\":\"again\",\"intent\":\"계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable.\"}",
+                "{\"field\":\"delay_ms\",\"first\":\"0\",\"second\":\"delay\",\"intent\":\"상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable.\"}",
+                "{\"field\":\"reason\",\"first\":\"\\\"pending\\\"\",\"second\":\"reason\",\"intent\":\"분기에서 고른 이유를 보존한다. Keep the current reason variable.\"}"
+              ],
+              "feature_version": "triple_record_field_context_v1_shared_v1",
+              "scope": "complete source-bound field names, ordered expressions and intent; actual string-field structural features; cases and expected outputs excluded"
+            },
+            "prediction": {
+              "logits": [
+                -8.904297,
+                -3.457075,
+                -3.1507828,
+                2.296439,
+                -2.296439,
+                3.1507828,
+                3.457075,
+                8.904297
+              ],
+              "probabilities": [
+                3.4012518e-16,
+                1.8324642e-11,
+                3.3812526e-11,
+                0.0000018216892,
+                1.8670299e-10,
+                0.000010058841,
+                0.000018560517,
+                0.99996954
+              ],
+              "proposed_mask": 7
+            },
+            "ranking": [
+              7,
+              6,
+              5,
+              3,
+              4,
+              2,
+              1,
+              0
+            ],
+            "generation_ns": 4662500,
+            "scope": "source-declared record field alternatives; finite case and field coverage; candidate interpretation followed by ordinary typed Go emission; no model updates"
+          },
+          "candidate_routes": [
+            "preserve"
+          ],
+          "equivalence_rule": "source-shape-preserving-v1",
+          "source_constructs": 18,
+          "lowered_constructs": 18,
+          "source_semantic_units": 89,
+          "lowered_semantic_units": 89,
+          "completeness_percent": 100,
+          "route_equivalence": {
+            "schema": "gooo/body-codegen-route-equivalence/v1",
+            "decision": "PASS",
+            "method": "canonical_control_flow_form/v2",
+            "rule": "source-shape-preserving-v1",
+            "source_semantic_digest": "sha256:de4649cea7006a8b5619d71a6d1015c94b4ab824d21b5386e64b1d027d743eb2",
+            "generated_semantic_digest": "sha256:de4649cea7006a8b5619d71a6d1015c94b4ab824d21b5386e64b1d027d743eb2",
+            "equivalent": true,
+            "scope": "typechecked, terminating, side-effect-free body-codegen profile; not a proof of unstated user intent"
+          },
+          "typecheck_passed": true,
+          "deterministic_replay": true,
+          "repository_writes": 0,
+          "unsupported_constructs": "calls, loops, imports, external effects, optional-field synthesis and repeated record fields",
+          "completeness_receipt": {
+            "schema": "gooo/metaprogramming-completeness-receipt/v2",
+            "profile_id": "gooo/body-codegen-pure-v1",
+            "decision": "PASS_WITHIN_DECLARED_FIXTURE_SCOPE",
+            "decision_basis": "declaration, generation, source-unit coverage, route equivalence, typecheck, replay, route protocol, provenance, and zero repository writes define the scoped code-generation core; body-fill additionally requires declared-suite functional accuracy; UNKNOWN dimensions remain explicit and are never aggregated",
+            "scope": {
+              "allowed_investment": "source-bound record field expressions, optional local ordinal ranking, and finite field observations within the source budget",
+              "boundary": {
+                "excluded_effects": [
+                  "generated code execution",
+                  "repository mutation",
+                  "external authority"
+                ],
+                "non_authorizing": true,
+                "non_executing": true
+              },
+              "compiler_source_sha": "24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f",
+              "decision_mode": "local_shared_field_prediction_then_finite_tdd",
+              "decision_provider": "tiny_go",
+              "domain_scope": "one source-owned pure record assembly with 1..16 typed inputs and required string fields",
+              "excluded_scope": [
+                "unstated natural-language intent",
+                "independently sourced production workflows",
+                "generated runtime behavior",
+                "unrestricted Gooo body syntax",
+                "route clarity or utility"
+              ],
+              "execution_environment": "darwin/arm64",
+              "input_type": "(bool,bool,int64,int64,int64,int64)",
+              "laya_mode": "deterministic_fallback",
+              "laya_provider": "deterministic",
+              "observed_system_cost": {
+                "human_actions": 0,
+                "repository_writes": 0
+              },
+              "output_type": "Plan",
+              "plan_sha256": "sha256:b65376f3ddc2ec6428b04cb52fd45c6e8f2fddc3c908fb1bdfabc9fdae1f6511",
+              "receipt_declaration": {
+                "declaration_sha256": "c7059936a1fe6b98d6129e9a90a38d09779e8aaa5575868c703ff8a089d184ae",
+                "generated_declaration_sha256": "c7059936a1fe6b98d6129e9a90a38d09779e8aaa5575868c703ff8a089d184ae",
+                "projection_profile": "gooo/receipt-structure-projection/v1",
+                "schema": "gooo/metaprogramming-completeness-receipt/v2"
+              },
+              "record_assembly": {
+                "contract_sha256": "sha256:3b4db21d3e06bcc33ca26e193dd33f6f1cf9b5cd928ce4f49cc2e9a41da117e6",
+                "external_provider_calls": 0,
+                "fields_passed": 15,
+                "fields_total": 15,
+                "finite_passed": 5,
+                "finite_total": 5,
+                "local_model_predictions": 1,
+                "observation_sha256": "sha256:1696bd588aed2d6f5abd51f87f4d9b503f7d2df4010c542941ba7f5a3a6b5040",
+                "schema": "gooo/record-field-assembly/v1",
+                "test_suite_sha256": "sha256:11703eca7a3dc1e235810785e64c6c841a8e5533a30eec025d9be27a72be7779"
+              },
+              "record_types": [
+                {
+                  "name": "Plan",
+                  "id": "gooo://retry/plan",
+                  "go_name": "GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540",
+                  "fields": [
+                    {
+                      "name": "retry",
+                      "id": "gooo://retry/plan/retry",
+                      "type_id": "urn:gooo:type:boolean",
+                      "go_name": "GoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a"
+                    },
+                    {
+                      "name": "delay_ms",
+                      "id": "gooo://retry/plan/delay-ms",
+                      "type_id": "urn:gooo:type:integer",
+                      "go_name": "GoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553"
+                    },
+                    {
+                      "name": "reason",
+                      "id": "gooo://retry/plan/reason",
+                      "type_id": "urn:gooo:type:string",
+                      "go_name": "GoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df"
+                    }
+                  ]
+                }
+              ],
+              "system_budget": {
+                "maximum_human_actions": 0,
+                "maximum_repository_writes": 0
+              },
+              "toolchain": "go1.27.1"
+            },
+            "core_dimensions": [
+              "declaration_coverage",
+              "declared_record_case_accuracy",
+              "declared_record_field_accuracy",
+              "generation_coverage",
+              "internal_replay_coverage",
+              "provenance_integrity",
+              "receipt_schema_binding",
+              "repository_write_boundary",
+              "route_choice_protocol",
+              "route_semantic_equivalence",
+              "source_ast_coverage",
+              "typecheck_coverage"
+            ],
+            "dimensions": [
+              {
+                "id": "declaration_coverage",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "stable activity declarations",
+                "reason": "Counts the requested activity only when it resolves to a stable semantic ID.",
+                "evidence": [
+                  "source_digest:sha256:b76a08d857445f623cd7084ce4247e14f4a652297bd2defd8e9e27659252e7da",
+                  "activity_id:retry://activity/plan-retry"
+                ]
+              },
+              {
+                "id": "generation_coverage",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "generated Go functions",
+                "reason": "Measures whether this accepted activity produced a digest-bound Go projection.",
+                "evidence": [
+                  "generated_digest:sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4",
+                  "report decision:PASS"
+                ]
+              },
+              {
+                "id": "source_ast_coverage",
+                "status": "PASS",
+                "numerator": 89,
+                "denominator": 89,
+                "unit": "source semantic units lowered",
+                "reason": "Counts supported source-body units represented in the selected Go lowering; it does not estimate unstated intent.",
+                "evidence": [
+                  "source_semantic_units",
+                  "lowered_semantic_units"
+                ]
+              },
+              {
+                "id": "route_semantic_equivalence",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "source/generated route pairs",
+                "reason": "Uses the compiler's closed structural equivalence witness for the selected route.",
+                "evidence": [
+                  "route_equivalence.schema:gooo/body-codegen-route-equivalence/v1",
+                  "route_equivalence.rule:source-shape-preserving-v1",
+                  "source_semantic_digest:sha256:de4649cea7006a8b5619d71a6d1015c94b4ab824d21b5386e64b1d027d743eb2",
+                  "generated_semantic_digest:sha256:de4649cea7006a8b5619d71a6d1015c94b4ab824d21b5386e64b1d027d743eb2"
+                ]
+              },
+              {
+                "id": "typecheck_coverage",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "generated functions accepted by Go type checking",
+                "reason": "Counts the generated function only after the compiler's type checker accepts it.",
+                "evidence": [
+                  "typecheck_passed"
+                ]
+              },
+              {
+                "id": "internal_replay_coverage",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "deterministic compiler emission replays",
+                "reason": "Requires replayed generated bytes to match the selected output digest.",
+                "evidence": [
+                  "generated_digest:sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4",
+                  "replay_digest:sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4"
+                ]
+              },
+              {
+                "id": "route_choice_protocol",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "selected routes in the compiler-declared candidate set",
+                "reason": "The selected lowering must be a route the compiler declared eligible for this source shape.",
+                "evidence": [
+                  "candidate_routes",
+                  "selected_route:preserve"
+                ]
+              },
+              {
+                "id": "provenance_integrity",
+                "status": "PASS",
+                "numerator": 8,
+                "denominator": 8,
+                "unit": "source, body, output, replay, semantic-ID, and compiler-revision bindings",
+                "reason": "Binds the source, selected body, generated and replay digests, stable activity ID, route semantic digests, and an unmodified compiler revision when embedded in the binary.",
+                "evidence": [
+                  "source_digest:sha256:b76a08d857445f623cd7084ce4247e14f4a652297bd2defd8e9e27659252e7da",
+                  "program_digest:sha256:a451d24f53ce768b58ba955f39d7565ac5d7c2b5c050c74acd9cfaab0ca3174c",
+                  "generated_digest:sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4",
+                  "replay_digest:sha256:65735178de0414d80fb2017f3d502cb443d8ae832e170e1663eef039c4ae4bc4",
+                  "activity_id:retry://activity/plan-retry",
+                  "compiler_source_sha:24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f",
+                  "route_equivalence semantic digests"
+                ]
+              },
+              {
+                "id": "receipt_schema_binding",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "source-owned receipt schema and generated structure bindings",
+                "reason": "The receipt data structure is generated from the embedded Gooo declaration with stable entity and field IDs.",
+                "evidence": [
+                  "receipt_declaration_sha256:c7059936a1fe6b98d6129e9a90a38d09779e8aaa5575868c703ff8a089d184ae",
+                  "projection_profile:gooo/receipt-structure-projection/v1"
+                ]
+              },
+              {
+                "id": "repository_write_boundary",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "repository writes",
+                "reason": "The command emits generated source without mutating the repository.",
+                "evidence": [
+                  "repository_writes:0"
+                ]
+              },
+              {
+                "id": "execution_boundary",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "generated package runtime executions",
+                "reason": "This command typechecks and replays generated source but does not execute the generated package.",
+                "evidence": [
+                  "body-codegen does not run generated Go"
+                ]
+              },
+              {
+                "id": "permission_boundary",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "observed host permission profiles",
+                "reason": "The report does not capture the caller's operating-system permission profile.",
+                "evidence": [
+                  "host permission profile is not observed"
+                ]
+              },
+              {
+                "id": "external_network_boundary",
+                "status": "PASS",
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "runs with no Laya provider request",
+                "reason": "A deterministic fallback caused by an unconfigured provider or ineligible alternative routes records no Laya decision request; other provider/network scope is not audited.",
+                "evidence": [
+                  "decision.mode:deterministic_fallback",
+                  "decision.provider:deterministic",
+                  "decision.fallback_reason:NO_ALTERNATIVE_ROUTE"
+                ]
+              },
+              {
+                "id": "laya_decision_observation",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 0,
+                "unit": "eligible multi-route Laya decisions",
+                "reason": "Records a model choice only after Gooo has declared multiple typed candidates and the Laya provider supplied the decision.",
+                "evidence": [
+                  "candidate_routes",
+                  "route_decision.mode:deterministic_fallback",
+                  "route_decision.request_sha256:",
+                  "route_decision.model_revision:"
+                ]
+              },
+              {
+                "id": "use_case_coverage",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "independently sourced real workflows",
+                "reason": "A single source fixture is not evidence of independent real-world workflow coverage.",
+                "evidence": [
+                  "no independent workflow corpus is bound"
+                ]
+              },
+              {
+                "id": "reverse_observation_coverage",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "generated runtime observations mapped back to source",
+                "reason": "No generated runtime is executed or reverse-mapped by this command.",
+                "evidence": [
+                  "no source-bound reverse-observation trace"
+                ]
+              },
+              {
+                "id": "full_domain_semantics",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "complete input-domain behavior proofs",
+                "reason": "Typechecking and structural equivalence do not prove behavior over the input domain.",
+                "evidence": [
+                  "generated package execution and an independent domain oracle are not part of this command"
+                ]
+              },
+              {
+                "id": "route_quality",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "independent route-clarity or utility criteria",
+                "reason": "Semantic equivalence does not rank readability, clarity, or downstream utility.",
+                "evidence": [
+                  "no independent route-quality oracle"
+                ]
+              },
+              {
+                "id": "resource_observation",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "complete process resource profiles",
+                "reason": "The report records route-decision latency but not process CPU time or peak memory.",
+                "evidence": [
+                  "route_decision_latency_ms is recorded",
+                  "CPU and peak RSS are not captured"
+                ]
+              },
+              {
+                "id": "resource_baseline_comparison",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "compatible prior resource receipts",
+                "reason": "No same-profile, same-toolchain resource baseline is bound.",
+                "evidence": [
+                  "no compatible prior resource receipt"
+                ]
+              },
+              {
+                "id": "semantic_profile_delta",
+                "status": "UNKNOWN",
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "compatible before/after semantic receipts",
+                "reason": "No same-plan, same-compiler semantic baseline is bound for regression deltas.",
+                "evidence": [
+                  "no comparable prior semantic receipt"
+                ]
+              },
+              {
+                "id": "declared_record_case_accuracy",
+                "status": "PASS",
+                "numerator": 5,
+                "denominator": 5,
+                "unit": "declared typed selection cases",
+                "reason": "Matches complete named record results in the bounded pure-value evaluator; native runtime cases are observed separately.",
+                "evidence": [
+                  "record_assembly.test_suite_sha256:sha256:11703eca7a3dc1e235810785e64c6c841a8e5533a30eec025d9be27a72be7779"
+                ]
+              },
+              {
+                "id": "declared_record_field_accuracy",
+                "status": "PASS",
+                "numerator": 15,
+                "denominator": 15,
+                "unit": "declared expected record output fields",
+                "reason": "Counts each expected field in the supplied selection cases; preserves partially matching record outputs.",
+                "evidence": [
+                  "record_assembly.contract_sha256:sha256:3b4db21d3e06bcc33ca26e193dd33f6f1cf9b5cd928ce4f49cc2e9a41da117e6"
+                ]
+              }
+            ],
+            "status_counts": {
+              "FAIL_CLOSED": 0,
+              "PASS": 13,
+              "PROGRESS": 0,
+              "UNKNOWN": 10
+            },
+            "aggregate_completeness_score": null,
+            "first_unresolved": {
+              "id": "execution_boundary",
+              "status": "UNKNOWN",
+              "reason": "This command typechecks and replays generated source but does not execute the generated package.",
+              "next_operation": "EXECUTE_GENERATED_CODE_IN_A_SEPARATE_BOUNDED_RUNNER"
+            },
+            "unresolved_claims": [
+              {
+                "id": "execution_boundary",
+                "status": "UNKNOWN",
+                "reason": "This command typechecks and replays generated source but does not execute the generated package.",
+                "next_operation": "EXECUTE_GENERATED_CODE_IN_A_SEPARATE_BOUNDED_RUNNER"
+              },
+              {
+                "id": "permission_boundary",
+                "status": "UNKNOWN",
+                "reason": "The report does not capture the caller's operating-system permission profile.",
+                "next_operation": "RECORD_THE_HOST_PERMISSION_PROFILE_WITHOUT_GRANTING_AUTHORITY"
+              },
+              {
+                "id": "laya_decision_observation",
+                "status": "UNKNOWN",
+                "reason": "Records a model choice only after Gooo has declared multiple typed candidates and the Laya provider supplied the decision.",
+                "next_operation": "RUN_AN_ELIGIBLE_CASE_WITH_A_PINNED_LAYA_REVISION"
+              },
+              {
+                "id": "use_case_coverage",
+                "status": "UNKNOWN",
+                "reason": "A single source fixture is not evidence of independent real-world workflow coverage.",
+                "next_operation": "BIND_INDEPENDENTLY_SOURCED_REAL_WORKFLOW_FIXTURES"
+              },
+              {
+                "id": "reverse_observation_coverage",
+                "status": "UNKNOWN",
+                "reason": "No generated runtime is executed or reverse-mapped by this command.",
+                "next_operation": "MAP_GENERATED_RUNTIME_OBSERVATIONS_BACK_TO_SOURCE_IDS"
+              },
+              {
+                "id": "full_domain_semantics",
+                "status": "UNKNOWN",
+                "reason": "Typechecking and structural equivalence do not prove behavior over the input domain.",
+                "next_operation": "EXECUTE_A_DOMAIN_PARTITION_OR_PROOF_FOR_THE_DECLARED_INPUT_TYPE"
+              },
+              {
+                "id": "route_quality",
+                "status": "UNKNOWN",
+                "reason": "Semantic equivalence does not rank readability, clarity, or downstream utility.",
+                "next_operation": "ADD_AN_INDEPENDENT_ROUTE_CLARITY_OR_UTILITY_ORACLE"
+              },
+              {
+                "id": "resource_observation",
+                "status": "UNKNOWN",
+                "reason": "The report records route-decision latency but not process CPU time or peak memory.",
+                "next_operation": "CAPTURE_WALL_CPU_AND_PEAK_RSS_FOR_THE_COMPILER_PROCESS"
+              },
+              {
+                "id": "resource_baseline_comparison",
+                "status": "UNKNOWN",
+                "reason": "No same-profile, same-toolchain resource baseline is bound.",
+                "next_operation": "BIND_A_COMPATIBLE_RESOURCE_BASELINE"
+              },
+              {
+                "id": "semantic_profile_delta",
+                "status": "UNKNOWN",
+                "reason": "No same-plan, same-compiler semantic baseline is bound for regression deltas.",
+                "next_operation": "BIND_A_COMPATIBLE_BASELINE_AND_REPORT_PER_DIMENSION_DELTAS"
+              }
+            ],
+            "not_claimed": [
+              "user-intent completeness",
+              "real-workflow coverage",
+              "generated runtime behavior",
+              "full-domain semantics",
+              "route quality",
+              "universal language completeness"
+            ],
+            "fail_closed_reason": null
+          }
+        },
+        "source": "package retry\n\n//gooo:generated:start id=\"gooo://retry/plan\" kind=\"entity\"\ntype GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540 struct {\n\tGoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a bool   `json:\"retry\"`\n\tGoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553 int64  `json:\"delay_ms\"`\n\tGoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df string `json:\"reason\"`\n}\n\n//gooo:generated:end id=\"gooo://retry/plan\" kind=\"entity\"\n//gooo:generated:start id=\"retry://activity/plan-retry\" kind=\"activity\"\nfunc PlanRetry(input0 bool, input1 bool, input2 int64, input3 int64, input4 int64, input5 int64) GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540 {\n\tvar again = false\n\tvar delay int64 = 0\n\tvar reason = \"invalid-input\"\n\tif input2 \u003e= 0 \u0026\u0026 input3 \u003e= 0 \u0026\u0026 input4 \u003e= 0 \u0026\u0026 input5 \u003e= 0 {\n\t\treason = \"completed\"\n\t\tif !input0 {\n\t\t\treason = \"permanent-failure\"\n\t\t\tif input1 {\n\t\t\t\treason = \"attempt-limit\"\n\t\t\t\tif input2 \u003c input3 {\n\t\t\t\t\tagain = true\n\t\t\t\t\treason = \"retry\"\n\t\t\t\t\tdelay = input5\n\t\t\t\t\tif input4 \u003c= input5-input4 {\n\t\t\t\t\t\tdelay = input4 * 2\n\t\t\t\t\t}\n\t\t\t\t\tif input4 == 0 \u0026\u0026 input5 \u003e 0 {\n\t\t\t\t\t\tdelay = 1\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\treturn GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540{GoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a: (again), GoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553: (delay), GoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df: (reason)}\n}\n\n//gooo:generated:end id=\"retry://activity/plan-retry\" kind=\"activity\"\n",
+        "gooo_source": "package retry\nnamespace retry\nentity Integer id \"gooo://retry/integer\"\nentity Boolean id \"gooo://retry/boolean\"\nentity Plan id \"gooo://retry/plan\" fields {\n    field retry id \"gooo://retry/plan/retry\" type boolean required one\n    field delay_ms id \"gooo://retry/plan/delay-ms\" type integer required one\n    field reason id \"gooo://retry/plan/reason\" type string required one\n}\nactivity PlanRetry(Boolean, Boolean, Integer, Integer, Integer, Integer) -\u003e Plan computes \"var again = false\\nvar delay = 0\\nvar reason = \\\"invalid-input\\\"\\nif input2 \u003e= 0 \u0026\u0026 input3 \u003e= 0 \u0026\u0026 input4 \u003e= 0 \u0026\u0026 input5 \u003e= 0 {\\n    reason = \\\"completed\\\"\\n    if !input0 {\\n        reason = \\\"permanent-failure\\\"\\n        if input1 {\\n            reason = \\\"attempt-limit\\\"\\n            if input2 \u003c input3 {\\n                again = true\\n                reason = \\\"retry\\\"\\n                delay = input5\\n                if input4 \u003c= input5 - input4 { delay = input4 * 2 }\\n                if input4 == 0 \u0026\u0026 input5 \u003e 0 { delay = 1 }\\n            }\\n        }\\n    }\\n}\\nreturn Plan{retry: (again), delay_ms: (delay), reason: (reason)}\" assembling {\n    baseline \"let again = false\\nlet delay = 0\\nlet reason = \\\"invalid-input\\\"\\nif input2 \u003e= 0 \u0026\u0026 input3 \u003e= 0 \u0026\u0026 input4 \u003e= 0 \u0026\u0026 input5 \u003e= 0 {\\n    reason = \\\"completed\\\"\\n    if !input0 {\\n        reason = \\\"permanent-failure\\\"\\n        if input1 {\\n            reason = \\\"attempt-limit\\\"\\n            if input2 \u003c input3 {\\n                again = true\\n                reason = \\\"retry\\\"\\n                delay = input5\\n                if input4 \u003c= input5 - input4 { delay = input4 * 2 }\\n                if input4 == 0 \u0026\u0026 input5 \u003e 0 { delay = 1 }\\n            }\\n        }\\n    }\\n}\\nreturn Plan{retry: false, delay_ms: 0, reason: \\\"pending\\\"}\"\n    picked \"retry\" -\u003e \"value_second\"\n    picked \"delay\" -\u003e \"value_second\"\n    picked \"reason\" -\u003e \"value_second\"\n    choice \"retry\" field_value at \"0\" alternative \"again\" intent \"계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable.\"\n    choice \"delay\" field_value at \"1\" alternative \"delay\" intent \"상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable.\"\n    choice \"reason\" field_value at \"2\" alternative \"reason\" intent \"분기에서 고른 이유를 보존한다. Keep the current reason variable.\"\n    value_case \"[false,true,1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":20,\\\"reason\\\":\\\"retry\\\",\\\"retry\\\":true}\"\n    value_case \"[true,true,1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"completed\\\",\\\"retry\\\":false}\"\n    value_case \"[false,false,1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"permanent-failure\\\",\\\"retry\\\":false}\"\n    value_case \"[false,true,3,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"attempt-limit\\\",\\\"retry\\\":false}\"\n    value_case \"[false,true,-1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"invalid-input\\\",\\\"retry\\\":false}\"\n    attempts \"8\"\n}\n"
+      }
+    }
+  ],
+  "gooo_source": "package retry\nnamespace retry\nentity Integer id \"gooo://retry/integer\"\nentity Boolean id \"gooo://retry/boolean\"\nentity Plan id \"gooo://retry/plan\" fields {\n    field retry id \"gooo://retry/plan/retry\" type boolean required one\n    field delay_ms id \"gooo://retry/plan/delay-ms\" type integer required one\n    field reason id \"gooo://retry/plan/reason\" type string required one\n}\nactivity PlanRetry(Boolean, Boolean, Integer, Integer, Integer, Integer) -\u003e Plan computes \"var again = false\\nvar delay = 0\\nvar reason = \\\"invalid-input\\\"\\nif input2 \u003e= 0 \u0026\u0026 input3 \u003e= 0 \u0026\u0026 input4 \u003e= 0 \u0026\u0026 input5 \u003e= 0 {\\n    reason = \\\"completed\\\"\\n    if !input0 {\\n        reason = \\\"permanent-failure\\\"\\n        if input1 {\\n            reason = \\\"attempt-limit\\\"\\n            if input2 \u003c input3 {\\n                again = true\\n                reason = \\\"retry\\\"\\n                delay = input5\\n                if input4 \u003c= input5 - input4 { delay = input4 * 2 }\\n                if input4 == 0 \u0026\u0026 input5 \u003e 0 { delay = 1 }\\n            }\\n        }\\n    }\\n}\\nreturn Plan{retry: (again), delay_ms: (delay), reason: (reason)}\" assembling {\n    baseline \"let again = false\\nlet delay = 0\\nlet reason = \\\"invalid-input\\\"\\nif input2 \u003e= 0 \u0026\u0026 input3 \u003e= 0 \u0026\u0026 input4 \u003e= 0 \u0026\u0026 input5 \u003e= 0 {\\n    reason = \\\"completed\\\"\\n    if !input0 {\\n        reason = \\\"permanent-failure\\\"\\n        if input1 {\\n            reason = \\\"attempt-limit\\\"\\n            if input2 \u003c input3 {\\n                again = true\\n                reason = \\\"retry\\\"\\n                delay = input5\\n                if input4 \u003c= input5 - input4 { delay = input4 * 2 }\\n                if input4 == 0 \u0026\u0026 input5 \u003e 0 { delay = 1 }\\n            }\\n        }\\n    }\\n}\\nreturn Plan{retry: false, delay_ms: 0, reason: \\\"pending\\\"}\"\n    picked \"retry\" -\u003e \"value_second\"\n    picked \"delay\" -\u003e \"value_second\"\n    picked \"reason\" -\u003e \"value_second\"\n    choice \"retry\" field_value at \"0\" alternative \"again\" intent \"계산한 재시도 여부를 그대로 보존한다. Preserve the computed retry decision from the again variable.\"\n    choice \"delay\" field_value at \"1\" alternative \"delay\" intent \"상한 안에서 계산한 대기 시간을 반환한다. Preserve the computed delay variable.\"\n    choice \"reason\" field_value at \"2\" alternative \"reason\" intent \"분기에서 고른 이유를 보존한다. Keep the current reason variable.\"\n    value_case \"[false,true,1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":20,\\\"reason\\\":\\\"retry\\\",\\\"retry\\\":true}\"\n    value_case \"[true,true,1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"completed\\\",\\\"retry\\\":false}\"\n    value_case \"[false,false,1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"permanent-failure\\\",\\\"retry\\\":false}\"\n    value_case \"[false,true,3,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"attempt-limit\\\",\\\"retry\\\":false}\"\n    value_case \"[false,true,-1,3,10,100]\" -\u003e \"{\\\"delay_ms\\\":0,\\\"reason\\\":\\\"invalid-input\\\",\\\"retry\\\":false}\"\n    attempts \"8\"\n}\n",
+  "source": "package main\n\n//gooo:generated:start id=\"gooo://retry/plan\" kind=\"entity\"\ntype GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540 struct {\n\tGoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a bool   `json:\"retry\"`\n\tGoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553 int64  `json:\"delay_ms\"`\n\tGoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df string `json:\"reason\"`\n}\n\n//gooo:generated:end id=\"gooo://retry/plan\" kind=\"entity\"\n\n//gooo:generated:start id=\"retry://activity/plan-retry\" kind=\"activity\"\nfunc GoooComposedActivity0(input0 bool, input1 bool, input2 int64, input3 int64, input4 int64, input5 int64) GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540 {\n\tvar again = false\n\tvar delay int64 = 0\n\tvar reason = \"invalid-input\"\n\tif input2 \u003e= 0 \u0026\u0026 input3 \u003e= 0 \u0026\u0026 input4 \u003e= 0 \u0026\u0026 input5 \u003e= 0 {\n\t\treason = \"completed\"\n\t\tif !input0 {\n\t\t\treason = \"permanent-failure\"\n\t\t\tif input1 {\n\t\t\t\treason = \"attempt-limit\"\n\t\t\t\tif input2 \u003c input3 {\n\t\t\t\t\tagain = true\n\t\t\t\t\treason = \"retry\"\n\t\t\t\t\tdelay = input5\n\t\t\t\t\tif input4 \u003c= input5-input4 {\n\t\t\t\t\t\tdelay = input4 * 2\n\t\t\t\t\t}\n\t\t\t\t\tif input4 == 0 \u0026\u0026 input5 \u003e 0 {\n\t\t\t\t\t\tdelay = 1\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\treturn GoooRecord86b4379d62c779cabd28430042ed7d7455d206ef6d264504b97bae47c042c540{GoooField83cfa71ee008cc3c1c83354e83508e402bf8545ae3febd52e48fc11b6a2d996a: (again), GoooFielde07e4c2b5e7c32cf62380eebfbd5b64b1588a8cb1a271a66659dd4cf0f704553: (delay), GoooField39bb485fe1a7cdfd57f06b8338d27f3c9d7470638f7aef01d0b2da49d00757df: (reason)}\n}\n\n//gooo:generated:end id=\"retry://activity/plan-retry\" kind=\"activity\"\n",
+  "driver_source": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"os\"\n)\n\nfunc main() {\n\tvar in [][6]json.RawMessage\n\tif json.NewDecoder(os.Stdin).Decode(\u0026in) != nil || len(in) \u003e 128 {\n\t\tos.Exit(2)\n\t}\n\tout := make([][1]json.RawMessage, len(in))\n\tfor c, row := range in {\n\t\tvar input0 bool\n\t\tif json.Unmarshal(row[0], \u0026input0) != nil {\n\t\t\tos.Exit(2)\n\t\t}\n\t\tvar input1 bool\n\t\tif json.Unmarshal(row[1], \u0026input1) != nil {\n\t\t\tos.Exit(2)\n\t\t}\n\t\tvar input2 int64\n\t\tif json.Unmarshal(row[2], \u0026input2) != nil {\n\t\t\tos.Exit(2)\n\t\t}\n\t\tvar input3 int64\n\t\tif json.Unmarshal(row[3], \u0026input3) != nil {\n\t\t\tos.Exit(2)\n\t\t}\n\t\tvar input4 int64\n\t\tif json.Unmarshal(row[4], \u0026input4) != nil {\n\t\t\tos.Exit(2)\n\t\t}\n\t\tvar input5 int64\n\t\tif json.Unmarshal(row[5], \u0026input5) != nil {\n\t\t\tos.Exit(2)\n\t\t}\n\t\tv0 := GoooComposedActivity0(input0, input1, input2, input3, input4, input5)\n\t\tout[c][0], _ = json.Marshal(v0)\n\t}\n\tif json.NewEncoder(os.Stdout).Encode(out) != nil {\n\t\tos.Exit(3)\n\t}\n}\n",
+  "model": {
+    "schema": "gooo/retained-path-model/v1",
+    "loaded": true,
+    "metadata_sha256": "f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d660059",
+    "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b",
+    "resident_tensor_bytes": 2096,
+    "setup_ms": 1.049583,
+    "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+    "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+    "feature_version": "triple_record_field_context_v1_shared_v1",
+    "arithmetic_version": "float32_separate_v1"
+  },
+  "elapsed_ns": 20045291,
+  "scope": "source-declared typed value graph; finite activity selection and independently compiled graph execution are separate observations"
+}

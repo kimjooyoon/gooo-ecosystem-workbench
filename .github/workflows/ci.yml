@@ -18,7 +18,7 @@ jobs:
           repository: kimjooyoon/meta-ontology-go
           ref: 24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f
           path: .compiler
-      - name: Build the published Gooo compiler
+      - name: Build the pinned Gooo compiler
         working-directory: .compiler
         run: go build -trimpath -o ../.gooo ./cmd/gooo
       - name: Check Go transport code and execute Gooo programs

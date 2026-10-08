@@ -76,3 +76,6 @@ caller still needs to decide which operations and failures permit retries.
 
 [Published native observations](../../publication/retry-policy-20261008/README.md)
 retain the selected sources, candidate counts, model call and saved execution.
+[Prepared-local observations](../../publication/retry-candidate-locals-20261008/README.md)
+retain the updated baseline, both complete runs, a one-attempt partial result and
+their saved replay, together with the earlier compiler's reproduced failure.

@@ -1,0 +1,5 @@
+--- FAIL: TestNativeRetryPolicyRetainsAnUnconnectedBaseline (0.06s)
+    retry_policy_test.go:160: unread locals prevented partial construction Gooo body-compose: exit status 1: gooo body-compose: activity "PlanRetry" plan: typecheck generated activity: body.goo:10:5: declared and not used: again
+FAIL
+FAIL	github.com/kimjooyoon/gooo-ecosystem-workbench	0.497s
+FAIL

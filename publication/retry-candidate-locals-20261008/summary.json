@@ -1,0 +1,183 @@
+{
+  "schema": "gooo/ecosystem-retry-local-observation/v1",
+  "workbench_source_sha": "312b1106fc595d703af5e93398fa6b6654bf3fb6",
+  "compiler_source_sha": "24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f",
+  "compiler_binary_sha256": "4efdcefccbf313763a757a7404b6b6e80e9a3d9dce78fa27bfff9e2946a94fda",
+  "source_sha256": "26f87ae03e66cc5202131899a01ba799fdba7bfd80b2f0d1419963387d3b2dad",
+  "platform": "darwin-arm64",
+  "observations": {
+    "fixed": {
+      "generated_now": true,
+      "construction_cases": {
+        "passed": 5,
+        "total": 5
+      },
+      "construction_fields": {
+        "passed": 15,
+        "total": 15
+      },
+      "attempted_candidates": 8,
+      "candidate_count": 8,
+      "original_construction_model_calls": 0,
+      "native_cases": {
+        "passed": 12,
+        "total": 12
+      },
+      "new_runtime_model_calls": 0,
+      "generated_sha256": "sha256:54397e2943710da73fceae357b9ea27e5940a245b95797ffdebf96fa20214af0",
+      "selection_status": "COMPLETE_FINITE",
+      "prediction_ns": 0,
+      "command": {
+        "wall_seconds": 0.73,
+        "user_cpu_seconds": 0.16,
+        "system_cpu_seconds": 0.14,
+        "max_rss_bytes": 87310336
+      }
+    },
+    "model": {
+      "generated_now": true,
+      "construction_cases": {
+        "passed": 5,
+        "total": 5
+      },
+      "construction_fields": {
+        "passed": 15,
+        "total": 15
+      },
+      "attempted_candidates": 1,
+      "candidate_count": 8,
+      "original_construction_model_calls": 1,
+      "native_cases": {
+        "passed": 12,
+        "total": 12
+      },
+      "new_runtime_model_calls": 0,
+      "generated_sha256": "sha256:54397e2943710da73fceae357b9ea27e5940a245b95797ffdebf96fa20214af0",
+      "selection_status": "COMPLETE_FINITE",
+      "prediction_ns": 46042,
+      "model": {
+        "schema": "gooo/retained-path-model/v1",
+        "loaded": true,
+        "metadata_sha256": "f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d660059",
+        "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b",
+        "resident_tensor_bytes": 2096,
+        "setup_ms": 1.049583,
+        "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+        "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+        "feature_version": "triple_record_field_context_v1_shared_v1",
+        "arithmetic_version": "float32_separate_v1"
+      },
+      "command": {
+        "wall_seconds": 0.36,
+        "user_cpu_seconds": 0.16,
+        "system_cpu_seconds": 0.11,
+        "max_rss_bytes": 86016000
+      }
+    },
+    "replay": {
+      "generated_now": false,
+      "construction_cases": {
+        "passed": 5,
+        "total": 5
+      },
+      "construction_fields": {
+        "passed": 15,
+        "total": 15
+      },
+      "attempted_candidates": 1,
+      "candidate_count": 8,
+      "original_construction_model_calls": 1,
+      "native_cases": {
+        "passed": 12,
+        "total": 12
+      },
+      "new_runtime_model_calls": 0,
+      "generated_sha256": "sha256:54397e2943710da73fceae357b9ea27e5940a245b95797ffdebf96fa20214af0",
+      "selection_status": "COMPLETE_FINITE",
+      "prediction_ns": 46042,
+      "model": {
+        "schema": "gooo/retained-path-model/v1",
+        "loaded": true,
+        "metadata_sha256": "f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d660059",
+        "weights_sha256": "049081cc6dc62f3c4230f72e601c1fd421c514fce9cfdf7bc1eb412ca4c5514b",
+        "resident_tensor_bytes": 2096,
+        "setup_ms": 1.049583,
+        "scope": "one constructor load; excluded from request timing; fresh source and plan each request",
+        "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+        "feature_version": "triple_record_field_context_v1_shared_v1",
+        "arithmetic_version": "float32_separate_v1"
+      },
+      "command": {
+        "wall_seconds": 0.31,
+        "user_cpu_seconds": 0.14,
+        "system_cpu_seconds": 0.1,
+        "max_rss_bytes": 85508096
+      }
+    },
+    "partial": {
+      "generated_now": true,
+      "construction_cases": {
+        "passed": 0,
+        "total": 5
+      },
+      "construction_fields": {
+        "passed": 8,
+        "total": 15
+      },
+      "attempted_candidates": 1,
+      "candidate_count": 8,
+      "original_construction_model_calls": 0,
+      "native_cases": {
+        "passed": 0,
+        "total": 12
+      },
+      "new_runtime_model_calls": 0,
+      "generated_sha256": "sha256:9671959ba2d8c87ee5fbc2dd7b0cd96738d8c01b2c4dc3fe7440d67a82269294",
+      "selection_status": "PARTIAL_FINITE",
+      "prediction_ns": 0
+    },
+    "partial-replay": {
+      "generated_now": false,
+      "construction_cases": {
+        "passed": 0,
+        "total": 5
+      },
+      "construction_fields": {
+        "passed": 8,
+        "total": 15
+      },
+      "attempted_candidates": 1,
+      "candidate_count": 8,
+      "original_construction_model_calls": 0,
+      "native_cases": {
+        "passed": 0,
+        "total": 12
+      },
+      "new_runtime_model_calls": 0,
+      "generated_sha256": "sha256:9671959ba2d8c87ee5fbc2dd7b0cd96738d8c01b2c4dc3fe7440d67a82269294",
+      "selection_status": "PARTIAL_FINITE",
+      "prediction_ns": 0
+    }
+  },
+  "regression": {
+    "cases_per_mode": 200,
+    "fields_per_mode": 600,
+    "modes": [
+      "fixed",
+      "model"
+    ],
+    "all_passed": true,
+    "case_generation": "retry_policy_test.go; arbitrary-precision independent oracle; four batches of 50 unique tuples",
+    "construction_overlap": 0,
+    "native_suite_seconds": 5.438,
+    "full_workbench_race_seconds": 88.666
+  },
+  "limits": {
+    "finite_cases_only": true,
+    "model_training_overlap": "UNKNOWN",
+    "cpu_utilization": "UNMEASURED",
+    "resource_scope": "one sequential /usr/bin/time -l observation per full command; includes native Go build and execution; uncontrolled cache and host load",
+    "general_performance_improvement": "UNESTABLISHED",
+    "new_training": false
+  }
+}
