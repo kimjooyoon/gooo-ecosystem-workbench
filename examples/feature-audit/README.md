@@ -93,7 +93,9 @@ All eight arrangements produce different complete arrays; the empirical label
 bound is 8/8 for these rows. The unchanged Gooo assessment returns
 `input-consistent` and `evaluate-chooser`: no conflict was found in this supplied
 dataset, and the actual chooser still needs measurement. Model calls are zero.
-No v3 weights were trained or included; the bundled v1 model is rejected for v3.
+At that input-only stage no v3 weights were trained. The subsequent
+[Go training study](../../publication/graph-chooser-20261008/README.md) publishes
+trained v3 artifacts and their measured limitations. The bundled v1 model is rejected for v3.
 This one-family input observation does not establish trained quality or rule
 out hashed feature collisions on other sources.
 

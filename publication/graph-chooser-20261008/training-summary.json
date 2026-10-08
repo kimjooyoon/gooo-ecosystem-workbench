@@ -1,0 +1,597 @@
+{
+  "code_source_sha": "8503e279fe000f247cb4aa9bf2507c794a413a61",
+  "device": "CPU",
+  "go_version": "go1.27.1",
+  "input_preparation_ns": 115632166,
+  "input_sha256": "4c22fa8f05195daee97944895a7434e6e5fe92eaf8548ce2423c762a0288b1de",
+  "parameters": 2072,
+  "plan": {
+    "schema": "gooo/graph-chooser-study-plan/v1",
+    "seed": 20261008,
+    "feature_version": "triple_record_value_graph_v3_shared_v1",
+    "input": "examples/feature-audit/three-family-intent-contrasts.json.gz",
+    "fp32_epochs": 400,
+    "qat_epochs": 200,
+    "batch_fields": 64,
+    "fp32_learning_rate": 0.005,
+    "qat_learning_rate": 0.001,
+    "temperature": 0.5,
+    "benchmark_repeats": 16,
+    "folds": [
+      "filenames",
+      "division",
+      "retry",
+      "all-data-demonstration"
+    ]
+  },
+  "plan_sha256": "745ea2f5487420cc6cf20b85e9b8d1766a2c0cb09a90d9bcfaa1d51a8905ecde",
+  "platform": "darwin/arm64",
+  "results": [
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 28,
+          "correct_fields": 304,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 48,
+          "pairs_with_both_masks_correct": 8
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 83833,
+        "matrix_scale_bytes": 0,
+        "model_metadata_sha256": "1de5e5c849ebad2786b500f891e051eefacb22e5c2d2c1b45314aaa6100b7895",
+        "model_weights_sha256": "2a602d7839305194c63edf755ee8fe6d46265b64b7ccd7729dc8871537341f01",
+        "prediction_checksum": 8704,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9542250,
+        "resident_tensor_bytes": 8288,
+        "train": {
+          "rows": 384,
+          "correct_masks": 300,
+          "correct_fields": 1056,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 480,
+          "pairs_with_both_masks_correct": 414
+        },
+        "variant": "fp32",
+        "weights_file_bytes": 8288
+      },
+      "fold": "filenames",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 338208083,
+      "variant": "fp32"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 32,
+          "correct_fields": 320,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 32,
+          "pairs_with_both_masks_correct": 8
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 51334,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "4650d3d3680258815a1be05b24743d60e538569dc92a81ef43c1d891e8e8783b",
+        "model_weights_sha256": "04b01014c03de78efb879fac91e8073cff29322639dff4dadfcda7cdfc98b953",
+        "prediction_checksum": 14336,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 10004208,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 384,
+          "correct_masks": 141,
+          "correct_fields": 816,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 240,
+          "pairs_with_both_masks_correct": 131
+        },
+        "variant": "ptq_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "filenames",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 338208083,
+      "variant": "ptq_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 95500,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "d84d340b594c29da92d1e3dc664522c813fcdc42a9018be9cf785883b6492923",
+        "model_weights_sha256": "7c7caa66f3c40129a19f5818cfc1848ec25be96dbbfd910cc7acf5eecb64d346",
+        "prediction_checksum": 6144,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9684167,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 384,
+          "correct_masks": 300,
+          "correct_fields": 1056,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 480,
+          "pairs_with_both_masks_correct": 414
+        },
+        "variant": "qat_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "filenames",
+      "training_phase": "additional-qat",
+      "training_phase_ns": 192387250,
+      "variant": "qat_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 16,
+          "correct_fields": 240,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 80,
+          "pairs_with_both_masks_correct": 4
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 83292,
+        "matrix_scale_bytes": 0,
+        "model_metadata_sha256": "cc524476ac78a6deafb3f869e3625f25dd1b159a3a92aa5d5a394f34a69250c4",
+        "model_weights_sha256": "165dffc22778f6d7d9ec7212774aba3e8fe3668e97c58160c2fd1b9ded4c7f26",
+        "prediction_checksum": 17920,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9384834,
+        "resident_tensor_bytes": 8288,
+        "train": {
+          "rows": 384,
+          "correct_masks": 384,
+          "correct_fields": 1152,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 576,
+          "pairs_with_both_masks_correct": 576
+        },
+        "variant": "fp32",
+        "weights_file_bytes": 8288
+      },
+      "fold": "division",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 356958083,
+      "variant": "fp32"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 67500,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "4d17a28fdde064b005a046cf6deb1b8f82e9c400f1533eb86ca4dce78a1a6c5d",
+        "model_weights_sha256": "42b25410a3c4890a4f10b5a6ba343cadd41a76600b3d6974a07b174102e0f1a3",
+        "prediction_checksum": 21504,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9821916,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 384,
+          "correct_masks": 180,
+          "correct_fields": 896,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 320,
+          "pairs_with_both_masks_correct": 194
+        },
+        "variant": "ptq_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "division",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 356958083,
+      "variant": "ptq_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 10,
+          "correct_fields": 224,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 96,
+          "pairs_with_both_masks_correct": 2
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 76667,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "d22bd263b7eec0657e3e83b743bba20c2ec2da96c68d380eeef36172b3f25d15",
+        "model_weights_sha256": "b681457f8d2f3633422ad984b2919c33eae0227cdd9cf2204d5a433948842497",
+        "prediction_checksum": 18688,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9849167,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 384,
+          "correct_masks": 384,
+          "correct_fields": 1152,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 576,
+          "pairs_with_both_masks_correct": 576
+        },
+        "variant": "qat_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "division",
+      "training_phase": "additional-qat",
+      "training_phase_ns": 202456750,
+      "variant": "qat_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 12,
+          "correct_fields": 240,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 48,
+          "pairs_with_both_masks_correct": 0
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 76792,
+        "matrix_scale_bytes": 0,
+        "model_metadata_sha256": "39a8a0f289836a930aef86c4b1812aa3285c2d3b9a7b0e69e3c9bd5d428af88f",
+        "model_weights_sha256": "3bce904525dc8c3f67546e6684f13c56a6625f9894f525d265e1398daf40d876",
+        "prediction_checksum": 11520,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9463542,
+        "resident_tensor_bytes": 8288,
+        "train": {
+          "rows": 384,
+          "correct_masks": 189,
+          "correct_fields": 912,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 336,
+          "pairs_with_both_masks_correct": 207
+        },
+        "variant": "fp32",
+        "weights_file_bytes": 8288
+      },
+      "fold": "retry",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 309895166,
+      "variant": "fp32"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 28,
+          "correct_fields": 304,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 16,
+          "pairs_with_both_masks_correct": 4
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 66333,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "d0eb6b8737fb28543227ce471c05e284e7eb1e667990e5b9dc49e51aff342285",
+        "model_weights_sha256": "99ab34d747f6fa27126c1bc38c4091f27e02bf5aff2d9bf50b36cc972e883d67",
+        "prediction_checksum": 17408,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9713625,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 384,
+          "correct_masks": 63,
+          "correct_fields": 640,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 128,
+          "pairs_with_both_masks_correct": 21
+        },
+        "variant": "ptq_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "retry",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 309895166,
+      "variant": "ptq_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "held-out-family",
+        "evaluation": {
+          "rows": 192,
+          "correct_masks": 28,
+          "correct_fields": 304,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 16,
+          "pairs_with_both_masks_correct": 4
+        },
+        "evaluation_is_held_out": true,
+        "intent_ablated": {
+          "rows": 192,
+          "correct_masks": 24,
+          "correct_fields": 288,
+          "total_fields": 576,
+          "intent_flip_pairs": 288,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 101750,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "ce214bcd8da29c47252dd708723cd74d1c1aab4083292408e04d384ec3372b2a",
+        "model_weights_sha256": "16ab47aaab156e82b0365ae52928cbc217f90a99774ea1e370078914b7e2b70b",
+        "prediction_checksum": 17408,
+        "prepared_prediction_calls": 3072,
+        "prepared_prediction_ns": 9734750,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 384,
+          "correct_masks": 189,
+          "correct_fields": 912,
+          "total_fields": 1152,
+          "intent_flip_pairs": 576,
+          "exact_predicted_flips": 336,
+          "pairs_with_both_masks_correct": 207
+        },
+        "variant": "qat_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "retry",
+      "training_phase": "additional-qat",
+      "training_phase_ns": 181929625,
+      "variant": "qat_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "all-data-in-sample",
+        "evaluation": {
+          "rows": 0,
+          "correct_masks": 0,
+          "correct_fields": 0,
+          "total_fields": 0,
+          "intent_flip_pairs": 0,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "evaluation_is_held_out": false,
+        "intent_ablated": {
+          "rows": 576,
+          "correct_masks": 72,
+          "correct_fields": 864,
+          "total_fields": 1728,
+          "intent_flip_pairs": 864,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 89916,
+        "matrix_scale_bytes": 0,
+        "model_metadata_sha256": "f319db75036c660f79e0f5fcc23814b8ca7f688d71af9baf9bf1b1d2c20003c0",
+        "model_weights_sha256": "2fe4414a781608013ea4fe70061f45d2f683e722e70bd165c5a2a86db6f22c8b",
+        "prediction_checksum": 17664,
+        "prepared_prediction_calls": 9216,
+        "prepared_prediction_ns": 28651417,
+        "resident_tensor_bytes": 8288,
+        "train": {
+          "rows": 576,
+          "correct_masks": 297,
+          "correct_fields": 1392,
+          "total_fields": 1728,
+          "intent_flip_pairs": 864,
+          "exact_predicted_flips": 528,
+          "pairs_with_both_masks_correct": 333
+        },
+        "variant": "fp32",
+        "weights_file_bytes": 8288
+      },
+      "fold": "all-data-demonstration",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 480678458,
+      "variant": "fp32"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "all-data-in-sample",
+        "evaluation": {
+          "rows": 0,
+          "correct_masks": 0,
+          "correct_fields": 0,
+          "total_fields": 0,
+          "intent_flip_pairs": 0,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "evaluation_is_held_out": false,
+        "intent_ablated": {
+          "rows": 576,
+          "correct_masks": 72,
+          "correct_fields": 864,
+          "total_fields": 1728,
+          "intent_flip_pairs": 864,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 67208,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "f7f1ce85eb033b18924e5a30998ffc7bae470a28248fdf458f49034981f498a2",
+        "model_weights_sha256": "c501e42abbf145fbe06b5414c5a0de8d0382703f0921446ae58de3a8bb9ec874",
+        "prediction_checksum": 30464,
+        "prepared_prediction_calls": 9216,
+        "prepared_prediction_ns": 29387375,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 576,
+          "correct_masks": 159,
+          "correct_fields": 1152,
+          "total_fields": 1728,
+          "intent_flip_pairs": 864,
+          "exact_predicted_flips": 352,
+          "pairs_with_both_masks_correct": 119
+        },
+        "variant": "ptq_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "all-data-demonstration",
+      "training_phase": "shared-fp32-phase",
+      "training_phase_ns": 480678458,
+      "variant": "ptq_ternary"
+    },
+    {
+      "assessment": {
+        "ablated_scope": "all-data-in-sample",
+        "evaluation": {
+          "rows": 0,
+          "correct_masks": 0,
+          "correct_fields": 0,
+          "total_fields": 0,
+          "intent_flip_pairs": 0,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "evaluation_is_held_out": false,
+        "intent_ablated": {
+          "rows": 576,
+          "correct_masks": 72,
+          "correct_fields": 864,
+          "total_fields": 1728,
+          "intent_flip_pairs": 864,
+          "exact_predicted_flips": 0,
+          "pairs_with_both_masks_correct": 0
+        },
+        "load_ns": 98417,
+        "matrix_scale_bytes": 8,
+        "model_metadata_sha256": "3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+        "model_weights_sha256": "76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+        "prediction_checksum": 17664,
+        "prepared_prediction_calls": 9216,
+        "prepared_prediction_ns": 29372458,
+        "resident_tensor_bytes": 2096,
+        "train": {
+          "rows": 576,
+          "correct_masks": 297,
+          "correct_fields": 1392,
+          "total_fields": 1728,
+          "intent_flip_pairs": 864,
+          "exact_predicted_flips": 528,
+          "pairs_with_both_masks_correct": 333
+        },
+        "variant": "qat_ternary",
+        "weights_file_bytes": 446
+      },
+      "fold": "all-data-demonstration",
+      "training_phase": "additional-qat",
+      "training_phase_ns": 277022792,
+      "variant": "qat_ternary"
+    }
+  ],
+  "schema": "gooo/graph-chooser-study/v1",
+  "scope": "Three-family authored corpus. Held-out folds and in-sample demonstration are explicit. No general natural-language-programming accuracy or native execution claim in these array predictions."
+}

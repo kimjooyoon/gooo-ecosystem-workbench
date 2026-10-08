@@ -23,9 +23,15 @@ func main() {
 	out := flag.String("out", "", "new observation directory")
 	contrasts := flag.Bool("intent-contrasts", false, "request all eight behaviors while preserving source choices")
 	native := flag.String("native-contrasts", "", "existing contrast corpus for separate native inputs and saved replay")
+	nativeModel := flag.String("native-model", "", "one model for native contrast construction")
+	nativeFolds := flag.String("native-model-folds", "", "root with family/qat_ternary/model.json held-out models")
+	budgetProbes := flag.Bool("budget-probes", false, "also observe actual source-case completion at budgets 1, 2, 4 and 8")
 	flag.Parse()
 	if *compiler == "" || len(*expected) != 40 || *out == "" {
 		panic("compiler, expected-compiler and new out directory required")
+	}
+	if *nativeModel != "" && *nativeFolds != "" || *native == "" && (*nativeModel != "" || *nativeFolds != "" || *budgetProbes) {
+		panic("native mode and one explicit model source required")
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 	defer cancel()
@@ -41,7 +47,7 @@ func main() {
 	must(os.Mkdir(*out, 0755))
 	write(*out, "compiler.json", build)
 	if *native != "" {
-		must(nativeContrasts(ctx, *compiler, *expected, *native, *out))
+		must(nativeContrasts(ctx, *compiler, *expected, *native, *out, nativeOptions{*nativeModel, *nativeFolds, *budgetProbes}))
 		must(archiveEvidence(*out))
 		return
 	}

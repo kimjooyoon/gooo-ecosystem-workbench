@@ -1,0 +1,12 @@
+filenames fp32: 384 training rows, 192 evaluation rows; exported and reloaded
+filenames ptq_ternary: 384 training rows, 192 evaluation rows; exported and reloaded
+filenames qat_ternary: 384 training rows, 192 evaluation rows; exported and reloaded
+division fp32: 384 training rows, 192 evaluation rows; exported and reloaded
+division ptq_ternary: 384 training rows, 192 evaluation rows; exported and reloaded
+division qat_ternary: 384 training rows, 192 evaluation rows; exported and reloaded
+retry fp32: 384 training rows, 192 evaluation rows; exported and reloaded
+retry ptq_ternary: 384 training rows, 192 evaluation rows; exported and reloaded
+retry qat_ternary: 384 training rows, 192 evaluation rows; exported and reloaded
+all-data-demonstration fp32: 576 training rows, 0 evaluation rows; exported and reloaded
+all-data-demonstration ptq_ternary: 576 training rows, 0 evaluation rows; exported and reloaded
+all-data-demonstration qat_ternary: 576 training rows, 0 evaluation rows; exported and reloaded

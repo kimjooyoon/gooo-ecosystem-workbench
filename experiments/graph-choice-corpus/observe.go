@@ -29,9 +29,27 @@ type finiteExport struct {
 			Calls       *int `json:"model_calls"`
 			Passed      int
 			Total       int
-			FieldsPass  int `json:"fields_passed"`
-			FieldsTotal int `json:"fields_total"`
-			Attempts    []struct {
+			FieldsPass  int      `json:"fields_passed"`
+			FieldsTotal int      `json:"fields_total"`
+			Budget      int      `json:"attempt_budget"`
+			Ranking     []uint16 `json:"ranking"`
+			Prediction  *struct {
+				Mask uint16 `json:"proposed_mask"`
+			} `json:"prediction"`
+			PredictNS int64 `json:"predict_ns"`
+			Context   *struct {
+				Feature string `json:"feature_version"`
+			} `json:"model_context"`
+			Model *struct {
+				Loaded      bool   `json:"loaded"`
+				MetadataSHA string `json:"metadata_sha256"`
+				WeightsSHA  string `json:"weights_sha256"`
+			} `json:"model"`
+			Cases []struct {
+				Inputs, Actual, Expected json.RawMessage
+				Passed                   bool
+			} `json:"cases"`
+			Attempts []struct {
 				Mask   uint16 `json:"mask"`
 				Passed int
 				Total  int

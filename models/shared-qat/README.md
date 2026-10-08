@@ -10,9 +10,9 @@ Metadata SHA256: `f95925a277c45957722bc116213c61bee997cc07a94adae738a05d218d6600
 
 The model ranks the eight combinations of three source-declared choices.
 Gooo checks their finite cases and compiles the chosen body. Omit `--model` for
-deterministic order. This repository performs no model training. Its results
-concern the included functions, recipes and examples. The compiler's newer
-source-origin input contract has a separate planned training study.
+deterministic order. These v1 weights remain unchanged. The newer source-graph
+contract has a [separate Go training study](../graph-chooser-20261008/README.md)
+with explicit family splits and independently published artifacts.
 
 The [candidate-order audit](../../examples/feature-audit/README.md) found that
 the current feature projection maps eight filename candidate arrangements to
