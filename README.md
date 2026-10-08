@@ -41,7 +41,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.1과 [Gooo 0.6.11 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.11-dev)을
+Go 1.27.1과 [Gooo 0.6.12 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.12-dev)을
 사용합니다. `splice`에 필요한 패키지 문자열 연산 수정이 배포 파일에 포함됐습니다.
 CI는 배포 소스 `27594824ad628ef0e8362bbc1e0e034aee88e07c`를 고정하고 빌드한 버전과 출처를 확인합니다.
 소스의 연산자·값 관계와 의도를 작은 모델에 전달하는 경로도 포함합니다.
@@ -191,7 +191,7 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 
 ### 부품을 맞춰도 전체가 틀리는 경우
 
-`body-construct`가 있는 컴파일러에서는 다음 명령으로 전체 조립을 반복할 수 있습니다.
+공개 0.6.12의 `body-construct`를 사용해 다음 명령으로 전체 조립을 반복할 수 있습니다.
 [Gooo 규칙](recipes/joint-next.gooo)이 결과를 읽고 다음 시도 한도를 계산하며,
 Go 실행부가 정해둔 상한 안에서 그 제안을 실행합니다.
 
@@ -225,6 +225,11 @@ go run ./cmd/workbench construct --compiler /path/to/gooo \
 필요하다고 표시합니다. 후보 확장과 기대값 수정은 현재 자동 반복의 범위에 포함되지
 않습니다. 저장 기록의 실제 값을 다시 세는 작업과 원래 프로그램을 재실행하는 작업은
 별개입니다. [고정 관측과 검증 계획](examples/joint-diagnostics/PLAN.md)을 함께 확인할 수 있습니다.
+
+[공개 실행 파일·CI·로컬 관측](https://raw.githubusercontent.com/wiki/kimjooyoon/meta-ontology-go/observations/joint-loop-20261008/README.md)을
+별도로 남겼습니다. 같은 예제에서 고정 순서는 네 회차·15번의 프로그램 시도,
+기존 자체 모델은 한 회차·한 번의 시도를 사용했습니다. 최종 Gooo 소스와 평가 7개가
+일치했고 저장 재실행의 새 추론은 0회였습니다. 한 평가 입력은 조립에도 사용했습니다.
 
 ### 진단에서 소스 수정까지 이어가기
 
