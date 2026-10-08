@@ -1,0 +1,17 @@
+package charge
+namespace charge
+
+entity Integer id "charge://integer"
+entity Parts id "charge://parts" fields {
+    field base id "charge://base" type integer required one
+    field rebate id "charge://rebate" type integer required one
+    field apply id "charge://apply" type boolean required one
+}
+activity Quote(Integer) -> Parts computes `return Parts{base: input * 10, rebate: input * 2, apply: input >= 100}` assembling {
+    choice "base" field_value at "0" alternative "input * 12" intent "기본 금액은 입력의 열 배이다. Keep ten times the input."
+    choice "rebate" field_value at "1" alternative "input * 3" intent "차감 금액은 입력의 두 배이다. Keep twice the input as the rebate."
+    choice "apply" field_value at "2" alternative "input >= 50" intent "입력이 100 이상일 때 차감한다. Apply the rebate only at 100 or above."
+    value_case "[0]" -> "{\"base\":0,\"rebate\":0,\"apply\":false}"
+    attempts "8"
+}
+activity Main(Integer) -> Integer computes `let parts = Quote(input); if parts.apply { return parts.base - parts.rebate }; return parts.base`
