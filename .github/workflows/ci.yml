@@ -41,9 +41,12 @@ jobs:
           test -z "$(gofmt -l joint_search_snapshot.go joint_search_snapshot_test.go)"
           test -z "$(gofmt -l joint_rejection_snapshot.go joint_rejection_snapshot_test.go)"
           test -z "$(gofmt -l joint_fill_snapshot.go joint_fill_snapshot_test.go construction_fill.go)"
+          test -z "$(gofmt -l experiments/source-fill-observe/main.go)"
           test -z "$(gofmt -l splice.go splice_execution.go splice_test.go experiments/dependent-splice/*.go)"
           go vet ./...
           go test -race ./...
+          go run ./experiments/source-fill-observe > out/source-fill-recount.json
+          cmp publication/caller-source-fill-20261009/summary.json out/source-fill-recount.json
       - name: Use Gooo feedback to construct complete source-fill assignments
         run: |
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
