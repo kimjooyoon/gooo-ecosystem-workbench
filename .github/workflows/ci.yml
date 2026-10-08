@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: 24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f
+          ref: 86b182da4543efa24ea5bcb504e7b13ea1449c39
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler

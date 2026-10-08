@@ -36,9 +36,10 @@ random jitter in this policy.
 
 ## Construct, then reuse
 
-Use the compiler revision `24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f` pinned in
-this repository's CI, or a later compatible revision with unread-local support.
-The published 0.6.7-dev binary predates that change. From the repository root:
+Use [Gooo 0.6.8-dev](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.8-dev),
+whose source `86b182da4543efa24ea5bcb504e7b13ea1449c39` is pinned in this repository's CI,
+or a later compatible version with unread-local support. Check the executable with
+`gooo version --build --json`. From the repository root:
 
 ```sh
 gooo body-compose --source examples/retry-policy/source.gooo \

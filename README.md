@@ -37,11 +37,12 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.1과 Gooo 컴파일러가 필요합니다. 현재 CI는
-[`24e5e96f`](https://github.com/kimjooyoon/meta-ontology-go/tree/24e5e96f4cec97a97a22b8ab8cebd8ab04a0800f)의
-컴파일러를 고정해 빌드합니다. 제곱식 탐색과 후보가 쓰지 않는 지역 변수 처리를 포함합니다.
-재시도 예제에는 이 개선이 필요하므로, 아래 실행 안내의 소스를 사용하세요.
-이미 `gooo`가 설치됐다면 이 저장소에서:
+Go 1.27.1과 [Gooo 0.6.8 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.8-dev)이
+필요합니다. CI는 해당 배포 소스
+[`86b182da`](https://github.com/kimjooyoon/meta-ontology-go/tree/86b182da4543efa24ea5bcb504e7b13ea1449c39)를
+고정해 빌드합니다. 제곱식 탐색, 정수 나눗셈과 후보가 쓰지 않는 지역 변수 처리를 포함합니다.
+`gooo version --build --json`으로 설치 버전과 소스를 확인할 수 있습니다.
+설치 후 이 저장소에서:
 
 ```sh
 go run ./cmd/workbench verify --model builtin --out out/verified
