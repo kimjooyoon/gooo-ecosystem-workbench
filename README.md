@@ -111,9 +111,16 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 | 제공된 실행 기대값을 모두 만족 | `observe-new-inputs` — 새로운 입력 관측 |
 | 시도 예산이 기록되지 않음 | `inspect-attempt-budget` — 선언한 예산 확인 |
 
-후보 순서의 길이와 시도 예산은 별개입니다. 예산은 저장된 정책 입력에서 읽고,
-그 정보가 없는 이전 기록은 확인 필요 상태로 남깁니다. 타입 검사에서 탈락한
+후보 순서의 길이와 시도 예산은 별개입니다. 새 컴파일러의 `attempt_budget`에서
+소스에 선언한 예산을 읽습니다. 이전 기록은 저장된 정책 입력을 사용하고, 두 정보가
+모두 없으면 확인 필요 상태로 남깁니다. `budget_source`는 각각 `source_contract`,
+`policy_observation`, `unavailable`을 기록합니다. 소스 예산과 정책 관측이 다르면
+불일치로 진단하며 소스 예산을 보존합니다. 타입 검사에서 탈락한
 후보도 이미 사용한 시도로 셉니다. 선택된 활동 ID와 입력 원본 해시를 함께 남깁니다.
+
+[시도 한도 관측 예제](examples/source-budget/README.md)는 같은 여덟 후보에 한도
+1·3·8·16을 적용합니다. [실행 기록](publication/source-budget-20261008/README.md)에
+고정 순서와 자체 소형 모델의 결과, Gooo가 고른 다음 행동을 함께 공개했습니다.
 
 `construction-next-steps.json`에 각 제안이, `construction-next/`에 Gooo 소스와
 실행 결과가 저장됩니다. 이 프로그램의 분기는 Gooo 코드로 실행하며 새 모델 호출은

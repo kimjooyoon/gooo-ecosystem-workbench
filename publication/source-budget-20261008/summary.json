@@ -1,0 +1,184 @@
+{
+  "compiler": {
+    "go_version": "go1.27.1",
+    "vcs.modified": "false",
+    "vcs.revision": "cdb60e90f911d53d7c02790579e5f72941a2b71a"
+  },
+  "experiment": {
+    "go_version": "go1.27.1",
+    "vcs.modified": "false",
+    "vcs.revision": "a46704d8d26c268ecacb175abb881751bdf6717a"
+  },
+  "observations": [
+    {
+      "mode": "deterministic",
+      "declared_budget": 1,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 2,
+        "total": 5,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 1,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 6,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "expand-declared-choices",
+      "result_sha256": "33f028f17b49cd9709a2092efeb0fac8b656ecac42ce8b05b4602f9469bcdf75"
+    },
+    {
+      "mode": "deterministic",
+      "declared_budget": 3,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 2,
+        "total": 5,
+        "scored": 3,
+        "ranked": 8,
+        "budget": 3,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 6,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "expand-declared-choices",
+      "result_sha256": "82c0eb6d4194cf6c64c9c89d052847d0313962f911ee1e3595e6fc674815deac"
+    },
+    {
+      "mode": "deterministic",
+      "declared_budget": 8,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 14,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "observe-new-inputs",
+      "result_sha256": "929de33a7d2aa342ab09e34a5b8ad5820e469814ab687625e7aee1a34db17c44"
+    },
+    {
+      "mode": "deterministic",
+      "declared_budget": 16,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 8,
+        "ranked": 8,
+        "budget": 16,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 14,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "observe-new-inputs",
+      "result_sha256": "7f93789f225ab0fd9fa28adb0a982dfa249d2e3a0f3a8f87f7a7375bbd1b7bfc"
+    },
+    {
+      "mode": "model",
+      "declared_budget": 1,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 1,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 14,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "observe-new-inputs",
+      "result_sha256": "3564d1b6a6c63613643d28b073a8680e6ad19d8f9b483db8332669f754392d5d"
+    },
+    {
+      "mode": "model",
+      "declared_budget": 3,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 3,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 14,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "observe-new-inputs",
+      "result_sha256": "09d9689ee7a880e8e81b74476683483de6cd6f92cee3f6cc90d7412fa221fa83"
+    },
+    {
+      "mode": "model",
+      "declared_budget": 8,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 14,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "observe-new-inputs",
+      "result_sha256": "543fc7f8c23c0ff24c5a690f55a1bfc70dcd76def65f618ef32d416eb07d5865"
+    },
+    {
+      "mode": "model",
+      "declared_budget": 16,
+      "construction": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 16,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "native_passed": 14,
+      "native_total": 14,
+      "native_unit": "activity_outputs",
+      "action": "observe-new-inputs",
+      "result_sha256": "90e9c64bf54034a11d41e5ae6c29a15e3ddfd9d8af31b5638b2626b6827842fa"
+    }
+  ],
+  "schema": "gooo/source-budget-study/v1",
+  "scope": "Four source budgets over one eight-candidate program. Seven runtime inputs include five construction cases and two additional inputs. Diagnostic actions execute in Gooo with zero diagnostic model calls. Finite observations do not establish general accuracy or speedup."
+}

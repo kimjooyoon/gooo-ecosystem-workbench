@@ -1,0 +1,30 @@
+{
+  "compiler_source": "cdb60e90f911d53d7c02790579e5f72941a2b71a",
+  "input_sha256": "543fc7f8c23c0ff24c5a690f55a1bfc70dcd76def65f618ef32d416eb07d5865",
+  "native_passed": 14,
+  "native_total": 14,
+  "native_unit": "activity_outputs",
+  "new_model_calls": 0,
+  "plans": [
+    {
+      "observation": {
+        "activity_id": "fieldupdates://activity/select",
+        "matched": 5,
+        "total": 5,
+        "scored": 1,
+        "ranked": 8,
+        "budget": 8,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "source_contract",
+        "consistent": true
+      },
+      "code": "observed-complete",
+      "action": "observe-new-inputs",
+      "message": "제공된 실행 기대값을 만족했습니다. 새로운 입력을 관측할 수 있습니다."
+    }
+  ],
+  "schema": "gooo/construction-next-steps/v1",
+  "scope": "Gooo proposals from recorded construction counts and recounted native expectations; per-activity plans do not establish which helper caused a native mismatch; explicit compiler resume revalidates the saved source and records",
+  "source_sha256": "5e9ca66750f2554c106c2d11fa1aedf31c63dcb326307b537d34e4de951e1787"
+}
