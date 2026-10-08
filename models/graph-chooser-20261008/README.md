@@ -26,3 +26,10 @@ retains the selected body and evidence. Model-free ordering and saved replay
 remain available. These weights learned only from the repository's authored
 Gooo graph/intent corpus; no external model weights were used. MIT license.
 Current distribution: GitHub. This graph-model study has no completed HF upload.
+
+The unchanged all-data QAT was subsequently used on the new
+[dependent source-splice program](../../publication/dependent-splice-20261008/README.md).
+Its first choice failed; it reached the complete combination fourth, compared
+with eighth in fixed order. Both complete programs passed 542 separate input
+tuples and saved replay. This is one new-program observation with fixed wording
+and candidate positions; the original training study and weights are unchanged.

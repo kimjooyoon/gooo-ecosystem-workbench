@@ -1,0 +1,17 @@
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	113.157s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/cmd/workbench	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/calibrated-report	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/construction-loop	[no test files]
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/dependent-splice	1.616s
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/graph-choice-corpus	10.377s
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/graph-chooser	7.606s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/graph-feature-fixture	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/search-policy	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/search-refinement	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/source-budget	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/api-reference-20261005/composition	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/diagnostics-deterministic	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/diagnostics-model	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/starter-deterministic	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/starter-model	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/stdlib-deterministic	[no test files]
