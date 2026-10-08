@@ -216,7 +216,10 @@ func command(ctx context.Context, compiler string, args ...string) ([]byte, erro
 	c.Stderr = &stderr
 	b, e := c.Output()
 	if e != nil {
-		return b, fmt.Errorf("Gooo %s: %w: %s", args[0], e, strings.TrimSpace(stderr.String()))
+		if detail := compilerFailureDetail(stderr.String(), b); detail != "" {
+			return b, fmt.Errorf("Gooo %s: %w: %s", args[0], e, detail)
+		}
+		return b, fmt.Errorf("Gooo %s: %w", args[0], e)
 	}
 	return b, nil
 }
