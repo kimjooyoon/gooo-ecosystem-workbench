@@ -40,6 +40,9 @@ source with no permitted alternatives. The legacy policy uses the same scalar
 source but never selects its alternatives. Each run saves native observations,
 all source revisions, Gooo decisions and separate final evaluation.
 
+[The six-run publication](../../publication/search-policy-20261008/README.md)
+includes successful and partial runs, model observations and saved-program replay.
+
 The initial budget is checked before constructing candidates or loading a model.
 `--max-attempts` bounds the selected activity. Other graph activities keep their
 own declared budgets. The search policy sees the current candidate-space counts

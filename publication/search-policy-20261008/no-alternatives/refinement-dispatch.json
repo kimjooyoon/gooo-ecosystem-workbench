@@ -1,0 +1,130 @@
+{
+  "schema": "gooo/workbench-refinement/v1",
+  "status": "PROGRESS",
+  "activity_id": "offset://activity/add",
+  "initial": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 0,
+        "total": 1,
+        "scored": 1,
+        "ranked": 2,
+        "budget": 1,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 3,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 0,
+    "total": 2,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"offset://activity/add\",\"actual\":4,\"expected\":3},{\"activity\":\"offset://activity/add\",\"actual\":20,\"expected\":11}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "4ad2c48ae37359881049cc244103224dde1df4ef62988f3b4ee4a2523a015f34"
+  },
+  "final": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 0,
+        "total": 2,
+        "scored": 2,
+        "ranked": 2,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 4,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 0,
+    "total": 2,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"offset://activity/add\",\"actual\":4,\"expected\":3},{\"activity\":\"offset://activity/add\",\"actual\":20,\"expected\":11}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "414f134400f53d5516e793d1e55c050bf3c01f61dd7d6427f62b3398018fae17"
+  },
+  "initial_plan": {
+    "observation": {
+      "activity_id": "offset://activity/add",
+      "kind": "integer_search",
+      "matched": 0,
+      "total": 1,
+      "scored": 1,
+      "ranked": 2,
+      "budget": 1,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 3,
+      "space_known": true
+    },
+    "code": "budget-exhausted",
+    "action": "raise-attempt-budget",
+    "message": "아직 보지 않은 후보가 있습니다. 허용된 범위에서 소스의 시도 한도를 늘릴 수 있습니다."
+  },
+  "final_plan": {
+    "observation": {
+      "activity_id": "offset://activity/add",
+      "kind": "integer_search",
+      "matched": 0,
+      "total": 2,
+      "scored": 2,
+      "ranked": 2,
+      "budget": 2,
+      "observed": true,
+      "budget_known": true,
+      "budget_source": "search_plan",
+      "consistent": true,
+      "omitted": 4,
+      "space_known": true
+    },
+    "code": "space-truncated",
+    "action": "expand-search-space",
+    "message": "후보 수 제한으로 제외된 표현식이 있습니다. 소스의 탐색 범위를 검토하세요."
+  },
+  "dispatched": true,
+  "stop_reason": "POLICY_STOP",
+  "refinement_status": "PROGRESS",
+  "evaluation_status": "PROGRESS",
+  "evaluation": {
+    "construction": [
+      {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 0,
+        "total": 2,
+        "scored": 2,
+        "ranked": 2,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 4,
+        "space_known": true
+      }
+    ],
+    "unit": "activity_outputs",
+    "passed": 0,
+    "total": 2,
+    "rejected": 0,
+    "detail": "{\"gaps\":[{\"activity\":\"offset://activity/add\",\"actual\":-6,\"expected\":-2},{\"activity\":\"offset://activity/add\",\"actual\":0,\"expected\":1}],\"type_rejections\":null,\"unit\":\"activity_outputs\"}",
+    "input_sha256": "38b6587eaf4d6fb0da0993f498a097a62785949343b74a28aeca8472f40da2d8"
+  },
+  "initial_model_calls": 0,
+  "refinement_model_calls": 0,
+  "refinement_rounds": 2,
+  "selected_source": "source-refinement/selected/original.gooo",
+  "scope": "Gooo next-step dispatch and bounded source revisions under an explicit Gooo policy; feedback is adaptive; optional final evaluation is withheld until selection; no model training or invented expectations",
+  "search_policy": true
+}

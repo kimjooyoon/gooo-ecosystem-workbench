@@ -1,0 +1,33 @@
+{
+  "compiler_source": "765918d9b0da11359ebbbe88c517831e4cebeb1f",
+  "input_sha256": "e06fc1fe101fc72a8dfe1770ec9c4fa64c0b456b2624e5ed377e50019b796919",
+  "native_passed": 0,
+  "native_total": 2,
+  "native_unit": "activity_outputs",
+  "new_model_calls": 0,
+  "plans": [
+    {
+      "observation": {
+        "activity_id": "offset://activity/add",
+        "kind": "integer_search",
+        "matched": 0,
+        "total": 2,
+        "scored": 2,
+        "ranked": 2,
+        "budget": 2,
+        "observed": true,
+        "budget_known": true,
+        "budget_source": "search_plan",
+        "consistent": true,
+        "omitted": 4,
+        "space_known": true
+      },
+      "code": "space-truncated",
+      "action": "expand-search-space",
+      "message": "후보 수 제한으로 제외된 표현식이 있습니다. 소스의 탐색 범위를 검토하세요."
+    }
+  ],
+  "schema": "gooo/construction-next-steps/v1",
+  "scope": "Gooo proposals from recorded construction counts and recounted native expectations; per-activity plans do not establish which helper caused a native mismatch; explicit compiler resume revalidates the saved source and records",
+  "source_sha256": "f1e92ece1191d3c907820307f53211074a84360e94e27356220c445ae9104a23"
+}
