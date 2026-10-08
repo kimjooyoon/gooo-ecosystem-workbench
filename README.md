@@ -41,10 +41,10 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.1과 [Gooo 0.6.13 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.13-dev)을
-사용합니다. 계산식 거절 후 이어가기와 `splice`용 패키지 문자열 연산을 포함합니다.
-여러 빈칸을 호출 결과로 다시 조립하는 새 경로는 그 이후 소스가 필요합니다.
-CI는 `e115bb775e6a8a418dbb85eba13c16c606836f8f`를 고정해 빌드합니다.
+Go 1.27.1과 [Gooo 0.6.14 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.14-dev)을
+사용합니다. 조건식·대입식의 빈칸을 함께 채우고, 실제 호출 결과로 다시 고르는 경로를 포함합니다.
+계산식 거절 후 이어가기와 `splice`용 패키지 문자열 연산도 사용할 수 있습니다.
+CI는 `2162809f3c49637f0db5d1003873db5e8189d16e`를 고정해 빌드합니다.
 소스의 연산자·값 관계와 의도를 작은 모델에 전달하는 경로도 포함합니다.
 `gooo version --build --json`으로 설치 버전과 소스를 확인할 수 있습니다.
 설치 후 이 저장소에서:
@@ -66,7 +66,7 @@ go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
 지정합니다. 모든 출력 폴더는 새 경로입니다. 결정론 실행은 같은 명령에서
 `--model builtin`을 빼면 됩니다.
 
-컴파일러를 소스로 준비하는 방법은 [실행 안내](docs/usage.ko.md)에 있습니다.
+공개 실행 파일을 쓰거나 같은 소스를 빌드하는 방법은 [실행 안내](docs/usage.ko.md)에 있습니다.
 
 ## 조건식과 변수식을 함께 고르기
 
