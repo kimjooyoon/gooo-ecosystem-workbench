@@ -1,0 +1,7 @@
+{
+  "source": "package edited\nnamespace edited\nentity Integer id \"edited://integer\"\nactivity Calculate(Integer) -> Integer computes `return input + 1`\n",
+  "before": "package edited\nnamespace edited\nentity Integer id \"edited://integer\"\nactivity Calculate(Integer) -> Integer computes `return ",
+  "expected": "input + 1",
+  "after": "`\n",
+  "replacement": "input * 2"
+}

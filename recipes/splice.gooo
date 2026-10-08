@@ -1,0 +1,29 @@
+package sourceedit
+namespace sourceedit
+entity Text id "gooo://sourceedit/text"
+entity Edit id "gooo://sourceedit/edit" fields {
+    field changed id "gooo://sourceedit/edit/changed" type boolean required one
+    field source id "gooo://sourceedit/edit/source" type string required one
+    field bytes id "gooo://sourceedit/edit/bytes" type integer required one
+}
+activity Splice(Text, Text, Text, Text, Text) -> Edit computes `let output = Edit{changed: false, source: input0, bytes: 0}
+let matches = input0 == input1 + input2 + input3 && input2 != input4 && len(input1) + len(input4) + len(input3) <= 1024
+output.changed = false
+if output.changed {
+    output.source = input0
+}
+output.bytes = int64(len(input0))
+return output` assembling {
+    choice "changed" field_update at "0" alternative "matches" intent "원문과 지정한 앞뒤 문맥이 일치하고 결과가 한도 안에서 달라질 때 수정한다. Apply a changed replacement only when the complete original context matches and the result fits the bound."
+    choice "source" field_update at "1" alternative "input1 + input4 + input3" intent "앞에서 수정하기로 결정했을 때 지정한 조각을 교체한다. When the earlier decision allows the edit, join the prefix, replacement and suffix."
+    choice "bytes" field_update at "2" alternative "int64(len(output.source))" intent "앞에서 조립한 최종 소스의 UTF-8 바이트 길이를 기록한다. Count the UTF-8 bytes of the final source assembled by the earlier choices."
+    value_case "[\"a+b\",\"a\",\"+\",\"b\",\"-\"]" -> "{\"changed\":true,\"source\":\"a-b\",\"bytes\":3}"
+    value_case "[\"한글\",\"\",\"한\",\"글\",\"영\"]" -> "{\"changed\":true,\"source\":\"영글\",\"bytes\":6}"
+    value_case "[\"a+b\",\"a\",\"-\",\"b\",\"*\"]" -> "{\"changed\":false,\"source\":\"a+b\",\"bytes\":3}"
+    value_case "[\"a+b\",\"a\",\"+\",\"b\",\"+\"]" -> "{\"changed\":false,\"source\":\"a+b\",\"bytes\":3}"
+    value_case "[\"\",\"\",\"\",\"\",\"x\"]" -> "{\"changed\":true,\"source\":\"x\",\"bytes\":1}"
+    value_case "[\"drop\",\"\",\"drop\",\"\",\"\"]" -> "{\"changed\":true,\"source\":\"\",\"bytes\":0}"
+    value_case "[\"x+x\",\"x+\",\"x\",\"\",\"y\"]" -> "{\"changed\":true,\"source\":\"x+y\",\"bytes\":3}"
+    value_case "[\"a\nb\",\"a\",\"\n\",\"b\",\"\r\n\"]" -> "{\"changed\":true,\"source\":\"a\r\nb\",\"bytes\":4}"
+    attempts "8"
+}
