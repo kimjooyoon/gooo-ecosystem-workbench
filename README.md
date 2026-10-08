@@ -13,6 +13,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | --- | --- | --- |
 | 표준 함수 13개 | 정수 범위·최솟값·최댓값, 논리 연산, 텍스트 선택 | `verify` |
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
+| 모델 입력 검사 | 입력에서 사라진 구분과 선택기의 남은 오차를 나눠 다음 작업 구성 | `feature-audit` |
 | 소스 수정 이어가기 | Gooo의 다음 행동에 따라 사례·시도 한도를 수정하고 다시 조립 | `refine` |
 | 보정값 보고서 예제 | 숫자식의 빈칸을 채우고 값·임계값 표시·문구를 레코드로 조립 | [네 조건의 실행](examples/calibrated-report/README.md) |
 | 재시도 판단 모듈 | 성공·실패·횟수에 따라 재시도 여부와 상한이 있는 대기 시간 구성 | [조립하고 재사용하기](examples/retry-policy/README.md) |
@@ -62,6 +63,22 @@ go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
 `--model builtin`을 빼면 됩니다.
 
 컴파일러를 소스로 준비하는 방법은 [실행 안내](docs/usage.ko.md)에 있습니다.
+
+## 모델에 필요한 구분이 남아 있는지 확인하기
+
+```sh
+go run ./cmd/workbench feature-audit \
+  --input examples/feature-audit/filename-order.json --model builtin --out out/feature-audit
+```
+
+파일 이름 분류의 후보 앞뒤를 여덟 방식으로 바꾼 자료입니다. 현재 모델 입력은
+`&&`와 `||`, `input`과 `stem`을 구분하지 않아 전체 특징 배열이 두 종류만 남습니다.
+동일한 배열에 서로 다른 선택이 필요하므로, 이 입력 형식만 사용하는 결정론적 선택기는
+제공된 여덟 배치 중 최대 2개를 맞힐 수 있습니다. 포함된 모델의 첫 선택은 1/8입니다.
+
+Go는 실제 float32 배열을 비트 단위로 묶고, Gooo의 [평가 규칙](recipes/feature-audit.gooo)이
+`preserve-distinguishing-source-facts`를 다음 작업으로 반환합니다. 입력·집계·Gooo 소스·
+실행 기록을 함께 저장합니다. [입력 형식과 측정 범위](examples/feature-audit/README.md).
 
 ## Gooo가 Gooo 파일 만들기
 

@@ -1,0 +1,66 @@
+{
+  "schema": "gooo/record-feature-audit/v1",
+  "input_sha256": "03b3e97ea081386b7a355a5bc6cf474f2d30586e4785d88f70dc9e01f85c49bd",
+  "feature_version": "triple_record_field_context_v1_shared_v1",
+  "projection_module_version": "v0.2.25-experimental",
+  "label_source": "https://raw.githubusercontent.com/wiki/kimjooyoon/meta-ontology-go/observations/text-operations-20261008/order-ablation/summary.json",
+  "rows": 8,
+  "families": 1,
+  "distinct_feature_vectors": 2,
+  "conflicting_feature_groups": 2,
+  "maximum_compatible_rows": 2,
+  "groups": [
+    {
+      "feature_sha256": "e0de650a1328aa5a92f45236ceced6c733f7b52041bceca70fb92ef16c22ef5f",
+      "rows": [
+        "filename-order-0",
+        "filename-order-1",
+        "filename-order-2",
+        "filename-order-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "9e562a934b71f454e02aac60c004aafac96934e252e02e944e677d8ae948989c",
+      "rows": [
+        "filename-order-4",
+        "filename-order-5",
+        "filename-order-6",
+        "filename-order-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    }
+  ],
+  "model_observed": false,
+  "model_calls": 0,
+  "model_satisfied_rows": 0,
+  "policy": {
+    "code": "representation-collision",
+    "action": "preserve-distinguishing-source-facts",
+    "message": "같은 모델 입력에 서로 다른 선택이 필요하다. 구분에 필요한 연산과 값의 출처를 입력에 보존한다."
+  },
+  "policy_source_sha256": "sha256:9f52ef4311ed97833ecf344fdb908855cbb90f74858bdb51927a03b151787bbf",
+  "policy_compiler_source_sha": "86b182da4543efa24ea5bcb504e7b13ea1449c39",
+  "policy_runtime_replayed": true,
+  "scope": "Empirical row-weighted upper bound for a deterministic chooser using exactly these features and the supplied accepted-mask labels; repeated source families are counted separately; no generalization, label correctness, training or runtime claim."
+}

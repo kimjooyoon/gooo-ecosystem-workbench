@@ -19,7 +19,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, diagnose, refine, reference, discover, or receipt; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, diagnose, refine, reference, discover, receipt, or feature-audit; each command accepts --help")
 	}
 	if args[0] == "refine" {
 		return runRefine(args[1:])
@@ -30,7 +30,7 @@ func run(args []string) error {
 	f.StringVar(&o.Model, "model", "", "optional model.json path or builtin; omission is deterministic")
 	f.StringVar(&o.Out, "out", "", "new output directory")
 	profile := f.String("profile", "record", "starter profile: scalar, record, or library")
-	input := f.String("input", "", "diagnostic input file, or completed verify output directory for receipt")
+	input := f.String("input", "", "diagnostic/feature-audit input file, or completed verify output directory for receipt")
 	packageDir := f.String("package", "", "Gooo package directory for reference")
 	entry := f.String("entry", "", "public activity name for reference")
 	query := f.String("query", "", "natural-language capability question for discover")
@@ -45,6 +45,15 @@ func run(args []string) error {
 	var value any
 	var err error
 	switch args[0] {
+	case "feature-audit":
+		if *input == "" {
+			return fmt.Errorf("feature-audit requires --input")
+		}
+		raw, e := os.ReadFile(*input)
+		if e != nil {
+			return e
+		}
+		value, err = workbench.AuditRecordFeatures(ctx, o, raw)
 	case "verify":
 		value, err = workbench.Verify(ctx, o)
 	case "scaffold":
@@ -83,7 +92,7 @@ func run(args []string) error {
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, refine, reference, discover, or receipt", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, diagnose, refine, reference, discover, receipt, or feature-audit", args[0])
 	}
 	if err != nil {
 		return err

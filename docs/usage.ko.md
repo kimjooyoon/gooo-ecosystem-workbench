@@ -34,6 +34,19 @@ CI 계획 프로그램은 `go`, `docs`, `yaml` 확인 항목에 연결된 제한
 모델 사용은 진단과 시작 프로그램에서 각각 한 번입니다. 표준 함수는 Gooo에
 작성한 본문을 그대로 생성하며 모델 호출이 없습니다.
 
+## 모델 입력의 구분 능력 확인
+
+```sh
+go run ./cmd/workbench feature-audit --compiler ./.gooo \
+  --input examples/feature-audit/filename-order.json --model builtin --out out/feature-audit
+```
+
+후보의 앞뒤만 바꾼 여덟 입력을 실제 모델 특징으로 변환해 같은 배열끼리 묶습니다.
+포함한 자료는 한 프로그램에서 나왔으며 두 종류의 배열만 남습니다. 입력이 같지만
+필요한 선택이 다른 사례를 세고, Gooo가 다음 작업을 기록합니다. `--model`을 생략하면
+가중치를 읽지 않고 입력의 구분 능력만 확인합니다. 자세한 분모와 입력 형식은
+[예제 안내](../examples/feature-audit/README.md)에 있습니다.
+
 ## 프로젝트 만들기
 
 ```sh

@@ -13,3 +13,11 @@ Gooo checks their finite cases and compiles the chosen body. Omit `--model` for
 deterministic order. This repository performs no model training. Its results
 concern the included functions, recipes and examples. The compiler's newer
 source-origin input contract has a separate planned training study.
+
+The [candidate-order audit](../../examples/feature-audit/README.md) found that
+the current feature projection maps eight filename candidate arrangements to
+two arrays. The unchanged model accepts the supplied choice in 1/8 first
+predictions; a deterministic chooser with this exact input is limited to 2/8
+for those labels. The source examples still reach their finite expected results
+through Gooo candidate checks. This positional result qualifies earlier
+single-order observations in which the model needed one candidate.
