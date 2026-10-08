@@ -1,0 +1,162 @@
+{
+  "schema": "gooo/record-feature-audit/v1",
+  "input_sha256": "5ba4171bcd5f7666758eedad38c2fb2ebeb2dd2b4105cd58e07814545cab463e",
+  "feature_version": "triple_record_value_graph_v3_shared_v1",
+  "projection_module_version": "v0.2.26-experimental",
+  "label_source": "https://github.com/kimjooyoon/meta-ontology-go/wiki/Source-Graph-Model-Input; compiler dea641f709b37bfd3f8655a242bebaa6cdc0d18b; separately observed deterministic selected masks",
+  "rows": 8,
+  "families": 1,
+  "distinct_feature_vectors": 8,
+  "conflicting_feature_groups": 0,
+  "maximum_compatible_rows": 8,
+  "groups": [
+    {
+      "feature_sha256": "e6d10336c75917a00cb311c7fcc9f4a6d7b1021f0fbc7cc4c959bd8f74ebb9f0",
+      "rows": [
+        "filename-order-0"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "b32b48b171a96928f466761ff07564b19780acdcf947f3bb41dac4edc34c0712",
+      "rows": [
+        "filename-order-1"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "bcfb4936a3a3674271d1a6bb84e4bb5ad61a46fb18db2ac036d9257886ef2b5d",
+      "rows": [
+        "filename-order-2"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "ca0c333eeec9565783162339f05253822174b2f9603bf8cc0da048fd81f48cde",
+      "rows": [
+        "filename-order-3"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "fbd77d287d06c16c92e56fc341e1b1009a8721178c24bcc6ca75dd428b1b11d5",
+      "rows": [
+        "filename-order-4"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "990e7f777a0eb1b7d2fb663dec77f990a6d6e8466d5a5d6bbb77593b274957d4",
+      "rows": [
+        "filename-order-5"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "d5d5a619e3c3c61dd0fa68ab709370dd9c9648f4e50ba5710fb4ef4df86c1c41",
+      "rows": [
+        "filename-order-6"
+      ],
+      "acceptable_row_counts_by_mask": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    },
+    {
+      "feature_sha256": "0b2a9074d5c48d7b5ce2ddf956c89ad9dadd5ad56f7200c9df2d3cb039a50bb0",
+      "rows": [
+        "filename-order-7"
+      ],
+      "acceptable_row_counts_by_mask": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "maximum_compatible_rows": 1
+    }
+  ],
+  "model_observed": false,
+  "model_calls": 0,
+  "model_satisfied_rows": 0,
+  "policy": {
+    "code": "input-consistent",
+    "action": "evaluate-chooser",
+    "message": "제공된 자료에서 충돌을 찾지 못했다. 후보 판단을 별도로 측정한다."
+  },
+  "policy_source_sha256": "sha256:9f52ef4311ed97833ecf344fdb908855cbb90f74858bdb51927a03b151787bbf",
+  "policy_compiler_source_sha": "86b182da4543efa24ea5bcb504e7b13ea1449c39",
+  "policy_runtime_replayed": true,
+  "scope": "Empirical row-weighted upper bound for a deterministic chooser using exactly these features and the supplied accepted-mask labels; repeated source families are counted separately; no generalization, label correctness, training or runtime claim."
+}

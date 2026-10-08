@@ -1,0 +1,227 @@
+{
+  "schema": "gooo/body-composition-runtime/v1",
+  "stage": "COMPLETE",
+  "composition_sha256": "sha256:3bc67fa69880442f46d94c73077f60b60bbbe1b7e14e81f0e46944320adb7179",
+  "original_source_sha256": "sha256:9f52ef4311ed97833ecf344fdb908855cbb90f74858bdb51927a03b151787bbf",
+  "selected_source_sha256": "sha256:9f52ef4311ed97833ecf344fdb908855cbb90f74858bdb51927a03b151787bbf",
+  "typed_plan_sha256": "sha256:fbd12a0ae7066de481d5ab93676daae76c156490ef6988cbf813c679683223eb",
+  "generated_sha256": "sha256:1cd070879b0df6f4f20ef5d4beb6930a93e0cee6d3345cb114f051aa118a6a32",
+  "driver_sha256": "sha256:b1e73c1b676a267314dc4d7474a2697c513182c530b83187fdadae7b39080b4e",
+  "runtime_suite_sha256": "sha256:e49d84ce4a44fd39ca878b50ff29d8f6b595a88f27c19cec83a6dd09ca284627",
+  "executable_sha256": "sha256:ca585decadc022ade33963a54a74e741fc5dbfe4eca7b559bb16666c4c87fc22",
+  "go_tool_sha256": "sha256:132b69336a1f809932a8a20b0201dbbb980e86e3a323ae32e893639d83d71598",
+  "go_tool_selection": "toolchain_cache",
+  "go_version": "go version go1.27.1 darwin/arm64",
+  "producer_source_sha": "86b182da4543efa24ea5bcb504e7b13ea1449c39",
+  "producer_module": {
+    "path": "github.com/kimjooyoon/meta-ontology-go",
+    "version": "v0.0.0-20261008043841-86b182da4543"
+  },
+  "toolchain": {
+    "started": true,
+    "completed": true,
+    "canceled": false,
+    "timed_out": false,
+    "diagnostics_bytes": 0,
+    "output_truncated": false,
+    "exit_code": 0,
+    "wall_ns": 7001334,
+    "user_ns": 2926000,
+    "system_ns": 2336000,
+    "peak_rss_bytes": 14516224,
+    "stdout_sha256": "sha256:c528ba02b39880f1357f51dee70e41c1ef03e3a70c7a03055c080532b9635f58",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "build": {
+    "started": true,
+    "completed": true,
+    "canceled": false,
+    "timed_out": false,
+    "diagnostics_bytes": 0,
+    "output_truncated": false,
+    "exit_code": 0,
+    "wall_ns": 255772000,
+    "user_ns": 117457000,
+    "system_ns": 89955000,
+    "peak_rss_bytes": 87212032,
+    "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "runs": [
+    {
+      "started": true,
+      "completed": true,
+      "canceled": false,
+      "timed_out": false,
+      "diagnostics_bytes": 0,
+      "output_truncated": false,
+      "exit_code": 0,
+      "wall_ns": 195882917,
+      "user_ns": 2570000,
+      "system_ns": 4804000,
+      "peak_rss_bytes": 4784128,
+      "stdout_sha256": "sha256:d351bbf1b2dca898f74fff6a4777e5c328a9363708c7bd33721b0567d35208ed",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "started": true,
+      "completed": true,
+      "canceled": false,
+      "timed_out": false,
+      "diagnostics_bytes": 0,
+      "output_truncated": false,
+      "exit_code": 0,
+      "wall_ns": 5036125,
+      "user_ns": 1854000,
+      "system_ns": 1887000,
+      "peak_rss_bytes": 4964352,
+      "stdout_sha256": "sha256:d351bbf1b2dca898f74fff6a4777e5c328a9363708c7bd33721b0567d35208ed",
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "traces": [
+    {
+      "case_index": 0,
+      "deliveries": [
+        {
+          "activity_id": "featureaudit://activity/observation-echo",
+          "input": {
+            "maximum": 8,
+            "model_matched": 0,
+            "model_observed": false,
+            "rows": 8
+          },
+          "input_fields": [
+            {
+              "id": "gooo://featureaudit/rows",
+              "name": "rows",
+              "value": 8
+            },
+            {
+              "id": "gooo://featureaudit/maximum",
+              "name": "maximum",
+              "value": 8
+            },
+            {
+              "id": "gooo://featureaudit/model-observed",
+              "name": "model_observed",
+              "value": false
+            },
+            {
+              "id": "gooo://featureaudit/model-matched",
+              "name": "model_matched",
+              "value": 0
+            }
+          ],
+          "actual": {
+            "maximum": 8,
+            "model_matched": 0,
+            "model_observed": false,
+            "rows": 8
+          },
+          "actual_fields": [
+            {
+              "id": "gooo://featureaudit/rows",
+              "name": "rows",
+              "value": 8
+            },
+            {
+              "id": "gooo://featureaudit/maximum",
+              "name": "maximum",
+              "value": 8
+            },
+            {
+              "id": "gooo://featureaudit/model-observed",
+              "name": "model_observed",
+              "value": false
+            },
+            {
+              "id": "gooo://featureaudit/model-matched",
+              "name": "model_matched",
+              "value": 0
+            }
+          ],
+          "expected": {
+            "maximum": 8,
+            "model_matched": 0,
+            "model_observed": false,
+            "rows": 8
+          },
+          "passed": true
+        },
+        {
+          "activity_id": "featureaudit://activity/assess",
+          "producer_id": "featureaudit://activity/observation-echo",
+          "input": {
+            "maximum": 8,
+            "model_matched": 0,
+            "model_observed": false,
+            "rows": 8
+          },
+          "input_fields": [
+            {
+              "id": "gooo://featureaudit/rows",
+              "name": "rows",
+              "value": 8
+            },
+            {
+              "id": "gooo://featureaudit/maximum",
+              "name": "maximum",
+              "value": 8
+            },
+            {
+              "id": "gooo://featureaudit/model-observed",
+              "name": "model_observed",
+              "value": false
+            },
+            {
+              "id": "gooo://featureaudit/model-matched",
+              "name": "model_matched",
+              "value": 0
+            }
+          ],
+          "actual": {
+            "action": "evaluate-chooser",
+            "code": "input-consistent",
+            "message": "제공된 자료에서 충돌을 찾지 못했다. 후보 판단을 별도로 측정한다."
+          },
+          "actual_fields": [
+            {
+              "id": "gooo://featureaudit/code",
+              "name": "code",
+              "value": "input-consistent"
+            },
+            {
+              "id": "gooo://featureaudit/action",
+              "name": "action",
+              "value": "evaluate-chooser"
+            },
+            {
+              "id": "gooo://featureaudit/message",
+              "name": "message",
+              "value": "제공된 자료에서 충돌을 찾지 못했다. 후보 판단을 별도로 측정한다."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "projection_replayed": true,
+  "runtime_replayed": true,
+  "finite_passed": 1,
+  "finite_total": 1,
+  "input_separation": {
+    "status": "UNKNOWN",
+    "reason": "UNCLASSIFIED_INPUTS",
+    "unique_inputs": 1,
+    "duplicate_rows": 0,
+    "overlapping_inputs": 0,
+    "disjoint_inputs": 0,
+    "disjoint_cases_passed": 0,
+    "unknown_inputs": 1,
+    "scope": "unique root-input tuples; actual inputs at graph activities and constructed helper calls compared with source selection/holdout cases and recorded probes; all supplied expectations across duplicate rows must match; model-training exposure is unknown"
+  },
+  "model_calls": 0,
+  "elapsed_ns": 481989750,
+  "scope": "two fresh compiled value-graph executions; finite named expectations; explicit edges and ordered actual values; zero inference during replay/execution"
+}

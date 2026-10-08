@@ -1,0 +1,1 @@
+{"cases":[{"expected":{"ObservationEcho":{"maximum":8,"model_matched":0,"model_observed":false,"rows":8}},"inputs":{"ObservationEcho":{"maximum":8,"model_matched":0,"model_observed":false,"rows":8}}}],"schema":"gooo/body-composition-cases/v1"}
