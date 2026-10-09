@@ -1,0 +1,21 @@
+package scalaridentity
+namespace scalaridentity
+entity 정수 id "urn:gooo:type:integer"
+entity 논리 id "urn:gooo:type:boolean"
+entity 문자열 id "urn:gooo:type:string"
+entity Label id "urn:gooo:scalar-identity:label" fields {
+    field text id "urn:gooo:scalar-identity:label:text" type string required one
+    field active id "urn:gooo:scalar-identity:label:active" type boolean required one
+    field count id "urn:gooo:scalar-identity:label:count" type integer required one
+}
+activity Describe(정수, 논리, 문자열) -> Label id "urn:gooo:scalar-identity:describe" computes `let text = input2
+let active = input1 && input0 > 0
+if input1 && input0 > 0 { text = text + "!" }
+return Label{text: "pending", active: active, count: input0}` assembling {
+    choice "text" field_value at "0" alternative "text" intent "입력 조건으로 계산한 문장을 반환한다. Return the text computed from the supplied inputs."
+    value_case "[5,true,\"hello\"]" -> "{\"text\":\"hello!\",\"active\":true,\"count\":5}"
+    value_case "[-2,true,\"한글\"]" -> "{\"text\":\"한글\",\"active\":false,\"count\":-2}"
+    value_case "[0,true,\"zero\"]" -> "{\"text\":\"zero\",\"active\":false,\"count\":0}"
+    value_case "[2,false,\"off\"]" -> "{\"text\":\"off\",\"active\":false,\"count\":2}"
+    attempts "8"
+}
