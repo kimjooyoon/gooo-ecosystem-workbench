@@ -1,0 +1,51 @@
+package processnext
+namespace processnext
+entity Observation id "gooo://processnext/observation" fields {
+    field started id "gooo://processnext/started" type boolean required one
+    field completed id "gooo://processnext/completed" type boolean required one
+    field canceled id "gooo://processnext/canceled" type boolean required one
+    field timed_out id "gooo://processnext/timed-out" type boolean required one
+    field truncated id "gooo://processnext/truncated" type boolean required one
+    field has_exit id "gooo://processnext/has-exit" type boolean required one
+    field exit_code id "gooo://processnext/exit" type integer required one
+    field has_timing id "gooo://processnext/has-timing" type boolean required one
+    field context_at_start_return id "gooo://processnext/start-context" type string required one
+    field has_wait_limit id "gooo://processnext/has-wait-limit" type boolean required one
+}
+entity Diagnostic id "gooo://processnext/diagnostic" fields {
+    field code id "gooo://processnext/code" type string required one
+    field message id "gooo://processnext/message" type string required one
+    field action id "gooo://processnext/action" type string required one
+}
+activity Next(Observation) -> Diagnostic computes `if input.timed_out && input.has_timing && input.context_at_start_return == "DEADLINE_EXCEEDED" {
+    return Diagnostic{code: "process-timeout", message: "실행 제한을 확인하세요.", action: "inspect-native-wait"}
+}
+if input.canceled {
+    return Diagnostic{code: "process-canceled", message: "호출이 취소됐습니다. 원래 취소 사유를 확인하세요.", action: "inspect-caller-cancellation"}
+}
+if !input.started {
+    return Diagnostic{code: "process-start-failed", message: "프로세스 시작 완료가 기록되지 않았습니다. 시작 오류와 호출 제한을 확인하세요.", action: "inspect-start-error"}
+}
+if input.truncated {
+    return Diagnostic{code: "process-output-truncated", message: "출력 일부가 제한에 걸렸습니다. 보존된 원본과 출력 제한을 확인하세요.", action: "inspect-output-limit"}
+}
+if input.completed {
+    return Diagnostic{code: "process-completed", message: "이 프로세스는 완료됐습니다. 함께 기록된 다른 실행과 호출 결과를 확인하세요.", action: "inspect-other-observations"}
+}
+if input.timed_out {
+    if input.has_timing && input.context_at_start_return == "ACTIVE" && input.has_wait_limit {
+        return Diagnostic{code: "process-wait-timeout", message: "시작 이후 제한이 만료됐습니다. 대기 구간과 전체 호출의 남은 예산을 확인하세요.", action: "inspect-wait-and-parent-budget"}
+    }
+    return Diagnostic{code: "process-timeout", message: "시간 제한이 만료됐습니다. 기록만으로 어느 구간에서 소진됐는지 확정하기 어렵습니다.", action: "inspect-process-timing"}
+}
+if input.has_exit && input.exit_code != 0 {
+    return Diagnostic{code: "process-exit-failed", message: "프로세스가 오류 종료 코드를 반환했습니다. 보존된 출력과 오류를 확인하세요.", action: "inspect-original-output"}
+}
+return Diagnostic{code: "process-incomplete", message: "완료된 실행 결과가 부족합니다. 원본 실행 기록을 확인하세요.", action: "complete-process-observation"}` assembling {
+    choice "start_code" field_value at "0" alternative "\"deadline-during-start\"" intent "시작 호출이 돌아왔을 때 이미 만료된 문맥을 표시한다. Distinguish expiry during process Start."
+    choice "start_message" field_value at "1" alternative "\"시작 호출이 돌아왔을 때 이미 제한이 만료됐습니다. 시작 지연과 당시 전체 제한을 확인하세요.\"" intent "관측된 시작 구간과 문맥 만료를 설명한다. Preserve the observed Start boundary."
+    choice "start_action" field_value at "2" alternative "\"inspect-start-and-parent-budget\"" intent "시작 비용과 원래 호출 예산을 함께 확인한다. Inspect Start and the enclosing budget."
+    value_case "[{\"started\":true,\"completed\":false,\"canceled\":false,\"timed_out\":true,\"truncated\":false,\"has_exit\":true,\"exit_code\":1,\"has_timing\":true,\"context_at_start_return\":\"DEADLINE_EXCEEDED\",\"has_wait_limit\":false}]" -> "{\"code\":\"deadline-during-start\",\"message\":\"시작 호출이 돌아왔을 때 이미 제한이 만료됐습니다. 시작 지연과 당시 전체 제한을 확인하세요.\",\"action\":\"inspect-start-and-parent-budget\"}"
+    value_case "[{\"started\":true,\"completed\":false,\"canceled\":false,\"timed_out\":true,\"truncated\":false,\"has_exit\":true,\"exit_code\":1,\"has_timing\":true,\"context_at_start_return\":\"DEADLINE_EXCEEDED\",\"has_wait_limit\":true}]" -> "{\"code\":\"deadline-during-start\",\"message\":\"시작 호출이 돌아왔을 때 이미 제한이 만료됐습니다. 시작 지연과 당시 전체 제한을 확인하세요.\",\"action\":\"inspect-start-and-parent-budget\"}"
+    attempts "8"
+}

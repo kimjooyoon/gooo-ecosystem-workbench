@@ -20,6 +20,7 @@ import (
 
 type Options struct{ Compiler, Model, Out string }
 type Snapshot struct {
+	Processes      []ProcessObservation            `json:"native_processes,omitempty"`
 	Package        *PackageConstructionObservation `json:"package_construction,omitempty"`
 	NativeOutcomes *NativeOutcomes                 `json:"native_outcomes,omitempty"`
 	Joint          *JointObservation               `json:"joint_construction,omitempty"`
@@ -1146,6 +1147,9 @@ func Diagnose(ctx context.Context, o Options, s Snapshot) (json.RawMessage, erro
 	root, e := newOutput(o.Out)
 	if e != nil {
 		return nil, e
+	}
+	if len(s.Processes) > 0 {
+		return diagnoseProcesses(ctx, o, root, s)
 	}
 	if s.Joint != nil {
 		return diagnoseJoint(ctx, o, root, s)

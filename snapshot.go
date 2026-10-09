@@ -17,6 +17,13 @@ func ReadSnapshot(raw []byte) (Snapshot, error) {
 	if err := json.Unmarshal(raw, &keys); err != nil {
 		return Snapshot{}, err
 	}
+	processes, err := readFailedProcesses(raw, "")
+	if err != nil {
+		return Snapshot{}, err
+	}
+	if len(processes) > 0 {
+		return Snapshot{Unit: "native_process_runs", InputSHA: inputSHA, Processes: processes}, nil
+	}
 	var schema string
 	if json.Unmarshal(keys["schema"], &schema) == nil && schema == packageJointSchema {
 		return readPackageJointSnapshot(raw, inputSHA)
