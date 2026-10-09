@@ -157,6 +157,7 @@ type constructionStep struct {
 	Generation struct {
 		Report struct {
 			ActivityID string              `json:"activity_id"`
+			Paths      json.RawMessage     `json:"body_paths"`
 			Search     *constructionSearch `json:"body_search"`
 			Fill       *constructionFill   `json:"body_fill"`
 			Assembly   *struct {

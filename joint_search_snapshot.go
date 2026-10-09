@@ -29,10 +29,15 @@ type jointSearchCandidate struct {
 }
 
 func validateJointKinds(schema string, kinds []string, masks []int, records, searches, fills int) error {
+	return validateJointKindsWithPaths(schema, kinds, masks, records, searches, fills, 0)
+}
+
+func validateJointKindsWithPaths(schema string, kinds []string, masks []int, records, searches, fills, paths int) error {
+	pathSchema := schema == "gooo/joint-construction/v7"
 	nativeSchema := schema == "gooo/joint-construction/v6"
-	fillSchema := schema == "gooo/joint-construction/v4" || schema == "gooo/joint-construction/v5" || nativeSchema
+	fillSchema := schema == "gooo/joint-construction/v4" || schema == "gooo/joint-construction/v5" || nativeSchema || pathSchema
 	if schema == "gooo/joint-construction/v1" || nativeSchema && len(kinds) == 0 {
-		if len(kinds) != 0 || searches != 0 || fills != 0 {
+		if len(kinds) != 0 || searches != 0 || fills != 0 || paths != 0 {
 			return fmt.Errorf("implicit record construction cannot contain search or fill candidates")
 		}
 		return nil
@@ -40,7 +45,7 @@ func validateJointKinds(schema string, kinds []string, masks []int, records, sea
 	if len(kinds) < 1 || len(kinds) > 16 || len(masks) != len(kinds) {
 		return fmt.Errorf("joint candidate kinds must describe every selector")
 	}
-	nr, ns, nf := 0, 0, 0
+	nr, ns, nf, np := 0, 0, 0, 0
 	for i, kind := range kinds {
 		if masks[i] < 0 {
 			return fmt.Errorf("joint candidate selector must be nonnegative")
@@ -56,14 +61,19 @@ func validateJointKinds(schema string, kinds []string, masks []int, records, sea
 		case "source_fill_index":
 			nf++
 			if !fillSchema || masks[i] > 15 {
-				return fmt.Errorf("joint fill selector requires v4/v5/v6 and a bounded assignment")
+				return fmt.Errorf("joint fill selector requires v4..v7 and a bounded assignment")
+			}
+		case "typed_path_mask":
+			np++
+			if !pathSchema || masks[i] > 65535 {
+				return fmt.Errorf("typed path selector requires v7 and uint16 bounds")
 			}
 		default:
 			return fmt.Errorf("unknown joint candidate kind")
 		}
 	}
-	if nr != records || ns != searches || nf != fills ||
-		!nativeSchema && (fillSchema && nf < 1 || !fillSchema && ns < 1) {
+	if nr != records || ns != searches || nf != fills || np != paths || pathSchema && np < 1 ||
+		!nativeSchema && !pathSchema && (fillSchema && nf < 1 || !fillSchema && ns < 1) {
 		return fmt.Errorf("joint candidate kinds disagree with observations")
 	}
 	return nil

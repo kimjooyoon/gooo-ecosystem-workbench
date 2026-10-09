@@ -182,7 +182,7 @@ func TestGraphNextPolicyUsesSourceCasesAndAvailableBodies(t *testing.T) {
 	}
 }
 
-func TestNativeTypedGraphReportsJointProfileLimit(t *testing.T) {
+func TestNativeTypedGraphUsesCompilerConstructionCapability(t *testing.T) {
 	compiler := os.Getenv("GOOO_COMPILER")
 	if compiler == "" {
 		t.Skip("set GOOO_COMPILER for typed graph scope")
@@ -191,11 +191,26 @@ func TestNativeTypedGraphReportsJointProfileLimit(t *testing.T) {
 	origin := filepath.Join(root, "origin")
 	report, err := AssembleGraph(context.Background(), Options{Compiler: compiler, Out: origin}, AssemblyRequest{
 		Source: "examples/full-graph-assembly/typed.gooo", Entry: "Main", Cases: "examples/full-graph-assembly/typed-cases.json"})
-	if err != nil || len(report.Bodies) != 1 || report.Bodies[0].Kind != "typed_paths" || report.Next.Action != "expand-joint-profile" {
+	if err != nil || len(report.Bodies) != 1 || report.Bodies[0].Kind != "typed_paths" || report.Next.Action != "add-counterexamples-to-construction" {
 		t.Fatal(report, err)
 	}
 	r, err := ConstructFromAssembly(context.Background(), Options{Compiler: compiler, Out: filepath.Join(root, "next")}, AssemblyConstructionRequest{Assembly: origin, MaxProgramBudget: 4, MaxRounds: 4})
-	if err != nil || r.StopReason != "expand-joint-profile" || r.Feedback != nil || r.Loop != nil {
-		t.Fatal("unsupported joint route started construction", r, err)
+	if err != nil {
+		// The immutable public 0.6.23 build predates native typed construction.
+		// Its actual diagnostic is retained; other backend errors fail this test.
+		raw, buildErr := command(context.Background(), compiler, "version", "--build", "--json")
+		var build struct {
+			Source string `json:"vcs_revision"`
+		}
+		if buildErr != nil || json.Unmarshal(raw, &build) != nil || build.Source != "2b17c4879d0bb2cd1e48ccc23b8743c0fb564267" ||
+			!strings.Contains(err.Error(), "joint construction requires a record-choice, source IR search or source-fill contract at Main") ||
+			r.Feedback == nil || !r.Feedback.Prepared || r.Loop == nil || len(r.Loop.Rounds) != 0 {
+			t.Fatal("unexpected native typed construction failure", r, err)
+		}
+		return
+	}
+	if r.Feedback == nil || !r.Feedback.Consumed || r.Loop == nil || len(r.Loop.Rounds) != 2 || r.Loop.Rounds[1].Attempts != 2 ||
+		r.Loop.Rounds[1].EvaluationPassed != 1 || r.Loop.Rounds[1].EvaluationTotal != 1 {
+		t.Fatal("native typed route did not consume caller feedback", r)
 	}
 }

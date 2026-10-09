@@ -58,6 +58,7 @@ go run ./cmd/workbench construct --assembly out/chain \
 별도 파일이라는 사실만으로 학습 데이터와의 독립성을 주장하지 않습니다.
 
 `typed.gooo`는 실행·재생까지 지원하는 정수식 순서 선택 예제입니다.
-현재 컴파일러의 전체 프로그램 재조립은 레코드 선택·source-search·source-fill을
-다룹니다. `typed_paths`에서 실패한 호출이 있으면 Gooo가 `expand-joint-profile`을
-안내하고 실행된 결과를 보존합니다.
+작업장은 이 본문의 호출 반례도 전체 조립으로 넘깁니다.
+공개 0.6.23의 컴파일러 소스 `2b17c487`은 이 재조립을 지원하지 않아 실제 컴파일러의
+지원 범위 오류를 남깁니다. dev `26c4e315`부터 네이티브 typed 경로 재조립을 지원합니다.
+[개발 소스 준비와 예제](../caller-typed-paths/README.md)에서 사용할 실행 파일을 확인합니다.

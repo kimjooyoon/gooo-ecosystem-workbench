@@ -54,6 +54,7 @@ jobs:
           test -z "$(gofmt -l experiments/joint-feedback-observe/main.go)"
           test -z "$(gofmt -l experiments/assembly-graph-observe/main.go)"
           test -z "$(gofmt -l joint_search_snapshot.go joint_search_snapshot_test.go)"
+          test -z "$(gofmt -l joint_path_snapshot.go joint_path_snapshot_test.go construction_paths.go)"
           test -z "$(gofmt -l joint_rejection_snapshot.go joint_rejection_snapshot_test.go)"
           test -z "$(gofmt -l joint_fill_snapshot.go joint_fill_snapshot_test.go construction_fill.go)"
           test -z "$(gofmt -l experiments/source-fill-observe/main.go)"

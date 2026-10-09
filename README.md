@@ -83,6 +83,8 @@ CI도 공개 Linux 실행 파일을 사용하고 소스 `2b17c4879d0bb2cd1e48ccc
 
 [최근 자료에서 적용·제외한 판단](docs/research-full-graph-2026-10-10.md)을 기록합니다.
 [공개 설치본과 간단한 후속 조립 출력](docs/research-public-workbench-2026-10-10.md)도 이어서 제공합니다.
+[typed 경로의 호출 반례 연결](examples/caller-typed-paths/README.md)은 지원하는 개발 컴파일러를
+명시적으로 지정합니다. [추가한 연결과 최근 자료의 적용 범위](docs/research-typed-path-feedback-2026-10-10.md)도 기록합니다.
 
 조건식·대입식의 빈칸을 함께 채우고 실제 호출 결과로 다시 고릅니다.
 타입 오류나 조립용 사례의 계산 실패가 있는 후보는 이유를 기록하고 다음 후보를 시도합니다.
