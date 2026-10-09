@@ -48,6 +48,7 @@ func runAssemble(args []string) error {
 			report.Route.Message, report.Route.Action, report.Observation.SelectionPassed, report.Observation.SelectionTotal,
 			report.Observation.NamedPassed, report.Observation.NamedTotal, report.Observation.FieldsPassed, report.Observation.FieldsTotal,
 			report.Observation.ModelCalls, filepath.Join(root, "report.json"), filepath.Join(root, "composition", "generated.go"))
+		fmt.Fprintf(os.Stdout, "다음 작업: %s\n후속 입력: %s\n", report.Next.Message, filepath.Join(root, report.NextContext))
 		return nil
 	}
 	encoder := json.NewEncoder(os.Stdout)

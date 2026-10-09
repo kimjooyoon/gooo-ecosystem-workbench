@@ -64,6 +64,10 @@ func TestNativeAssemblyRoutesAndSavedReplay(t *testing.T) {
 			if report.Policy.ModelCalls != 0 || report.Policy.NamedTotal != 0 || !report.Policy.ReplayVerified {
 				t.Fatal("route policy acquired inference or an input accuracy score", report.Policy)
 			}
+			if report.Next.Code != "observed-complete" || report.Next.Action != "observe-new-inputs" ||
+				report.FollowUp.ModelCalls != 0 || report.FollowUp.NamedTotal != 0 || !report.FollowUp.ReplayVerified {
+				t.Fatal("complete caller result lost its Gooo follow-up", report)
+			}
 			if report.Preflight.Context.Text != "" {
 				t.Fatal("short report embedded the original input graph")
 			}
@@ -108,7 +112,7 @@ func TestNativeAssemblyStopsForInvalidModelAndUnknownRoute(t *testing.T) {
 func TestAssemblyExecutionKeepsPresentRuntimeCounters(t *testing.T) {
 	sourceSHA := "sha256:" + strings.Repeat("a", 64)
 	p := assemblyPreflight{SourceSHA: sourceSHA, ActivityID: "gooo://example/action"}
-	raw := []byte(`{"generated_now":true,"composition":{"original_source_sha256":"` + sourceSHA + `","generated_sha256":"sha256:` + strings.Repeat("b", 64) + `","steps":[{"generation":{"report":{"activity_id":"gooo://example/action","record_assembly":{"model_calls":0}}}}]},"runtime":{"stage":"COMPLETE","model_calls":0,"finite_passed":0,"finite_total":0,"projection_replayed":true,"runtime_replayed":true}}`)
+	raw := []byte(`{"generated_now":true,"composition":{"original_source_sha256":"` + sourceSHA + `","generated_sha256":"sha256:` + strings.Repeat("b", 64) + `","steps":[{"generation":{"report":{"activity_id":"gooo://example/action","record_assembly":{"model_calls":0,"fields_passed":0,"fields_total":0}}}}]},"runtime":{"stage":"COMPLETE","model_calls":0,"finite_passed":0,"finite_total":0,"projection_replayed":true,"runtime_replayed":true}}`)
 	if _, err := readAssemblyExecution(raw, p, true, false); err != nil {
 		t.Fatal(err)
 	}
@@ -123,5 +127,11 @@ func TestAssemblyExecutionKeepsPresentRuntimeCounters(t *testing.T) {
 	}
 	if _, err := readAssemblyExecution(raw, p, false, false); err == nil {
 		t.Fatal("fresh generation presented as saved replay")
+	}
+	for _, field := range []string{"fields_passed", "fields_total"} {
+		changed := strings.Replace(string(raw), `,"`+field+`":0`, "", 1)
+		if _, err := readAssemblyExecution([]byte(changed), p, true, false); err == nil {
+			t.Fatal("absent selection observation became zero", field)
+		}
 	}
 }

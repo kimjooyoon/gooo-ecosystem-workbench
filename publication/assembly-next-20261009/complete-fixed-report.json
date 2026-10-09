@@ -1,0 +1,84 @@
+{
+  "schema": "gooo/ecosystem-source-model-assembly/v1",
+  "route": {
+    "code": "no-model",
+    "message": "모델 없이 소스에 선언한 순서로 조립합니다.",
+    "action": "fixed"
+  },
+  "preflight": {
+    "schema": "gooo/record-assembly-input-export/v1",
+    "original_source_sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+    "contract_sha256": "sha256:f890bffec74ef9d8ee17335338f3f04dd61fdce0ec2d410ac992b3e34d9cfbfc",
+    "activity_id": "urn:gooo:scalar-identity:describe",
+    "model_predictions": 0,
+    "candidate_tests": 0,
+    "context": {
+      "status": "ENCODED",
+      "reason": "",
+      "sha256": "sha256:fa9d408428ceb65a753955cebe700c433190b1f4679977cc30afb9811aa7bc09",
+      "feature_version": ""
+    }
+  },
+  "policy_observation": {
+    "recipe": "assembly-route",
+    "mode": "fixed",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 0,
+    "selection_fields_total": 0,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "2024048f38d660b62a6c6672edcd84533ab6fe5ac19a567d6d45b7f1349dc5c1"
+  },
+  "observation": {
+    "recipe": "source-model-assembly",
+    "mode": "fixed",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 4,
+    "named_total": 4,
+    "record_fields_passed": 12,
+    "record_fields_total": 12,
+    "selection_fields_passed": 12,
+    "selection_fields_total": 12,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "3a03a4defbce8be3b4c2b1e60874b58c90eacc40eb7779390f39dd1dbc63e302"
+  },
+  "next": {
+    "code": "observed-complete",
+    "message": "주어진 호출 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.",
+    "action": "observe-new-inputs"
+  },
+  "follow_up_observation": {
+    "recipe": "assembly-next",
+    "mode": "fixed",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 0,
+    "selection_fields_total": 0,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "bbe349d1268362c23f6c514ed7395c4c0529e5e093c5dd63dfcea42a50fe4111"
+  },
+  "next_context": "next-context.json",
+  "generated_sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+  "artifacts": {
+    "assembly": "assembly.json",
+    "generated_go": "composition/generated.go",
+    "preflight": "preflight.json",
+    "replay": "replay.json",
+    "routing": "routing/execution.json",
+    "routing_replay": "routing/replay.json",
+    "saved_composition": "composition/composition.json"
+  },
+  "scope": "source-owned record assembly; representation readiness, source selection cases and caller native cases are separate; saved replay performs zero fresh inference; no general accuracy claim"
+}

@@ -1,0 +1,121 @@
+{
+  "schema": "gooo/assembly-follow-up-observations/v1",
+  "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+  "runs": [
+    {
+      "route": "fixed",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 4,
+        "named_total": 4,
+        "record_fields_passed": 12,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "3a03a4defbce8be3b4c2b1e60874b58c90eacc40eb7779390f39dd1dbc63e302"
+      },
+      "next": {
+        "code": "observed-complete",
+        "message": "주어진 호출 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.",
+        "action": "observe-new-inputs"
+      },
+      "follow_up_observation": {
+        "recipe": "assembly-next",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "bbe349d1268362c23f6c514ed7395c4c0529e5e093c5dd63dfcea42a50fe4111"
+      }
+    },
+    {
+      "route": "model",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "model",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 4,
+        "named_total": 4,
+        "record_fields_passed": 12,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 1,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "c1b25fe639bf24edcf08a1eb0b97b3b3293a9a0bc1bf9180158cabe9a5a3d6f9"
+      },
+      "next": {
+        "code": "observed-complete",
+        "message": "주어진 호출 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.",
+        "action": "observe-new-inputs"
+      },
+      "follow_up_observation": {
+        "recipe": "assembly-next",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "484f8fd8a976e8c7b3424686adb19259c14c024c2264d649a741b1f116bf8e92"
+      }
+    },
+    {
+      "route": "model",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "model",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 3,
+        "named_total": 4,
+        "record_fields_passed": 11,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 1,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "5360c1226c631b7e7c8e09fa60326e1ac7fc62bce7ef3fca25c5fd08fdb4ef0d"
+      },
+      "next": {
+        "code": "partial",
+        "message": "기대값과 다른 호출 결과가 있습니다. 원래 입력과 기대값을 확인하고 필요한 반례를 조립 조건에 추가하세요.",
+        "action": "add-counterexamples-to-construction"
+      },
+      "follow_up_observation": {
+        "recipe": "assembly-next",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "054b2d1d145ae961ea9a827d78fc36db44e151418de1a37d82497d701e031b85"
+      }
+    }
+  ],
+  "scope": "Three command invocations on the same four published inputs. One changed expected string produces the partial observation. Original source expectations and int64 inputs remain unchanged; no general accuracy claim."
+}

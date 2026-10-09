@@ -88,6 +88,8 @@ func readAssemblyExecution(raw []byte, p assemblyPreflight, generated, model boo
 					Report struct {
 						Assembly *struct {
 							Calls   *int `json:"model_calls"`
+							Passed  *int `json:"fields_passed"`
+							Total   *int `json:"fields_total"`
 							Model   assemblyModel
 							Context struct {
 								SHA string `json:"sha256"`
@@ -113,8 +115,9 @@ func readAssemblyExecution(raw []byte, p assemblyPreflight, generated, model boo
 	if model {
 		wantCalls = 1
 	}
-	if a == nil || a.Calls == nil || *a.Calls != wantCalls {
-		return r, fmt.Errorf("assembly model call count differs from the Gooo routing decision")
+	if a == nil || a.Calls == nil || *a.Calls != wantCalls || a.Passed == nil || a.Total == nil ||
+		*a.Passed < 0 || *a.Total < *a.Passed {
+		return r, fmt.Errorf("assembly requires explicit selection counts and model calls matching the Gooo route")
 	}
 	if model {
 		m := p.Compatibility.Model

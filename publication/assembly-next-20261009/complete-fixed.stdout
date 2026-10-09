@@ -1,0 +1,9 @@
+모델 없이 소스에 선언한 순서로 조립합니다.
+경로: fixed
+조립용 사례의 필드: 12/12
+호출 사례: 4/4 · 필드: 12/12
+조립 추론: 0회 · 저장 재생: 확인
+결과: /tmp/gooo-assembly-next-20261009.IyplEK/complete-fixed/report.json
+생성 코드: /tmp/gooo-assembly-next-20261009.IyplEK/complete-fixed/composition/generated.go
+다음 작업: 주어진 호출 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.
+후속 입력: /tmp/gooo-assembly-next-20261009.IyplEK/complete-fixed/next-context.json

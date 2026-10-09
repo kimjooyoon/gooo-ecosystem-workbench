@@ -1,0 +1,91 @@
+{
+  "schema": "gooo/assembly-next-context/v1",
+  "source_sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+  "activity_id": "urn:gooo:scalar-identity:describe",
+  "selected_program_sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+  "observation": {
+    "recipe": "source-model-assembly",
+    "mode": "model",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 3,
+    "named_total": 4,
+    "record_fields_passed": 11,
+    "record_fields_total": 12,
+    "selection_fields_passed": 12,
+    "selection_fields_total": 12,
+    "generation_model_calls": 1,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "5360c1226c631b7e7c8e09fa60326e1ac7fc62bce7ef3fca25c5fd08fdb4ef0d"
+  },
+  "next": {
+    "code": "partial",
+    "message": "기대값과 다른 호출 결과가 있습니다. 원래 입력과 기대값을 확인하고 필요한 반례를 조립 조건에 추가하세요.",
+    "action": "add-counterexamples-to-construction"
+  },
+  "mismatched_deliveries": 1,
+  "first_mismatches": [
+    {
+      "case_index": 0,
+      "original_json_pointer": "/runtime/traces/0/deliveries/0"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "source.gooo",
+      "sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+      "bytes": 1615
+    },
+    {
+      "path": "cases.json",
+      "sha256": "sha256:e0cfc2be404c4311ba57e317f571c0b9d59001d98b4e5118162e70684d901eca",
+      "bytes": 759
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "sha256:3338bcdc8d0e44b72aa217cd08e822aca47450e3418b6014c81f32c8a105f844",
+      "bytes": 6573
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "sha256:5360c1226c631b7e7c8e09fa60326e1ac7fc62bce7ef3fca25c5fd08fdb4ef0d",
+      "bytes": 44465
+    },
+    {
+      "path": "replay.json",
+      "sha256": "sha256:3e866e3a96aa15196297321f1e21bb33cde64ada15e480034ac23844d888ac0c",
+      "bytes": 44466
+    },
+    {
+      "path": "composition/generated.go",
+      "sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+      "bytes": 1285
+    },
+    {
+      "path": "composition/composition.json",
+      "sha256": "sha256:3f84a71ec9942821d64397f210872ff5bf67ac0346a5ecd89bc07d2b720977a4",
+      "bytes": 53759
+    },
+    {
+      "path": "follow-up/assembly-next.gooo",
+      "sha256": "sha256:c6c900799f52c5794351618daa1eabd875d24a73d612e7bd2ce4ca7266b47a63",
+      "bytes": 2322
+    },
+    {
+      "path": "follow-up/inputs.json",
+      "sha256": "sha256:e9e18f0b028381a75d6aae080d4c13d67ededd2b898c861f00360de1a46787fb",
+      "bytes": 292
+    },
+    {
+      "path": "follow-up/execution.json",
+      "sha256": "sha256:7dc157cfc0510775a8789e198b26b29db1ec9f7b89a23194ee6c856991c03a16",
+      "bytes": 45973
+    },
+    {
+      "path": "follow-up/replay.json",
+      "sha256": "sha256:86ce603e96be362b81b28d2c416bd05684240a8963e22d79febf55445d7d9b45",
+      "bytes": 46400
+    }
+  ],
+  "scope": "Finite caller and source selection observations remain separate. Gooo advice is unscored and replayed. References bind saved bytes; at most eight mismatch locations are shown. No next action or model call is executed."
+}
