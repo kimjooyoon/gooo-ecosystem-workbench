@@ -1,0 +1,5 @@
+{
+  "schema": "gooo/package-workspace-manifest/v1",
+  "entry": {"package_path": "example/api", "activity": "Run"},
+  "packages": [{"path": "example/api", "sources": ["api.gooo"]}]
+}

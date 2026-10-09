@@ -21,7 +21,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, or feature-audit; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff; each command accepts --help")
 	}
 	if args[0] == "refine" {
 		return runRefine(args[1:])
@@ -37,6 +37,8 @@ func run(args []string) error {
 	entry := f.String("entry", "", "entry activity for reference or construct")
 	query := f.String("query", "", "natural-language capability question for discover")
 	declaration := f.String("declaration", "", "optional .gooo declaration file to bind to the discovery")
+	before := f.String("before", "", "previous workspace manifest for api-diff")
+	after := f.String("after", "", "current workspace manifest for api-diff")
 	sourceFile := f.String("source", "", "Gooo source for construct")
 	workspaceFile := f.String("workspace", "", "Gooo package manifest for construct; exclusive with --source/--entry")
 	constructionCases := f.String("construction-cases", "", "caller expectations used by construct")
@@ -57,11 +59,16 @@ func run(args []string) error {
 	if *workspaceFile != "" && args[0] != "construct" {
 		return fmt.Errorf("--workspace requires construct")
 	}
+	if (*before != "" || *after != "") && args[0] != "api-diff" {
+		return fmt.Errorf("--before and --after require api-diff")
+	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	var value any
 	var err error
 	switch args[0] {
+	case "api-diff":
+		value, err = workbench.CompareAPI(ctx, o, *before, *after)
 	case "construct":
 		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile, Workspace: *workspaceFile,
 			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, HoldoutCases: *holdoutCases, Entry: *entry,
@@ -126,7 +133,7 @@ func run(args []string) error {
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, or feature-audit", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff", args[0])
 	}
 	if err != nil {
 		return err

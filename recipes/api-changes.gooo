@@ -1,0 +1,108 @@
+package apichanges
+namespace apichanges
+entity Change id "gooo://apichanges/change" fields {
+    field kind id "gooo://apichanges/change/kind" type string required one
+    field input_used id "gooo://apichanges/change/input-used" type boolean required one
+    field output_used id "gooo://apichanges/change/output-used" type boolean required one
+    field before_required id "gooo://apichanges/change/before-required" type boolean required one
+    field after_required id "gooo://apichanges/change/after-required" type boolean required one
+}
+entity Assessment id "gooo://apichanges/assessment" fields {
+    field code id "gooo://apichanges/assessment/code" type string required one
+    field action id "gooo://apichanges/assessment/action" type string required one
+    field priority id "gooo://apichanges/assessment/priority" type integer required one
+}
+activity Assess(Change) -> Assessment computes `let code = "unclassified-change"
+let action = "add-policy-case"
+let priority = 2
+if input.kind == "none" {
+    code = "declarations-unchanged"
+    action = "observe-runtime-behavior"
+    priority = 0
+}
+if input.kind == "package-added" || input.kind == "declaration-added" {
+    code = "surface-added"
+    action = "exercise-new-declaration"
+    priority = 1
+}
+if input.kind == "package-removed" || input.kind == "declaration-removed" || input.kind == "field-removed" {
+    code = "surface-removed"
+    action = "rebuild-callers-and-run-examples"
+}
+if input.kind == "field-added" {
+    code = "field-added"
+    action = "check-record-construction"
+    priority = 1
+    if input.after_required && input.input_used {
+        code = "required-input-added"
+        action = "supply-required-input"
+        priority = 2
+    }
+}
+if input.kind == "field-presence" {
+    code = "usage-unobserved"
+    action = "add-consumer-examples"
+    if input.input_used && input.output_used {
+        code = "shared-presence-changed"
+        action = "exercise-callers-and-producers"
+    }
+    if input.input_used && !input.output_used {
+        code = "input-relaxed"
+        action = "exercise-omitted-input"
+        priority = 1
+        if input.after_required {
+            code = "input-tightened"
+            action = "supply-required-input"
+            priority = 2
+        }
+    }
+    if input.output_used && !input.input_used {
+        code = "output-strengthened"
+        action = "check-output-producers"
+        priority = 1
+        if !input.after_required {
+            code = "output-weakened"
+            action = "handle-missing-output"
+            priority = 2
+        }
+    }
+}
+if input.kind == "shape" || input.kind == "field-type" || input.kind == "field-cardinality" || input.kind == "inputs" || input.kind == "output" || input.kind == "declaration-kind" {
+    code = "type-contract-changed"
+    action = "rebuild-callers-and-run-examples"
+}
+if input.kind == "field-name" || input.kind == "declaration-name" || input.kind == "package-name" || input.kind == "field-aliases" {
+    code = "source-names-changed"
+    action = "recompile-name-references"
+}
+if input.kind == "field-order" {
+    code = "field-order-changed"
+    action = "check-positional-construction"
+}
+if input.kind == "imports" || input.kind == "entry" || input.kind == "package-namespace" {
+    code = "package-wiring-changed"
+    action = "exercise-package-entry"
+}
+return Assessment{code: "unclassified-change", action: "add-policy-case", priority: 0}` assembling {
+    choice "code" field_value at "0" alternative "code" intent "선언 차이와 입력/출력 방향으로 계산한 분류를 사용한다. Use the code computed from declaration changes and input/output direction."
+    choice "action" field_value at "1" alternative "action" intent "해당 분류의 자동 후속 작업을 보존한다. Preserve the next operation computed for this classification."
+    choice "priority" field_value at "2" alternative "priority" intent "조건 분기에서 계산한 검사 우선순위를 기록한다. Record the check priority computed by the preceding rules."
+    value_case "[{\"kind\":\"none\",\"input_used\":false,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"declarations-unchanged\",\"action\":\"observe-runtime-behavior\",\"priority\":0}"
+    value_case "[{\"kind\":\"declaration-added\",\"input_used\":false,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"surface-added\",\"action\":\"exercise-new-declaration\",\"priority\":1}"
+    value_case "[{\"kind\":\"declaration-removed\",\"input_used\":false,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"surface-removed\",\"action\":\"rebuild-callers-and-run-examples\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-added\",\"input_used\":true,\"output_used\":false,\"before_required\":false,\"after_required\":true}]" -> "{\"code\":\"required-input-added\",\"action\":\"supply-required-input\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-added\",\"input_used\":true,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"field-added\",\"action\":\"check-record-construction\",\"priority\":1}"
+    value_case "[{\"kind\":\"field-presence\",\"input_used\":true,\"output_used\":false,\"before_required\":false,\"after_required\":true}]" -> "{\"code\":\"input-tightened\",\"action\":\"supply-required-input\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-presence\",\"input_used\":true,\"output_used\":false,\"before_required\":true,\"after_required\":false}]" -> "{\"code\":\"input-relaxed\",\"action\":\"exercise-omitted-input\",\"priority\":1}"
+    value_case "[{\"kind\":\"field-presence\",\"input_used\":false,\"output_used\":true,\"before_required\":true,\"after_required\":false}]" -> "{\"code\":\"output-weakened\",\"action\":\"handle-missing-output\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-presence\",\"input_used\":false,\"output_used\":true,\"before_required\":false,\"after_required\":true}]" -> "{\"code\":\"output-strengthened\",\"action\":\"check-output-producers\",\"priority\":1}"
+    value_case "[{\"kind\":\"field-presence\",\"input_used\":true,\"output_used\":true,\"before_required\":false,\"after_required\":true}]" -> "{\"code\":\"shared-presence-changed\",\"action\":\"exercise-callers-and-producers\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-presence\",\"input_used\":false,\"output_used\":false,\"before_required\":true,\"after_required\":false}]" -> "{\"code\":\"usage-unobserved\",\"action\":\"add-consumer-examples\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-type\",\"input_used\":true,\"output_used\":false,\"before_required\":true,\"after_required\":true}]" -> "{\"code\":\"type-contract-changed\",\"action\":\"rebuild-callers-and-run-examples\",\"priority\":2}"
+    value_case "[{\"kind\":\"inputs\",\"input_used\":false,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"type-contract-changed\",\"action\":\"rebuild-callers-and-run-examples\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-name\",\"input_used\":true,\"output_used\":false,\"before_required\":true,\"after_required\":true}]" -> "{\"code\":\"source-names-changed\",\"action\":\"recompile-name-references\",\"priority\":2}"
+    value_case "[{\"kind\":\"field-order\",\"input_used\":false,\"output_used\":true,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"field-order-changed\",\"action\":\"check-positional-construction\",\"priority\":2}"
+    value_case "[{\"kind\":\"imports\",\"input_used\":false,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"package-wiring-changed\",\"action\":\"exercise-package-entry\",\"priority\":2}"
+    value_case "[{\"kind\":\"future-change\",\"input_used\":false,\"output_used\":false,\"before_required\":false,\"after_required\":false}]" -> "{\"code\":\"unclassified-change\",\"action\":\"add-policy-case\",\"priority\":2}"
+    attempts "8"
+}
