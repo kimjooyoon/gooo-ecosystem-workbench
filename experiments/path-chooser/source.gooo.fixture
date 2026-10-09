@@ -1,0 +1,5 @@
+package pathstudy
+namespace pathstudy
+entity Integer id "pathstudy://entity/integer"
+activity ConditionalAssign(Integer) -> Integer computes "let left = (input + 5)\nlet right = (input - 10)\nlet guard = (input \u003c 0)\nlet guard_alt = (input \u003c= 5)\nguard = (guard \u0026\u0026 guard_alt)\nif guard {\n\tleft = (input + 5)\n} else {\n\tleft = (input - 10)\n}\nreturn (left + right)"
+activity Unrelated(Integer) -> Integer computes "return input"
