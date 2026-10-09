@@ -1,0 +1,22 @@
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	1.086s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/cmd/workbench	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/calibrated-report	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/construction-loop	[no test files]
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/dependent-splice	0.977s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/fill-rejection-observe	[no test files]
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/graph-choice-corpus	1.626s
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/graph-chooser	1.893s
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/graph-feature-fixture	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/joint-feedback-observe	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/native-outcome-observe	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/package-construction-observe	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/search-policy	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/search-refinement	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/source-budget	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/experiments/source-fill-observe	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/api-reference-20261005/composition	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/diagnostics-deterministic	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/diagnostics-model	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/starter-deterministic	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/starter-model	[no test files]
+?   	github.com/kimjooyoon/gooo-ecosystem-workbench/publication/initial-20261005/verification/stdlib-deterministic	[no test files]
