@@ -258,6 +258,7 @@ jobs:
           name: gooo-ecosystem-observations
           path: |
             out/compiler-build.json
+            out/ci-api-diff/
             out/ci-package-loop/
             out/ci-package-model.json
             out/package-construction-recount.json
