@@ -1,0 +1,19 @@
+/tmp/gooo-release-0623-20261010.hCOVqV/workbench-typed-candidate: go1.27.2
+	path	github.com/kimjooyoon/gooo-ecosystem-workbench/cmd/workbench
+	mod	github.com/kimjooyoon/gooo-ecosystem-workbench	v0.5.0-experimental.0.20261009201307-f397b52bee51	
+	dep	github.com/kimjooyoon/gooo-decision-runtime	v0.2.26-experimental	h1:L7knWc3XmvJnMV/a4uGophsNzY3sI8nxsmuubAguCBA=
+	dep	github.com/kimjooyoon/gooo-jev	v0.0.0-20261005004607-ae1a015c4b33	h1:M4iA73HLw2iliWRu6Lb9vhEcyWpacNYsnsR3XSde6Ho=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	CGO_ENABLED=1
+	build	CGO_CFLAGS=
+	build	CGO_CPPFLAGS=
+	build	CGO_CXXFLAGS=
+	build	CGO_LDFLAGS=
+	build	GOARCH=arm64
+	build	GOOS=darwin
+	build	GOARM64=v8.0
+	build	vcs=git
+	build	vcs.revision=f397b52bee518d486a49871c40d2e7e99a1c278f
+	build	vcs.time=2026-10-09T20:13:07Z
+	build	vcs.modified=false

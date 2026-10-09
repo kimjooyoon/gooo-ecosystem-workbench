@@ -1,0 +1,24 @@
+package callerpaths
+namespace callerpaths
+entity Integer id "callerpaths://integer"
+entity Box id "callerpaths://box" fields {
+    field value id "callerpaths://value" type integer required one
+    field confirmed id "callerpaths://confirmed" type boolean required one
+    field label id "callerpaths://label" type string required one
+}
+
+activity Choose(Integer) -> Integer computes "if input < 0 { return input } else { return -input }" assembling {
+    choice "sign" branch_layout at "0" intent "양수 입력은 그대로 반환한다. Return the positive input unchanged."
+    case "0" -> "0"
+    attempts "2"
+}
+
+activity Pick(Integer) -> Box computes `return Box{value:input, confirmed:false, label:"raw"}` assembling {
+    choice "value" field_value at "0" alternative "input * 2" intent "값을 두 배로 만든다. Double the value."
+    choice "confirmed" field_value at "1" alternative "true" intent "확인한 결과로 기록한다. Mark the result confirmed."
+    choice "label" field_value at "2" alternative `"ready"` intent "준비된 결과라고 기록한다. Label the result ready."
+    value_case "[0]" -> "{\"value\":0,\"confirmed\":false,\"label\":\"raw\"}"
+    attempts "8"
+}
+
+activity Main(Integer) -> Integer computes "let n = Choose(input); let p = Pick(input); return n + p.value"
