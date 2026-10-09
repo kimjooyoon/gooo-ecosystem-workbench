@@ -12,10 +12,11 @@
 
 ## 실행
 
-Go 1.27.1과 [Gooo 0.6.10 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.10-dev)을
-사용합니다. 배포 소스는 `eb0dc4704705147f9ba944db3df2ba5e3225cbff`입니다.
+Go 1.27.2와 [Gooo 0.6.17 개발판](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.17-dev)을
+사용합니다. 배포 소스는 `ae71176b0c180b1bf3a1d8244a10f5f947b03455`입니다.
+`gooo version --build --json`으로 소스와 `go1.27.2` 빌드 정보를 확인할 수 있습니다.
 패키지의 `len` 처리 수정은 [컴파일러 PR 1378](https://github.com/kimjooyoon/meta-ontology-go/pull/1378)에 있으며,
-이번 배포 파일에 포함됐습니다. 아래의 동결 실험 원본은 최초 관측 당시의 소스를 유지합니다.
+이 배포 파일에도 포함돼 있습니다. 아래의 동결 실험 원본은 최초 관측 당시의 소스를 유지합니다.
 
 저장소 루트에서, 준비한 컴파일러 경로를 지정합니다.
 
