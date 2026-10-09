@@ -1,0 +1,86 @@
+{
+  "schema": "gooo/assembly-next-context/v1",
+  "source_sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+  "activity_id": "urn:gooo:scalar-identity:describe",
+  "selected_program_sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+  "observation": {
+    "recipe": "source-model-assembly",
+    "mode": "fixed",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 4,
+    "named_total": 4,
+    "record_fields_passed": 12,
+    "record_fields_total": 12,
+    "selection_fields_passed": 12,
+    "selection_fields_total": 12,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "3a03a4defbce8be3b4c2b1e60874b58c90eacc40eb7779390f39dd1dbc63e302"
+  },
+  "next": {
+    "code": "observed-complete",
+    "message": "주어진 호출 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.",
+    "action": "observe-new-inputs"
+  },
+  "mismatched_deliveries": 0,
+  "first_mismatches": [],
+  "artifacts": [
+    {
+      "path": "source.gooo",
+      "sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+      "bytes": 1615
+    },
+    {
+      "path": "cases.json",
+      "sha256": "sha256:204d5f9db37f9609bebb4d0875de8d9f8319d32570a81cc866b8ee0791e4fade",
+      "bytes": 759
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "sha256:71497b0b30576cf4ce16a3407ae9d87fd3f852a0ae96f95b40f2c7840a8a767c",
+      "bytes": 3409
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "sha256:3a03a4defbce8be3b4c2b1e60874b58c90eacc40eb7779390f39dd1dbc63e302",
+      "bytes": 39062
+    },
+    {
+      "path": "replay.json",
+      "sha256": "sha256:b72295af4074c38dbd344f59452da47447fd6a83d791fc71b5d7ad22c969a190",
+      "bytes": 39061
+    },
+    {
+      "path": "composition/generated.go",
+      "sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+      "bytes": 1285
+    },
+    {
+      "path": "composition/composition.json",
+      "sha256": "sha256:082473455538da0bd4f9881136848b26a74e97750e8e037fd822b5dd2e7c49c0",
+      "bytes": 47785
+    },
+    {
+      "path": "follow-up/assembly-next.gooo",
+      "sha256": "sha256:c6c900799f52c5794351618daa1eabd875d24a73d612e7bd2ce4ca7266b47a63",
+      "bytes": 2322
+    },
+    {
+      "path": "follow-up/inputs.json",
+      "sha256": "sha256:2326b8d10c8585f7db6531948c95baf84cb23849c887e035e0a7ae8a124ac019",
+      "bytes": 292
+    },
+    {
+      "path": "follow-up/execution.json",
+      "sha256": "sha256:6b3da8b287d199524a1ca3af05540e783709c2d8955a43de2221ffd401497027",
+      "bytes": 45884
+    },
+    {
+      "path": "follow-up/replay.json",
+      "sha256": "sha256:d29b636c19084a80d346553f5a3f254dfbd60f9a8aa2ef57419b937e4d725753",
+      "bytes": 46317
+    }
+  ],
+  "scope": "Finite caller and source selection observations remain separate. Gooo advice is unscored and replayed. References bind saved bytes; at most eight mismatch locations are shown. No next action or model call is executed."
+}

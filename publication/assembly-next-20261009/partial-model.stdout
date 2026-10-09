@@ -1,0 +1,9 @@
+모델이 읽을 입력을 준비했습니다. 후보를 정렬한 뒤 선언한 사례로 검사합니다.
+경로: model
+조립용 사례의 필드: 12/12
+호출 사례: 3/4 · 필드: 11/12
+조립 추론: 1회 · 저장 재생: 확인
+결과: /tmp/gooo-assembly-next-20261009.IyplEK/partial-model/report.json
+생성 코드: /tmp/gooo-assembly-next-20261009.IyplEK/partial-model/composition/generated.go
+다음 작업: 기대값과 다른 호출 결과가 있습니다. 원래 입력과 기대값을 확인하고 필요한 반례를 조립 조건에 추가하세요.
+후속 입력: /tmp/gooo-assembly-next-20261009.IyplEK/partial-model/next-context.json
