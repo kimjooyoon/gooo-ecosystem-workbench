@@ -27,6 +27,9 @@ func runRefine(args []string) error {
 	f.IntVar(&o.MaxRounds, "max-rounds", 4, "maximum source refinement rounds (1..8)")
 	f.BoolVar(&o.SearchPolicy, "search-policy", false, "use Gooo search observations and source-declared alternatives")
 	if err := f.Parse(args); err != nil {
+		if err == flag.ErrHelp {
+			return nil
+		}
 		return err
 	}
 	if f.NArg() != 0 {

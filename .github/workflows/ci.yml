@@ -35,6 +35,7 @@ jobs:
           test -z "$(gofmt -l retry_policy_test.go)"
           test -z "$(gofmt -l api_*.go)"
           test -z "$(gofmt -l process_*.go assembly*.go cmd/workbench/assemble*.go)"
+          test -z "$(gofmt -l cmd/workbench/help*.go)"
           test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go feature_audit_graph_test.go feature_audit_graph_model_test.go experiments/graph-feature-fixture/main.go)"
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"

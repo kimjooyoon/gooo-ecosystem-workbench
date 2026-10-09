@@ -1,0 +1,39 @@
+Usage of construct:
+  -after string
+    	current workspace manifest for api-diff
+  -before string
+    	previous workspace manifest for api-diff
+  -compiler string
+    	Gooo compiler executable (default "gooo")
+  -construction-cases string
+    	caller expectations used by construct
+  -declaration string
+    	optional .gooo declaration file to bind to the discovery
+  -entry string
+    	entry activity for reference or construct
+  -evaluation-cases string
+    	adaptive cases for construct; failures feed the next round
+  -fill-model string
+    	optional operation-classifier model for construct source_fill preparation
+  -holdout-cases string
+    	optional final evaluation after selection stops; never fed back
+  -input string
+    	splice/diagnostic/feature-audit input file, or completed verify output directory for receipt
+  -max-program-budget int
+    	construct ceiling for whole-program attempts per round (1..64) (default 8)
+  -max-rounds int
+    	construct ceiling for fresh construction rounds (1..16) (default 4)
+  -model string
+    	optional model.json path or builtin; omission is deterministic
+  -out string
+    	new output directory
+  -package string
+    	Gooo package directory for reference
+  -profile string
+    	starter profile: scalar, record, or library (default "record")
+  -query string
+    	natural-language capability question for discover
+  -source string
+    	Gooo source for construct
+  -workspace string
+    	Gooo package manifest for construct; exclusive with --source/--entry

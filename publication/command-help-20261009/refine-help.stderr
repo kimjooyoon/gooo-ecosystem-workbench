@@ -1,0 +1,23 @@
+Usage of refine:
+  -activity string
+    	constructing activity name
+  -cases string
+    	adaptive feedback cases with explicit expected outputs
+  -compiler string
+    	Gooo compiler executable (default "gooo")
+  -evaluation-cases string
+    	optional final cases withheld until source selection
+  -max-attempts int
+    	maximum selected activity attempt budget per refinement round (default 8)
+  -max-rounds int
+    	maximum source refinement rounds (1..8) (default 4)
+  -model string
+    	optional construction model path or builtin
+  -out string
+    	new output directory; original inputs stay unchanged
+  -policy string
+    	Gooo source revision policy
+  -search-policy
+    	use Gooo search observations and source-declared alternatives
+  -source string
+    	Gooo source containing a record construction
