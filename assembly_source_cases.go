@@ -42,14 +42,35 @@ func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) 
 		return nil, "", err
 	}
 	c := saved.Composition
-	if c.Plan.Schema != "gooo/body-composition-plan/v1" || len(c.Plan.Activities) != 1 ||
-		len(c.Plan.Preparations) != 0 || len(c.Preparations) != 0 || len(c.Steps) != 1 {
-		return nil, "", fmt.Errorf("assembly feedback currently requires one root record activity without prepared helpers")
+	if c.Plan.Schema != "gooo/body-composition-plan/v1" || len(c.Plan.Activities) < 1 ||
+		len(c.Plan.Preparations) != 0 || len(c.Preparations) != 0 || len(c.Steps) != len(c.Plan.Activities) {
+		return nil, "", fmt.Errorf("assembly feedback requires one root record assembler and fixed bound consumers without prepared assembly helpers")
 	}
-	a := c.Plan.Activities[0]
-	record := c.Steps[0].Generation.Report.Assembly
-	if a.Name == "" || a.ID != activityID || c.Steps[0].Generation.Report.ActivityID != a.ID ||
-		c.Plan.EntryActivity != a.Name || len(a.Inputs) == 0 || record == nil || len(record.Cases) == 0 {
+	selected, entryFound := -1, false
+	names, ids := map[string]bool{}, map[string]bool{}
+	for i, a := range c.Plan.Activities {
+		if a.Name == "" || a.ID == "" || names[a.Name] || ids[a.ID] || c.Steps[i].Generation.Report.ActivityID != a.ID {
+			return nil, "", fmt.Errorf("assembly feedback graph activity identities are ambiguous")
+		}
+		names[a.Name], ids[a.ID] = true, true
+		entryFound = entryFound || c.Plan.EntryActivity == a.Name
+		if a.ID == activityID {
+			selected = i
+		} else if c.Steps[i].Generation.Report.Assembly != nil {
+			return nil, "", fmt.Errorf("assembly feedback requires exactly one record assembler")
+		}
+		for _, input := range a.Inputs {
+			if a.ID != activityID && (input.From < 0 || input.From >= i) {
+				return nil, "", fmt.Errorf("assembly feedback cannot infer additional root inputs from local source cases")
+			}
+		}
+	}
+	if !entryFound || selected < 0 {
+		return nil, "", fmt.Errorf("assembly feedback omitted its graph entry or record activity")
+	}
+	a := c.Plan.Activities[selected]
+	record := c.Steps[selected].Generation.Report.Assembly
+	if len(a.Inputs) == 0 || record == nil || len(record.Cases) == 0 {
 		return nil, "", fmt.Errorf("assembly feedback needs the original entry, input ports and source cases")
 	}
 	ports := map[string]bool{}
@@ -85,5 +106,5 @@ func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) 
 	if _, err = readJointCases(encoded, false); err != nil {
 		return nil, "", err
 	}
-	return encoded, a.Name, nil
+	return encoded, c.Plan.EntryActivity, nil
 }

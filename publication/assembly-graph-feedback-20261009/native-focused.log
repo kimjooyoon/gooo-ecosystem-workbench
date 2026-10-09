@@ -1,0 +1,8 @@
+=== RUN   TestNativeAssemblyGraphFeedsFinalCallerFailures
+=== RUN   TestNativeAssemblyGraphFeedsFinalCallerFailures/fixed
+=== RUN   TestNativeAssemblyGraphFeedsFinalCallerFailures/model
+--- PASS: TestNativeAssemblyGraphFeedsFinalCallerFailures (53.67s)
+    --- PASS: TestNativeAssemblyGraphFeedsFinalCallerFailures/fixed (26.62s)
+    --- PASS: TestNativeAssemblyGraphFeedsFinalCallerFailures/model (27.05s)
+PASS
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	54.051s

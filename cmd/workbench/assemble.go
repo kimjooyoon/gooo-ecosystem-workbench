@@ -21,8 +21,9 @@ func runAssemble(args []string) error {
 	f.StringVar(&o.Compiler, "compiler", "gooo", "Gooo compiler executable with body-context --model")
 	f.StringVar(&o.Model, "model", "", "optional local record model or builtin; omission is deterministic")
 	f.StringVar(&o.Out, "out", "", "new output directory containing result, generated Go and original records")
-	f.StringVar(&request.Source, "source", "", "Gooo source with one record assembling activity")
-	f.StringVar(&request.Entry, "entry", "", "activity name to assemble")
+	f.StringVar(&request.Source, "source", "", "Gooo source with a root record assembler and optional bound consumers")
+	f.StringVar(&request.Entry, "entry", "", "final activity to execute, including its bound producers")
+	f.StringVar(&request.AssemblyActivity, "assembly-activity", "", "root record activity to check; defaults to --entry")
 	f.StringVar(&request.Cases, "cases", "", "caller native cases with expected outputs")
 	if err := f.Parse(args); err != nil {
 		if err == flag.ErrHelp {

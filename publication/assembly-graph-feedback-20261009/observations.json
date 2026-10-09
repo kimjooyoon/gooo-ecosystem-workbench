@@ -1,0 +1,328 @@
+{
+  "schema": "gooo/bound-assembly-feedback-observation/v1",
+  "observations": [
+    {
+      "origin_model_requested": false,
+      "next_model_requested": false,
+      "origin": {
+        "recipe": "source-model-assembly",
+        "mode": "fixed",
+        "compiler_source": "d3b44fc63a340d825108c97f61eeb18900219b28",
+        "named_passed": 0,
+        "named_total": 2,
+        "record_fields_passed": 2,
+        "record_fields_total": 6,
+        "selection_fields_passed": 3,
+        "selection_fields_total": 3,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "f0067a54d643b4a0e854995c2c6a91f80e51d315c9059cd3d8acc33c8df6ab5a"
+      },
+      "original_caller_indices_added": [
+        0,
+        1
+      ],
+      "rounds": [
+        {
+          "program_budget": 1,
+          "program_attempts": 1,
+          "evaluation_passed": 2,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 2,
+          "construction_elapsed_ns": 587266167,
+          "result": "round-0.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 2,
+          "program_attempts": 2,
+          "evaluation_passed": 2,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 4,
+          "construction_elapsed_ns": 1064166791,
+          "result": "round-1.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 4,
+          "program_attempts": 4,
+          "evaluation_passed": 2,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 8,
+          "construction_elapsed_ns": 1883077834,
+          "result": "round-2.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 8,
+          "program_attempts": 8,
+          "evaluation_passed": 6,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "add-different-evaluation-inputs",
+          "proposed_program_budget": 0,
+          "construction_elapsed_ns": 3629152625,
+          "result": "round-3.json",
+          "construction_cases_file": "construction-cases.json"
+        }
+      ],
+      "fresh_construction_model_calls": 0,
+      "final_fields_passed": 6,
+      "final_fields_total": 6,
+      "final_inputs_outside_construction": 2,
+      "final_new_model_calls": 0,
+      "origin_bytes_unchanged": true,
+      "raw_construction_observation_sha256": "sha256:6beb80b236f7144e21177ad354a3eb40c168528a6f654e526381009e5d5f91b1",
+      "raw_construction_observation_bytes": 8760
+    },
+    {
+      "origin_model_requested": false,
+      "next_model_requested": true,
+      "origin": {
+        "recipe": "source-model-assembly",
+        "mode": "fixed",
+        "compiler_source": "d3b44fc63a340d825108c97f61eeb18900219b28",
+        "named_passed": 0,
+        "named_total": 2,
+        "record_fields_passed": 2,
+        "record_fields_total": 6,
+        "selection_fields_passed": 3,
+        "selection_fields_total": 3,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "f0067a54d643b4a0e854995c2c6a91f80e51d315c9059cd3d8acc33c8df6ab5a"
+      },
+      "original_caller_indices_added": [
+        0,
+        1
+      ],
+      "rounds": [
+        {
+          "program_budget": 1,
+          "program_attempts": 1,
+          "evaluation_passed": 4,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 2,
+          "construction_elapsed_ns": 574372792,
+          "result": "round-0.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 2,
+          "program_attempts": 2,
+          "evaluation_passed": 4,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 4,
+          "construction_elapsed_ns": 1095102750,
+          "result": "round-1.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 4,
+          "program_attempts": 4,
+          "evaluation_passed": 4,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 8,
+          "construction_elapsed_ns": 1846521709,
+          "result": "round-2.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 8,
+          "program_attempts": 6,
+          "evaluation_passed": 6,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "add-different-evaluation-inputs",
+          "proposed_program_budget": 0,
+          "construction_elapsed_ns": 2132942709,
+          "result": "round-3.json",
+          "construction_cases_file": "construction-cases.json"
+        }
+      ],
+      "fresh_construction_model_calls": 4,
+      "final_fields_passed": 6,
+      "final_fields_total": 6,
+      "final_inputs_outside_construction": 2,
+      "final_new_model_calls": 0,
+      "origin_bytes_unchanged": true,
+      "raw_construction_observation_sha256": "sha256:0cdf2f1871cbfa17cd7115626f321415ec03734bbe7a34de1da73912e4295e42",
+      "raw_construction_observation_bytes": 8312
+    },
+    {
+      "origin_model_requested": true,
+      "next_model_requested": false,
+      "origin": {
+        "recipe": "source-model-assembly",
+        "mode": "model",
+        "compiler_source": "d3b44fc63a340d825108c97f61eeb18900219b28",
+        "named_passed": 1,
+        "named_total": 2,
+        "record_fields_passed": 4,
+        "record_fields_total": 6,
+        "selection_fields_passed": 3,
+        "selection_fields_total": 3,
+        "generation_model_calls": 1,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "453f675fd9bac151b2de5924e815bece5f9cb8a8ec015c9e8be98bbf3efa0b0d"
+      },
+      "original_caller_indices_added": [
+        0
+      ],
+      "rounds": [
+        {
+          "program_budget": 1,
+          "program_attempts": 1,
+          "evaluation_passed": 2,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 2,
+          "construction_elapsed_ns": 666230292,
+          "result": "round-0.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 2,
+          "program_attempts": 2,
+          "evaluation_passed": 2,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 4,
+          "construction_elapsed_ns": 1106113458,
+          "result": "round-1.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 4,
+          "program_attempts": 4,
+          "evaluation_passed": 2,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 8,
+          "construction_elapsed_ns": 1916255708,
+          "result": "round-2.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 8,
+          "program_attempts": 8,
+          "evaluation_passed": 6,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "observe-new-inputs",
+          "proposed_program_budget": 0,
+          "construction_elapsed_ns": 3157293917,
+          "result": "round-3.json",
+          "construction_cases_file": "construction-cases.json"
+        }
+      ],
+      "fresh_construction_model_calls": 0,
+      "final_fields_passed": 6,
+      "final_fields_total": 6,
+      "final_inputs_outside_construction": 2,
+      "final_new_model_calls": 0,
+      "origin_bytes_unchanged": true,
+      "raw_construction_observation_sha256": "sha256:250e63dd5f085074573c6818c0cc568d3a8769e4da63a52db98be8e6c4e5774c",
+      "raw_construction_observation_bytes": 8697
+    },
+    {
+      "origin_model_requested": true,
+      "next_model_requested": true,
+      "origin": {
+        "recipe": "source-model-assembly",
+        "mode": "model",
+        "compiler_source": "d3b44fc63a340d825108c97f61eeb18900219b28",
+        "named_passed": 1,
+        "named_total": 2,
+        "record_fields_passed": 4,
+        "record_fields_total": 6,
+        "selection_fields_passed": 3,
+        "selection_fields_total": 3,
+        "generation_model_calls": 1,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "453f675fd9bac151b2de5924e815bece5f9cb8a8ec015c9e8be98bbf3efa0b0d"
+      },
+      "original_caller_indices_added": [
+        0
+      ],
+      "rounds": [
+        {
+          "program_budget": 1,
+          "program_attempts": 1,
+          "evaluation_passed": 4,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 2,
+          "construction_elapsed_ns": 593095666,
+          "result": "round-0.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 2,
+          "program_attempts": 2,
+          "evaluation_passed": 4,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 4,
+          "construction_elapsed_ns": 889280292,
+          "result": "round-1.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 4,
+          "program_attempts": 4,
+          "evaluation_passed": 4,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "rerun-with-larger-program-budget",
+          "proposed_program_budget": 8,
+          "construction_elapsed_ns": 1507340375,
+          "result": "round-2.json",
+          "construction_cases_file": "construction-cases.json"
+        },
+        {
+          "program_budget": 8,
+          "program_attempts": 6,
+          "evaluation_passed": 6,
+          "evaluation_total": 6,
+          "evaluation_unit": "record_fields",
+          "action": "observe-new-inputs",
+          "proposed_program_budget": 0,
+          "construction_elapsed_ns": 2448022709,
+          "result": "round-3.json",
+          "construction_cases_file": "construction-cases.json"
+        }
+      ],
+      "fresh_construction_model_calls": 4,
+      "final_fields_passed": 6,
+      "final_fields_total": 6,
+      "final_inputs_outside_construction": 2,
+      "final_new_model_calls": 0,
+      "origin_bytes_unchanged": true,
+      "raw_construction_observation_sha256": "sha256:a05c4f6f3143b4c6789e783525751a804e8d9ef5c44a9ee8fce992af84dc9f9c",
+      "raw_construction_observation_bytes": 8248
+    }
+  ],
+  "scope": "two bound activities and a fixed pure helper; original root and caller oracles retained; four explicit origin/next routes; final two inputs used only after selection; training exposure unknown; finite fields and repeated fresh rounds, no general accuracy or timing claim"
+}

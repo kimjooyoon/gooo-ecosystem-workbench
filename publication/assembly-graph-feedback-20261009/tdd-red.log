@@ -1,0 +1,4 @@
+# github.com/kimjooyoon/gooo-ecosystem-workbench [github.com/kimjooyoon/gooo-ecosystem-workbench.test]
+./assembly_graph_test.go:53:95: unknown field AssemblyActivity in struct literal of type AssemblyRequest
+FAIL	github.com/kimjooyoon/gooo-ecosystem-workbench [build failed]
+FAIL
