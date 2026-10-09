@@ -25,20 +25,22 @@ deterministically. These runs do not show a model attempt-count improvement.
 They do show that the model-origin graph can be reused in either mode without
 changing original source or expected outputs.
 
-The final inputs were 7, -5, and exact integer9007199254740993; construction
-consumed input3. Training exposure is unknown. All figures describe this small
+The final inputs were 7, -5, and exact integer 9007199254740993; construction
+consumed input 3. Training exposure is unknown. All figures describe this small
 declared candidate space and supplied expectations.
 
 The outer CLI wall times were 17.31s and 15.60s; its resource tool reported peak
-resident bytes87,998,464 and88,375,296. These are whole CLI observations, not model
+resident bytes 87,998,464 and 88,375,296. These are whole CLI observations, not model
 inference latency or host CPU utilization. Original time output is retained.
 
 Portable v7 tests recount fixed, mixed, replayed, rejected and native-fault
 observations; the original red test exposed unsupported v7 decoding. Focused
-race tests completed in6.138s, native candidate integration9.520s, and public
-0.6.23 compatibility7.052s. The public compiler's precise unsupported-contract
-diagnostic remains tested. The full native regression run is recorded separately
-when it terminates; this local record does not claim a completed public PR CI.
+race tests completed in 6.138s, native candidate integration 9.520s, and public
+0.6.23 compatibility 7.052s. The public compiler's precise unsupported-contract
+diagnostic remains tested. The full local public-compiler native regression
+completed successfully (root package 451.280s). It started before the final
+diagnostic wording changes; focused regression and vet were repeated afterward.
+This local record does not claim a completed public PR CI.
 
 Gzip files were byte-compared against original stdout/logs. Each fresh native
 round's original JSON is retained. `FILES.sha256` binds payload bytes. Recounting
