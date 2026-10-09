@@ -1,0 +1,5 @@
+--- FAIL: TestAssemblySourceCasesReadNativeSingleArgumentInputs (0.00s)
+    assembly_graph_test.go:43: single root input did not use its native activity key   assembly feedback needs the original entry, input ports and source cases
+FAIL
+FAIL	github.com/kimjooyoon/gooo-ecosystem-workbench	0.448s
+FAIL

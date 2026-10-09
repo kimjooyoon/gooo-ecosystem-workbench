@@ -16,6 +16,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 소스와 모델을 확인하고 조립 | Gooo가 모델·고정 순서 경로를 고르고 실제 호출·저장 재생까지 연결 | [`assemble`](examples/model-assembly/README.md) |
 | 전체 조립 반복 | 부품·호출부·평가 결과를 구분하고 Gooo가 다음 시도 한도를 계산 | `construct` |
 | 저장한 조립 이어 쓰기 | 원래 소스 사례와 실패한 호출을 그대로 다음 조립에 연결 | [`construct --assembly`](examples/assembly-feedback/README.md) |
+| 활동 연결 뒤의 실패 반영 | 마지막 활동의 실패를 원래 루트 입력으로 다음 조립에 연결 | [활동·조건·보조 함수 예제](examples/assembly-graph-feedback/README.md) |
 | 여러 패키지 조립 | 원래 패키지와 호출 사례를 보존하고 Gooo 규칙으로 실패 사례·시도 한도를 선택 | [`construct --workspace`](examples/package-caller-construction/README.md) |
 | 실패한 조립 이어가기 | 잘못된 빈칸 후보를 기록하고 시도·탈락·실행 수를 구분 | [후보 탈락 예제](examples/caller-fill-rejection/README.md) |
 | 실행 중 계산 실패 읽기 | 정상 출력·불일치·계산 실패·의존 활동 중단을 구분하고 다음 조립을 결정 | [계산 실패 예제](examples/caller-native-failure/README.md) |
@@ -59,9 +60,13 @@ go run ./cmd/workbench help assemble
 후속 작업과 원본 불일치 위치도 함께 남습니다.
 실패한 결과가 있으면 [`construct --assembly`](examples/assembly-feedback/README.md)로 저장한
 폴더 하나를 넘깁니다. Gooo가 반례를 고르고 기존 조립 반복을 진행합니다.
+여러 활동을 bind로 연결하면 `--entry`에는 마지막 활동,
+`--assembly-activity`에는 루트 레코드 조립 활동을 지정합니다.
+[연결 예제](examples/assembly-graph-feedback/README.md)는 두 활동과 보조 함수를 실행합니다.
 
 [최근 사례에서 고른 사용성 개선과 다음 실험](docs/research-usability-2026-10-09.md)을 함께 공개합니다.
 [저장한 결과를 반례 반복에 연결한 후속 구현](docs/research-feedback-2026-10-09.md)도 있습니다.
+[최근 자료를 연결 그래프에 적용한 판단](docs/research-graph-feedback-2026-10-09.md)도 기록합니다.
 
 Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.
 CI는 같은 공개 소스 `d3b44fc63a340d825108c97f61eeb18900219b28`에 고정합니다.

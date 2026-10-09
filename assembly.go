@@ -9,8 +9,9 @@ import (
 	"reflect"
 )
 
-// AssemblyRequest names one source-owned record assembly and caller cases.
-type AssemblyRequest struct{ Source, Entry, Cases string }
+// AssemblyRequest names a root record assembler, its graph entry and caller cases.
+// AssemblyActivity defaults to Entry for existing single-activity callers.
+type AssemblyRequest struct{ Source, Entry, Cases, AssemblyActivity string }
 
 type AssemblyReport struct {
 	Schema       string            `json:"schema"`
@@ -55,7 +56,11 @@ func Assemble(ctx context.Context, o Options, request AssemblyRequest) (Assembly
 	if err != nil {
 		return report, err
 	}
-	args := []string{"body-context", "--activity", request.Entry}
+	activity := request.AssemblyActivity
+	if activity == "" {
+		activity = request.Entry
+	}
+	args := []string{"body-context", "--activity", activity}
 	if model != "" {
 		args = append(args, "--model", model)
 	}
@@ -89,6 +94,12 @@ func Assemble(ctx context.Context, o Options, request AssemblyRequest) (Assembly
 	original, err := readAssemblyExecution(raw, preflight, true, route.Action == "model")
 	if err != nil {
 		return report, err
+	}
+	if _, entry, e := sourceAssemblyCases(raw, preflight.ActivityID); e != nil || entry != request.Entry {
+		if e != nil {
+			return report, e
+		}
+		return report, fmt.Errorf("assembly graph entry differs from the requested activity")
 	}
 	observation, err := summarize(raw, "source-model-assembly", route.Action)
 	if err != nil {
@@ -128,7 +139,7 @@ func Assemble(ctx context.Context, o Options, request AssemblyRequest) (Assembly
 		GeneratedSHA: original.Composition.GeneratedSHA,
 		Artifacts: map[string]string{"preflight": "preflight.json", "routing": "routing/execution.json", "routing_replay": "routing/replay.json",
 			"assembly": "assembly.json", "replay": "replay.json", "generated_go": "composition/generated.go", "saved_composition": "composition/composition.json"},
-		Scope: "source-owned record assembly; representation readiness, source selection cases and caller native cases are separate; saved replay performs zero fresh inference; no general accuracy claim"}
+		Scope: "one source-owned root record assembler with fixed bound consumers and pure helpers; representation readiness, source selection cases and caller native cases are separate; saved replay performs zero fresh inference; no general accuracy claim"}
 	if err = saveAssemblyContext(root, report, original); err != nil {
 		return report, err
 	}

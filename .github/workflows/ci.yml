@@ -42,6 +42,7 @@ jobs:
           test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go joint_feedback.go joint_feedback_test.go)"
           test -z "$(gofmt -l package_joint.go package_joint_loop.go package_joint_test.go package_observed_test.go experiments/package-construction-observe/main.go)"
           test -z "$(gofmt -l experiments/joint-feedback-observe/main.go)"
+          test -z "$(gofmt -l experiments/assembly-graph-observe/main.go)"
           test -z "$(gofmt -l joint_search_snapshot.go joint_search_snapshot_test.go)"
           test -z "$(gofmt -l joint_rejection_snapshot.go joint_rejection_snapshot_test.go)"
           test -z "$(gofmt -l joint_fill_snapshot.go joint_fill_snapshot_test.go construction_fill.go)"
@@ -89,6 +90,17 @@ jobs:
             --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-model-next
           jq -e '.new_construction_model_requested and .feedback.consumed_by_next_round and (.construction_loop.rounds | length) == 4 and ([.construction_loop.rounds[].program_attempts] | add) == 13 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6 and .construction_loop.final_evaluation.joint_construction.new_model_calls == 0' out/ci-assembly-model-next/assembly-construction.json
           jq -e -s '([.[].construction.initial.steps[].generation.report.record_assembly.model_calls] | add) == 4' out/ci-assembly-model-next/construction/round-*.json
+      - name: Connect bound consumer failures to their original root inputs
+        run: |
+          go run ./cmd/workbench assemble --compiler "$PWD/.gooo" \
+            --source examples/assembly-graph-feedback/source.gooo --entry Present --assembly-activity Describe \
+            --cases examples/assembly-graph-feedback/adaptive-cases.json --out out/ci-assembly-graph-origin
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --assembly out/ci-assembly-graph-origin --holdout-cases examples/assembly-graph-feedback/holdout-cases.json \
+            --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+            --max-program-budget 8 --max-rounds 5 --out out/ci-assembly-graph-next
+          jq -e '.origin_observation.record_fields_passed == 2 and .origin_observation.record_fields_total == 6 and .origin_replay_verified and .feedback.prepared and .feedback.consumed_by_next_round and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6 and .construction_loop.final_evaluation.joint_construction.new_model_calls == 0 and .construction_loop.final_evaluation.joint_construction.reported_evaluation_inputs.other_inputs == 2' out/ci-assembly-graph-next/assembly-construction.json
+          jq -e '[.cases[].expected | keys] == [["Describe"]]' out/ci-assembly-graph-next/source-cases.json
       - name: Let Gooo continue package construction from caller failures
         run: |
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \

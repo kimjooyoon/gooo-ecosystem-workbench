@@ -5,6 +5,11 @@ import (
 	"fmt"
 )
 
+type assemblyCaseInput struct {
+	Port string
+	From int
+}
+
 // sourceAssemblyCases changes only the envelope of the source-owned test rows.
 // Raw input and expected JSON values preserve int64 precision and original oracles.
 func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) {
@@ -15,11 +20,9 @@ func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) 
 				EntryActivity string `json:"entry_activity"`
 				Preparations  []json.RawMessage
 				Activities    []struct {
-					Name, ID string
-					Inputs   []struct {
-						Port string
-						From int
-					}
+					Name, ID  string
+					InputFrom *int `json:"input_from"`
+					Inputs    []assemblyCaseInput
 				}
 			}
 			Preparations []json.RawMessage
@@ -42,18 +45,50 @@ func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) 
 		return nil, "", err
 	}
 	c := saved.Composition
-	if c.Plan.Schema != "gooo/body-composition-plan/v1" || len(c.Plan.Activities) != 1 ||
-		len(c.Plan.Preparations) != 0 || len(c.Preparations) != 0 || len(c.Steps) != 1 {
-		return nil, "", fmt.Errorf("assembly feedback currently requires one root record activity without prepared helpers")
+	if c.Plan.Schema != "gooo/body-composition-plan/v1" || len(c.Plan.Activities) < 1 ||
+		len(c.Plan.Preparations) != 0 || len(c.Preparations) != 0 || len(c.Steps) != len(c.Plan.Activities) {
+		return nil, "", fmt.Errorf("assembly feedback requires one root record assembler and fixed bound consumers without prepared assembly helpers")
 	}
-	a := c.Plan.Activities[0]
-	record := c.Steps[0].Generation.Report.Assembly
-	if a.Name == "" || a.ID != activityID || c.Steps[0].Generation.Report.ActivityID != a.ID ||
-		c.Plan.EntryActivity != a.Name || len(a.Inputs) == 0 || record == nil || len(record.Cases) == 0 {
+	selected, entryFound := -1, false
+	names, ids := map[string]bool{}, map[string]bool{}
+	for i, a := range c.Plan.Activities {
+		if a.Name == "" || a.ID == "" || names[a.Name] || ids[a.ID] || c.Steps[i].Generation.Report.ActivityID != a.ID {
+			return nil, "", fmt.Errorf("assembly feedback graph activity identities are ambiguous")
+		}
+		names[a.Name], ids[a.ID] = true, true
+		entryFound = entryFound || c.Plan.EntryActivity == a.Name
+		if a.ID == activityID {
+			selected = i
+		} else if c.Steps[i].Generation.Report.Assembly != nil {
+			return nil, "", fmt.Errorf("assembly feedback requires exactly one record assembler")
+		}
+		inputs := a.Inputs
+		if len(inputs) == 0 {
+			if a.InputFrom == nil {
+				return nil, "", fmt.Errorf("assembly feedback omitted the native single-argument input source")
+			}
+			inputs = []assemblyCaseInput{{Port: "input", From: *a.InputFrom}}
+		}
+		for _, input := range inputs {
+			if a.ID != activityID && (input.From < 0 || input.From >= i) {
+				return nil, "", fmt.Errorf("assembly feedback cannot infer additional root inputs from local source cases")
+			}
+		}
+	}
+	if !entryFound || selected < 0 {
+		return nil, "", fmt.Errorf("assembly feedback omitted its graph entry or record activity")
+	}
+	a := c.Plan.Activities[selected]
+	record := c.Steps[selected].Generation.Report.Assembly
+	if record == nil || len(record.Cases) == 0 {
 		return nil, "", fmt.Errorf("assembly feedback needs the original entry, input ports and source cases")
 	}
 	ports := map[string]bool{}
-	for _, input := range a.Inputs {
+	inputs, single := a.Inputs, len(a.Inputs) == 0
+	if single {
+		inputs = []assemblyCaseInput{{Port: "input", From: *a.InputFrom}}
+	}
+	for _, input := range inputs {
 		if input.Port == "" || input.From != -1 || ports[input.Port] {
 			return nil, "", fmt.Errorf("assembly feedback input ports are ambiguous or dependent")
 		}
@@ -61,17 +96,21 @@ func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) 
 	}
 	doc := jointCases{Schema: jointCasesSchema}
 	for _, row := range record.Cases {
-		if len(row.Inputs) != len(a.Inputs) || len(row.Expected) == 0 {
+		if len(row.Inputs) != len(inputs) || len(row.Expected) == 0 {
 			return nil, "", fmt.Errorf("source assembly case omitted inputs or its expected value")
 		}
-		inputs := map[string]json.RawMessage{}
+		values := map[string]json.RawMessage{}
 		for i, value := range row.Inputs {
-			inputs[a.Name+"."+a.Inputs[i].Port] = value
+			key := a.Name + "." + inputs[i].Port
+			if single {
+				key = a.Name
+			}
+			values[key] = value
 		}
 		encoded, err := json.Marshal(struct {
 			Inputs   map[string]json.RawMessage `json:"inputs"`
 			Expected map[string]json.RawMessage `json:"expected"`
-		}{inputs, map[string]json.RawMessage{a.Name: row.Expected}})
+		}{values, map[string]json.RawMessage{a.Name: row.Expected}})
 		if err != nil {
 			return nil, "", err
 		}
@@ -85,5 +124,5 @@ func sourceAssemblyCases(raw []byte, activityID string) ([]byte, string, error) 
 	if _, err = readJointCases(encoded, false); err != nil {
 		return nil, "", err
 	}
-	return encoded, a.Name, nil
+	return encoded, c.Plan.EntryActivity, nil
 }

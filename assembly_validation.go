@@ -86,7 +86,10 @@ func readAssemblyExecution(raw []byte, p assemblyPreflight, generated, model boo
 			Steps []struct {
 				Generation struct {
 					Report struct {
-						Assembly *struct {
+						ActivityID string          `json:"activity_id"`
+						Search     json.RawMessage `json:"body_search"`
+						Fill       json.RawMessage `json:"body_fill"`
+						Assembly   *struct {
 							Calls   *int `json:"model_calls"`
 							Passed  *int `json:"fields_passed"`
 							Total   *int `json:"fields_total"`
@@ -106,11 +109,29 @@ func readAssemblyExecution(raw []byte, p assemblyPreflight, generated, model boo
 	x := evidence.Runtime
 	if r.Generated != generated || r.Composition.OriginalSourceSHA != p.SourceSHA || !nativeDigest(r.Composition.GeneratedSHA) ||
 		x.Stage != "COMPLETE" || x.Calls == nil || *x.Calls != 0 || x.Passed == nil || x.Total == nil ||
-		!x.Projection || !x.Replay || len(evidence.Composition.Steps) != 1 || len(r.Composition.Steps) != 1 ||
-		r.Composition.Steps[0].Generation.Report.ActivityID != p.ActivityID {
+		!x.Projection || !x.Replay || len(evidence.Composition.Steps) < 1 ||
+		len(evidence.Composition.Steps) != len(r.Composition.Steps) || len(r.Composition.Preparations) != 0 {
 		return r, fmt.Errorf("assembly requires complete source-bound native execution without runtime inference")
 	}
-	a := evidence.Composition.Steps[0].Generation.Report.Assembly
+	selected := -1
+	seen := map[string]bool{}
+	for i, step := range evidence.Composition.Steps {
+		report := step.Generation.Report
+		if report.ActivityID == "" || seen[report.ActivityID] || present(report.Search) || present(report.Fill) {
+			return r, fmt.Errorf("assembly requires distinct fixed consumers and one record assembler")
+		}
+		seen[report.ActivityID] = true
+		if report.Assembly != nil {
+			if selected >= 0 || report.ActivityID != p.ActivityID {
+				return r, fmt.Errorf("assembly has an additional or unbound record assembler")
+			}
+			selected = i
+		}
+	}
+	if selected < 0 {
+		return r, fmt.Errorf("assembly omitted the preflight record activity")
+	}
+	a := evidence.Composition.Steps[selected].Generation.Report.Assembly
 	wantCalls := 0
 	if model {
 		wantCalls = 1

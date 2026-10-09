@@ -225,6 +225,20 @@ activity의 타입과 생성 결과는 `activity-generation.json`에서 확인�
 
 ## 결과를 다음 작업으로 넘기기
 
+조립 활동 뒤에 다른 활동을 bind로 연결했으면 마지막 활동을 `--entry`로,
+루트 레코드를 조립하는 활동을 `--assembly-activity`로 지정합니다:
+
+```sh
+go run ./cmd/workbench assemble --source examples/assembly-graph-feedback/source.gooo \
+  --entry Present --assembly-activity Describe \
+  --cases examples/assembly-graph-feedback/adaptive-cases.json --out out/graph-first
+go run ./cmd/workbench construct --assembly out/graph-first \
+  --holdout-cases examples/assembly-graph-feedback/holdout-cases.json --out out/graph-next
+```
+
+마지막 활동의 실패 행을 원래 루트 입력과 함께 다음 조립에 반영합니다.
+한 활동이면 `--entry`만 사용합니다. [연결 범위와 결과 읽기](../examples/assembly-graph-feedback/README.md).
+
 ```sh
 go run ./cmd/workbench diagnose --compiler ./.gooo \
   --input examples/partial-composition.json --model builtin --out out/repair
