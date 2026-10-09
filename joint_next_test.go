@@ -23,6 +23,8 @@ func TestNativeJointDiagnosticPolicy(t *testing.T) {
 	}{
 		{"complete", "observed-complete", "observe-new-inputs", nil},
 		{"missing expectations", "evaluation-unobserved", "add-evaluation-expectations", map[string]any{"evaluation_total": 0, "evaluation_passed": 0}},
+		{"unscored fault", "unscored-execution-fault", "add-fault-expectations", map[string]any{"evaluation_total": 0, "evaluation_passed": 0, "evaluation_faults": 1}},
+		{"unscored blocked", "unscored-execution-fault", "add-fault-expectations", map[string]any{"evaluation_total": 0, "evaluation_passed": 0, "evaluation_blocked": 1}},
 		{"counterexample", "evaluation-gap", "add-counterexamples-to-construction", map[string]any{"evaluation_passed": 3}},
 		{"consumed roots", "consumed-inputs-only", "add-different-evaluation-inputs", map[string]any{"other_inputs": 0}},
 		{"remaining combinations", "program-budget-exhausted", "rerun-with-larger-program-budget", map[string]any{"caller_passed": 0, "more_candidates": true}},

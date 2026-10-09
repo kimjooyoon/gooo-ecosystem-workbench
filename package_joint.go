@@ -18,6 +18,8 @@ type packageActivity struct {
 type PackageConstructionObservation struct {
 	ManifestSHA256 string            `json:"manifest_sha256"`
 	SourceSHA256   string            `json:"lowered_source_sha256"`
+	EvaluationMode string            `json:"evaluation_mode"`
+	InputsSHA256   string            `json:"inputs_sha256,omitempty"`
 	Entry          packageActivity   `json:"entry"`
 	Activities     []packageActivity `json:"activities"`
 	Scope          string            `json:"scope"`
@@ -28,6 +30,8 @@ type packageJointEnvelope struct {
 	Decision     string `json:"decision"`
 	Error        string `json:"error"`
 	ManifestSHA  string `json:"manifest_digest"`
+	InputsSHA    string `json:"inputs_digest"`
+	CasesSHA     string `json:"cases_digest"`
 	ReplayedFrom string `json:"replayed_from_sha256"`
 	Result       struct {
 		Schema       string `json:"schema"`
@@ -52,10 +56,14 @@ func packageJointOutput(raw []byte) ([]byte, *PackageConstructionObservation, er
 		return nil, nil, err
 	}
 	if r.Schema != packageJointSchema || r.Error != "" ||
-		(r.Decision != "COMPLETE_FINITE" && r.Decision != "PARTIAL_FINITE") ||
+		(r.Decision != "COMPLETE_FINITE" && r.Decision != "PARTIAL_FINITE" && r.Decision != "OBSERVED") ||
 		r.ManifestSHA == "" || r.Result.Schema != "gooo/workspace-caller-construction/v1" ||
 		r.Result.Program.Schema != "gooo/workspace-body-program/v1" {
 		return nil, nil, fmt.Errorf("package construction requires its original successful envelope")
+	}
+	if r.Decision == "OBSERVED" && (!nativeDigest(r.InputsSHA) || r.CasesSHA != "") ||
+		r.Decision != "OBSERVED" && r.InputsSHA != "" {
+		return nil, nil, fmt.Errorf("package construction input mode or reported input binding differs")
 	}
 	var c struct {
 		SourceSHA string          `json:"original_source_sha256"`
@@ -117,8 +125,12 @@ func packageJointOutput(raw []byte) ([]byte, *PackageConstructionObservation, er
 		Evaluation   json.RawMessage `json:"evaluation"`
 	}{!*e.Replayed, r.Result.Construction, r.Result.Evaluation})
 	observation := &PackageConstructionObservation{ManifestSHA256: r.ManifestSHA, SourceSHA256: c.SourceSHA,
-		Entry: r.Result.Program.Entry, Activities: refs,
+		EvaluationMode: "cases",
+		Entry:          r.Result.Program.Entry, Activities: refs,
 		Scope: "reported package bindings and original caller rows checked against lowered observations; native source and execution are verified by compiler replay"}
+	if r.Decision == "OBSERVED" {
+		observation.EvaluationMode, observation.InputsSHA256 = "inputs", r.InputsSHA
+	}
 	return output, observation, err
 }
 
@@ -182,6 +194,9 @@ func readPackageJointSnapshot(raw []byte, inputSHA string) (Snapshot, error) {
 	var r packageJointEnvelope
 	if err := json.Unmarshal(raw, &r); err != nil {
 		return s, err
+	}
+	if r.Decision == "OBSERVED" && (s.Total != 0 || s.Passed != 0) {
+		return s, fmt.Errorf("input-only package observations cannot contain evaluation expectations")
 	}
 	complete := s.Joint.Decision == "COMPLETE_FINITE" && s.Total > 0 && s.Passed == s.Total &&
 		nativeActivityCount(s, false) == 0 && nativeActivityCount(s, true) == 0

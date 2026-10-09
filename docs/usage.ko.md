@@ -61,6 +61,32 @@ go run ./cmd/workbench construct --compiler ./.gooo \
 
 ## 실행 중 계산 실패를 다음 조립에 반영하기
 
+### 정답 없이 실행한 패키지의 진단
+
+컴파일러의 [실제 입력 실행 변경](https://github.com/kimjooyoon/meta-ontology-go/pull/1406)은
+`package construct --inputs`로 `OBSERVED` 기록을 만듭니다. 이 생성 옵션은 개발 중이며,
+공개 0.6.17은 `--cases`를 사용합니다. 작업장은 새 기록도 읽고, 진단 규칙 자체는
+공개 0.6.17 컴파일러로 실행할 수 있습니다.
+
+```sh
+gzip -dc testdata/package-joint/observed-replay.json.gz > /tmp/gooo-observation.json
+go run ./cmd/workbench diagnose --compiler gooo \
+  --input /tmp/gooo-observation.json --out out/observed-diagnosis
+```
+
+새 출력 폴더에는 입력 원문, 입력 지문, 읽어낸 관측과 Gooo 진단 실행 기록을 저장합니다.
+현재 평가의 점수는 0/0으로 남고, 앞서 조립에 사용한 사례의 점수는 별도로 유지합니다.
+`package_construction.evaluation_mode`는 `inputs`, `inputs_sha256`은 기록에 적힌
+실제 입력 파일의 지문입니다. 진단 명령은 원래 프로그램을 다시 실행하지 않으며,
+원본 소스와 모든 조립 시도의 재실행은 컴파일러의 `package construct --receipt`가 맡습니다.
+
+Gooo의 [다음 작업 규칙](../recipes/joint-next.gooo)은 조립이 덜 끝난 경우 남은 후보의
+시도 한도를 제안합니다. 정답 없는 정상 실행은 `evaluation-unobserved`, 실행 오류는
+`unscored-execution-fault`로 구분합니다. 실제 값을 얻었다는 사실만으로 정답률을 만들지
+않습니다. 추천 작업은 진단 결과에 기록되며 자동 실행 여부는 이를 받는 도구가 결정합니다.
+
+### 실패한 계산을 조립 조건에 추가하기
+
 공개 실행 파일 경로나 위 소스로 빌드한 `.gooo`를 지정합니다.
 
 ```sh

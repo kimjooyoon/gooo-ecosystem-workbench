@@ -1,0 +1,50 @@
+[
+  {
+    "code": "unscored-execution-fault",
+    "action": "add-fault-expectations",
+    "evaluation_mode": "inputs",
+    "evaluation_passed": 0,
+    "evaluation_total": 0,
+    "construction_decision": "COMPLETE_FINITE",
+    "attempts": 1,
+    "new_model_calls": 0,
+    "compiler_source": "ae71176b0c180b1bf3a1d8244a10f5f947b03455",
+    "sample": "fault"
+  },
+  {
+    "code": "evaluation-unobserved",
+    "action": "add-evaluation-expectations",
+    "evaluation_mode": "inputs",
+    "evaluation_passed": 0,
+    "evaluation_total": 0,
+    "construction_decision": "COMPLETE_FINITE",
+    "attempts": 41,
+    "new_model_calls": 0,
+    "compiler_source": "ae71176b0c180b1bf3a1d8244a10f5f947b03455",
+    "sample": "fresh"
+  },
+  {
+    "code": "program-budget-exhausted",
+    "action": "rerun-with-larger-program-budget",
+    "evaluation_mode": "inputs",
+    "evaluation_passed": 0,
+    "evaluation_total": 0,
+    "construction_decision": "PARTIAL_FINITE",
+    "attempts": 5,
+    "new_model_calls": 0,
+    "compiler_source": "ae71176b0c180b1bf3a1d8244a10f5f947b03455",
+    "sample": "partial"
+  },
+  {
+    "code": "evaluation-unobserved",
+    "action": "add-evaluation-expectations",
+    "evaluation_mode": "inputs",
+    "evaluation_passed": 0,
+    "evaluation_total": 0,
+    "construction_decision": "COMPLETE_FINITE",
+    "attempts": 41,
+    "new_model_calls": 0,
+    "compiler_source": "ae71176b0c180b1bf3a1d8244a10f5f947b03455",
+    "sample": "replay"
+  }
+]

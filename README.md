@@ -226,6 +226,11 @@ go run ./cmd/workbench diagnose --input /path/to/package-execution.json \
 
 ### 조립 기록에서 다음 행동 고르기
 
+정답 없이 실행한 패키지의 `OBSERVED` 기록도 읽을 수 있습니다. 이전 조립 점수와
+현재 입력의 관측을 구분하고, 미완료 조립·평가 기준 부재·실행 오류를 Gooo 규칙으로
+분류합니다. [사용 방법](docs/usage.ko.md#정답-없이-실행한-패키지의-진단)과
+[원본 관측](testdata/package-joint/observed-fixtures.md)을 함께 제공합니다.
+
 `diagnose`는 레코드 조립 기록이 있으면
 [다음 행동 프로그램](recipes/next-steps.gooo)도 실행합니다.
 기본 진단은 실행 결과를 요약하고, `construction_next_steps`는 각 활동의
