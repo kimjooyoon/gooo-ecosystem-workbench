@@ -12,12 +12,16 @@ equivalent intentions; changing their language does not create a new behavior.
 
 ## Export with the actual compiler
 
-Use Go 1.27.1 and a clean compiler build supporting
-`triple_record_value_graph_v3_shared_v1`. Its source SHA must match the argument.
+Use Go 1.27.2 and the published
+[Gooo 0.6.17 development build](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.17-dev).
+It supports `triple_record_value_graph_v3_shared_v1`. Its clean source SHA,
+reported by `gooo version --build --json`, must match the argument below.
+Fresh output records this compiler revision; the linked historical observations
+retain their original compiler and toolchain identities.
 
 ```sh
 go run ./experiments/graph-choice-corpus --compiler /path/to/gooo \
-  --expected-compiler e0d046503939883330eb37f998a2e0e8fc5154e5 --out out/graph-corpus
+  --expected-compiler ae71176b0c180b1bf3a1d8244a10f5f947b03455 --out out/graph-corpus
 go run ./cmd/workbench feature-audit --compiler /path/to/gooo \
   --input out/graph-corpus/audit-input.json --out out/graph-corpus-audit
 ```
@@ -58,10 +62,10 @@ all eight candidates to establish a unique complete label for each policy.
 
 ```sh
 go run ./experiments/graph-choice-corpus --compiler /path/to/gooo \
-  --expected-compiler e0d046503939883330eb37f998a2e0e8fc5154e5 \
+  --expected-compiler ae71176b0c180b1bf3a1d8244a10f5f947b03455 \
   --intent-contrasts --out out/intent-contrasts
 go run ./experiments/graph-choice-corpus --compiler /path/to/gooo \
-  --expected-compiler e0d046503939883330eb37f998a2e0e8fc5154e5 \
+  --expected-compiler ae71176b0c180b1bf3a1d8244a10f5f947b03455 \
   --native-contrasts out/intent-contrasts --out out/intent-native
 ```
 
