@@ -6,18 +6,16 @@ entity Observation id "gooo://graphnext/observation" fields {
     field source_passed id "gooo://graphnext/source-passed" type integer required one
     field source_total id "gooo://graphnext/source-total" type integer required one
     field bodies id "gooo://graphnext/bodies" type integer required one
-    field unsupported_bodies id "gooo://graphnext/unsupported-bodies" type integer required one
 }
 entity Advice id "gooo://graphnext/advice" fields {
     field code id "gooo://graphnext/code" type string required one
     field message id "gooo://graphnext/message" type string required one
     field action id "gooo://graphnext/action" type string required one
 }
-activity Next(Observation) -> Advice computes `if input.caller_passed < 0 || input.caller_total < input.caller_passed || input.source_passed < 0 || input.source_total < input.source_passed || input.bodies < 0 || input.unsupported_bodies < 0 || input.unsupported_bodies > input.bodies {
+activity Next(Observation) -> Advice computes `if input.caller_passed < 0 || input.caller_total < input.caller_passed || input.source_passed < 0 || input.source_total < input.source_passed || input.bodies < 0 {
     return Advice{code: "inconsistent-observation", message: "원본 결과와 요약 개수를 확인하세요.", action: "inspect-original-results"}
 }
 if input.caller_passed < input.caller_total {
-    if input.unsupported_bodies > 0 { return Advice{code: "joint-profile-pending", message: "typed_paths 본문은 실행·재생했습니다. 이 형태의 전체 프로그램 재조립은 추가 구현이 필요합니다.", action: "expand-joint-profile"} }
     if input.bodies == 0 { return Advice{code: "fixed-source", message: "다른 호출 결과가 있습니다. 선택할 본문 후보를 소스에 추가할 수 있습니다.", action: "inspect-source-choices"} }
     return Advice{code: "partial", message: "원래 호출 입력과 기대값을 그대로 다음 조립에 넘깁니다.", action: "add-counterexamples-to-construction"}
 }

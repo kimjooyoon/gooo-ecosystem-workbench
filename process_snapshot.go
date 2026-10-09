@@ -67,7 +67,7 @@ func readFailedProcesses(raw []byte, prefix string) ([]ProcessObservation, error
 	if err := json.Unmarshal(r.Construction, &construction); err != nil {
 		return nil, err
 	}
-	if construction.Failure == "" || !slices.Contains([]string{"gooo/joint-construction/v1", "gooo/joint-construction/v2", "gooo/joint-construction/v3", "gooo/joint-construction/v4", "gooo/joint-construction/v5", "gooo/joint-construction/v6"}, construction.Schema) {
+	if construction.Failure == "" || !slices.Contains([]string{"gooo/joint-construction/v1", "gooo/joint-construction/v2", "gooo/joint-construction/v3", "gooo/joint-construction/v4", "gooo/joint-construction/v5", "gooo/joint-construction/v6", "gooo/joint-construction/v7"}, construction.Schema) {
 		return nil, nil
 	}
 	var records []ProcessObservation

@@ -1,0 +1,10 @@
+package pathreject
+namespace pathreject
+entity Integer id "pathreject://integer"
+activity Choose(Integer) -> Integer computes "let x = input; let y = input + 1; let z = x; return z + (y * 0) + (x * 0)" assembling {
+    choice "reference" local_reference at "0" alternative "y" intent "Choose the local value."
+    choice "order" root_order at "1" intent "Choose the declaration order."
+    case "0" -> "999"
+    attempts "4"
+}
+activity Main(Integer) -> Integer computes "return Choose(input)"

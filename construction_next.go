@@ -50,6 +50,14 @@ func constructionObservations(r result) []ConstructionObservation {
 	var observations []ConstructionObservation
 	for _, steps := range [][]constructionStep{r.Composition.Preparations, r.Composition.Steps} {
 		for _, step := range steps {
+			if present(step.Generation.Report.Paths) {
+				o := pathObservation(step.Generation.Report.ActivityID, step.Generation.Report.Paths)
+				if step.Generation.Report.Assembly != nil || step.Generation.Report.Search != nil || step.Generation.Report.Fill != nil {
+					o.Consistent = false
+				}
+				observations = append(observations, o)
+				continue
+			}
 			if fill := step.Generation.Report.Fill; fill != nil {
 				o := fillObservation(step.Generation.Report.ActivityID, fill)
 				if step.Generation.Report.Assembly != nil || step.Generation.Report.Search != nil {

@@ -170,17 +170,14 @@ func summarizeGraph(raw []byte, bodies []GraphAssemblyBody) (Summary, error) {
 }
 
 func runGraphAssemblyPolicy(ctx context.Context, o Options, root, directory string, observed Summary, bodies []GraphAssemblyBody) (policyAdvice, Summary, error) {
-	passed, total, unsupported := 0, 0, 0
+	passed, total := 0, 0
 	for _, body := range bodies {
 		passed += body.SourcePassed
 		total += body.SourceTotal
-		if body.Kind == "typed_paths" {
-			unsupported++
-		}
 	}
 	return runAssemblyPolicy(ctx, o, root, directory, "graph-next", "graphnext", map[string]int{
 		"caller_passed": observed.NamedPassed, "caller_total": observed.NamedTotal,
-		"source_passed": passed, "source_total": total, "bodies": len(bodies), "unsupported_bodies": unsupported})
+		"source_passed": passed, "source_total": total, "bodies": len(bodies)})
 }
 
 func sameGraphReplay(originalRaw, replayRaw []byte, original, replay result) error {

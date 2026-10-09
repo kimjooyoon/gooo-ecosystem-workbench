@@ -18,17 +18,26 @@ type JointRejectionObservation struct {
 
 func validateJointRejection(schema string, kinds []string, masks []int, rejected *JointRejectionObservation,
 	records int, searches []jointSearchCandidate, fills []jointFillCandidate, runtime json.RawMessage) error {
+	return validateJointRejectionWithPaths(schema, kinds, masks, rejected, records, searches, fills, nil, runtime)
+}
+
+func validateJointRejectionWithPaths(schema string, kinds []string, masks []int, rejected *JointRejectionObservation,
+	records int, searches []jointSearchCandidate, fills []jointFillCandidate, paths []jointPathCandidate, runtime json.RawMessage) error {
 	kind := "source_search_index"
-	if rejected.Stage == "LOCAL_SOURCE_FILL" && (schema == "gooo/joint-construction/v5" || schema == "gooo/joint-construction/v6") {
+	if rejected.Stage == "LOCAL_SOURCE_FILL" && (schema == "gooo/joint-construction/v5" || schema == "gooo/joint-construction/v6" || schema == "gooo/joint-construction/v7") {
 		kind = "source_fill_index"
 	}
-	if schema != "gooo/joint-construction/v3" && schema != "gooo/joint-construction/v4" && schema != "gooo/joint-construction/v5" && schema != "gooo/joint-construction/v6" ||
-		(rejected.Stage != "LOCAL_SOURCE_SEARCH" && kind != "source_fill_index") ||
+	if rejected.Stage == "LOCAL_TYPED_PATH" && schema == "gooo/joint-construction/v7" {
+		kind = "typed_path_mask"
+	}
+	if schema != "gooo/joint-construction/v3" && schema != "gooo/joint-construction/v4" && schema != "gooo/joint-construction/v5" && schema != "gooo/joint-construction/v6" && schema != "gooo/joint-construction/v7" ||
+		(rejected.Stage != "LOCAL_SOURCE_SEARCH" && kind != "source_fill_index" && kind != "typed_path_mask") ||
 		rejected.Slot == nil || *rejected.Slot < 0 || *rejected.Slot >= len(kinds) || kinds[*rejected.Slot] != kind {
-		return fmt.Errorf("joint rejection requires a bound search slot or v5/v6 fill slot")
+		return fmt.Errorf("joint rejection requires a bound source-search, fill or v7 typed-path slot")
 	}
 	allRecords, allSearches, prefixRecords, prefixSearches := 0, 0, 0, 0
 	allFills, prefixFills := 0, 0
+	allPaths, prefixPaths := 0, 0
 	for i, kind := range kinds {
 		if kind == "record_mask" {
 			allRecords++
@@ -45,15 +54,27 @@ func validateJointRejection(schema string, kinds []string, masks []int, rejected
 			if i <= *rejected.Slot {
 				prefixFills++
 			}
+		} else if kind == "typed_path_mask" {
+			allPaths++
+			if i <= *rejected.Slot {
+				prefixPaths++
+			}
 		}
 	}
-	if err := validateJointKinds(schema, kinds, masks, allRecords, allSearches, allFills); err != nil {
+	if err := validateJointKindsWithPaths(schema, kinds, masks, allRecords, allSearches, allFills, allPaths); err != nil {
 		return err
 	}
-	if records != prefixRecords || len(searches) != prefixSearches || len(fills) != prefixFills {
+	if records != prefixRecords || len(searches) != prefixSearches || len(fills) != prefixFills || len(paths) != prefixPaths {
 		return fmt.Errorf("joint rejected observations differ from the evaluated prefix")
 	}
-	if kind == "source_fill_index" {
+	if kind == "typed_path_mask" {
+		if len(paths) == 0 {
+			return fmt.Errorf("missing rejected typed path")
+		}
+		if err := validateRejectedPath(paths[len(paths)-1], rejected); err != nil {
+			return err
+		}
+	} else if kind == "source_fill_index" {
 		if len(fills) == 0 {
 			return fmt.Errorf("missing rejected fill")
 		}
