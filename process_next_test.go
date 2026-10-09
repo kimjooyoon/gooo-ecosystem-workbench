@@ -55,7 +55,7 @@ func TestNativeFailedProcessPolicyAndSavedModelReplay(t *testing.T) {
 		}
 		s.Processes = append(s.Processes, one.Processes...)
 	}
-	var first []processAdvice
+	var first []policyAdvice
 	for _, model := range []string{"", "models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json"} {
 		out := filepath.Join(t.TempDir(), "diagnosis")
 		raw, err := Diagnose(context.Background(), Options{Compiler: compiler, Model: model, Out: out}, s)
@@ -63,7 +63,7 @@ func TestNativeFailedProcessPolicyAndSavedModelReplay(t *testing.T) {
 			t.Fatal(err)
 		}
 		var report struct {
-			Processes   []struct{ Advice processAdvice }
+			Processes   []struct{ Advice policyAdvice }
 			Observation Summary
 		}
 		if err := json.Unmarshal(raw, &report); err != nil {
@@ -80,7 +80,7 @@ func TestNativeFailedProcessPolicyAndSavedModelReplay(t *testing.T) {
 		if report.Observation.ModelCalls != wantCalls {
 			t.Fatal("model call count differs", report.Observation)
 		}
-		values := make([]processAdvice, len(tests))
+		values := make([]policyAdvice, len(tests))
 		for i, row := range report.Processes {
 			if row.Advice.Code != tests[i].code {
 				t.Fatal(i, row.Advice, tests[i].code)

@@ -1,0 +1,23 @@
+package scalaridentity
+namespace scalaridentity
+entity Count id "urn:gooo:type:integer"
+entity Enabled id "urn:gooo:type:boolean"
+entity Message id "urn:gooo:type:string"
+entity Label id "urn:gooo:scalar-identity:label" fields {
+    field text id "urn:gooo:scalar-identity:label:text" type string required one
+    field active id "urn:gooo:scalar-identity:label:active" type boolean required one
+    field count id "urn:gooo:scalar-identity:label:count" type integer required one
+}
+activity Describe(Count, Enabled, Message) -> Label id "urn:gooo:scalar-identity:describe" computes `let text = input2
+let active = input1 && input0 > 0
+if input1 && input0 > 0 { text = text + "!" }
+return Label{text: "pending", active: false, count: 0}` assembling {
+    choice "text" field_value at "0" alternative "text" intent "입력 조건으로 계산한 문장을 반환한다. Return the text computed from the supplied inputs."
+    choice "active" field_value at "1" alternative "active" intent "사용 여부와 양수 조건을 함께 반영한다. Report whether enabled and positive."
+    choice "count" field_value at "2" alternative "input0" intent "입력 정수를 그대로 반환한다. Preserve the supplied integer exactly."
+    value_case "[5,true,\"hello\"]" -> "{\"text\":\"hello!\",\"active\":true,\"count\":5}"
+    value_case "[-2,true,\"한글\"]" -> "{\"text\":\"한글\",\"active\":false,\"count\":-2}"
+    value_case "[0,true,\"zero\"]" -> "{\"text\":\"zero\",\"active\":false,\"count\":0}"
+    value_case "[2,false,\"off\"]" -> "{\"text\":\"off\",\"active\":false,\"count\":2}"
+    attempts "8"
+}

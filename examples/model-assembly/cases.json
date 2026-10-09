@@ -1,0 +1,9 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs":{"Describe.input0":9007199254740993,"Describe.input1":true,"Describe.input2":"해보자"},"expected":{"Describe":{"text":"해보자!","active":true,"count":9007199254740993}}},
+    {"inputs":{"Describe.input0":-9007199254740993,"Describe.input1":true,"Describe.input2":"negative"},"expected":{"Describe":{"text":"negative","active":false,"count":-9007199254740993}}},
+    {"inputs":{"Describe.input0":4,"Describe.input1":false,"Describe.input2":"🙂"},"expected":{"Describe":{"text":"🙂","active":false,"count":4}}},
+    {"inputs":{"Describe.input0":12,"Describe.input1":true,"Describe.input2":"context"},"expected":{"Describe":{"text":"context!","active":true,"count":12}}}
+  ]
+}

@@ -1,0 +1,23 @@
+package assemblyroute
+namespace assemblyroute
+
+entity Observation id "gooo://assemblyroute/observation" fields {
+    field requested id "gooo://assemblyroute/requested" type boolean required one
+    field status id "gooo://assemblyroute/status" type string required one
+    field reason id "gooo://assemblyroute/reason" type string required one
+}
+entity Advice id "gooo://assemblyroute/advice" fields {
+    field code id "gooo://assemblyroute/code" type string required one
+    field message id "gooo://assemblyroute/message" type string required one
+    field action id "gooo://assemblyroute/action" type string required one
+}
+activity Next(Observation) -> Advice computes `if !input.requested {
+    return Advice{code: "no-model", message: "모델 없이 소스에 선언한 순서로 조립합니다.", action: "fixed"}
+}
+if input.status == "READY_FOR_RANKING" && input.reason == "SOURCE_INPUT_ENCODED" {
+    return Advice{code: "source-encoded", message: "모델이 읽을 입력을 준비했습니다. 후보를 정렬한 뒤 선언한 사례로 검사합니다.", action: "model"}
+}
+if input.status == "DECLINED_TO_DETERMINISTIC" && input.reason != "" {
+    return Advice{code: "representation-declined", message: "현재 모델의 입력 범위를 벗어났습니다. 소스에 선언한 순서로 조립합니다.", action: "fixed"}
+}
+return Advice{code: "preflight-unresolved", message: "사전 확인 결과를 해석하지 못했습니다. preflight.json에서 상태와 사유를 확인하세요.", action: "stop"}`

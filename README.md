@@ -13,6 +13,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | --- | --- | --- |
 | 표준 함수 13개 | 정수 범위·최솟값·최댓값, 논리 연산, 텍스트 선택 | `verify` |
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
+| 소스와 모델을 확인하고 조립 | Gooo가 모델·고정 순서 경로를 고르고 실제 호출·저장 재생까지 연결 | [`assemble`](examples/model-assembly/README.md) |
 | 전체 조립 반복 | 부품·호출부·평가 결과를 구분하고 Gooo가 다음 시도 한도를 계산 | `construct` |
 | 여러 패키지 조립 | 원래 패키지와 호출 사례를 보존하고 Gooo 규칙으로 실패 사례·시도 한도를 선택 | [`construct --workspace`](examples/package-caller-construction/README.md) |
 | 실패한 조립 이어가기 | 잘못된 빈칸 후보를 기록하고 시도·탈락·실행 수를 구분 | [후보 탈락 예제](examples/caller-fill-rejection/README.md) |
@@ -45,31 +46,31 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
-Go 1.27.2와 Gooo 0.6.18 개발 소스를 사용합니다. 조건식·대입식의 빈칸을 함께 채우고, 실제 호출 결과로 다시 고릅니다.
-타입 오류나 학습용 사례의 계산 실패가 있는 빈칸 후보는 이유를 기록하고 다음 후보로 넘어갑니다.
-[다섯 후보 예제](examples/caller-fill-rejection/README.md)도 공개 실행 파일로 실행할 수 있습니다.
+소스와 모델의 조합을 확인하며 실행하려면 [한 명령 조립 예제](examples/model-assembly/README.md)를
+사용합니다. 선택 이유, 사례 결과, 생성 코드 위치가 터미널에 나오고 원본은 파일에 남습니다.
+이 기능은 `body-context --model`을 포함한 개발 컴파일러를 사용합니다.
+
+Go 1.27.2와 CI에 고정한 개발 소스 `e5be98712f6b435917b297447200ef50e7adb493`를 사용합니다.
+[실행 안내](docs/usage.ko.md)로 빌드한 뒤 `--compiler ./.gooo`를 지정합니다.
+`version --build --json`에서 `0.6.21-dev`, `go1.27.2`와 위 소스 리비전을 확인합니다.
+공개 0.6.21 태그는 이전 소스에 연결되어 있으므로 새 사전 확인에는 개발 빌드를 사용합니다.
+
+조건식·대입식의 빈칸을 함께 채우고 실제 호출 결과로 다시 고릅니다.
+타입 오류나 조립용 사례의 계산 실패가 있는 후보는 이유를 기록하고 다음 후보를 시도합니다.
 거절된 후보는 시도 한도에 포함하고 실행한 조합과 따로 셉니다.
-`splice`용 패키지 문자열 연산도 사용할 수 있습니다.
-실제 호출에서 0으로 나누는 후보도 위치와 피연산자를 남기고 다음 조합으로 이어집니다.
-독립적인 출력과 의존 활동의 중단 이유를 보존하며 Gooo 규칙이 다음 조립을 고릅니다.
-CI는 개발 소스 `e8ccf425c93ed1499dd27a1e20e8ec574b36069b`를 고정해 빌드합니다.
-`version --build --json`에서 `0.6.18-dev`, `go1.27.2`와 위 리비전을 확인합니다.
-새 `api-diff` 명령은 이 소스에 추가한 `package interface`를 사용합니다.
-공개 0.6.18 실행 파일은 실제 입력 실행을 지원하며, 새 인터페이스 명령은 아직 포함하지 않습니다.
-[소스 빌드 안내](docs/usage.ko.md)로 같은 컴파일러를 준비할 수 있습니다.
-[계산 실패 예제](examples/caller-native-failure/README.md)를 공개 실행 파일로 실행할 수 있습니다.
-소스의 연산자·값 관계와 의도를 작은 모델에 전달하는 경로도 포함합니다.
-`gooo version --build --json`으로 설치 버전과 소스를 확인할 수 있습니다.
+[다섯 후보 예제](examples/caller-fill-rejection/README.md)와
+[계산 실패 예제](examples/caller-native-failure/README.md)에 작은 재현 자료가 있습니다.
+API 비교의 `package interface`와 소스 그래프 입력도 같은 고정 소스로 실행합니다.
 설치 후 이 저장소에서:
 
 ```sh
-go run ./cmd/workbench verify --model builtin --out out/verified
-go run ./cmd/workbench scaffold --profile record --model builtin --out out/my-record-project
-go run ./cmd/workbench scaffold --profile library --model builtin --out out/my-library
-go run ./cmd/workbench diagnose --input examples/partial-composition.json \
+go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
+go run ./cmd/workbench scaffold --compiler ./.gooo --profile record --model builtin --out out/my-record-project
+go run ./cmd/workbench scaffold --compiler ./.gooo --profile library --model builtin --out out/my-library
+go run ./cmd/workbench diagnose --compiler ./.gooo --input examples/partial-composition.json \
   --model builtin --out out/next-work
-go run ./cmd/workbench receipt --input out/verified --out out/completeness
-go run ./cmd/workbench discover --query '코드 생성은 어떻게 해?' \
+go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out/completeness
+go run ./cmd/workbench discover --compiler ./.gooo --query '코드 생성은 어떻게 해?' \
   --declaration examples/catalog/operations.gooo --out out/capability-discovery
 ```
 

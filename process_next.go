@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-type processAdvice struct {
+type policyAdvice struct {
 	Code    string `json:"code"`
 	Message string `json:"message"`
 	Action  string `json:"action"`
@@ -54,15 +54,15 @@ func diagnoseProcesses(ctx context.Context, o Options, root string, s Snapshot) 
 	}); err != nil {
 		return nil, err
 	}
-	var original []processAdvice
+	var original []policyAdvice
 	var observations Summary
 	var selected string
 	for _, replay := range []bool{false, true} {
-		raw, r, program, err := executeProcessPolicy(ctx, o, root, model, replay)
+		raw, r, program, err := executeInputPolicy(ctx, o, root, model, replay)
 		if err != nil {
 			return nil, err
 		}
-		advice, err := processAdviceValues(r, len(rows))
+		advice, err := policyAdviceValues(r, len(rows))
 		if err != nil {
 			return nil, err
 		}
@@ -95,7 +95,7 @@ func diagnoseProcesses(ctx context.Context, o Options, root string, s Snapshot) 
 	return raw, saveProcessContext(root, s, original, observations, selected)
 }
 
-func executeProcessPolicy(ctx context.Context, o Options, root, model string, replay bool) ([]byte, result, string, error) {
+func executeInputPolicy(ctx context.Context, o Options, root, model string, replay bool) ([]byte, result, string, error) {
 	var r result
 	args := []string{"package", "execute", "--json", "--inputs", filepath.Join(root, "inputs.json")}
 	filename := "execution.json"
@@ -124,7 +124,7 @@ func executeProcessPolicy(ctx context.Context, o Options, root, model string, re
 		return nil, r, "", err
 	}
 	if envelope.Schema != "gooo/workspace-body-execution-receipt/v1" || envelope.Decision != "OBSERVED" || envelope.Error != "" {
-		return nil, r, "", fmt.Errorf("process advice requires input-only Gooo execution")
+		return nil, r, "", fmt.Errorf("input policy requires input-only Gooo execution")
 	}
 	if err = json.Unmarshal(envelope.Result, &r); err != nil {
 		return nil, r, "", err
@@ -152,26 +152,26 @@ func executeProcessPolicy(ctx context.Context, o Options, root, model string, re
 	if x.Calls == nil || *x.Calls != 0 || x.Passed == nil || *x.Passed != 0 || x.Total == nil || *x.Total != 0 ||
 		x.Stage != "COMPLETE" || !x.Projection || !x.Replay || !nativeDigest(identity.Composition.SHA) ||
 		replay && (r.Generated || envelope.From == "" || identity.Replay == nil || identity.Replay.Calls == nil || *identity.Replay.Calls != 0) {
-		return nil, r, "", fmt.Errorf("process advice acquired a score, inference during execution or unbound replay")
+		return nil, r, "", fmt.Errorf("input policy acquired a score, inference during execution or unbound replay")
 	}
 	return envelope.Result, r, identity.Composition.SHA, nil
 }
 
-func processAdviceValues(r result, count int) ([]processAdvice, error) {
+func policyAdviceValues(r result, count int) ([]policyAdvice, error) {
 	if len(r.Composition.Steps) != 1 || len(r.Runtime.Traces) != count {
-		return nil, fmt.Errorf("process policy output count differs")
+		return nil, fmt.Errorf("input policy output count differs")
 	}
 	id := r.Composition.Steps[0].Generation.Report.ActivityID
-	values := make([]processAdvice, count)
+	values := make([]policyAdvice, count)
 	for i, trace := range r.Runtime.Traces {
 		if trace.CaseIndex != i || len(trace.Deliveries) != 1 || id == "" || trace.Deliveries[0].ID != id || len(trace.Deliveries[0].Expected) != 0 {
-			return nil, fmt.Errorf("process policy output identity, order or observation scope differs")
+			return nil, fmt.Errorf("input policy output identity, order or observation scope differs")
 		}
 		if err := json.Unmarshal(trace.Deliveries[0].Actual, &values[i]); err != nil {
 			return nil, err
 		}
 		if values[i].Code == "" || values[i].Message == "" || values[i].Action == "" {
-			return nil, fmt.Errorf("process policy advice is incomplete")
+			return nil, fmt.Errorf("input policy advice is incomplete")
 		}
 	}
 	return values, nil

@@ -2,7 +2,7 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.2와 아래에 고정한 Gooo 0.6.18 개발 소스를 사용합니다.
+Go 1.27.2와 아래에 고정한 Gooo 개발 소스를 사용합니다.
 컴파일러를 먼저 빌드한 뒤 각 명령의 `--compiler`에 그 실행 파일 경로를 지정합니다.
 이미 같은 리비전의 `gooo`를 설치했다면 다음처럼 시작합니다.
 
@@ -22,7 +22,7 @@ go run ./cmd/workbench construct --compiler gooo \
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin e8ccf425c93ed1499dd27a1e20e8ec574b36069b
+git -C .compiler fetch --depth 1 origin e5be98712f6b435917b297447200ef50e7adb493
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.2 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
@@ -39,10 +39,11 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.18-dev`, Go 버전은 `go1.27.2`입니다.
-소스 리비전이 `e8ccf425c93ed1499dd27a1e20e8ec574b36069b`와 같은지 확인합니다.
+`version --build --json`의 버전 문자열은 `0.6.21-dev`, Go 버전은 `go1.27.2`입니다.
+소스 리비전이 `e5be98712f6b435917b297447200ef50e7adb493`와 같은지 확인합니다.
 개발 브랜치에 병합한 이 소스의 `package interface`는 API 변경 비교에서 사용합니다.
-공개 0.6.18 실행 파일에는 아직 이 명령이 없으므로, API 비교에는 위에서 빌드한 `.gooo`를 지정합니다.
+현재 고정 소스는 소스·모델 사전 확인도 포함합니다. 공개 0.6.21 태그의 소스와는 다르므로,
+`assemble`에는 위에서 빌드한 `.gooo`를 지정합니다.
 패키지 조립 명령을 쓰는 예제는 다음과 같습니다.
 
 ```sh

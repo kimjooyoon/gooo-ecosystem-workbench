@@ -23,7 +23,7 @@ func TestProcessContextKeepsEvidenceAndTypedDecisionInputs(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	advice := []processAdvice{{Code: "deadline-during-start", Message: "시작 제한", Action: "inspect-start-and-parent-budget"}}
+	advice := []policyAdvice{{Code: "deadline-during-start", Message: "시작 제한", Action: "inspect-start-and-parent-budget"}}
 	if err := saveProcessContext(root, s, advice, Summary{ReplayVerified: true}, "sha256:program"); err != nil {
 		t.Fatal(err)
 	}

@@ -1,0 +1,77 @@
+{
+  "schema": "gooo/ecosystem-source-model-assembly/v1",
+  "route": {
+    "code": "representation-declined",
+    "message": "현재 모델의 입력 범위를 벗어났습니다. 소스에 선언한 순서로 조립합니다.",
+    "action": "fixed"
+  },
+  "preflight": {
+    "schema": "gooo/record-assembly-input-export/v1",
+    "original_source_sha256": "sha256:b83920a54fc291b5c4b5ecd4c4d16dde64cc0bcdde3ff3f905f8cb6cf55c023a",
+    "contract_sha256": "sha256:e0778b683d4e162b587b911971b24e9fabe9403bd61a328407ffcf0be2015878",
+    "activity_id": "urn:gooo:scalar-identity:describe",
+    "model_predictions": 0,
+    "candidate_tests": 0,
+    "model_compatibility": {
+      "schema": "gooo/record-model-compatibility/v1",
+      "status": "DECLINED_TO_DETERMINISTIC",
+      "reason": "THREE_FIELD_CHOICES_REQUIRED",
+      "model": {
+        "schema": "gooo/retained-path-model/v1",
+        "loaded": true,
+        "metadata_sha256": "3c68205a660695103712e2115ce90accd298b406dced8ad5ad5c9b84bab0a202",
+        "weights_sha256": "76f68845a03ed8c8bc261a57c919e96dcdd352d3c35bcdaeb3d9b51a88975c6f",
+        "model_schema": "gooo/tiny-shared-three-choice-path-model/v1",
+        "feature_version": "triple_record_value_graph_v3_shared_v1",
+        "arithmetic_version": "float32_separate_v1"
+      }
+    },
+    "context": {
+      "status": "DECLINED_TO_DETERMINISTIC",
+      "reason": "THREE_FIELD_CHOICES_REQUIRED",
+      "sha256": "",
+      "feature_version": "triple_record_value_graph_v3_shared_v1"
+    }
+  },
+  "policy_observation": {
+    "recipe": "assembly-route",
+    "mode": "fixed",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 0,
+    "selection_fields_total": 0,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "eb71181cec2cb6955ae5824ae58370693e714b84efbc4d496c8e3b61bfa52ffd"
+  },
+  "observation": {
+    "recipe": "source-model-assembly",
+    "mode": "fixed",
+    "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+    "named_passed": 4,
+    "named_total": 4,
+    "record_fields_passed": 12,
+    "record_fields_total": 12,
+    "selection_fields_passed": 12,
+    "selection_fields_total": 12,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "1aa316f9760dfdd35331357a42c1834079f013c2cd9fce20aff308ac73bb6daa"
+  },
+  "generated_sha256": "sha256:0b4c106d711006dcf472bed7daf1b4c8bb507236681ae811c7fec6a0021ef21f",
+  "artifacts": {
+    "assembly": "assembly.json",
+    "generated_go": "composition/generated.go",
+    "preflight": "preflight.json",
+    "replay": "replay.json",
+    "routing": "routing/execution.json",
+    "routing_replay": "routing/replay.json",
+    "saved_composition": "composition/composition.json"
+  },
+  "scope": "source-owned record assembly; representation readiness, source selection cases and caller native cases are separate; saved replay performs zero fresh inference; no general accuracy claim"
+}

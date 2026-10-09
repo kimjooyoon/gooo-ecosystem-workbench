@@ -1,0 +1,7 @@
+모델 없이 소스에 선언한 순서로 조립합니다.
+경로: fixed
+조립용 사례의 필드: 12/12
+호출 사례: 4/4 · 필드: 12/12
+조립 추론: 0회 · 저장 재생: 확인
+결과: /tmp/gooo-assembly-20261009.qzH0qx/human-guide/report.json
+생성 코드: /tmp/gooo-assembly-20261009.qzH0qx/human-guide/composition/generated.go

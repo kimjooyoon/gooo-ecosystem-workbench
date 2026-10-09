@@ -18,11 +18,11 @@ type processContext struct {
 }
 
 type processContextItem struct {
-	Location        string        `json:"original_json_pointer"`
-	Stage           string        `json:"reported_runtime_stage"`
-	Input           processInput  `json:"policy_input"`
-	Advice          processAdvice `json:"advice"`
-	EvidencePointer string        `json:"observation_json_pointer"`
+	Location        string       `json:"original_json_pointer"`
+	Stage           string       `json:"reported_runtime_stage"`
+	Input           processInput `json:"policy_input"`
+	Advice          policyAdvice `json:"advice"`
+	EvidencePointer string       `json:"observation_json_pointer"`
 }
 
 type processArtifact struct {
@@ -33,7 +33,7 @@ type processArtifact struct {
 
 // saveProcessContext projects Gooo's result for the next tool or model. Full
 // evidence stays on disk; digest-bound relative references allow selective reads.
-func saveProcessContext(root string, s Snapshot, advice []processAdvice, summary Summary, program string) error {
+func saveProcessContext(root string, s Snapshot, advice []policyAdvice, summary Summary, program string) error {
 	if len(s.Processes) != len(advice) {
 		return fmt.Errorf("process context requires one Gooo advice per observation")
 	}

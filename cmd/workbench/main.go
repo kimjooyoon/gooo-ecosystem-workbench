@@ -21,7 +21,10 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff; each command accepts --help")
+		return fmt.Errorf("use verify, scaffold, splice, assemble, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff; each command accepts --help")
+	}
+	if args[0] == "assemble" {
+		return runAssemble(args[1:])
 	}
 	if args[0] == "refine" {
 		return runRefine(args[1:])
@@ -133,7 +136,7 @@ func run(args []string) error {
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff", args[0])
+		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, assemble, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff", args[0])
 	}
 	if err != nil {
 		return err
