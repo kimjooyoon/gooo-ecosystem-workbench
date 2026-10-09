@@ -1,0 +1,58 @@
+[
+  {
+    "original_path": "report.json",
+    "stored_path": "report.json",
+    "original_sha256": "sha256:5b37f0d879509bf574878b12334006bd851c2bedfbe57ccb5108c4f85c6dfa14",
+    "original_bytes": 3150,
+    "gzip": false
+  },
+  {
+    "original_path": "preflight.json",
+    "stored_path": "preflight.json.gz",
+    "original_sha256": "sha256:d94b4c60f65d53ea7a0663dcdab3abfd39c08cc008a9b2a4de769b0000ead3aa",
+    "original_bytes": 2087,
+    "gzip": true
+  },
+  {
+    "original_path": "assembly.json",
+    "stored_path": "assembly.json.gz",
+    "original_sha256": "sha256:1aa316f9760dfdd35331357a42c1834079f013c2cd9fce20aff308ac73bb6daa",
+    "original_bytes": 37202,
+    "gzip": true
+  },
+  {
+    "original_path": "replay.json",
+    "stored_path": "replay.json.gz",
+    "original_sha256": "sha256:38ec45ba5b9233a79560e017aaaf786ea468ca9749cd3f2aa0cb9ae92d721e21",
+    "original_bytes": 37203,
+    "gzip": true
+  },
+  {
+    "original_path": "routing/execution.json",
+    "stored_path": "routing-execution.json.gz",
+    "original_sha256": "sha256:d64462dfe94daacb6dd875f468b54ec29dcb1b834bfd0567745a631e06cc682f",
+    "original_bytes": 38773,
+    "gzip": true
+  },
+  {
+    "original_path": "routing/replay.json",
+    "stored_path": "routing-replay.json.gz",
+    "original_sha256": "sha256:882cc16297d3314001ba4502f87b242b33baf5b4ba8aa68b7e62dd7577d2a137",
+    "original_bytes": 39201,
+    "gzip": true
+  },
+  {
+    "original_path": "routing/inputs.json",
+    "stored_path": "routing-inputs.json.gz",
+    "original_sha256": "sha256:6874d830f3c50f703b0d818638af82bdb89df7d7a3f34cd5d0f0ca00ce1a8dfa",
+    "original_bytes": 242,
+    "gzip": true
+  },
+  {
+    "original_path": "routing/assembly-route.gooo",
+    "stored_path": "routing-assembly-route.gooo",
+    "original_sha256": "sha256:6b1afdf5166f5bf78988d7d89e19cfc0efc2252914432d360b914d7c0c035db7",
+    "original_bytes": 1528,
+    "gzip": false
+  }
+]

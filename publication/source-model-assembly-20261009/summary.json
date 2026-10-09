@@ -1,0 +1,181 @@
+{
+  "schema": "gooo/source-model-assembly-observation/v1",
+  "workbench_source": "b327a69a9397582959aa07b16c677b6fb307ce19",
+  "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+  "cwd": "/tmp",
+  "rows": [
+    {
+      "mode": "fixed",
+      "route": {
+        "code": "no-model",
+        "message": "모델 없이 소스에 선언한 순서로 조립합니다.",
+        "action": "fixed"
+      },
+      "preflight_reason": "NO_MODEL_REQUESTED",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 4,
+        "named_total": 4,
+        "record_fields_passed": 12,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "66d47eda6d49721cb415b94f8aebdd505b12a73d9a37be04f93bf3760ed87ddd"
+      },
+      "policy_observation": {
+        "recipe": "assembly-route",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "1548a4ab83e94b61748068b333672148fd2231cb5ca3652687971cc708eb84e0"
+      },
+      "source_sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+      "generated_sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+      "predict_ns": 0,
+      "originals": "fixed/originals.json"
+    },
+    {
+      "mode": "model",
+      "route": {
+        "code": "source-encoded",
+        "message": "모델이 읽을 입력을 준비했습니다. 후보를 정렬한 뒤 선언한 사례로 검사합니다.",
+        "action": "model"
+      },
+      "preflight_reason": "SOURCE_INPUT_ENCODED",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "model",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 4,
+        "named_total": 4,
+        "record_fields_passed": 12,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 1,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "bf6d37e4817b69005c3eb075f7a56a959eaac7794d3330ef8072d5d69bcf2cf4"
+      },
+      "policy_observation": {
+        "recipe": "assembly-route",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "8b2f5f6ae4ea1187017c902195a1bc3ba54a2bceb4216af0bfb80dc652e2144c"
+      },
+      "source_sha256": "sha256:ac67b0d19cf49dec85c781bb28977c8238f43f008215f2fa2a7f250c925bffe3",
+      "generated_sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+      "predict_ns": 54334,
+      "originals": "model/originals.json"
+    },
+    {
+      "mode": "english",
+      "route": {
+        "code": "source-encoded",
+        "message": "모델이 읽을 입력을 준비했습니다. 후보를 정렬한 뒤 선언한 사례로 검사합니다.",
+        "action": "model"
+      },
+      "preflight_reason": "SOURCE_INPUT_ENCODED",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "model",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 4,
+        "named_total": 4,
+        "record_fields_passed": 12,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 1,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "e60275596279f4236293236c018ec4fcf9a56d6091e49b478a2e075d24fbbe46"
+      },
+      "policy_observation": {
+        "recipe": "assembly-route",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "ca354316bdaaf72c0cf4e840bd137d4a5a2b5c5bcba25b9923ed8416ab38056b"
+      },
+      "source_sha256": "sha256:3f6be5c0096786e0cf8be6ea28c3382f571041eea45b5f70b601ea1b995bcdf8",
+      "generated_sha256": "sha256:59e1e70fe13c8be8da4c0e35ac3eb07fa66fc10e820662a888921338f32967d4",
+      "predict_ns": 60917,
+      "originals": "english/originals.json"
+    },
+    {
+      "mode": "declined",
+      "route": {
+        "code": "representation-declined",
+        "message": "현재 모델의 입력 범위를 벗어났습니다. 소스에 선언한 순서로 조립합니다.",
+        "action": "fixed"
+      },
+      "preflight_reason": "THREE_FIELD_CHOICES_REQUIRED",
+      "observation": {
+        "recipe": "source-model-assembly",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 4,
+        "named_total": 4,
+        "record_fields_passed": 12,
+        "record_fields_total": 12,
+        "selection_fields_passed": 12,
+        "selection_fields_total": 12,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "1aa316f9760dfdd35331357a42c1834079f013c2cd9fce20aff308ac73bb6daa"
+      },
+      "policy_observation": {
+        "recipe": "assembly-route",
+        "mode": "fixed",
+        "compiler_source": "e5be98712f6b435917b297447200ef50e7adb493",
+        "named_passed": 0,
+        "named_total": 0,
+        "record_fields_passed": 0,
+        "record_fields_total": 0,
+        "selection_fields_passed": 0,
+        "selection_fields_total": 0,
+        "generation_model_calls": 0,
+        "type_rejected_candidates": 0,
+        "saved_replay_verified": true,
+        "result_sha256": "eb71181cec2cb6955ae5824ae58370693e714b84efbc4d496c8e3b61bfa52ffd"
+      },
+      "source_sha256": "sha256:b83920a54fc291b5c4b5ecd4c4d16dde64cc0bcdde3ff3f905f8cb6cf55c023a",
+      "generated_sha256": "sha256:0b4c106d711006dcf472bed7daf1b4c8bb507236681ae811c7fec6a0021ef21f",
+      "predict_ns": 0,
+      "originals": "declined/originals.json"
+    }
+  ],
+  "scope": "four separate route invocations over the same four caller cases; disclosed finite examples, not independent accuracy estimates; macOS resource files observe whole commands including routing and replay; no machine-wide CPU utilization measurement; human guide is a repeated fixed invocation"
+}
