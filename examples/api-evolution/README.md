@@ -5,7 +5,7 @@ The `api-diff` command reads two Gooo workspaces through the compiler's
 identities. The [Gooo recipe](../../recipes/api-changes.gooo) classifies the
 differences and returns the next operation to try.
 
-This requires compiler source `8951c5f8f22526e9cc1225a4dd47e63a6d420c4a`
+This requires compiler source `e8ccf425c93ed1499dd27a1e20e8ec574b36069b`
 or a later source containing `package interface`; the existing public
 0.6.18 release does not yet include that command. CI pins this exact candidate.
 

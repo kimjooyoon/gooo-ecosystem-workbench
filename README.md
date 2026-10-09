@@ -210,6 +210,8 @@ Go 생성 결과가 남습니다. 만든 파일을 수정해 다음 프로그램
 [프로세스 진단 Gooo 규칙](recipes/process-next.gooo)으로 시작 실패·시간 초과·취소 등을
 구분합니다. 원래 시간·종료 상태와 JSON 위치를 남기며, 없는 과거 타이밍은 미관측으로
 읽습니다. [실제 Windows 실패 예제와 사용법](examples/native-process-failure/README.md).
+`next-context.json`에는 다음 도구가 먼저 읽을 상태·작업·근거 위치와 크기가 있습니다.
+[최근 외부 사례와 적용 내용](docs/research-2026-10-09.md)에 설계 이유와 남은 범위를 적었습니다.
 
 `observation.json`의 `unit`은 집계 단위를 표시합니다.
 

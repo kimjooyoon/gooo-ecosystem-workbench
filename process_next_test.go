@@ -57,7 +57,8 @@ func TestNativeFailedProcessPolicyAndSavedModelReplay(t *testing.T) {
 	}
 	var first []processAdvice
 	for _, model := range []string{"", "models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json"} {
-		raw, err := Diagnose(context.Background(), Options{Compiler: compiler, Model: model, Out: filepath.Join(t.TempDir(), "diagnosis")}, s)
+		out := filepath.Join(t.TempDir(), "diagnosis")
+		raw, err := Diagnose(context.Background(), Options{Compiler: compiler, Model: model, Out: out}, s)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -85,6 +86,22 @@ func TestNativeFailedProcessPolicyAndSavedModelReplay(t *testing.T) {
 				t.Fatal(i, row.Advice, tests[i].code)
 			}
 			values[i] = row.Advice
+		}
+		contextRaw, err := os.ReadFile(filepath.Join(out, "next-context.json"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var next processContext
+		if err := json.Unmarshal(contextRaw, &next); err != nil {
+			t.Fatal(err)
+		}
+		if len(next.Processes) != len(values) || next.Observation != report.Observation || !nativeDigest(next.GeneratedSHA) {
+			t.Fatal("next context differs from Gooo execution", string(contextRaw))
+		}
+		for i, item := range next.Processes {
+			if item.Advice != values[i] || item.Input != s.Processes[i].Input {
+				t.Fatal("next context changed Gooo advice or original typed state", i)
+			}
 		}
 		if first == nil {
 			first = values

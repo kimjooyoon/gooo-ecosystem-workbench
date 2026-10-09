@@ -16,6 +16,19 @@ go run ./cmd/workbench diagnose --compiler /absolute/path/to/gooo \
 추가합니다. 모델은 선언된 세 선택을 정렬하고, Gooo의 작성된 사례가 선택을 검사합니다.
 선택한 프로그램은 저장 기록으로 한 번 더 실행하며 새 추론 없이 같은 진단을 확인합니다.
 
+완료된 출력 폴더의 `next-context.json`에는 상태, Gooo가 만든 다음 작업,
+작성된 선택 검사와 실제 입력의 관측 범위가 있습니다. 다음 도구는 이 파일부터 읽고
+필요한 근거만 더 열 수 있습니다. `artifacts`에는 원본 관측·Gooo 규칙·실행·재생·전체
+진단 파일의 상대 경로, 바이트 수, SHA-256이 있습니다. `observation_json_pointer`는
+`observation.json` 안의 해당 프로세스 위치입니다. `original_json_pointer`는
+`input_sha256`으로 식별한 원래 입력의 위치입니다. CLI는 그 입력을
+`captured-input.json`으로 그대로 보관합니다. 파일 지문은 저장된 바이트를 확인하는
+용도이며, 기록에 적힌 소스의 사실성을 독립적으로 증명하려면 별도 관측이 필요합니다.
+
+이 연결 형식은 다음 도구나 모델이 사용할 수 있습니다. 현재 자체 모델은 조립 선택의
+순서를 정하며, 진단 후 제안된 작업의 자동 실행은 후속 실험 범위입니다.
+[외부 사례에서 가져온 아이디어와 적용 범위](../../docs/research-2026-10-09.md).
+
 예제는 컴파일러 `aa79dc94`의 Windows 실행
 [37883255912](https://github.com/kimjooyoon/meta-ontology-go/actions/runs/37883255912)에서
 보존한 JSON입니다. 원본 출력 첫 줄과 작업 로그에서 각각 추출한 JSON이 같았습니다.

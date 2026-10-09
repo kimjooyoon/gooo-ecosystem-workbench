@@ -83,12 +83,16 @@ func diagnoseProcesses(ctx context.Context, o Options, root string, s Snapshot) 
 	}
 	report := map[string]any{"schema": "gooo/ecosystem-process-diagnosis/v1", "decision": "OBSERVED",
 		"input_sha256": s.InputSHA, "processes": items, "observation": observations,
-		"scope": "Gooo advice from reported failed native runtimes; original program correctness and reported source/executable identities are not independently verified; process record appearances are not independent execution counts; no proposed action is executed"}
+		"next_context": "next-context.json",
+		"scope":        "Gooo advice from reported failed native runtimes; original program correctness and reported source/executable identities are not independently verified; process record appearances are not independent execution counts; no proposed action is executed"}
 	raw, err := json.Marshal(report)
 	if err != nil {
 		return nil, err
 	}
-	return raw, write(filepath.Join(root, "diagnostic.json"), append(raw, '\n'))
+	if err = write(filepath.Join(root, "diagnostic.json"), append(raw, '\n')); err != nil {
+		return nil, err
+	}
+	return raw, saveProcessContext(root, s, original, observations, selected)
 }
 
 func executeProcessPolicy(ctx context.Context, o Options, root, model string, replay bool) ([]byte, result, string, error) {
