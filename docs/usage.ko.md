@@ -13,7 +13,9 @@ go run ./cmd/workbench help assemble
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.
+Go 1.27.2와 [공개 Gooo 0.6.23](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.23-dev)을 사용합니다.
+운영체제에 맞는 실행 파일을 내려받고 `SHA256SUMS`와 확인한 뒤 PATH에 설치합니다.
+macOS Apple Silicon은 `gooo-darwin-arm64.tar.gz`, Linux x86-64는 `gooo-linux-amd64.tar.gz`입니다.
 설치한 `gooo`로 소스·모델 확인, 조립, 실제 호출과 저장 재생을 한 번에 실행합니다.
 저장소 루트에서 다음처럼 시작합니다.
 
@@ -41,19 +43,15 @@ go run ./cmd/workbench construct --compiler gooo \
   --max-program-budget 4 --max-rounds 4 --out out/source-fill-public
 ```
 
-새 `assemble --graph`에는 `body-plan`과 입력 전용 실행이 포함된 병합 개발 소스를 사용합니다.
-CI와 같은 소스를 빌드하는 방법입니다. 기존 공개 0.6.22의 리비전은
-`d3b44fc63a340d825108c97f61eeb18900219b28`이며 새 그래프 조회 명령은 포함하지 않습니다.
-아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
+`assemble --graph`도 같은 공개 실행 파일을 사용합니다. 소스에 필요한 입력을 먼저
+보려면 계획을 읽고, 입력 파일을 시작하려면 템플릿을 출력합니다.
 
 ```sh
-git init .compiler
-git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin a15b413412ad7b465a0567fb1db4de5706a8c2a8
-git -C .compiler switch --detach FETCH_HEAD
-GOTOOLCHAIN=go1.27.2 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
-./.gooo version --build --json
-go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
+gooo body-plan --source examples/full-graph-assembly/chain.gooo --entry Main
+gooo body-plan --source examples/full-graph-assembly/chain.gooo --entry Main --inputs-template > chain-inputs.json
+go run ./cmd/workbench assemble --graph \
+  --source examples/full-graph-assembly/chain.gooo --entry Main \
+  --cases examples/full-graph-assembly/chain-cases.json --out out/chain
 ```
 
 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
@@ -66,14 +64,14 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.22-dev`, Go 버전은 `go1.27.2`입니다.
-소스 리비전이 `d3b44fc63a340d825108c97f61eeb18900219b28`와 같은지 확인합니다.
+`version --build --json`의 버전 문자열은 `0.6.23-dev`, Go 버전은 `go1.27.2`입니다.
+소스 리비전이 `2b17c4879d0bb2cd1e48ccc23b8743c0fb564267`와 같은지 확인합니다.
 이 소스의 `package interface`는 API 변경 비교에서 사용합니다.
 공개 실행 파일과 CI가 같은 소스·모델 사전 확인을 포함합니다.
 패키지 조립 명령을 쓰는 예제는 다음과 같습니다.
 
 ```sh
-go run ./cmd/workbench construct --compiler ./.gooo \
+go run ./cmd/workbench construct --compiler gooo \
   --workspace examples/package-caller-construction/gooo.workspace.json \
   --construction-cases examples/package-caller-construction/initial-cases.json \
   --evaluation-cases examples/package-caller-construction/evaluation-cases.json \
@@ -84,7 +82,7 @@ go run ./cmd/workbench construct --compiler ./.gooo \
 원래 매니페스트와 명시된 소스만 새 출력 폴더에 복사해 모든 회차에서 사용합니다.
 실패한 평가 행은 패키지 이름과 큰 정수를 보존한 채 다음 조립 사례에 추가합니다.
 마지막 홀드아웃은 선택이 끝난 뒤에만 실행하며, 그 결과를 다시 조립에 사용하지 않습니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.22-dev/docs/releases/0.6.22-dev.md)와
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.23-dev/docs/releases/0.6.23-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 

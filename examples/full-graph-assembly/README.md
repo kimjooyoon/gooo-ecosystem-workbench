@@ -7,17 +7,16 @@
 
 ## 실행
 
-[컴파일러 준비](../../docs/usage.ko.md)의 병합 소스
-`a15b413412ad7b465a0567fb1db4de5706a8c2a8`을 사용합니다.
-공개 릴리스 0.6.22에는 필요한 `body-plan`이 없습니다.
+[공개 Gooo 0.6.23](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.23-dev)을
+[설치](../../docs/usage.ko.md)한 뒤 PATH의 `gooo`를 사용합니다.
 
 저장소 루트에서:
 
 ```sh
-go run ./cmd/workbench assemble --graph --compiler ./.gooo \
+go run ./cmd/workbench assemble --graph \
   --source examples/full-graph-assembly/chain.gooo --entry Main \
   --cases examples/full-graph-assembly/chain-cases.json --out out/chain
-go run ./cmd/workbench construct --compiler ./.gooo --assembly out/chain \
+go run ./cmd/workbench construct --assembly out/chain \
   --holdout-cases examples/full-graph-assembly/chain-holdout.json \
   --max-program-budget 64 --max-rounds 8 --out out/chain-next
 ```

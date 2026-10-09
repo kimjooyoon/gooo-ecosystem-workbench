@@ -20,6 +20,10 @@ gooo-workbench construct --assembly out/first \
 
 `out/next/assembly-construction.json`에서 읽을 항목:
 
+터미널에는 원래 관측, 이번 조립 방식, 회차와 반복 시도, 평가 단계가 짧게 나옵니다.
+표준 출력의 JSON을 읽던 도구는 `construct --json`을 사용합니다.
+저장한 파일의 형식은 이어서 읽을 수 있고, 새 회차에는 Gooo가 낸 다음 작업의 문장도 남습니다.
+
 | 항목 | 뜻 |
 | --- | --- |
 | origin_observation | 이전 호출·필드와 소스 사례의 관측 |
