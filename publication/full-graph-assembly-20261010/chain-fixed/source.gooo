@@ -1,0 +1,34 @@
+package graphchain
+namespace graphchain
+entity Integer id "urn:gooo:type:integer"
+entity Boolean id "urn:gooo:type:boolean"
+entity Text id "urn:gooo:type:string"
+entity Label id "graphchain://label" fields {
+    field text id "graphchain://label/text" type string required one
+    field active id "graphchain://label/active" type boolean required one
+    field count id "graphchain://label/count" type integer required one
+}
+activity Describe(Integer, Boolean, Text) -> Label computes `let text = input2
+let active = input1 && input0 > 0
+if active { text = text + "!" }
+return Label{text: input2, active: false, count: 0}` assembling {
+    choice "text" field_value at "0" alternative "text" intent "조건으로 계산한 문장을 반환한다. Return the computed text."
+    choice "active" field_value at "1" alternative "active" intent "사용 여부와 양수 조건을 반영한다. Enabled and positive."
+    choice "count" field_value at "2" alternative "input0" intent "정수를 그대로 반환한다. Preserve the integer."
+    value_case "[0,false,\"idle\"]" -> "{\"text\":\"idle\",\"active\":false,\"count\":0}"
+    attempts "8"
+}
+activity Relabel(Label) -> Label computes `let text = input.text
+if input.active { text = "[" + text + "]" }
+return Label{text: input.text, active: false, count: 0}` assembling {
+    choice "text" field_value at "0" alternative "text" intent "사용 중인 문장을 괄호로 감싼다. Decorate active text."
+    choice "active" field_value at "1" alternative "input.active" intent "이전 사용 여부를 보존한다. Preserve the flag."
+    choice "count" field_value at "2" alternative "input.count" intent "이전 정수를 보존한다. Preserve the integer."
+    value_case "[{\"text\":\"idle\",\"active\":false,\"count\":0}]" -> "{\"text\":\"idle\",\"active\":false,\"count\":0}"
+    attempts "8"
+}
+activity Extra(Integer) -> Integer computes `return input`
+activity Main(Label, Integer) -> Label computes `return Label{text: input0.text, active: input0.active, count: input0.count + input1}`
+bind Describe.result -> Relabel.input
+bind Relabel.result -> Main.input0
+bind Extra.result -> Main.input1

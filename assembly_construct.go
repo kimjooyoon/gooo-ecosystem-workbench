@@ -52,6 +52,9 @@ func ConstructFromAssembly(ctx context.Context, o Options, request AssemblyConst
 	if err != nil {
 		return r, err
 	}
+	if origin.Schema == graphContextSchema {
+		return constructGraphFromAssembly(ctx, o, request, files, origin)
+	}
 	preflight, err := readAssemblyPreflight(files["preflight.json"], origin.SourceSHA, false)
 	if err != nil {
 		return r, err

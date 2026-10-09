@@ -28,6 +28,7 @@ const commandHelp = `Gooo 작업장: 소스를 조립하고 실제 결과를 이
 명령별 옵션: gooo-workbench help assemble
 첫 예제와 결과 읽기: examples/model-assembly/README.md
 assemble에서 --model을 생략하면 소스의 고정 순서로 조립합니다.
+assemble --graph는 여러 본문·호출된 보조 함수·추가 입력을 함께 유지합니다.
 각 실행은 새 --out 폴더에 원본 입력과 결과를 남깁니다.
 `
 

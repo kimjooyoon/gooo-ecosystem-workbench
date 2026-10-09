@@ -1,0 +1,152 @@
+{
+  "schema": "gooo/full-graph-observation/v1",
+  "profile": "called-fill",
+  "origin": {
+    "schema": "gooo/ecosystem-graph-assembly/v1",
+    "entry_activity": "Main",
+    "observation": {
+      "recipe": "source-graph-assembly",
+      "mode": "native-graph",
+      "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+      "named_passed": 0,
+      "named_total": 1,
+      "record_fields_passed": 0,
+      "record_fields_total": 0,
+      "selection_fields_passed": 0,
+      "selection_fields_total": 0,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "21f1459e1ad59aee6fa79c1b53e234047a6718d7b64b19993998cb5804f8f76e"
+    },
+    "bodies": [
+      {
+        "activity_id": "budgetplan://activity/plan-budget",
+        "phase": "called_body",
+        "kind": "source_fill",
+        "input_source_sha256": "sha256:3a208b0ab3938ee5ef3cdeeaadb5890c4db3c6d5a581c524211b0554f7843648",
+        "source_cases_passed": 1,
+        "source_cases_total": 1,
+        "source_holdout_passed": 0,
+        "source_holdout_total": 1,
+        "model_calls": 0
+      }
+    ],
+    "next": {
+      "code": "partial",
+      "message": "원래 호출 입력과 기대값을 그대로 다음 조립에 넘깁니다.",
+      "action": "add-counterexamples-to-construction"
+    },
+    "follow_up_observation": {
+      "recipe": "graph-next",
+      "mode": "fixed",
+      "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+      "named_passed": 0,
+      "named_total": 0,
+      "record_fields_passed": 0,
+      "record_fields_total": 0,
+      "selection_fields_passed": 0,
+      "selection_fields_total": 0,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "7400d23223c9da4edd61a024cd53d646e55a8a97add0c685fddf68a7595bab1e"
+    },
+    "generated_sha256": "sha256:f801aa501b836701720841e444484a0f8d0e476b05c1a6fb9fe97487845f49d3",
+    "next_context": "next-context.json",
+    "replay_new_model_calls": 0,
+    "scope": "native graph plan, multiple bodies, called preparation and caller roots; source-local selection and caller expectations remain separate; optional record model contexts are checkpoint-specific; source-fill is deterministic; saved replay has zero fresh inference; finite observations do not establish general accuracy"
+  },
+  "feedback": {
+    "prepared": true,
+    "consumed_by_next_round": true,
+    "originating_result_sha256": "21f1459e1ad59aee6fa79c1b53e234047a6718d7b64b19993998cb5804f8f76e",
+    "evaluation_file_sha256": "8361ff8d1aae500b1c8b802fc4e04933cb0c32d91a8fb74d13184f59470faaa1",
+    "previous_cases_sha256": "a4b11812d11ad8b505541db514d8b5e55dc071f0ab682346f92ea2d6a0612f9b",
+    "next_cases_sha256": "8361ff8d1aae500b1c8b802fc4e04933cb0c32d91a8fb74d13184f59470faaa1",
+    "next_cases_file": "origin-feedback-cases.json",
+    "policy_result_sha256": "e73464325843a47e6be3ec6128a3821c6a32225ef8313a132d58a1fda1772657",
+    "added_indices": [
+      0
+    ],
+    "selected_indices": [
+      0
+    ],
+    "rows": [
+      {
+        "evaluation_index": 0,
+        "matched": 0,
+        "total": 1,
+        "already_retained_or_duplicate": false,
+        "original_row_sha256": "4bbefad6d0c63f311ded6bcef7860329a8fb9d00464d62744a4a0c0676e21b79",
+        "canonical_row_sha256": "57547947eafbe3fde14167220bbdc6fcfc6940f70fdbb71268f896ab5e4d7b83",
+        "include": true,
+        "reason": "counterexample"
+      }
+    ]
+  },
+  "stop_reason": "add-different-evaluation-inputs",
+  "new_construction_model_requested": false,
+  "rounds": [
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 2,
+      "construction_elapsed_ns": 951978458,
+      "result": "round-0.json",
+      "construction_cases_file": "construction-cases.json"
+    },
+    {
+      "program_budget": 2,
+      "program_attempts": 2,
+      "evaluation_passed": 0,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 4,
+      "construction_elapsed_ns": 1340271500,
+      "result": "round-1.json",
+      "construction_cases_file": "construction-cases.json"
+    },
+    {
+      "program_budget": 4,
+      "program_attempts": 3,
+      "evaluation_passed": 1,
+      "evaluation_total": 1,
+      "evaluation_unit": "activity_outputs",
+      "action": "add-different-evaluation-inputs",
+      "proposed_program_budget": 0,
+      "construction_elapsed_ns": 1720985292,
+      "result": "round-2.json",
+      "construction_cases_file": "construction-cases.json"
+    }
+  ],
+  "repeated_program_attempts": 6,
+  "final_adaptive": {
+    "named_passed": 1,
+    "named_total": 1,
+    "snapshot_unit": "activity_outputs",
+    "passed": 1,
+    "total": 1
+  },
+  "final_holdout": {
+    "named_passed": 4,
+    "named_total": 4,
+    "snapshot_unit": "activity_outputs",
+    "passed": 4,
+    "total": 4,
+    "new_model_calls": 0,
+    "input_scope": {
+      "unique_inputs": 4,
+      "duplicate_rows": 0,
+      "construction_inputs": 0,
+      "other_inputs": 4,
+      "scope": "unique caller root-input tuples compared with consumed construction cases; local-example and model-training exposure are not established by this metric"
+    }
+  },
+  "scope": "single sequential local execution; adaptive and source-local cases influence construction; final separate caller cases do not feed back; finite results and repeated attempts, not a full-domain or latency benchmark"
+}

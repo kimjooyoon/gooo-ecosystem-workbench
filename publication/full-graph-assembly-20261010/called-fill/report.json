@@ -1,0 +1,56 @@
+{
+  "schema": "gooo/ecosystem-graph-assembly/v1",
+  "entry_activity": "Main",
+  "observation": {
+    "recipe": "source-graph-assembly",
+    "mode": "native-graph",
+    "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+    "named_passed": 0,
+    "named_total": 1,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 0,
+    "selection_fields_total": 0,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "21f1459e1ad59aee6fa79c1b53e234047a6718d7b64b19993998cb5804f8f76e"
+  },
+  "bodies": [
+    {
+      "activity_id": "budgetplan://activity/plan-budget",
+      "phase": "called_body",
+      "kind": "source_fill",
+      "input_source_sha256": "sha256:3a208b0ab3938ee5ef3cdeeaadb5890c4db3c6d5a581c524211b0554f7843648",
+      "source_cases_passed": 1,
+      "source_cases_total": 1,
+      "source_holdout_passed": 0,
+      "source_holdout_total": 1,
+      "model_calls": 0
+    }
+  ],
+  "next": {
+    "code": "partial",
+    "message": "원래 호출 입력과 기대값을 그대로 다음 조립에 넘깁니다.",
+    "action": "add-counterexamples-to-construction"
+  },
+  "follow_up_observation": {
+    "recipe": "graph-next",
+    "mode": "fixed",
+    "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 0,
+    "selection_fields_total": 0,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "7400d23223c9da4edd61a024cd53d646e55a8a97add0c685fddf68a7595bab1e"
+  },
+  "generated_sha256": "sha256:f801aa501b836701720841e444484a0f8d0e476b05c1a6fb9fe97487845f49d3",
+  "next_context": "next-context.json",
+  "replay_new_model_calls": 0,
+  "scope": "native graph plan, multiple bodies, called preparation and caller roots; source-local selection and caller expectations remain separate; optional record model contexts are checkpoint-specific; source-fill is deterministic; saved replay has zero fresh inference; finite observations do not establish general accuracy"
+}

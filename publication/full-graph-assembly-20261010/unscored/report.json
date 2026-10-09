@@ -1,0 +1,67 @@
+{
+  "schema": "gooo/ecosystem-graph-assembly/v1",
+  "entry_activity": "Main",
+  "observation": {
+    "recipe": "source-graph-assembly",
+    "mode": "native-graph",
+    "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 6,
+    "selection_fields_total": 6,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "f89f2a23a109126e892011075033339f2e8e79cf8c4a929a730b942930dfb182"
+  },
+  "bodies": [
+    {
+      "activity_id": "graphchain://activity/describe",
+      "phase": "activity",
+      "kind": "record_choices",
+      "input_source_sha256": "sha256:00a9abc417f0e7f9b2872a99929c7ee9cd3451e3c1c793323fd0e798b68f35a9",
+      "source_cases_passed": 1,
+      "source_cases_total": 1,
+      "source_holdout_passed": 0,
+      "source_holdout_total": 0,
+      "model_calls": 0
+    },
+    {
+      "activity_id": "graphchain://activity/relabel",
+      "phase": "activity",
+      "kind": "record_choices",
+      "input_source_sha256": "sha256:32f99db47fcf7a52a5710a46841a7a1345f31439d022d4ec0dc467370803ca28",
+      "source_cases_passed": 1,
+      "source_cases_total": 1,
+      "source_holdout_passed": 0,
+      "source_holdout_total": 0,
+      "model_calls": 0
+    }
+  ],
+  "next": {
+    "code": "unobserved",
+    "message": "호출은 실행됐습니다. 비교할 기대값을 추가하면 반례를 고를 수 있습니다.",
+    "action": "add-caller-expectations"
+  },
+  "follow_up_observation": {
+    "recipe": "graph-next",
+    "mode": "fixed",
+    "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 0,
+    "selection_fields_total": 0,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "1e90fd4850ad245ef446fe9c275eff701992b46a043873732201960772df3659"
+  },
+  "generated_sha256": "sha256:a8fb6feed2fe158f02bd371ed579671346bc98766556b6b56cc5b5a9ca7aae8d",
+  "next_context": "next-context.json",
+  "replay_new_model_calls": 0,
+  "scope": "native graph plan, multiple bodies, called preparation and caller roots; source-local selection and caller expectations remain separate; optional record model contexts are checkpoint-specific; source-fill is deterministic; saved replay has zero fresh inference; finite observations do not establish general accuracy"
+}

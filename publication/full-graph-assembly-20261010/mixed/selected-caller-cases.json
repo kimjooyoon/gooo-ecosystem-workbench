@@ -1,0 +1,1 @@
+{"schema":"gooo/body-composition-cases/v1","cases":[{"inputs":{"Normalize":-5,"Main.input0":{"used":8,"limit":8}},"expected":{"Normalize":0,"Main":-8}},{"inputs":{"Normalize":2,"Main.input0":{"used":9,"limit":8}},"expected":{"Main":-6}}]}

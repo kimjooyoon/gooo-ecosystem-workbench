@@ -25,11 +25,15 @@ func readAssemblyOrigin(directory string) (map[string][]byte, assemblyContext, e
 	if err = json.Unmarshal(raw, &c); err != nil {
 		return nil, c, err
 	}
-	if c.Schema != "gooo/assembly-next-context/v1" || len(c.Artifacts) != len(assemblyOriginNames) {
+	names := assemblyOriginNames
+	if c.Schema == graphContextSchema {
+		names = graphOriginNames
+	}
+	if (c.Schema != "gooo/assembly-next-context/v1" && c.Schema != graphContextSchema) || len(c.Artifacts) != len(names) {
 		return nil, c, fmt.Errorf("expected a complete retained assemble directory")
 	}
 	wanted := map[string]bool{}
-	for _, name := range assemblyOriginNames {
+	for _, name := range names {
 		wanted[name] = true
 	}
 	files := map[string][]byte{"next-context.json": raw}
