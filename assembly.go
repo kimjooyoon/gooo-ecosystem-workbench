@@ -18,6 +18,9 @@ type AssemblyReport struct {
 	Preflight    assemblyPreflight `json:"preflight"`
 	Policy       Summary           `json:"policy_observation"`
 	Observation  Summary           `json:"observation"`
+	Next         policyAdvice      `json:"next"`
+	FollowUp     Summary           `json:"follow_up_observation"`
+	NextContext  string            `json:"next_context"`
 	GeneratedSHA string            `json:"generated_sha256"`
 	Artifacts    map[string]string `json:"artifacts"`
 	Scope        string            `json:"scope"`
@@ -109,13 +112,26 @@ func Assemble(ctx context.Context, o Options, request AssemblyRequest) (Assembly
 	if policy.CompilerSource != observation.CompilerSource {
 		return report, fmt.Errorf("routing policy and assembly used different compiler sources")
 	}
+	next, followUp, err := runAssemblyPolicy(ctx, o, root, "follow-up", "assembly-next", "assemblynext", assemblyNextInput{
+		observation.NamedPassed, observation.NamedTotal, observation.FieldsPassed, observation.FieldsTotal,
+		observation.SelectionPassed, observation.SelectionTotal})
+	if err != nil {
+		return report, err
+	}
+	if followUp.CompilerSource != observation.CompilerSource {
+		return report, fmt.Errorf("follow-up policy and assembly used different compiler sources")
+	}
 	// The short report points to the original graph text in preflight.json.
 	preflight.Context.Text = ""
 	report = AssemblyReport{Schema: "gooo/ecosystem-source-model-assembly/v1", Route: route, Preflight: preflight, Policy: policy,
-		Observation: observation, GeneratedSHA: original.Composition.GeneratedSHA,
+		Observation: observation, Next: next, FollowUp: followUp, NextContext: "next-context.json",
+		GeneratedSHA: original.Composition.GeneratedSHA,
 		Artifacts: map[string]string{"preflight": "preflight.json", "routing": "routing/execution.json", "routing_replay": "routing/replay.json",
 			"assembly": "assembly.json", "replay": "replay.json", "generated_go": "composition/generated.go", "saved_composition": "composition/composition.json"},
 		Scope: "source-owned record assembly; representation readiness, source selection cases and caller native cases are separate; saved replay performs zero fresh inference; no general accuracy claim"}
+	if err = saveAssemblyContext(root, report, original); err != nil {
+		return report, err
+	}
 	return report, save(filepath.Join(root, "report.json"), report)
 }
 
@@ -133,30 +149,34 @@ func retainedAssemblyCommand(ctx context.Context, compiler, root, name string, a
 }
 
 func runAssemblyRoute(ctx context.Context, o Options, root string, p assemblyPreflight, requested bool) (policyAdvice, Summary, error) {
-	var advice policyAdvice
-	var summary Summary
-	dir := filepath.Join(root, "routing")
-	if err := os.Mkdir(dir, 0755); err != nil {
-		return advice, summary, err
-	}
 	input := map[string]any{"requested": requested, "status": "", "reason": ""}
 	if p.Compatibility != nil {
 		input["status"], input["reason"] = p.Compatibility.Status, p.Compatibility.Reason
 	}
-	if err := save(filepath.Join(dir, "inputs.json"), map[string]any{"schema": "gooo/body-composition-inputs/v1",
-		"inputs": []any{map[string]any{"assemblyroute:Next": input}}}); err != nil {
+	return runAssemblyPolicy(ctx, o, root, "routing", "assembly-route", "assemblyroute", input)
+}
+
+func runAssemblyPolicy(ctx context.Context, o Options, root, directory, recipe, pkg string, input any) (policyAdvice, Summary, error) {
+	var advice policyAdvice
+	var summary Summary
+	dir := filepath.Join(root, directory)
+	if err := os.Mkdir(dir, 0755); err != nil {
 		return advice, summary, err
 	}
-	source, err := assets.ReadFile("recipes/assembly-route.gooo")
+	if err := save(filepath.Join(dir, "inputs.json"), map[string]any{"schema": "gooo/body-composition-inputs/v1",
+		"inputs": []any{map[string]any{pkg + ":Next": input}}}); err != nil {
+		return advice, summary, err
+	}
+	source, err := assets.ReadFile("recipes/" + recipe + ".gooo")
 	if err != nil {
 		return advice, summary, err
 	}
-	if err = write(filepath.Join(dir, "assembly-route.gooo"), source); err != nil {
+	if err = write(filepath.Join(dir, recipe+".gooo"), source); err != nil {
 		return advice, summary, err
 	}
 	if err = save(filepath.Join(dir, "gooo.workspace.json"), map[string]any{"schema": "gooo/package-workspace-manifest/v1",
-		"entry":    map[string]string{"package_path": "assemblyroute", "activity": "Next"},
-		"packages": []any{map[string]any{"path": "assemblyroute", "sources": []string{"assembly-route.gooo"}}}}); err != nil {
+		"entry":    map[string]string{"package_path": pkg, "activity": "Next"},
+		"packages": []any{map[string]any{"path": pkg, "sources": []string{recipe + ".gooo"}}}}); err != nil {
 		return advice, summary, err
 	}
 	var originalSHA string
@@ -171,12 +191,12 @@ func runAssemblyRoute(ctx context.Context, o Options, root string, p assemblyPre
 		}
 		if !replay {
 			advice, originalSHA = values[0], program
-			summary, e = summarize(raw, "assembly-route", "fixed")
+			summary, e = summarize(raw, recipe, "fixed")
 			if e != nil {
 				return advice, summary, e
 			}
 		} else if advice != values[0] || originalSHA != program {
-			return advice, summary, fmt.Errorf("saved Gooo routing policy changed advice or selected program")
+			return advice, summary, fmt.Errorf("saved Gooo %s policy changed advice or selected program", recipe)
 		}
 	}
 	summary.ReplayVerified = true

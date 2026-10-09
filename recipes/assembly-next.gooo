@@ -1,0 +1,29 @@
+package assemblynext
+namespace assemblynext
+
+entity Observation id "gooo://assemblynext/observation" fields {
+    field caller_passed id "gooo://assemblynext/caller-passed" type integer required one
+    field caller_total id "gooo://assemblynext/caller-total" type integer required one
+    field fields_passed id "gooo://assemblynext/fields-passed" type integer required one
+    field fields_total id "gooo://assemblynext/fields-total" type integer required one
+    field selection_passed id "gooo://assemblynext/selection-passed" type integer required one
+    field selection_total id "gooo://assemblynext/selection-total" type integer required one
+}
+entity Advice id "gooo://assemblynext/advice" fields {
+    field code id "gooo://assemblynext/code" type string required one
+    field message id "gooo://assemblynext/message" type string required one
+    field action id "gooo://assemblynext/action" type string required one
+}
+activity Next(Observation) -> Advice computes `if input.caller_passed < 0 || input.caller_total < input.caller_passed || input.fields_passed < 0 || input.fields_total < input.fields_passed || input.selection_passed < 0 || input.selection_total < input.selection_passed {
+    return Advice{code: "inconsistent-observation", message: "원본 결과의 개수와 요약을 다시 확인하세요.", action: "inspect-original-results"}
+}
+if input.caller_passed < input.caller_total || input.fields_passed < input.fields_total {
+    return Advice{code: "partial", message: "기대값과 다른 호출 결과가 있습니다. 원래 입력과 기대값을 확인하고 필요한 반례를 조립 조건에 추가하세요.", action: "add-counterexamples-to-construction"}
+}
+if input.selection_passed < input.selection_total {
+    return Advice{code: "construction-partial", message: "조립용 사례에서 다른 필드가 있습니다. 소스의 후보와 조립 조건을 확인하세요.", action: "inspect-source-choices"}
+}
+if input.caller_total == 0 {
+    return Advice{code: "unobserved", message: "호출 결과를 비교할 기대값을 추가하세요.", action: "add-caller-expectations"}
+}
+return Advice{code: "observed-complete", message: "주어진 호출 기대값을 만족했습니다. 다른 입력으로 관측 범위를 넓힐 수 있습니다.", action: "observe-new-inputs"}`
