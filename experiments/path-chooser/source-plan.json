@@ -1,0 +1,290 @@
+{
+  "max_attempts": 64,
+  "path_plan": {
+    "schema": "gooo/typed-body-path-plan/v1",
+    "base": {
+      "schema": "gooo/typed-body-plan/v1",
+      "id": "boolean-comparison-assignment-order",
+      "name": "ConditionalAssign",
+      "result_type": "Int",
+      "expressions": [
+        {
+          "kind": "input",
+          "name": "input"
+        },
+        {
+          "kind": "int"
+        },
+        {
+          "kind": "int",
+          "int": 5
+        },
+        {
+          "kind": "int",
+          "int": 10
+        },
+        {
+          "kind": "binary",
+          "operation": "less_than",
+          "right": 1
+        },
+        {
+          "kind": "binary",
+          "operation": "less_equal",
+          "right": 2
+        },
+        {
+          "kind": "local",
+          "name": "guard"
+        },
+        {
+          "kind": "local",
+          "name": "guard_alt"
+        },
+        {
+          "kind": "binary",
+          "operation": "and",
+          "left": 6,
+          "right": 7
+        },
+        {
+          "kind": "binary",
+          "operation": "add",
+          "right": 2
+        },
+        {
+          "kind": "binary",
+          "operation": "subtract",
+          "right": 3
+        },
+        {
+          "kind": "local",
+          "name": "left"
+        },
+        {
+          "kind": "local",
+          "name": "right"
+        },
+        {
+          "kind": "binary",
+          "operation": "add",
+          "left": 11,
+          "right": 12
+        },
+        {
+          "kind": "local",
+          "name": "guard"
+        }
+      ],
+      "statements": [
+        {
+          "kind": "let",
+          "name": "left",
+          "expr": 9
+        },
+        {
+          "kind": "let",
+          "name": "right",
+          "expr": 10
+        },
+        {
+          "kind": "let",
+          "name": "guard",
+          "expr": 4
+        },
+        {
+          "kind": "let",
+          "name": "guard_alt",
+          "expr": 5
+        },
+        {
+          "kind": "assign",
+          "name": "guard",
+          "expr": 8
+        },
+        {
+          "kind": "if",
+          "expr": 14,
+          "then": [
+            6
+          ],
+          "else": [
+            7
+          ]
+        },
+        {
+          "kind": "assign",
+          "name": "left",
+          "expr": 9
+        },
+        {
+          "kind": "assign",
+          "name": "left",
+          "expr": 10
+        },
+        {
+          "kind": "return",
+          "expr": 13
+        }
+      ],
+      "root": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        8
+      ]
+    },
+    "decisions": [
+      {
+        "id": "comparison",
+        "kind": "operand_order",
+        "target": 4,
+        "intent": "Gooo Integer input; typed Boolean guards and mutable Integer locals. intent: Reverse the comparison operands so zero is on the left.",
+        "options": [
+          {
+            "label": "layout_forward"
+          },
+          {
+            "label": "layout_reverse",
+            "reverse": true
+          }
+        ],
+        "fallback": "layout_forward"
+      },
+      {
+        "id": "condition",
+        "kind": "local_reference",
+        "target": 14,
+        "intent": "Gooo Integer input; typed Boolean guards and mutable Integer locals. intent: Use the second Boolean local as the if condition.",
+        "options": [
+          {
+            "label": "reference_first",
+            "name": "guard"
+          },
+          {
+            "label": "reference_second",
+            "name": "guard_alt"
+          }
+        ],
+        "fallback": "reference_first"
+      },
+      {
+        "id": "boolean_target",
+        "kind": "assignment_target",
+        "target": 4,
+        "intent": "Gooo Integer input; typed Boolean guards and mutable Integer locals. intent: Store the Boolean conjunction in the second guard.",
+        "options": [
+          {
+            "label": "assign_first",
+            "name": "guard"
+          },
+          {
+            "label": "assign_second",
+            "name": "guard_alt"
+          }
+        ],
+        "fallback": "assign_first"
+      },
+      {
+        "id": "integer_target",
+        "kind": "assignment_target",
+        "target": 6,
+        "intent": "Gooo Integer input; typed Boolean guards and mutable Integer locals. intent: Write the first branch's computed integer to the second variable.",
+        "options": [
+          {
+            "label": "assign_first",
+            "name": "left"
+          },
+          {
+            "label": "assign_second",
+            "name": "right"
+          }
+        ],
+        "fallback": "assign_first"
+      },
+      {
+        "id": "branches",
+        "kind": "branch_layout",
+        "target": 5,
+        "intent": "Gooo Integer input; typed Boolean guards and mutable Integer locals. intent: Swap the then and else bodies.",
+        "options": [
+          {
+            "label": "layout_forward"
+          },
+          {
+            "label": "layout_reverse",
+            "reverse": true
+          }
+        ],
+        "fallback": "layout_forward"
+      },
+      {
+        "id": "order",
+        "kind": "root_order",
+        "target": 0,
+        "intent": "Gooo Integer input; typed Boolean guards and mutable Integer locals. intent: Keep the Boolean update before the branch.",
+        "options": [
+          {
+            "label": "schedule_forward",
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              8
+            ]
+          },
+          {
+            "label": "schedule_reverse",
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              4,
+              8
+            ]
+          }
+        ],
+        "fallback": "schedule_forward"
+      }
+    ]
+  },
+  "schema": "gooo/body-codegen-typed-path-plan/v1",
+  "test_cases": [
+    {
+      "input": -7,
+      "expected": -4
+    },
+    {
+      "input": -1,
+      "expected": 8
+    },
+    {
+      "input": 0,
+      "expected": 10
+    },
+    {
+      "input": 1,
+      "expected": -18
+    },
+    {
+      "input": 5,
+      "expected": -10
+    },
+    {
+      "input": 6,
+      "expected": 22
+    },
+    {
+      "input": 7,
+      "expected": 24
+    }
+  ]
+}
