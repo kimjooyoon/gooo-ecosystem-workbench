@@ -33,14 +33,15 @@ type JointRound struct {
 }
 
 type JointLoop struct {
-	Schema           string       `json:"schema"`
-	StopReason       string       `json:"stop_reason"`
-	Rounds           []JointRound `json:"rounds"`
-	FinalDirectory   string       `json:"final_directory"`
-	Scope            string       `json:"scope"`
-	FinalEvaluation  *Snapshot    `json:"final_evaluation,omitempty"`
-	HoldoutElapsedNS int64        `json:"holdout_elapsed_ns,omitempty"`
-	Failure          string       `json:"failure,omitempty"`
+	InitialCasesConsumed bool         `json:"initial_cases_consumed"`
+	Schema               string       `json:"schema"`
+	StopReason           string       `json:"stop_reason"`
+	Rounds               []JointRound `json:"rounds"`
+	FinalDirectory       string       `json:"final_directory"`
+	Scope                string       `json:"scope"`
+	FinalEvaluation      *Snapshot    `json:"final_evaluation,omitempty"`
+	HoldoutElapsedNS     int64        `json:"holdout_elapsed_ns,omitempty"`
+	Failure              string       `json:"failure,omitempty"`
 }
 
 // ConstructJoint dispatches Gooo's budget proposals against frozen source and
@@ -132,10 +133,12 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 			if s.Package == nil {
 				return loop, fmt.Errorf("compiler omitted package construction")
 			}
+			loop.InitialCasesConsumed = true
 			if err = savePackageJointRound(root, dir, raw); err != nil {
 				return loop, err
 			}
 		}
+		loop.InitialCasesConsumed = true
 		if pending != nil {
 			pending.Consumed = true
 			pending = nil

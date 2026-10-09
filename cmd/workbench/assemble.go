@@ -49,6 +49,9 @@ func runAssemble(args []string) error {
 			report.Observation.NamedPassed, report.Observation.NamedTotal, report.Observation.FieldsPassed, report.Observation.FieldsTotal,
 			report.Observation.ModelCalls, filepath.Join(root, "report.json"), filepath.Join(root, "composition", "generated.go"))
 		fmt.Fprintf(os.Stdout, "다음 작업: %s\n후속 입력: %s\n", report.Next.Message, filepath.Join(root, report.NextContext))
+		if report.Next.Action == "add-counterexamples-to-construction" {
+			fmt.Fprintf(os.Stdout, "이어서 실행: gooo-workbench construct --assembly %q --out %q\n", root, root+"-next")
+		}
 		return nil
 	}
 	encoder := json.NewEncoder(os.Stdout)

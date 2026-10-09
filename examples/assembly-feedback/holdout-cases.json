@@ -1,0 +1,7 @@
+{
+  "schema": "gooo/body-composition-cases/v1",
+  "cases": [
+    {"inputs":{"Describe.input0":4,"Describe.input1":false,"Describe.input2":"🙂"},"expected":{"Describe":{"text":"🙂","active":false,"count":4}}},
+    {"inputs":{"Describe.input0":12,"Describe.input1":true,"Describe.input2":"context"},"expected":{"Describe":{"text":"context!","active":true,"count":12}}}
+  ]
+}
