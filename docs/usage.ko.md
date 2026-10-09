@@ -2,12 +2,26 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.2와 아래에 고정한 Gooo 개발 소스를 사용합니다.
-컴파일러를 먼저 빌드한 뒤 각 명령의 `--compiler`에 그 실행 파일 경로를 지정합니다.
-이미 같은 리비전의 `gooo`를 설치했다면 다음처럼 시작합니다.
+Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.
+설치한 `gooo`로 소스·모델 확인, 조립, 실제 호출과 저장 재생을 한 번에 실행합니다.
+저장소 루트에서 다음처럼 시작합니다.
 
 ```sh
 gooo version --build --json
+go run ./cmd/workbench assemble \
+  --source examples/model-assembly/source.gooo --entry Describe \
+  --cases examples/model-assembly/cases.json \
+  --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+  --out out/my-assembly
+```
+
+기본 컴파일러는 PATH의 `gooo`입니다. `--model`을 생략하면 고정 순서로 조립합니다.
+터미널에서 다음 작업을 읽고 `next-context.json`으로 원본 결과까지 찾아갑니다.
+[예제와 결과 읽기](../examples/model-assembly/README.md).
+
+호출 결과를 다음 조립에 자동 반영하는 기존 실험은 다음처럼 실행합니다.
+
+```sh
 go run ./cmd/workbench construct --compiler gooo \
   --source examples/caller-source-fill/source.gooo --entry Main \
   --construction-cases examples/caller-source-fill/initial-cases.json \
@@ -16,20 +30,20 @@ go run ./cmd/workbench construct --compiler gooo \
   --max-program-budget 4 --max-rounds 4 --out out/source-fill-public
 ```
 
-패키지 조립을 사용하려면 CI와 같은 개발 소스를 빌드합니다.
+소스에서 준비하려면 CI와 같은 공개 소스를 빌드합니다.
 아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
 
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin e5be98712f6b435917b297447200ef50e7adb493
+git -C .compiler fetch --depth 1 origin d3b44fc63a340d825108c97f61eeb18900219b28
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.2 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
 go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
 ```
 
-0.6.17은 조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
+조건식·대입식 묶음, 정수식·레코드 조립을 호출 결과로 고릅니다.
 잘못된 정수 계산식과 빈칸 후보의 타입·학습용 계산 오류는 이유를 남기고 다음 후보를 시도합니다.
 패키지 이름과 import를 Gooo 소스에서 읽는 설정과 `splice`용 문자열 연산도 포함합니다.
 
@@ -39,11 +53,10 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.21-dev`, Go 버전은 `go1.27.2`입니다.
-소스 리비전이 `e5be98712f6b435917b297447200ef50e7adb493`와 같은지 확인합니다.
-개발 브랜치에 병합한 이 소스의 `package interface`는 API 변경 비교에서 사용합니다.
-현재 고정 소스는 소스·모델 사전 확인도 포함합니다. 공개 0.6.21 태그의 소스와는 다르므로,
-`assemble`에는 위에서 빌드한 `.gooo`를 지정합니다.
+`version --build --json`의 버전 문자열은 `0.6.22-dev`, Go 버전은 `go1.27.2`입니다.
+소스 리비전이 `d3b44fc63a340d825108c97f61eeb18900219b28`와 같은지 확인합니다.
+이 소스의 `package interface`는 API 변경 비교에서 사용합니다.
+공개 실행 파일과 CI가 같은 소스·모델 사전 확인을 포함합니다.
 패키지 조립 명령을 쓰는 예제는 다음과 같습니다.
 
 ```sh
@@ -58,7 +71,7 @@ go run ./cmd/workbench construct --compiler ./.gooo \
 원래 매니페스트와 명시된 소스만 새 출력 폴더에 복사해 모든 회차에서 사용합니다.
 실패한 평가 행은 패키지 이름과 큰 정수를 보존한 채 다음 조립 사례에 추가합니다.
 마지막 홀드아웃은 선택이 끝난 뒤에만 실행하며, 그 결과를 다시 조립에 사용하지 않습니다.
-[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/be4ef88cca4bc3df1e78ae91c8fe8388413f05c9/docs/releases/0.6.17-dev.md)와
+[버전 사용 안내](https://github.com/kimjooyoon/meta-ontology-go/blob/v0.6.22-dev/docs/releases/0.6.22-dev.md)와
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 

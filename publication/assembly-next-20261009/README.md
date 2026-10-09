@@ -34,7 +34,7 @@ go run ./cmd/workbench assemble --compiler gooo-dev \
   --out out/assembly-next
 ```
 
-`next-context.json`은 약 4KB이며 긴 입력 그래프를 포함하지 않습니다. 원본 파일의
+`next-context.json`의 실제 크기는 3,113–3,258바이트이며 긴 입력 그래프를 포함하지 않습니다. 원본 파일의
 경로·SHA256·크기와 최대 8개 불일치 위치를 보여줍니다. 실제 partial 기록의 위치는
 `assembly.json`의 `/runtime/traces/0/deliveries/0`입니다. 당시 기대 문자열은
 `해보자?`, 출력은 `해보자!`입니다. 숫자 `9007199254740993`은 그대로 보존됐습니다.

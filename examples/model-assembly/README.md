@@ -11,10 +11,11 @@
 
 ## 실행
 
-[컴파일러 준비](../../docs/usage.ko.md)의 고정 소스를 빌드한 다음 저장소 루트에서:
+[공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를
+설치한 다음 저장소 루트에서:
 
 ```sh
-go run ./cmd/workbench assemble --compiler ./.gooo \
+go run ./cmd/workbench assemble \
   --source examples/model-assembly/source.gooo --entry Describe \
   --cases examples/model-assembly/cases.json \
   --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
@@ -68,5 +69,6 @@ Gooo 경로 규칙은 새 추론을 호출하지 않으며 실제 입력의 정�
 
 현재 범위는 한 활동의 소스 소유 레코드 필드 조립입니다. 패키지 전체의 반복 조립에는
 [`construct --workspace`](../package-caller-construction/README.md)를 사용합니다.
-출력 폴더는 매번 새 경로여야 합니다. 이 명령의 사전 확인에는 `body-context --model`이
-있는 개발 컴파일러가 필요합니다. 공개 0.6.21 실행 파일은 이전 소스이며 이 옵션이 없습니다.
+출력 폴더는 매번 새 경로여야 합니다. 사전 확인의 `body-context --model`은
+공개 0.6.22에 포함됐습니다. 다른 설치 위치나 소스 빌드는
+[컴파일러 준비](../../docs/usage.ko.md)를 읽고 `--compiler`로 경로를 지정합니다.
