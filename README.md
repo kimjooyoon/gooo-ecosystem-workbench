@@ -5,6 +5,8 @@ Gooo의 선언된 선택을 같은 작은 판단기로 다룹니다. 한영 의�
 분기·변수·할당·순서를 선택하고, 실제 사례와 저장 재실행으로 결과를 확인합니다.
 삼진 가중치2,759바이트, 새 표현15/24와 보류5/24를 함께 기록했습니다.
 기본 모델은 유지하고, [원본과 한계](publication/per-choice-decision-20261010/README.md)를 공개합니다.
+[PC 판단 모델의 역할과 다음 실험](docs/pc-decision-design.md)에는 세 선택을 연결한
+실행2/3와 반례 이후의 고정 조립5/5를 따로 기록했습니다.
 
 Gooo로 작성한 작은 언어 생태계 도구 모음입니다. 표준 함수, 실행 결과를 읽는
 진단 규칙, 새 Gooo 파일을 만드는 프로그램을 실제로 실행합니다.
@@ -81,16 +83,17 @@ go run ./cmd/workbench help assemble
 [저장한 결과를 반례 반복에 연결한 후속 구현](docs/research-feedback-2026-10-09.md)도 있습니다.
 [최근 자료를 연결 그래프에 적용한 판단](docs/research-graph-feedback-2026-10-09.md)도 기록합니다.
 
-Go 1.27.2와 [공개 Gooo 0.6.23](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.23-dev)을 사용합니다.
+Go 1.27.2와 [공개 Gooo 0.6.24](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.24-dev)로 사용할 수 있습니다.
 계획 조회·입력 전용 실행·여러 본문 조립을 공개 실행 파일로 이어갈 수 있습니다.
-CI도 공개 Linux 실행 파일을 사용하고 소스 `2b17c4879d0bb2cd1e48ccc23b8743c0fb564267`을 확인합니다.
+현재 CI의 재현 기준은 기존 공개0.6.23 Linux 파일과 소스 `2b17c4879d0bb2cd1e48ccc23b8743c0fb564267`입니다.
 [실행 안내](docs/usage.ko.md)에서 설치할 파일과 명령을 확인합니다.
 이전 관측의 컴파일러 리비전과 결과는 각 공개 기록에 그대로 남습니다.
 
 [최근 자료에서 적용·제외한 판단](docs/research-full-graph-2026-10-10.md)을 기록합니다.
 [공개 설치본과 간단한 후속 조립 출력](docs/research-public-workbench-2026-10-10.md)도 이어서 제공합니다.
-[typed 경로의 호출 반례 연결](examples/caller-typed-paths/README.md)은 지원하는 개발 컴파일러를
-명시적으로 지정합니다. [추가한 연결과 최근 자료의 적용 범위](docs/research-typed-path-feedback-2026-10-10.md)도 기록합니다.
+[typed 경로의 호출 반례 연결](examples/caller-typed-paths/README.md)은 지원하는 컴파일러를
+명시적으로 지정합니다. 공개0.6.24도 이 경로를 지원합니다.
+[추가한 연결과 최근 자료의 적용 범위](docs/research-typed-path-feedback-2026-10-10.md)도 기록합니다.
 
 조건식·대입식의 빈칸을 함께 채우고 실제 호출 결과로 다시 고릅니다.
 타입 오류나 조립용 사례의 계산 실패가 있는 후보는 이유를 기록하고 다음 후보를 시도합니다.
