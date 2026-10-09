@@ -15,6 +15,7 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 | 진단 프로그램 | 부분 충족·관측 부족·잘못된 수·완료를 분기하고 다음 작업 구성 | `diagnose` |
 | 소스와 모델을 확인하고 조립 | Gooo가 모델·고정 순서 경로를 고르고 실제 호출·저장 재생까지 연결 | [`assemble`](examples/model-assembly/README.md) |
 | 전체 조립 반복 | 부품·호출부·평가 결과를 구분하고 Gooo가 다음 시도 한도를 계산 | `construct` |
+| 저장한 조립 이어 쓰기 | 원래 소스 사례와 실패한 호출을 그대로 다음 조립에 연결 | [`construct --assembly`](examples/assembly-feedback/README.md) |
 | 여러 패키지 조립 | 원래 패키지와 호출 사례를 보존하고 Gooo 규칙으로 실패 사례·시도 한도를 선택 | [`construct --workspace`](examples/package-caller-construction/README.md) |
 | 실패한 조립 이어가기 | 잘못된 빈칸 후보를 기록하고 시도·탈락·실행 수를 구분 | [후보 탈락 예제](examples/caller-fill-rejection/README.md) |
 | 실행 중 계산 실패 읽기 | 정상 출력·불일치·계산 실패·의존 활동 중단을 구분하고 다음 조립을 결정 | [계산 실패 예제](examples/caller-native-failure/README.md) |
@@ -56,8 +57,11 @@ go run ./cmd/workbench help assemble
 소스와 모델의 조합을 확인하며 실행하려면 [한 명령 조립 예제](examples/model-assembly/README.md)를
 사용합니다. 선택 이유, 사례 결과, 생성 코드 위치가 터미널에 나오고 원본은 파일에 남습니다.
 후속 작업과 원본 불일치 위치도 함께 남습니다.
+실패한 결과가 있으면 [`construct --assembly`](examples/assembly-feedback/README.md)로 저장한
+폴더 하나를 넘깁니다. Gooo가 반례를 고르고 기존 조립 반복을 진행합니다.
 
 [최근 사례에서 고른 사용성 개선과 다음 실험](docs/research-usability-2026-10-09.md)을 함께 공개합니다.
+[저장한 결과를 반례 반복에 연결한 후속 구현](docs/research-feedback-2026-10-09.md)도 있습니다.
 
 Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.
 CI는 같은 공개 소스 `d3b44fc63a340d825108c97f61eeb18900219b28`에 고정합니다.

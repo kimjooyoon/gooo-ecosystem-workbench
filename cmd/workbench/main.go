@@ -49,6 +49,7 @@ func run(args []string) error {
 	before := f.String("before", "", "previous workspace manifest for api-diff")
 	after := f.String("after", "", "current workspace manifest for api-diff")
 	sourceFile := f.String("source", "", "Gooo source for construct")
+	assemblyDir := f.String("assembly", "", "retained assemble directory for construct; source and caller cases are reused")
 	workspaceFile := f.String("workspace", "", "Gooo package manifest for construct; exclusive with --source/--entry")
 	constructionCases := f.String("construction-cases", "", "caller expectations used by construct")
 	evaluationCases := f.String("evaluation-cases", "", "adaptive cases for construct; failures feed the next round")
@@ -71,6 +72,10 @@ func run(args []string) error {
 	if *workspaceFile != "" && args[0] != "construct" {
 		return fmt.Errorf("--workspace requires construct")
 	}
+	if *assemblyDir != "" && (args[0] != "construct" || *sourceFile != "" || *workspaceFile != "" ||
+		*entry != "" || *constructionCases != "" || *evaluationCases != "" || *fillModel != "") {
+		return fmt.Errorf("--assembly requires construct and is exclusive with source, workspace, entry, cases and fill-model options")
+	}
 	if (*before != "" || *after != "") && args[0] != "api-diff" {
 		return fmt.Errorf("--before and --after require api-diff")
 	}
@@ -82,9 +87,14 @@ func run(args []string) error {
 	case "api-diff":
 		value, err = workbench.CompareAPI(ctx, o, *before, *after)
 	case "construct":
-		value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile, Workspace: *workspaceFile,
-			ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, HoldoutCases: *holdoutCases, Entry: *entry,
-			MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds, FillModel: *fillModel})
+		if *assemblyDir != "" {
+			value, err = workbench.ConstructFromAssembly(ctx, o, workbench.AssemblyConstructionRequest{Assembly: *assemblyDir,
+				HoldoutCases: *holdoutCases, MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds})
+		} else {
+			value, err = workbench.ConstructJoint(ctx, o, workbench.JointRequest{Source: *sourceFile, Workspace: *workspaceFile,
+				ConstructionCases: *constructionCases, EvaluationCases: *evaluationCases, HoldoutCases: *holdoutCases, Entry: *entry,
+				MaxProgramBudget: *maxPrograms, MaxRounds: *maxRounds, FillModel: *fillModel})
+		}
 	case "splice":
 		if *input == "" {
 			return fmt.Errorf("splice requires --input")

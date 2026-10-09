@@ -65,6 +65,30 @@ jobs:
             --before examples/api-evolution/before/gooo.workspace.json \
             --after examples/api-evolution/after/gooo.workspace.json --out out/ci-api-diff
           jq -e '.decision == "OBSERVED" and .change_count == 3 and .classified_changes == 3 and .observation.named_total == 0 and .observation.generation_model_calls == 0 and .observation.saved_replay_verified and ([.changes[].assessment.code] == ["input-tightened", "output-weakened", "field-added"])' out/ci-api-diff/api-diff.json
+      - name: Connect retained assembly failures to the Gooo construction loop
+        run: |
+          go run ./cmd/workbench assemble --compiler "$PWD/.gooo" \
+            --source examples/assembly-feedback/source.gooo --entry Describe \
+            --cases examples/assembly-feedback/adaptive-cases.json --out out/ci-assembly-origin
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --assembly out/ci-assembly-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
+            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-feedback
+          jq -e '.origin_observation.record_fields_passed == 2 and .origin_observation.record_fields_total == 6 and .origin_replay_verified and .feedback.prepared and .feedback.consumed_by_next_round and .construction_loop.initial_cases_consumed and (.construction_loop.rounds | length) == 4 and ([.construction_loop.rounds[].program_attempts] | add) == 15 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6 and .construction_loop.final_evaluation.joint_construction.new_model_calls == 0' out/ci-assembly-feedback/assembly-construction.json
+          go run ./cmd/workbench assemble --compiler "$PWD/.gooo" \
+            --source examples/assembly-feedback/source.gooo --entry Describe \
+            --cases examples/assembly-feedback/adaptive-cases.json \
+            --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+            --out out/ci-assembly-model-origin
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --assembly out/ci-assembly-model-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
+            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-model-fixed
+          jq -e '.origin_observation.generation_model_calls == 1 and .new_construction_model_requested == false and .feedback.consumed_by_next_round and (.construction_loop.rounds | length) == 4 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6' out/ci-assembly-model-fixed/assembly-construction.json
+          go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
+            --assembly out/ci-assembly-model-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
+            --model models/graph-chooser-20261008/all-data-demonstration/qat_ternary/model.json \
+            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-model-next
+          jq -e '.new_construction_model_requested and .feedback.consumed_by_next_round and (.construction_loop.rounds | length) == 4 and ([.construction_loop.rounds[].program_attempts] | add) == 13 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6 and .construction_loop.final_evaluation.joint_construction.new_model_calls == 0' out/ci-assembly-model-next/assembly-construction.json
+          jq -e -s '([.[].construction.initial.steps[].generation.report.record_assembly.model_calls] | add) == 4' out/ci-assembly-model-next/construction/round-*.json
       - name: Let Gooo continue package construction from caller failures
         run: |
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
@@ -261,6 +285,7 @@ jobs:
           path: |
             out/compiler-build.json
             out/ci-api-diff/
+            out/ci-assembly-*/
             out/ci-package-loop/
             out/ci-package-model.json
             out/package-construction-recount.json

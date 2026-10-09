@@ -109,6 +109,12 @@ func collectJointFeedback(current, evaluation, raw []byte) (jointCases, []JointF
 		}
 	}
 	var report struct {
+		Composition struct {
+			Plan struct {
+				Schema     string                      `json:"schema"`
+				Activities []struct{ Name, ID string } `json:"activities"`
+			} `json:"plan"`
+		} `json:"composition"`
 		Construction struct {
 			Selected struct {
 				Plan struct {
@@ -120,6 +126,15 @@ func collectJointFeedback(current, evaluation, raw []byte) (jointCases, []JointF
 	}
 	if err = json.Unmarshal(raw, &report); err != nil {
 		return doc, nil, err
+	}
+	if report.Composition.Plan.Schema == "gooo/body-composition-plan/v1" {
+		if len(report.Construction.Selected.Plan.Activities) != 0 {
+			return doc, nil, fmt.Errorf("feedback has ambiguous composition and construction")
+		}
+		report.Construction.Selected.Plan.Activities = report.Composition.Plan.Activities
+		if err = json.Unmarshal(raw, &report.Evaluation); err != nil {
+			return doc, nil, err
+		}
 	}
 	names := map[string]string{}
 	ids := map[string]bool{}

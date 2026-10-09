@@ -1,0 +1,20 @@
+package assemblyfeedback
+namespace assemblyfeedback
+entity 정수 id "urn:gooo:type:integer"
+entity 논리 id "urn:gooo:type:boolean"
+entity 문자열 id "urn:gooo:type:string"
+entity Label id "urn:gooo:assembly-feedback:label" fields {
+    field text id "urn:gooo:assembly-feedback:label:text" type string required one
+    field active id "urn:gooo:assembly-feedback:label:active" type boolean required one
+    field count id "urn:gooo:assembly-feedback:label:count" type integer required one
+}
+activity Describe(정수, 논리, 문자열) -> Label id "urn:gooo:assembly-feedback:describe" computes `let text = input2
+let active = input1 && input0 > 0
+if input1 && input0 > 0 { text = text + "!" }
+return Label{text: input2, active: false, count: 0}` assembling {
+    choice "text" field_value at "0" alternative "text" intent "입력 조건으로 계산한 문장을 반환한다. Return the text computed from the supplied inputs."
+    choice "active" field_value at "1" alternative "active" intent "사용 여부와 양수 조건을 함께 반영한다. Report whether enabled and positive."
+    choice "count" field_value at "2" alternative "input0" intent "입력 정수를 그대로 반환한다. Preserve the supplied integer exactly."
+    value_case "[0,false,\"idle\"]" -> "{\"text\":\"idle\",\"active\":false,\"count\":0}"
+    attempts "8"
+}
