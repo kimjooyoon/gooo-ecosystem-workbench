@@ -85,8 +85,8 @@ jobs:
             --assembly out/ci-assembly-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
             --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-feedback > out/ci-assembly-feedback.stdout
           test "$(wc -l < out/ci-assembly-feedback.stdout)" -le 15
-          rg -F '결정론적 (모델 생략)' out/ci-assembly-feedback.stdout
-          rg -F '마지막 별도 입력:' out/ci-assembly-feedback.stdout
+          grep -F '결정론적 (모델 생략)' out/ci-assembly-feedback.stdout
+          grep -F '마지막 별도 입력:' out/ci-assembly-feedback.stdout
           jq -e '.origin_observation.record_fields_passed == 2 and .origin_observation.record_fields_total == 6 and .origin_replay_verified and .feedback.prepared and .feedback.consumed_by_next_round and .construction_loop.initial_cases_consumed and (.construction_loop.rounds | length) == 4 and ([.construction_loop.rounds[].program_attempts] | add) == 15 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6 and .construction_loop.final_evaluation.joint_construction.new_model_calls == 0' out/ci-assembly-feedback/assembly-construction.json
           go run ./cmd/workbench assemble --compiler "$PWD/.gooo" \
             --source examples/assembly-feedback/source.gooo --entry Describe \
