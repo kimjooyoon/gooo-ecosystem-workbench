@@ -1,0 +1,28 @@
+=== RUN   TestAssemblySourceCasesPreserveExactExpectations
+--- PASS: TestAssemblySourceCasesPreserveExactExpectations (0.00s)
+=== RUN   TestAssemblySourceCasesRejectUnsupportedOrIncompleteShapes
+--- PASS: TestAssemblySourceCasesRejectUnsupportedOrIncompleteShapes (0.00s)
+=== RUN   TestAssemblyFeedbackUnscoredHasNoNewOracle
+--- PASS: TestAssemblyFeedbackUnscoredHasNoNewOracle (0.00s)
+=== RUN   TestAssemblyFeedbackReadsOriginalComposition
+--- PASS: TestAssemblyFeedbackReadsOriginalComposition (0.00s)
+=== RUN   TestAssemblySourceCasesFollowBoundConsumerEntry
+--- PASS: TestAssemblySourceCasesFollowBoundConsumerEntry (0.00s)
+=== RUN   TestAssemblySourceCasesReadNativeSingleArgumentInputs
+--- PASS: TestAssemblySourceCasesReadNativeSingleArgumentInputs (0.00s)
+=== RUN   TestNativeAssemblyGraphSingleArgumentRoot
+--- PASS: TestNativeAssemblyGraphSingleArgumentRoot (16.43s)
+=== RUN   TestAssemblyExecutionAllowsFixedConsumersOnly
+--- PASS: TestAssemblyExecutionAllowsFixedConsumersOnly (0.00s)
+=== RUN   TestNativeAssemblyGraphFeedsFinalCallerFailures
+=== RUN   TestNativeAssemblyGraphFeedsFinalCallerFailures/fixed
+=== RUN   TestNativeAssemblyGraphFeedsFinalCallerFailures/model
+--- PASS: TestNativeAssemblyGraphFeedsFinalCallerFailures (49.79s)
+    --- PASS: TestNativeAssemblyGraphFeedsFinalCallerFailures/fixed (25.77s)
+    --- PASS: TestNativeAssemblyGraphFeedsFinalCallerFailures/model (24.02s)
+=== RUN   TestAssemblyPreflightRequiresExplicitZeroAndSourceBinding
+--- PASS: TestAssemblyPreflightRequiresExplicitZeroAndSourceBinding (0.00s)
+=== RUN   TestAssemblyExecutionKeepsPresentRuntimeCounters
+--- PASS: TestAssemblyExecutionKeepsPresentRuntimeCounters (0.00s)
+PASS
+ok  	github.com/kimjooyoon/gooo-ecosystem-workbench	67.710s

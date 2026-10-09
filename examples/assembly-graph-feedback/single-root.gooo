@@ -1,0 +1,22 @@
+package assemblygraphsingle
+namespace assemblygraphsingle
+entity Integer id "urn:gooo:type:integer"
+entity Text id "urn:gooo:type:string"
+entity Label id "urn:gooo:assembly-single:label" fields {
+    field text id "urn:gooo:assembly-single:label:text" type string required one
+    field active id "urn:gooo:assembly-single:label:active" type boolean required one
+    field count id "urn:gooo:assembly-single:label:count" type integer required one
+}
+activity Describe(Integer) -> Label id "urn:gooo:assembly-single:describe" computes `let text = ""
+if input > 0 { text = "positive" }
+let active = input > 0
+return Label{text: "", active: false, count: 0}` assembling {
+    choice "text" field_value at "0" alternative "text" intent "양수 입력의 문구를 반환한다. Return the positive-input text."
+    choice "active" field_value at "1" alternative "active" intent "입력의 양수 여부를 반환한다. Report whether positive."
+    choice "count" field_value at "2" alternative "input" intent "입력 정수를 그대로 반환한다. Preserve the exact integer."
+    value_case "[0]" -> "{\"text\":\"\",\"active\":false,\"count\":0}"
+    attempts "8"
+}
+activity Decorate(Text) -> Text id "urn:gooo:assembly-single:decorate" computes `return "[" + input + "]"`
+activity Present(Label) -> Label id "urn:gooo:assembly-single:present" computes `if input.active { return Label{text: Decorate(input.text), active: input.active, count: input.count} }; return input`
+bind Describe.result -> Present.input

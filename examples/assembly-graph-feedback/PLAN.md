@@ -22,3 +22,8 @@ Predeclare checks:
 - Run focused TDD, full workbench race/vet and the original public PR CI.
 
 No model training, new dependencies, compiler changes or time-based result cache.
+
+Follow-up before implementation: the compiler's actual plan uses input_from for
+single-argument activities and inputs[].from for multi-argument activities.
+Add native single-root coverage and reject an extra single-argument root; retain
+the first successful CI observations and check the new commit separately.

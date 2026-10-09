@@ -20,6 +20,11 @@ go run ./cmd/workbench construct --assembly out/graph-first \
 `--entry`는 실행할 마지막 활동이고, `--assembly-activity`는 모델 입력을 확인할
 루트 레코드 활동입니다. 하나의 활동이면 기존처럼 `--entry`만 지정합니다.
 
+인자가 하나인 활동은 입력 키가 활동 이름(`Describe`)이고, 여러 인자는
+`Describe.input0`처럼 포트 이름을 붙입니다. 저장된 native 계획의 두 형식을
+그대로 읽습니다. [단일 인자 소스](single-root.gooo)와
+[호출 사례](single-adaptive-cases.json)도 같은 연결을 사용합니다.
+
 소스의 첫 사례는 모든 후보가 같은 값을 내는 입력입니다. 다음 입력에서 드러나는
 실패를 마지막 결과의 기대값으로 검사합니다. `source-cases.json`은 Describe의
 소스 사례를 그대로 옮기고, 실패한 호출 행은 Present의 기대값을 그대로 추가합니다.

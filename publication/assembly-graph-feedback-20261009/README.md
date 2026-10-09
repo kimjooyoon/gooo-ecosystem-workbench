@@ -42,9 +42,20 @@ Timing fields are single observations. Hashes and elapsed times vary per run.
 Unit mutation checks also reject extra roots, wrong identities, another assembly
 body, search/fill bodies, prepared assembly helpers and absent finite counters.
 
-[full-native-race.log](full-native-race.log) records the complete native workbench
-race suite passing (root package 298.327s). The observer was added during that
-run and checked separately; final `go vet ./...` passed and
+[full-native-race.log](full-native-race.log) records the first candidate f325098's
+complete native workbench race suite passing (root package 298.327s). The observer was added during that
+run and checked separately; that candidate's final `go vet ./...` passed and
 [unit-race.log](unit-race.log) covers the final graph mutations and help tests.
-The public PR CI also executes the new Go observer package and an explicit
+The public PR CI also executes the Go observer package and an explicit
 two-command CLI graph route against the unchanged pinned compiler source.
+
+After that first CI passed, inspection of the actual compiler plan found that
+single-argument activities use input_from, not an inputs array. Follow-up TDD
+adds this case and checks extra single-argument roots before construction.
+The first successful CI is retained separately; the corrected commit gets a new
+original CI run. The four-route observations above use the multi-argument root.
+
+[single-root-red.log](single-root-red.log) retains the missing single-input
+translation failure. [final-graph-race.log](final-graph-race.log) records the
+corrected native single-root graph, all four earlier routes and final envelope
+mutation checks passing under race detection (67.710s); final full vet passed.

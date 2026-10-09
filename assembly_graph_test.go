@@ -35,6 +35,48 @@ func TestAssemblySourceCasesFollowBoundConsumerEntry(t *testing.T) {
 	}
 }
 
+func TestAssemblySourceCasesReadNativeSingleArgumentInputs(t *testing.T) {
+	raw := strings.Replace(assemblyGraphSeed(), `"inputs":[{"port":"input0","from":-1}]`, `"input_from":-1`, 1)
+	raw = strings.Replace(raw, `"inputs":[{"port":"input","from":0}]`, `"input_from":0`, 1)
+	encoded, entry, err := sourceAssemblyCases([]byte(raw), "example/a")
+	if err != nil || entry != "B" || strings.Contains(string(encoded), "A.input") || !strings.Contains(string(encoded), `"A":9007199254740993`) {
+		t.Fatal("single root input did not use its native activity key", string(encoded), entry, err)
+	}
+	for _, changed := range []string{
+		strings.Replace(raw, `"input_from":0`, `"input_from":-1`, 1),
+		strings.Replace(raw, `"input_from":0`, `"unused":0`, 1),
+		strings.Replace(raw, `"input_from":-1`, `"unused":-1`, 1),
+	} {
+		if _, _, err := sourceAssemblyCases([]byte(changed), "example/a"); err == nil {
+			t.Fatal("accepted absent or additional root input", changed)
+		}
+	}
+}
+
+func TestNativeAssemblyGraphSingleArgumentRoot(t *testing.T) {
+	compiler := os.Getenv("GOOO_COMPILER")
+	if compiler == "" {
+		t.Skip("set GOOO_COMPILER for native single-root feedback")
+	}
+	root := t.TempDir()
+	origin := filepath.Join(root, "origin")
+	_, err := Assemble(context.Background(), Options{Compiler: compiler, Out: origin}, AssemblyRequest{
+		Source: "examples/assembly-graph-feedback/single-root.gooo", Entry: "Present", AssemblyActivity: "Describe", Cases: "examples/assembly-graph-feedback/single-adaptive-cases.json"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	r, err := ConstructFromAssembly(context.Background(), Options{Compiler: compiler, Out: filepath.Join(root, "next")}, AssemblyConstructionRequest{
+		Assembly: origin, HoldoutCases: "examples/assembly-graph-feedback/single-holdout-cases.json", MaxProgramBudget: 8, MaxRounds: 5})
+	if err != nil || r.Loop == nil || r.Loop.FinalEvaluation == nil || r.Loop.FinalEvaluation.Passed != 6 || r.Loop.FinalEvaluation.Total != 6 ||
+		r.Loop.FinalEvaluation.Joint.NewModelCalls != 0 || *r.Loop.FinalEvaluation.Joint.Inputs.Other != 2 {
+		t.Fatal("missing single-root caller feedback", r, err)
+	}
+	seed, err := os.ReadFile(filepath.Join(root, "next", "source-cases.json"))
+	if err != nil || strings.Contains(string(seed), "Describe.input") || !strings.Contains(string(seed), `"Describe":0`) {
+		t.Fatal("wrong native single-root key", string(seed), err)
+	}
+}
+
 func TestAssemblyExecutionAllowsFixedConsumersOnly(t *testing.T) {
 	source := "sha256:" + strings.Repeat("a", 64)
 	p := assemblyPreflight{SourceSHA: source, ActivityID: "example/a"}
