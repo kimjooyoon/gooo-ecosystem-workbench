@@ -1,5 +1,30 @@
 # 공개 입력 흐름과 작업장 연결
 
+## 공개 설치본으로 다시 확인한 결과
+
+`public2b/`는 실제 공개 macOS arm64 Gooo 0.6.23과 깨끗한 작업장 실행 파일의 관측입니다.
+컴파일러 소스는 `2b17c4879d0bb2cd1e48ccc23b8743c0fb564267`, 작업장 생산자는
+`2921e59272f011ae545cbd0171327aeaf7acad1e`입니다. 두 실행 파일의 지문과 실제 buildinfo도 보관합니다.
+작업장 생산자는 이 자료를 추가하기 전의 구현 커밋이며 변경 이력에서 그대로 찾을 수 있습니다.
+
+아래 후보 표와 같은 입력으로 최초 모델 2회·호출 0/3·필드 3/9, 후속 결정론 조립
+7회차·반복 시도 127회·평가 필드 9/9, 마지막 별도 호출 2/2·필드 6/6·새 추론 0회를 확인했습니다.
+이번 `construct` 표준 출력은 13줄이고 전체 보고서는 파일에 저장됐습니다.
+예산 1·회차 1의 별도 `--json` 실행은 `program-budget-limit` 부분 결과를 보존했습니다.
+그 stdout과 저장한 `assembly-construction.json`을 바이트 비교했습니다.
+
+| 명령 | 로컬 경과 시간 | user CPU 시간 | sys CPU 시간 | maximum resident set size |
+| --- | --- | --- | --- | --- |
+| 모델 연결 최초 조립 | 2.47초 | 0.61초 | 0.47초 | 88,031,232바이트 |
+| 모델 생략 후속 조립·최종 재생 | 93.17초 | 34.87초 | 23.51초 | 91,373,568바이트 |
+
+`*.time.gz`는 macOS `time -l` 원본입니다. 모델의 단일 응답 시간, 시스템 전체 CPU 사용률,
+동시 프로세스 전체 메모리 합계로 읽지 않습니다. 일부 실행 동안 다른 로컬 검사가 진행 중이었습니다.
+전체 race 검사 517.686초와 최종 CLI race 검사 1.581초도 원본 로그에 남겼습니다.
+
+[공개·설치와 네 입력 흐름 원본](https://github.com/kimjooyoon/meta-ontology-go/wiki/observations/release-0623-published-20261010/README.md)에는
+같은 공개 파일로 실행한 별도 네이티브 검사 20개가 있습니다.
+
 ## 후보에서 직접 확인한 결과
 
 `candidate90/`는 0.6.23 후보 컴파일러 `90bab730af14bef64e8378627450d3dd131967b3`과
@@ -37,6 +62,6 @@ gzip -dc candidate90/workbench-fixed-next/construction/holdout-result.json.gz
 ```
 
 마지막 파일의 `evaluation.runtime.finite_passed/finite_total`은 별도 입력의 호출 수입니다.
-그 파일에 함께 보관된 `construction.caller`는 조립 때 사용한 호출 관측입니다.
+그 파일에 함께 보관된 `construction.attempts[selected_attempt].runtime`은 조립 때 사용한 호출 관측입니다.
 회차별 원본도 보관하며, 모든 반복 시도의 합계와 고유한 후보 수를 구분합니다.
 이 폴더는 관측을 읽는 데 필요한 원본 보고서 모음입니다. 실행 파일은 GitHub 릴리스에서 받습니다.
