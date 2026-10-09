@@ -25,6 +25,7 @@ type JointRound struct {
 	EvaluationTotal       int64                `json:"evaluation_total"`
 	EvaluationUnit        string               `json:"evaluation_unit"`
 	Action                string               `json:"action"`
+	Message               string               `json:"message,omitempty"`
 	ProposedBudget        int64                `json:"proposed_program_budget"`
 	ConstructionElapsedNS int64                `json:"construction_elapsed_ns"`
 	Result                string               `json:"result"`
@@ -148,14 +149,16 @@ func ConstructJoint(ctx context.Context, o Options, request JointRequest) (loop 
 			return loop, err
 		}
 		var plan struct {
-			Action string `json:"action"`
-			Next   int64  `json:"next_program_budget"`
+			Action  string `json:"action"`
+			Message string `json:"message"`
+			Next    int64  `json:"next_program_budget"`
 		}
 		if err = json.Unmarshal(diagnostic, &plan); err != nil {
 			return loop, err
 		}
 		loop.Rounds = append(loop.Rounds, JointRound{Budget: budget, Attempts: s.Joint.ProgramAttempts, EvaluationPassed: s.Passed, EvaluationTotal: s.Total,
-			EvaluationUnit: s.Unit, Action: plan.Action, ProposedBudget: plan.Next, ConstructionElapsedNS: elapsed, Result: resultName, ConstructionFile: currentFile})
+			EvaluationUnit: s.Unit, Action: plan.Action, Message: plan.Message, ProposedBudget: plan.Next,
+			ConstructionElapsedNS: elapsed, Result: resultName, ConstructionFile: currentFile})
 		loop.FinalDirectory = dir
 		loop.StopReason = plan.Action
 		if plan.Action == "add-counterexamples-to-construction" {

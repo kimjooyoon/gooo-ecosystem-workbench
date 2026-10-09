@@ -57,6 +57,10 @@ func run(args []string) error {
 	fillModel := f.String("fill-model", "", "optional operation-classifier model for construct source_fill preparation")
 	maxPrograms := f.Int64("max-program-budget", 8, "construct ceiling for whole-program attempts per round (1..64)")
 	maxRounds := f.Int("max-rounds", 4, "construct ceiling for fresh construction rounds (1..16)")
+	var jsonOutput bool
+	if args[0] == "construct" {
+		f.BoolVar(&jsonOutput, "json", false, "emit the complete report; originals are always saved")
+	}
 	if e := f.Parse(args[1:]); e != nil {
 		if e == flag.ErrHelp {
 			return nil
@@ -159,6 +163,9 @@ func run(args []string) error {
 	}
 	if err != nil {
 		return err
+	}
+	if args[0] == "construct" && !jsonOutput {
+		return writeConstructionSummary(os.Stdout, value, o.Out, o.Model != "")
 	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")

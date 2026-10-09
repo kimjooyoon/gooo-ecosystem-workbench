@@ -60,6 +60,8 @@ go run ./cmd/workbench help assemble
 후속 작업과 원본 불일치 위치도 함께 남습니다.
 실패한 결과가 있으면 [`construct --assembly`](examples/assembly-feedback/README.md)로 저장한
 폴더 하나를 넘깁니다. Gooo가 반례를 고르고 기존 조립 반복을 진행합니다.
+`construct`는 회차·반복 시도·조립 중 평가·마지막 별도 입력을 터미널에 요약합니다.
+전체 JSON을 표준 출력으로 읽는 도구는 `--json`을 추가합니다. 원본 JSON 파일은 항상 저장합니다.
 여러 활동을 bind로 연결하면 `--entry`에는 마지막 활동,
 `--assembly-activity`에는 루트 레코드 조립 활동을 지정합니다.
 [연결 예제](examples/assembly-graph-feedback/README.md)는 두 활동과 보조 함수를 실행합니다.
@@ -73,15 +75,14 @@ go run ./cmd/workbench help assemble
 [저장한 결과를 반례 반복에 연결한 후속 구현](docs/research-feedback-2026-10-09.md)도 있습니다.
 [최근 자료를 연결 그래프에 적용한 판단](docs/research-graph-feedback-2026-10-09.md)도 기록합니다.
 
-Go 1.27.2를 사용합니다. 기존 단일 루트 흐름은
-[공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)에서도 실행됩니다.
-새 그래프 흐름과 CI는 병합된 개발 소스 `a15b413412ad7b465a0567fb1db4de5706a8c2a8`에 고정합니다.
-이 소스의 버전 문자열도 `0.6.22-dev`이며 `version --build --json`의 리비전으로 구분합니다.
-공개 릴리스 0.6.22에는 `body-plan`이 없으므로 새 그래프 흐름에는 아래 고정 소스를 빌드합니다.
-소스에서 빌드하려면
-[실행 안내](docs/usage.ko.md)의 고정 리비전을 사용하고 `--compiler ./.gooo`를 지정합니다.
+Go 1.27.2와 [공개 Gooo 0.6.23](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.23-dev)을 사용합니다.
+계획 조회·입력 전용 실행·여러 본문 조립을 공개 실행 파일로 이어갈 수 있습니다.
+CI도 공개 Linux 실행 파일을 사용하고 소스 `2b17c4879d0bb2cd1e48ccc23b8743c0fb564267`을 확인합니다.
+[실행 안내](docs/usage.ko.md)에서 설치할 파일과 명령을 확인합니다.
+이전 관측의 컴파일러 리비전과 결과는 각 공개 기록에 그대로 남습니다.
 
 [최근 자료에서 적용·제외한 판단](docs/research-full-graph-2026-10-10.md)을 기록합니다.
+[공개 설치본과 간단한 후속 조립 출력](docs/research-public-workbench-2026-10-10.md)도 이어서 제공합니다.
 
 조건식·대입식의 빈칸을 함께 채우고 실제 호출 결과로 다시 고릅니다.
 타입 오류나 조립용 사례의 계산 실패가 있는 후보는 이유를 기록하고 다음 후보를 시도합니다.

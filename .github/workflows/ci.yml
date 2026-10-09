@@ -16,16 +16,25 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: a15b413412ad7b465a0567fb1db4de5706a8c2a8
+          ref: 2b17c4879d0bb2cd1e48ccc23b8743c0fb564267
           path: .compiler
-      - name: Build the pinned Gooo compiler
-        working-directory: .compiler
-        run: go build -trimpath -o ../.gooo ./cmd/gooo
+      - name: Install the public Gooo compiler used by the examples
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v0.6.23-dev --repo kimjooyoon/meta-ontology-go --dir .compiler-release \
+            --pattern gooo-linux-amd64.tar.gz --pattern SHA256SUMS --pattern release-manifest.json
+          cd .compiler-release
+          test "$(wc -l < SHA256SUMS)" -eq 8
+          sha256sum --check --ignore-missing SHA256SUMS
+          echo '603619c0938cb2b73db2b1420cf74dc1a8d856c311267b781e9687f23e57bae9  gooo-linux-amd64.tar.gz' | sha256sum --check
+          tar -xzf gooo-linux-amd64.tar.gz
+          install -m 0755 gooo ../.gooo
       - name: Observe the pinned compiler identity
         run: |
           mkdir -p out
           ./.gooo version --build --json > out/compiler-build.json
-          jq -e '.version == "0.6.22-dev" and .go_version == "go1.27.2" and .vcs_revision == "a15b413412ad7b465a0567fb1db4de5706a8c2a8" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
+          jq -e '.version == "0.6.23-dev" and .go_version == "go1.27.2" and .vcs_revision == "2b17c4879d0bb2cd1e48ccc23b8743c0fb564267" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -36,6 +45,7 @@ jobs:
           test -z "$(gofmt -l api_*.go)"
           test -z "$(gofmt -l process_*.go assembly*.go cmd/workbench/assemble*.go)"
           test -z "$(gofmt -l cmd/workbench/help*.go)"
+          test -z "$(gofmt -l cmd/workbench/construct*.go)"
           test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go feature_audit_graph_test.go feature_audit_graph_model_test.go experiments/graph-feature-fixture/main.go)"
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
@@ -73,7 +83,10 @@ jobs:
             --cases examples/assembly-feedback/adaptive-cases.json --out out/ci-assembly-origin
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
             --assembly out/ci-assembly-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
-            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-feedback
+            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-feedback > out/ci-assembly-feedback.stdout
+          test "$(wc -l < out/ci-assembly-feedback.stdout)" -le 15
+          grep -F '결정론적 (모델 생략)' out/ci-assembly-feedback.stdout
+          grep -F '마지막 별도 입력:' out/ci-assembly-feedback.stdout
           jq -e '.origin_observation.record_fields_passed == 2 and .origin_observation.record_fields_total == 6 and .origin_replay_verified and .feedback.prepared and .feedback.consumed_by_next_round and .construction_loop.initial_cases_consumed and (.construction_loop.rounds | length) == 4 and ([.construction_loop.rounds[].program_attempts] | add) == 15 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6 and .construction_loop.final_evaluation.joint_construction.new_model_calls == 0' out/ci-assembly-feedback/assembly-construction.json
           go run ./cmd/workbench assemble --compiler "$PWD/.gooo" \
             --source examples/assembly-feedback/source.gooo --entry Describe \
@@ -82,7 +95,8 @@ jobs:
             --out out/ci-assembly-model-origin
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
             --assembly out/ci-assembly-model-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
-            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-model-fixed
+            --max-program-budget 8 --max-rounds 4 --out out/ci-assembly-model-fixed --json > out/ci-assembly-model-fixed.stdout.json
+          cmp out/ci-assembly-model-fixed.stdout.json out/ci-assembly-model-fixed/assembly-construction.json
           jq -e '.origin_observation.generation_model_calls == 1 and .new_construction_model_requested == false and .feedback.consumed_by_next_round and (.construction_loop.rounds | length) == 4 and .construction_loop.final_evaluation.passed == 6 and .construction_loop.final_evaluation.total == 6' out/ci-assembly-model-fixed/assembly-construction.json
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
             --assembly out/ci-assembly-model-origin --holdout-cases examples/assembly-feedback/holdout-cases.json \
