@@ -1,0 +1,9 @@
+package api
+namespace api
+entity Request id "example://api/request" fields {
+    field count id "example://api/request/count" type integer optional one
+}
+entity Response id "example://api/response" fields {
+    field count id "example://api/response/count" type integer required one
+}
+activity Run(Request) -> Response

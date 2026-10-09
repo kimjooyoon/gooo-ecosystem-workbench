@@ -2,7 +2,7 @@
 
 ## Gooo 컴파일러 준비
 
-Go 1.27.2와 아래에 고정한 Gooo 0.6.17 개발 소스를 사용합니다.
+Go 1.27.2와 아래에 고정한 Gooo 0.6.18 개발 소스를 사용합니다.
 컴파일러를 먼저 빌드한 뒤 각 명령의 `--compiler`에 그 실행 파일 경로를 지정합니다.
 이미 같은 리비전의 `gooo`를 설치했다면 다음처럼 시작합니다.
 
@@ -22,7 +22,7 @@ go run ./cmd/workbench construct --compiler gooo \
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin be4ef88cca4bc3df1e78ae91c8fe8388413f05c9
+git -C .compiler fetch --depth 1 origin 8951c5f8f22526e9cc1225a4dd47e63a6d420c4a
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.2 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json
@@ -39,8 +39,10 @@ go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verif
 앞서 얻은 값과 독립적인 출력은 남고, 실패한 값에 의존한 활동은 중단 이유를 남깁니다.
 시간 초과·취소·그 외 프로세스 오류는 요청을 종료합니다.
 소스 그래프 입력, 제곱식 탐색·정수 나눗셈·미사용 지역 변수 처리도 사용할 수 있습니다.
-`version --build --json`의 버전 문자열은 `0.6.17-dev`, Go 버전은 `go1.27.2`입니다.
-소스 리비전이 `be4ef88cca4bc3df1e78ae91c8fe8388413f05c9`와 같은지 확인합니다.
+`version --build --json`의 버전 문자열은 `0.6.18-dev`, Go 버전은 `go1.27.2`입니다.
+소스 리비전이 `8951c5f8f22526e9cc1225a4dd47e63a6d420c4a`와 같은지 확인합니다.
+이 후보 소스의 `package interface`는 API 변경 비교에서 사용합니다.
+공개 0.6.18 실행 파일에는 아직 이 명령이 없으므로, API 비교에는 위에서 빌드한 `.gooo`를 지정합니다.
 패키지 조립 명령을 쓰는 예제는 다음과 같습니다.
 
 ```sh
@@ -59,14 +61,30 @@ go run ./cmd/workbench construct --compiler ./.gooo \
 [배포·설치 상태](https://github.com/kimjooyoon/meta-ontology-go/wiki/Current-Status)에서
 실제 관측과 지원 범위를 확인합니다.
 
+## API 선언 변경을 Gooo 규칙으로 읽기
+
+```sh
+go run ./cmd/workbench api-diff --compiler ./.gooo \
+  --before examples/api-evolution/before/gooo.workspace.json \
+  --after examples/api-evolution/after/gooo.workspace.json --out out/api-diff
+```
+
+컴파일러가 이름을 해석한 타입·필드 선언을 내보내고, 작업장은 같은 ID끼리 비교합니다.
+필수 입력이 늘어났는지, 출력이 생략될 수 있게 되었는지 등의 판단은
+[`api-changes.gooo`](../recipes/api-changes.gooo)의 조건문이 맡습니다.
+결과에는 원래 값·새 값·분류·다음 작업이 함께 남습니다.
+변경 수 중 알려진 규칙으로 분류된 수를 보여주며, 실행 결과의 정답률과는 별도로 읽습니다.
+본문만 바뀐 경우에는 선언 변경 0건과 소스 변경 사실을 함께 기록합니다.
+모델 선택·저장된 프로그램 재실행·128행 단위 처리의 범위는
+[API 변경 예제](../examples/api-evolution/README.md)에 설명했습니다.
+
 ## 실행 중 계산 실패를 다음 조립에 반영하기
 
 ### 정답 없이 실행한 패키지의 진단
 
 컴파일러의 [실제 입력 실행 변경](https://github.com/kimjooyoon/meta-ontology-go/pull/1406)은
-`package construct --inputs`로 `OBSERVED` 기록을 만듭니다. 이 생성 옵션은 개발 중이며,
-공개 0.6.17은 `--cases`를 사용합니다. 작업장은 새 기록도 읽고, 진단 규칙 자체는
-공개 0.6.17 컴파일러로 실행할 수 있습니다.
+공개 0.6.18에 포함되어 `package construct --inputs`로 `OBSERVED` 기록을 만듭니다.
+작업장은 이 기록을 읽고 Gooo 진단 규칙으로 다음 작업을 제안합니다.
 
 ```sh
 gzip -dc testdata/package-joint/observed-replay.json.gz > /tmp/gooo-observation.json

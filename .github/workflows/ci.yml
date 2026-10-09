@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: kimjooyoon/meta-ontology-go
-          ref: be4ef88cca4bc3df1e78ae91c8fe8388413f05c9
+          ref: 8951c5f8f22526e9cc1225a4dd47e63a6d420c4a
           path: .compiler
       - name: Build the pinned Gooo compiler
         working-directory: .compiler
@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p out
           ./.gooo version --build --json > out/compiler-build.json
-          jq -e '.version == "0.6.17-dev" and .go_version == "go1.27.2" and .vcs_revision == "be4ef88cca4bc3df1e78ae91c8fe8388413f05c9" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
+          jq -e '.version == "0.6.18-dev" and .go_version == "go1.27.2" and .vcs_revision == "8951c5f8f22526e9cc1225a4dd47e63a6d420c4a" and .vcs_modified == "false" and .decision_runtime.version == "v0.2.26-experimental"' out/compiler-build.json
       - name: Check Go transport code and execute Gooo programs
         env:
           GOOO_COMPILER: ${{ github.workspace }}/.gooo
@@ -33,6 +33,7 @@ jobs:
         run: |
           test -z "$(gofmt -l assets.go workbench.go workbench_test.go compiler_diagnostic.go compiler_diagnostic_test.go snapshot.go workspace_snapshot_test.go construction_next.go construction_next_test.go construction_search.go construction_search_test.go source_budget_test.go refine.go refine_execution.go refine_test.go search_refine_test.go search_policy_test.go calibrated_report_test.go experiments/construction-loop/main.go experiments/source-budget/main.go experiments/search-refinement/main.go experiments/search-policy/main.go experiments/calibrated-report/main.go cmd/workbench/main.go cmd/workbench/refine.go)"
           test -z "$(gofmt -l retry_policy_test.go)"
+          test -z "$(gofmt -l api_*.go)"
           test -z "$(gofmt -l feature_audit.go feature_audit_test.go feature_audit_projection.go feature_audit_origin_test.go feature_audit_graph_test.go feature_audit_graph_model_test.go experiments/graph-feature-fixture/main.go)"
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
@@ -56,6 +57,12 @@ jobs:
           cmp publication/native-outcomes-20261009/summary.json out/native-outcome-recount.json
           go run ./experiments/package-construction-observe > out/package-construction-recount.json
           cmp publication/package-construction-20261009/summary.json out/package-construction-recount.json
+      - name: Classify declaration changes with the Gooo policy
+        run: |
+          go run ./cmd/workbench api-diff --compiler "$PWD/.gooo" \
+            --before examples/api-evolution/before/gooo.workspace.json \
+            --after examples/api-evolution/after/gooo.workspace.json --out out/ci-api-diff
+          jq -e '.decision == "OBSERVED" and .change_count == 3 and .classified_changes == 3 and .observation.named_total == 0 and .observation.generation_model_calls == 0 and .observation.saved_replay_verified and ([.changes[].assessment.code] == ["input-tightened", "output-weakened", "field-added"])' out/ci-api-diff/api-diff.json
       - name: Let Gooo continue package construction from caller failures
         run: |
           go run ./cmd/workbench construct --compiler "$PWD/.gooo" \
