@@ -41,13 +41,15 @@ go run ./cmd/workbench construct --compiler gooo \
   --max-program-budget 4 --max-rounds 4 --out out/source-fill-public
 ```
 
-소스에서 준비하려면 CI와 같은 공개 소스를 빌드합니다.
+새 `assemble --graph`에는 `body-plan`과 입력 전용 실행이 포함된 병합 개발 소스를 사용합니다.
+CI와 같은 소스를 빌드하는 방법입니다. 기존 공개 0.6.22의 리비전은
+`d3b44fc63a340d825108c97f61eeb18900219b28`이며 새 그래프 조회 명령은 포함하지 않습니다.
 아래 명령은 작업장 저장소의 루트에서 실행하며 `.compiler`가 없는 상태를 기준으로 합니다.
 
 ```sh
 git init .compiler
 git -C .compiler remote add origin https://github.com/kimjooyoon/meta-ontology-go.git
-git -C .compiler fetch --depth 1 origin d3b44fc63a340d825108c97f61eeb18900219b28
+git -C .compiler fetch --depth 1 origin a15b413412ad7b465a0567fb1db4de5706a8c2a8
 git -C .compiler switch --detach FETCH_HEAD
 GOTOOLCHAIN=go1.27.2 go -C .compiler build -trimpath -o ../.gooo ./cmd/gooo
 ./.gooo version --build --json

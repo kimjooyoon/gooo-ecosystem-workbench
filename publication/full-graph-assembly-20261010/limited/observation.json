@@ -1,0 +1,199 @@
+{
+  "schema": "gooo/full-graph-observation/v1",
+  "profile": "limited",
+  "origin": {
+    "schema": "gooo/ecosystem-graph-assembly/v1",
+    "entry_activity": "Main",
+    "observation": {
+      "recipe": "source-graph-assembly",
+      "mode": "native-graph",
+      "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+      "named_passed": 0,
+      "named_total": 3,
+      "record_fields_passed": 2,
+      "record_fields_total": 9,
+      "selection_fields_passed": 6,
+      "selection_fields_total": 6,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "da2a633eb64cc33799ca45dfcde0f7a6541606729a1eb07f04ae6f46e4caad7f"
+    },
+    "bodies": [
+      {
+        "activity_id": "graphchain://activity/describe",
+        "phase": "activity",
+        "kind": "record_choices",
+        "input_source_sha256": "sha256:00a9abc417f0e7f9b2872a99929c7ee9cd3451e3c1c793323fd0e798b68f35a9",
+        "source_cases_passed": 1,
+        "source_cases_total": 1,
+        "source_holdout_passed": 0,
+        "source_holdout_total": 0,
+        "model_calls": 0
+      },
+      {
+        "activity_id": "graphchain://activity/relabel",
+        "phase": "activity",
+        "kind": "record_choices",
+        "input_source_sha256": "sha256:32f99db47fcf7a52a5710a46841a7a1345f31439d022d4ec0dc467370803ca28",
+        "source_cases_passed": 1,
+        "source_cases_total": 1,
+        "source_holdout_passed": 0,
+        "source_holdout_total": 0,
+        "model_calls": 0
+      }
+    ],
+    "next": {
+      "code": "partial",
+      "message": "원래 호출 입력과 기대값을 그대로 다음 조립에 넘깁니다.",
+      "action": "add-counterexamples-to-construction"
+    },
+    "follow_up_observation": {
+      "recipe": "graph-next",
+      "mode": "fixed",
+      "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+      "named_passed": 0,
+      "named_total": 0,
+      "record_fields_passed": 0,
+      "record_fields_total": 0,
+      "selection_fields_passed": 0,
+      "selection_fields_total": 0,
+      "generation_model_calls": 0,
+      "type_rejected_candidates": 0,
+      "saved_replay_verified": true,
+      "result_sha256": "9dda4e55a694d6a5169085084ad9aabd79d844e05d7830c264feaab030306f79"
+    },
+    "generated_sha256": "sha256:a8fb6feed2fe158f02bd371ed579671346bc98766556b6b56cc5b5a9ca7aae8d",
+    "next_context": "next-context.json",
+    "replay_new_model_calls": 0,
+    "scope": "native graph plan, multiple bodies, called preparation and caller roots; source-local selection and caller expectations remain separate; optional record model contexts are checkpoint-specific; source-fill is deterministic; saved replay has zero fresh inference; finite observations do not establish general accuracy"
+  },
+  "feedback": {
+    "prepared": true,
+    "consumed_by_next_round": true,
+    "originating_result_sha256": "da2a633eb64cc33799ca45dfcde0f7a6541606729a1eb07f04ae6f46e4caad7f",
+    "evaluation_file_sha256": "b9f02c592fa3c4090f482654cac048acbdf880c20a8a6f86a4018edb6fc252b1",
+    "previous_cases_sha256": "a4b11812d11ad8b505541db514d8b5e55dc071f0ab682346f92ea2d6a0612f9b",
+    "next_cases_sha256": "41adeaf3eb59eea2413985228239c7016322dc78badd28bfc85053190c817973",
+    "next_cases_file": "origin-feedback-cases.json",
+    "policy_result_sha256": "acbea32e419ce6061add456a28a71b3a2335031452f459c4cc25ab339d2ad2ed",
+    "added_indices": [
+      0,
+      1
+    ],
+    "selected_indices": [
+      0,
+      1
+    ],
+    "rows": [
+      {
+        "evaluation_index": 0,
+        "matched": 0,
+        "total": 2,
+        "already_retained_or_duplicate": false,
+        "original_row_sha256": "f1c0dbab5350fb0114d0a54ff0da96c0f0effbbd9377a75f08e155c296a9de76",
+        "canonical_row_sha256": "0a4fa8d2a5cafc42f3bdc2ffb6d7bea2aa2bf7d4f9070aa87f1af17360eb1d07",
+        "include": true,
+        "reason": "counterexample"
+      },
+      {
+        "evaluation_index": 1,
+        "matched": 0,
+        "total": 1,
+        "already_retained_or_duplicate": false,
+        "original_row_sha256": "c6197ccd59bc8dc21c5f122e61f4f04731a1635f8503e32f161c6e558feda58f",
+        "canonical_row_sha256": "f356ea5c5102945c5b7b413474b4709826c5f602a8a44c414820c178fc607634",
+        "include": true,
+        "reason": "counterexample"
+      }
+    ]
+  },
+  "stop_reason": "program-budget-limit",
+  "new_construction_model_requested": false,
+  "rounds": [
+    {
+      "program_budget": 1,
+      "program_attempts": 1,
+      "evaluation_passed": 2,
+      "evaluation_total": 9,
+      "evaluation_unit": "record_fields",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 2,
+      "construction_elapsed_ns": 805376791,
+      "result": "round-0.json",
+      "construction_cases_file": "construction-cases.json"
+    },
+    {
+      "program_budget": 2,
+      "program_attempts": 2,
+      "evaluation_passed": 2,
+      "evaluation_total": 9,
+      "evaluation_unit": "record_fields",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 4,
+      "construction_elapsed_ns": 1196552458,
+      "result": "round-1.json",
+      "construction_cases_file": "construction-cases.json"
+    },
+    {
+      "program_budget": 4,
+      "program_attempts": 4,
+      "evaluation_passed": 2,
+      "evaluation_total": 9,
+      "evaluation_unit": "record_fields",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 8,
+      "construction_elapsed_ns": 2015865333,
+      "result": "round-2.json",
+      "construction_cases_file": "construction-cases.json"
+    },
+    {
+      "program_budget": 8,
+      "program_attempts": 8,
+      "evaluation_passed": 2,
+      "evaluation_total": 9,
+      "evaluation_unit": "record_fields",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 16,
+      "construction_elapsed_ns": 3548274250,
+      "result": "round-3.json",
+      "construction_cases_file": "construction-cases.json"
+    },
+    {
+      "program_budget": 16,
+      "program_attempts": 16,
+      "evaluation_passed": 2,
+      "evaluation_total": 9,
+      "evaluation_unit": "record_fields",
+      "action": "rerun-with-larger-program-budget",
+      "proposed_program_budget": 32,
+      "construction_elapsed_ns": 6719935833,
+      "result": "round-4.json",
+      "construction_cases_file": "construction-cases.json"
+    }
+  ],
+  "repeated_program_attempts": 31,
+  "final_adaptive": {
+    "named_passed": 0,
+    "named_total": 3,
+    "snapshot_unit": "record_fields",
+    "passed": 2,
+    "total": 9
+  },
+  "final_holdout": {
+    "named_passed": 0,
+    "named_total": 2,
+    "snapshot_unit": "record_fields",
+    "passed": 2,
+    "total": 6,
+    "new_model_calls": 0,
+    "input_scope": {
+      "unique_inputs": 2,
+      "duplicate_rows": 0,
+      "construction_inputs": 0,
+      "other_inputs": 2,
+      "scope": "unique caller root-input tuples compared with consumed construction cases; local-example and model-training exposure are not established by this metric"
+    }
+  },
+  "scope": "single sequential local execution; adaptive and source-local cases influence construction; final separate caller cases do not feed back; finite results and repeated attempts, not a full-domain or latency benchmark"
+}

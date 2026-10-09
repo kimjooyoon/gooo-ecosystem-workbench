@@ -1,0 +1,92 @@
+{
+  "schema": "gooo/assembly-next-context/v2",
+  "source_sha256": "sha256:00a9abc417f0e7f9b2872a99929c7ee9cd3451e3c1c793323fd0e798b68f35a9",
+  "activity_id": "",
+  "entry_activity": "Main",
+  "selected_program_sha256": "sha256:a8fb6feed2fe158f02bd371ed579671346bc98766556b6b56cc5b5a9ca7aae8d",
+  "observation": {
+    "recipe": "source-graph-assembly",
+    "mode": "native-graph",
+    "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 6,
+    "selection_fields_total": 6,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "f89f2a23a109126e892011075033339f2e8e79cf8c4a929a730b942930dfb182"
+  },
+  "next": {
+    "code": "unobserved",
+    "message": "호출은 실행됐습니다. 비교할 기대값을 추가하면 반례를 고를 수 있습니다.",
+    "action": "add-caller-expectations"
+  },
+  "mismatched_deliveries": 0,
+  "first_mismatches": [],
+  "artifacts": [
+    {
+      "path": "source.gooo",
+      "sha256": "sha256:00a9abc417f0e7f9b2872a99929c7ee9cd3451e3c1c793323fd0e798b68f35a9",
+      "bytes": 2156
+    },
+    {
+      "path": "cases.json",
+      "sha256": "sha256:e20342bc4506761378dd8326f9ccf335d30fa95745ca77938f0b6d3c8920c629",
+      "bytes": 156
+    },
+    {
+      "path": "plan.json",
+      "sha256": "sha256:7b9f493734e3f5609212bde3088cca54ac5b672e0ba7b5943de5db6a964d4cca",
+      "bytes": 4387
+    },
+    {
+      "path": "profiles.json",
+      "sha256": "sha256:c197c33d1b2223c64cbc2b2cb4169beb4bfe9964e3faea0fb74451b47da4a306",
+      "bytes": 85
+    },
+    {
+      "path": "assembly.json",
+      "sha256": "sha256:f89f2a23a109126e892011075033339f2e8e79cf8c4a929a730b942930dfb182",
+      "bytes": 96712
+    },
+    {
+      "path": "replay.json",
+      "sha256": "sha256:46b58ef519e71486e4786aae6ea7e9becfe8ec453869f53a1f65fd30f47ff888",
+      "bytes": 96714
+    },
+    {
+      "path": "composition/generated.go",
+      "sha256": "sha256:a8fb6feed2fe158f02bd371ed579671346bc98766556b6b56cc5b5a9ca7aae8d",
+      "bytes": 3289
+    },
+    {
+      "path": "composition/composition.json",
+      "sha256": "sha256:1f1da09594661713e07bc50bc94bd64d9fd5629682d1e98210ed50763490baa1",
+      "bytes": 130901
+    },
+    {
+      "path": "follow-up/graph-next.gooo",
+      "sha256": "sha256:765a283fe98bc0964a03231cd6c6f5c1d58851841c45a0915fdfb76015b392f9",
+      "bytes": 2642
+    },
+    {
+      "path": "follow-up/inputs.json",
+      "sha256": "sha256:2d71bbb6a0c0f0cca747b732e3ade7b677a6f9a0734036ba7817b338933e9978",
+      "bytes": 278
+    },
+    {
+      "path": "follow-up/execution.json",
+      "sha256": "sha256:7f8636fb615518316760ad4665f88650672361c1011853d3b637e80e06465ba6",
+      "bytes": 48380
+    },
+    {
+      "path": "follow-up/replay.json",
+      "sha256": "sha256:56f47117ca0858ad0a5e0e6324d1b332562b57534c83e38f84b2e96c424c3d4d",
+      "bytes": 48808
+    }
+  ],
+  "scope": "native graph plan, multiple bodies, called preparation and caller roots; source-local selection and caller expectations remain separate; optional record model contexts are checkpoint-specific; source-fill is deterministic; saved replay has zero fresh inference; finite observations do not establish general accuracy"
+}

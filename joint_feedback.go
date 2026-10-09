@@ -87,6 +87,18 @@ func collectJointFeedback(current, evaluation, raw []byte) (jointCases, []JointF
 	if err != nil {
 		return doc, nil, err
 	}
+	return collectJointFeedbackRows(doc, evaluation, raw)
+}
+
+var emptyGraphHistory = []byte(`{"schema":"gooo/body-composition-cases/v1","cases":[]}` + "\n")
+
+// Only a saved graph's first caller feedback starts without joint caller rows.
+// Source-local cases stay in the native contracts, independently of this seed.
+func collectInitialGraphFeedback(evaluation, raw []byte) (jointCases, []JointFeedbackRow, error) {
+	return collectJointFeedbackRows(jointCases{Schema: jointCasesSchema, Cases: []json.RawMessage{}}, evaluation, raw)
+}
+
+func collectJointFeedbackRows(doc jointCases, evaluation, raw []byte) (jointCases, []JointFeedbackRow, error) {
 	eval, err := readJointCases(evaluation, true)
 	if err != nil {
 		return doc, nil, err
@@ -225,6 +237,19 @@ func prepareJointFeedback(ctx context.Context, o Options, root, label string, cu
 	if err != nil {
 		return nil, err
 	}
+	return prepareCollectedJointFeedback(ctx, o, root, label, current, evaluation, raw, doc, rows)
+}
+
+func prepareInitialGraphFeedback(ctx context.Context, o Options, root string, evaluation, raw []byte) (*JointFeedbackUpdate, error) {
+	doc, rows, err := collectInitialGraphFeedback(evaluation, raw)
+	if err != nil {
+		return nil, err
+	}
+	return prepareCollectedJointFeedback(ctx, o, root, "origin-feedback", emptyGraphHistory, evaluation, raw, doc, rows)
+}
+
+func prepareCollectedJointFeedback(ctx context.Context, o Options, root, label string, current, evaluation, raw []byte,
+	doc jointCases, rows []JointFeedbackRow) (*JointFeedbackUpdate, error) {
 	update := &JointFeedbackUpdate{ResultSHA256: jointDigest(raw), EvaluationSHA256: jointDigest(evaluation), PreviousSHA256: jointDigest(current), Rows: rows, AddedIndices: []int{}}
 	cases := make([]any, len(rows))
 	for i, row := range rows {

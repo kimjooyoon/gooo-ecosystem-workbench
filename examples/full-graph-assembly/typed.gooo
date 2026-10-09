@@ -1,0 +1,8 @@
+package typedgraph
+namespace typedgraph
+entity Integer id "urn:gooo:type:integer"
+activity Main(Integer) -> Integer computes `return input - 1` assembling {
+    choice "order" operand_order at "0" intent "피연산자의 순서를 고른다. Choose operand order."
+    case "1" -> "0"
+    attempts "2"
+}

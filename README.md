@@ -64,15 +64,24 @@ go run ./cmd/workbench help assemble
 `--assembly-activity`에는 루트 레코드 조립 활동을 지정합니다.
 [연결 예제](examples/assembly-graph-feedback/README.md)는 두 활동과 보조 함수를 실행합니다.
 
+여러 본문을 함께 조립하거나 별도 호출 입력이 있으면 [`assemble --graph`](examples/full-graph-assembly/README.md)를
+사용합니다. 계획을 먼저 저장하고, 호출된 보조 함수도 포함해 조립·실행·재생합니다.
+`construct --assembly`는 원래 호출 행 전체를 다음 조립으로 넘깁니다.
+각 본문의 자체 사례는 소스에 남고 별도 입력의 값을 추측해 합치지 않습니다.
+
 [최근 사례에서 고른 사용성 개선과 다음 실험](docs/research-usability-2026-10-09.md)을 함께 공개합니다.
 [저장한 결과를 반례 반복에 연결한 후속 구현](docs/research-feedback-2026-10-09.md)도 있습니다.
 [최근 자료를 연결 그래프에 적용한 판단](docs/research-graph-feedback-2026-10-09.md)도 기록합니다.
 
-Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.
-CI는 같은 공개 소스 `d3b44fc63a340d825108c97f61eeb18900219b28`에 고정합니다.
-`version --build --json`에서 `0.6.22-dev`, `go1.27.2`와 위 소스 리비전을 확인합니다.
-설치된 `gooo`로 바로 시작할 수 있습니다. 소스에서 빌드하려면
+Go 1.27.2를 사용합니다. 기존 단일 루트 흐름은
+[공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)에서도 실행됩니다.
+새 그래프 흐름과 CI는 병합된 개발 소스 `a15b413412ad7b465a0567fb1db4de5706a8c2a8`에 고정합니다.
+이 소스의 버전 문자열도 `0.6.22-dev`이며 `version --build --json`의 리비전으로 구분합니다.
+공개 릴리스 0.6.22에는 `body-plan`이 없으므로 새 그래프 흐름에는 아래 고정 소스를 빌드합니다.
+소스에서 빌드하려면
 [실행 안내](docs/usage.ko.md)의 고정 리비전을 사용하고 `--compiler ./.gooo`를 지정합니다.
+
+[최근 자료에서 적용·제외한 판단](docs/research-full-graph-2026-10-10.md)을 기록합니다.
 
 조건식·대입식의 빈칸을 함께 채우고 실제 호출 결과로 다시 고릅니다.
 타입 오류나 조립용 사례의 계산 실패가 있는 후보는 이유를 기록하고 다음 후보를 시도합니다.

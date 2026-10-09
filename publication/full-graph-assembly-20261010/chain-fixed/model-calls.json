@@ -1,0 +1,33 @@
+{
+  "fresh_initial_generation_per_round": [
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    },
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    },
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    },
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    },
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    },
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    },
+    {
+      "record_model_calls": 0,
+      "source_fill_model_calls": 0
+    }
+  ],
+  "new_saved_replay_calls": 0
+}

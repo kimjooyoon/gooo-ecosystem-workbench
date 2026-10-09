@@ -26,6 +26,7 @@ type assemblyContext struct {
 	Schema       string            `json:"schema"`
 	SourceSHA    string            `json:"source_sha256"`
 	ActivityID   string            `json:"activity_id"`
+	Entry        string            `json:"entry_activity,omitempty"`
 	GeneratedSHA string            `json:"selected_program_sha256"`
 	Observation  Summary           `json:"observation"`
 	Next         policyAdvice      `json:"next"`
@@ -43,6 +44,16 @@ func saveAssemblyContext(root string, report AssemblyReport, execution result) e
 		Next: report.Next, Failures: []assemblyFailure{},
 		Scope: "Finite caller and source selection observations remain separate. Gooo advice is unscored and replayed. " +
 			"References bind saved bytes; at most eight mismatch locations are shown. No next action or model call is executed."}
+	if err := assemblyContextFailures(&c, execution); err != nil {
+		return err
+	}
+	if c.Mismatches != report.Observation.NamedTotal-report.Observation.NamedPassed {
+		return fmt.Errorf("context mismatch locations differ from the finite caller observation")
+	}
+	return saveAssemblyContextArtifacts(root, report.NextContext, c, assemblyOriginNames)
+}
+
+func assemblyContextFailures(c *assemblyContext, execution result) error {
 	for ti, trace := range execution.Runtime.Traces {
 		for di, delivery := range trace.Deliveries {
 			if len(delivery.Expected) == 0 {
@@ -65,12 +76,11 @@ func saveAssemblyContext(root string, report AssemblyReport, execution result) e
 			}
 		}
 	}
-	if c.Mismatches != report.Observation.NamedTotal-report.Observation.NamedPassed {
-		return fmt.Errorf("context mismatch locations differ from the finite caller observation")
-	}
-	for _, name := range []string{"source.gooo", "cases.json", "preflight.json", "assembly.json", "replay.json",
-		"composition/generated.go", "composition/composition.json", "follow-up/assembly-next.gooo",
-		"follow-up/inputs.json", "follow-up/execution.json", "follow-up/replay.json"} {
+	return nil
+}
+
+func saveAssemblyContextArtifacts(root, name string, c assemblyContext, names []string) error {
+	for _, name := range names {
 		raw, err := os.ReadFile(filepath.Join(root, name))
 		if err != nil {
 			return err
@@ -78,5 +88,5 @@ func saveAssemblyContext(root string, report AssemblyReport, execution result) e
 		c.Artifacts = append(c.Artifacts, processArtifact{Path: name,
 			SHA256: fmt.Sprintf("sha256:%x", sha256.Sum256(raw)), Bytes: int64(len(raw))})
 	}
-	return save(filepath.Join(root, report.NextContext), c)
+	return save(filepath.Join(root, name), c)
 }

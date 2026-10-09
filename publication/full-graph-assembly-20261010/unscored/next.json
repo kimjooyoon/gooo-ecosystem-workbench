@@ -1,0 +1,23 @@
+{
+  "schema": "gooo/assembly-construction/v2",
+  "stop_reason": "add-caller-expectations",
+  "origin_context_sha256": "sha256:4ac0edb87da1cca7b8df42dbdd6e160ff04a6bfbe7752fbc6bdf5a6afb9dafc4",
+  "origin_observation": {
+    "recipe": "source-graph-assembly",
+    "mode": "native-graph",
+    "compiler_source": "a15b413412ad7b465a0567fb1db4de5706a8c2a8",
+    "named_passed": 0,
+    "named_total": 0,
+    "record_fields_passed": 0,
+    "record_fields_total": 0,
+    "selection_fields_passed": 6,
+    "selection_fields_total": 6,
+    "generation_model_calls": 0,
+    "type_rejected_candidates": 0,
+    "saved_replay_verified": true,
+    "result_sha256": "f89f2a23a109126e892011075033339f2e8e79cf8c4a929a730b942930dfb182"
+  },
+  "origin_replay_verified": true,
+  "new_construction_model_requested": false,
+  "scope": "saved native graph replayed before feedback; Gooo selects complete original failing caller rows; source-local examples stay in native contracts and are never inverted into caller inputs; model omission starts each construction deterministically and never inherits the origin model; bounded rounds count repeated attempts; optional final holdout is not fed back; training exposure is unknown"
+}
