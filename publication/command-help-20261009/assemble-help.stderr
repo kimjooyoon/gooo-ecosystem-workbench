@@ -1,0 +1,15 @@
+Usage of assemble:
+  -cases string
+    	caller native cases with expected outputs
+  -compiler string
+    	Gooo compiler executable with body-context --model (default "gooo")
+  -entry string
+    	activity name to assemble
+  -json
+    	emit the complete machine-readable report; originals are always saved
+  -model string
+    	optional local record model or builtin; omission is deterministic
+  -out string
+    	new output directory containing result, generated Go and original records
+  -source string
+    	Gooo source with one record assembling activity

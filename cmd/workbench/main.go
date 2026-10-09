@@ -21,7 +21,13 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("use verify, scaffold, splice, assemble, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff; each command accepts --help")
+		return fmt.Errorf("choose a command with gooo-workbench --help")
+	}
+	if args[0] == "help" || args[0] == "--help" || args[0] == "-h" {
+		return runHelp(args)
+	}
+	if !knownCommand(args[0]) {
+		return fmt.Errorf("unknown command %q; use gooo-workbench --help", args[0])
 	}
 	if args[0] == "assemble" {
 		return runAssemble(args[1:])
@@ -51,6 +57,9 @@ func run(args []string) error {
 	maxPrograms := f.Int64("max-program-budget", 8, "construct ceiling for whole-program attempts per round (1..64)")
 	maxRounds := f.Int("max-rounds", 4, "construct ceiling for fresh construction rounds (1..16)")
 	if e := f.Parse(args[1:]); e != nil {
+		if e == flag.ErrHelp {
+			return nil
+		}
 		return e
 	}
 	if f.NArg() != 0 {
@@ -136,7 +145,7 @@ func run(args []string) error {
 	case "receipt":
 		value, err = workbench.CompletenessReceiptFor(ctx, o, *input)
 	default:
-		return fmt.Errorf("unknown command %q; use verify, scaffold, splice, assemble, construct, diagnose, refine, reference, discover, receipt, feature-audit, or api-diff", args[0])
+		return fmt.Errorf("unknown command %q; use gooo-workbench --help", args[0])
 	}
 	if err != nil {
 		return err

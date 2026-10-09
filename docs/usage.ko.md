@@ -1,5 +1,16 @@
 # 실행 안내
 
+## 필요한 명령 찾기
+
+```sh
+go run ./cmd/workbench --help
+go run ./cmd/workbench help assemble
+```
+
+첫 화면에서 소스 만들기·조립하기·결과 읽기의 명령을 고릅니다.
+`help 명령`과 `명령 --help`는 옵션을 보여주고 정상 종료합니다.
+도움말 조회에는 컴파일러 실행이나 모델 로딩, 출력 폴더 생성이 없습니다.
+
 ## Gooo 컴파일러 준비
 
 Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.

@@ -46,9 +46,18 @@ Go 프로그램을 만들어 실행합니다. 파일 저장과 명령 연결은 
 
 ## 시작하기
 
+필요한 명령을 먼저 찾으려면:
+
+```sh
+go run ./cmd/workbench --help
+go run ./cmd/workbench help assemble
+```
+
 소스와 모델의 조합을 확인하며 실행하려면 [한 명령 조립 예제](examples/model-assembly/README.md)를
 사용합니다. 선택 이유, 사례 결과, 생성 코드 위치가 터미널에 나오고 원본은 파일에 남습니다.
 후속 작업과 원본 불일치 위치도 함께 남습니다.
+
+[최근 사례에서 고른 사용성 개선과 다음 실험](docs/research-usability-2026-10-09.md)을 함께 공개합니다.
 
 Go 1.27.2와 [공개 Gooo 0.6.22](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.22-dev)를 사용합니다.
 CI는 같은 공개 소스 `d3b44fc63a340d825108c97f61eeb18900219b28`에 고정합니다.
