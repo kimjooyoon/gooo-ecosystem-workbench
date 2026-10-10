@@ -1,0 +1,57 @@
+{
+  "schema": "gooo/finite-path-targets/v1",
+  "source_sha256": "sha256:b847f1ba48ef1964ad7743c6bcbb1732b6ad168b200ccc768f37d761e7ba5ee1",
+  "plan_sha256": "fed0f1cb6c5c1ed71b9a93da484af45d1d57e9de535ab0169eb554fb1e806b40",
+  "consumed_cases_sha256": "sha256:2ad5012f95e379b12d377ace4f91dc53873c3cbbe6ebdb5ced3d22984790188b",
+  "declared_combinations": 8,
+  "compatible_masks": [
+    1,
+    2
+  ],
+  "site_marginals": [
+    {
+      "decision_id": "sign",
+      "compatible_mask_counts": {
+        "layout_forward": 1,
+        "layout_reverse": 1
+      }
+    },
+    {
+      "decision_id": "comparison",
+      "compatible_mask_counts": {
+        "layout_forward": 1,
+        "layout_reverse": 1
+      }
+    },
+    {
+      "decision_id": "negative",
+      "compatible_mask_counts": {
+        "layout_forward": 2,
+        "layout_reverse": 0
+      }
+    }
+  ],
+  "marginal_product_combinations": 4,
+  "incompatible_marginal_combinations": 2,
+  "finite_output_groups": [
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      4,
+      5,
+      6,
+      7
+    ]
+  ],
+  "native_outcomes_checked": 72,
+  "native_parity": true,
+  "model_calls": 0,
+  "training_performed": false,
+  "scope": "Consumed finite activity cases; SDK typed candidates and native projections. Joint masks are finite targets, not whole-domain equivalence or caller correctness. No held-out score, training or inference."
+}
