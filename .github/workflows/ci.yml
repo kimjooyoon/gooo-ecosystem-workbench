@@ -50,6 +50,7 @@ jobs:
           test -z "$(gofmt -l feature_audit_corpus_test.go feature_audit_intent_test.go experiments/graph-choice-corpus/*.go)"
           test -z "$(gofmt -l experiments/graph-chooser/*.go)"
           test -z "$(gofmt -l experiments/path-outcomes/*.go)"
+          test -z "$(gofmt -l experiments/path-chooser/*.go)"
           test -z "$(gofmt -l joint_snapshot.go joint_snapshot_test.go joint_next.go joint_next_test.go joint_loop.go joint_loop_test.go joint_feedback.go joint_feedback_test.go)"
           test -z "$(gofmt -l package_joint.go package_joint_loop.go package_joint_test.go package_observed_test.go experiments/package-construction-observe/main.go)"
           test -z "$(gofmt -l experiments/joint-feedback-observe/main.go)"

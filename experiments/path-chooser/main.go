@@ -16,6 +16,7 @@ import (
 
 func main() {
 	out := flag.String("out", "", "new external observation directory")
+	jointMode := flag.Bool("joint", false, "frozen joint-target continuation study")
 	flag.Parse()
 	if *out == "" {
 		panic("new external output required")
@@ -29,6 +30,11 @@ func main() {
 	}
 	training, evaluation, err := corpus("experiments/path-chooser")
 	must(err)
+	if *jointMode {
+		must(jointStudy(*out, strings.TrimSpace(string(source)), training, evaluation))
+		fmt.Println("joint-target continuation study completed; original losses and models retained")
+		return
+	}
 	must(os.Mkdir(*out, 0755))
 	must(save(filepath.Join(*out, "training-rows.json"), training))
 	must(save(filepath.Join(*out, "evaluation-rows.json"), evaluation))
