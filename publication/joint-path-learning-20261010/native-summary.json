@@ -1,0 +1,282 @@
+{
+  "new_input_tuples": 11,
+  "results": [
+    {
+      "arm": "previous",
+      "deliveries": [
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -22,
+          "expected": 0,
+          "input": -11,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -18,
+          "expected": 0,
+          "input": -9,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -16,
+          "expected": 0,
+          "input": -8,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -4,
+          "expected": 0,
+          "input": -2,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 4,
+          "expected": 4,
+          "input": 2,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 8,
+          "expected": 8,
+          "input": 4,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 16,
+          "expected": 16,
+          "input": 8,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 18,
+          "expected": 18,
+          "input": 9,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 22,
+          "expected": 22,
+          "input": 11,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 18014398509481990,
+          "expected": 18014398509481990,
+          "input": 9007199254740995,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -18014398509481990,
+          "expected": 0,
+          "input": -9007199254740995,
+          "passed": false
+        }
+      ],
+      "model_calls": 3,
+      "model_predict_ns": 32875,
+      "new_replay_calls": 0,
+      "passed": 6,
+      "program_attempts": 1,
+      "replay_passed": 6,
+      "selected_mask": 7,
+      "total": 11,
+      "weights_sha256": "d5fa84520e8f65ec88e3470a6cdb45611b0324cffc1f70c4f0d6ba625da47021"
+    },
+    {
+      "arm": "control",
+      "deliveries": [
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -22,
+          "expected": 0,
+          "input": -11,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -18,
+          "expected": 0,
+          "input": -9,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -16,
+          "expected": 0,
+          "input": -8,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -4,
+          "expected": 0,
+          "input": -2,
+          "passed": false
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 4,
+          "expected": 4,
+          "input": 2,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 8,
+          "expected": 8,
+          "input": 4,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 16,
+          "expected": 16,
+          "input": 8,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 18,
+          "expected": 18,
+          "input": 9,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 22,
+          "expected": 22,
+          "input": 11,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 18014398509481990,
+          "expected": 18014398509481990,
+          "input": 9007199254740995,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": -18014398509481990,
+          "expected": 0,
+          "input": -9007199254740995,
+          "passed": false
+        }
+      ],
+      "model_calls": 3,
+      "model_predict_ns": 39625,
+      "new_replay_calls": 0,
+      "passed": 6,
+      "program_attempts": 1,
+      "replay_passed": 6,
+      "selected_mask": 7,
+      "total": 11,
+      "weights_sha256": "56a8ac7c893468fd4ec59f5a3b3f11b5dd23aa29e6278aab14dd9bd4eadc5aa2"
+    },
+    {
+      "arm": "joint",
+      "deliveries": [
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 0,
+          "expected": 0,
+          "input": -11,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 0,
+          "expected": 0,
+          "input": -9,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 0,
+          "expected": 0,
+          "input": -8,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 0,
+          "expected": 0,
+          "input": -2,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 4,
+          "expected": 4,
+          "input": 2,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 8,
+          "expected": 8,
+          "input": 4,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 16,
+          "expected": 16,
+          "input": 8,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 18,
+          "expected": 18,
+          "input": 9,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 22,
+          "expected": 22,
+          "input": 11,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 18014398509481990,
+          "expected": 18014398509481990,
+          "input": 9007199254740995,
+          "passed": true
+        },
+        {
+          "activity_id": "callerpaths://activity/main",
+          "actual": 0,
+          "expected": 0,
+          "input": -9007199254740995,
+          "passed": true
+        }
+      ],
+      "model_calls": 3,
+      "model_predict_ns": 39501,
+      "new_replay_calls": 0,
+      "passed": 11,
+      "program_attempts": 1,
+      "replay_passed": 11,
+      "selected_mask": 2,
+      "total": 11,
+      "weights_sha256": "dcd8e44591626d421d4961bfef82ec197e947cb1d5d2cd92868d908bc7de4aed"
+    }
+  ],
+  "schema": "gooo/joint-path-native-study/v1",
+  "scope": "One consumed source family with new finite caller inputs. Exact original inputs/artifacts/counts and saved replay checked; not unseen-program accuracy or calibrated confidence.",
+  "source_sha256": "sha256:b847f1ba48ef1964ad7743c6bcbb1732b6ad168b200ccc768f37d761e7ba5ee1",
+  "training_producer": "e2e259a966473be21250a01b99644f646992c6c4"
+}

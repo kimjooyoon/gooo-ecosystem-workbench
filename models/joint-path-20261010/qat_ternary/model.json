@@ -1,0 +1,64 @@
+{
+  "schema": "gooo/tiny-path-decision-model/v1",
+  "feature_version": "semantic_context_intent_v3",
+  "variant": "qat_ternary",
+  "feature_dim": 256,
+  "hidden_dim": 48,
+  "max_bytes": 512,
+  "labels": [
+    "reference_first",
+    "reference_second",
+    "assign_first",
+    "assign_second",
+    "layout_forward",
+    "layout_reverse",
+    "schedule_forward",
+    "schedule_reverse"
+  ],
+  "temperature": 1,
+  "weights_file": "weights.bin",
+  "weights_sha256": "dcd8e44591626d421d4961bfef82ec197e947cb1d5d2cd92868d908bc7de4aed",
+  "tensors": [
+    {
+      "name": "w1",
+      "count": 12288,
+      "rows": 48,
+      "cols": 256,
+      "encoding": "ternary_base3_5",
+      "offset": 0,
+      "bytes": 2458,
+      "scale": 0.2850223481655121
+    },
+    {
+      "name": "b1",
+      "count": 48,
+      "rows": 1,
+      "cols": 48,
+      "encoding": "float32_le",
+      "offset": 2458,
+      "bytes": 192,
+      "scale": 1
+    },
+    {
+      "name": "w2",
+      "count": 384,
+      "rows": 8,
+      "cols": 48,
+      "encoding": "ternary_base3_5",
+      "offset": 2650,
+      "bytes": 77,
+      "scale": 0.5533166527748108
+    },
+    {
+      "name": "b2",
+      "count": 8,
+      "rows": 1,
+      "cols": 8,
+      "encoding": "float32_le",
+      "offset": 2727,
+      "bytes": 32,
+      "scale": 1
+    }
+  ],
+  "confidence_threshold": 0.5
+}
