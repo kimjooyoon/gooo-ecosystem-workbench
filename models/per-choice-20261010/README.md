@@ -31,9 +31,21 @@ layout. Local1/1, caller1/1, separate evaluation3/3 and replay3/3 passed, with0
 new replay calls. Exact input9007199254740993/output18014398509481986 were
 checked as Go json.Number strings. This is one native program observation.
 
+A subsequent accepted compiler366 three-choice program made3 model calls,
+35,292ns total. Fixed construction evaluated3/3; the model's initial proposal
+evaluated2/3 and saved replay kept2/3. All three proposed reverse with
+confidence0.809..0.914; negative input-5 returned-10 instead of supplied0.
+One caller expectation passed before that separate mismatch was observed.
+
+Copying only that original mismatch into a later construction made it consumed
+feedback. Gooo's deterministic two-attempt construction then matched5/5 fresh
+input tuples, saved5/5, with0 new inference. The original model2/3 remains.
+The [PC decision design](../../docs/pc-decision-design.md) links original source,
+cases, outputs, failure and the independently recorded feedback phase.
+
 ## Use
 
-From a compiler checkout with typed model preflight, using a fresh output directory:
+With public Gooo0.6.24 and its compiler examples, use a fresh output directory:
 
 ```sh
 gooo body-context --activity Choose \
