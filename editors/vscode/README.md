@@ -10,8 +10,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 ### 설치
 
-1. Visual Studio Code와 Gooo CLI를 설치합니다.
-   (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`)
+1. Visual Studio Code를 설치하고 [첫 실행 안내](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.ko.md)에 따라
+   Go 1.27.2와 고정한 공개 Gooo 0.6.23-dev 실행 파일을 준비합니다.
 2. [0.2.1 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.1)에서
    `gooo-language-support-0.2.1.vsix`를 내려받습니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 내려받은 파일을 선택합니다.
@@ -20,7 +20,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 이 저장소의 `editors/vscode` 폴더에서 `npm ci`와
 `npx --yes @vscode/vsce package`를 실행합니다.
 
-`gooo.compilerPath`로 CLI 경로를 지정할 수 있습니다. Laya를 연결하려면
+`gooo.compilerPath`에 안내의 `command -v gooo`가 표시한 `.compiler/bin/gooo`의
+정확한 절대 경로를 지정합니다. 터미널도 같은 실행 파일을 사용합니다. Laya를 연결하려면
 `gooo.layaUrl`에 로컬 `/v1/systemone` 주소를 설정합니다. 이 값을 비워 두고
 `GOOO_LAYA_URL` 환경 변수도 설정하지 않으면 Gooo가 선언된 후보를 결정론적으로
 처리합니다. 연결된 Laya도 선언된 후보 안에서만 선택하며, 실행 기록은 새 프로젝트의
@@ -46,7 +47,12 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 ### 처음 실행하기
 
-Go 1.27.2를 설치한 뒤 [고정 컴파일러 소스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/usage.ko.md)를 빌드합니다. `gooo.compilerPath`에 그 실행 파일 경로를 지정합니다. VS Code에서 작업 폴더를 열고 **Gooo: New Project**를 실행해 앱 또는 라이브러리를 만듭니다. 새 `.gooo` 파일에서 **Gooo: Check Current File**로 컴파일러 연결을 확인하고, 본문을 채울 activity에서 **Gooo: Generate Activity Body**를 실행해 영수증과 미리보기를 확인합니다. 결과 적용은 미리보기에서 명시적으로 선택합니다.
+[API 재시도 판단 첫 실행](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.ko.md)을 따라
+작업장 폴더와 `examples/retry-policy/source.gooo`를 엽니다.
+**Gooo: Check Current File**로 연결을 확인하고, 안내의 모델 없는 터미널 명령을
+실행합니다. 생성된 `realized.gooo`와 `generated.go`, 첫 입력의 14ms 판단,
+저장한 선택의 재실행을 함께 읽습니다. 이후 **Gooo: New Project**로 새 앱 또는
+라이브러리를 시작할 수 있습니다.
 
 Laya는 선택 사항입니다. 연결 없이도 후보 평가 순서는 결정론적으로 유지됩니다. 로컬 Laya를 쓰려면 설정에서 `gooo.layaUrl`을 `/v1/systemone` 주소로 지정합니다.
 
@@ -60,13 +66,15 @@ Document** applies the compiler's deterministic formatter only when requested.
 
 ## Install from this repository
 
-1. Install Visual Studio Code and the Gooo CLI (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`).
+1. Install Visual Studio Code, then follow the [first-run guide](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.md)
+   to select Go 1.27.2 and the pinned public Gooo 0.6.23-dev binary.
 2. Download `gooo-language-support-0.2.1.vsix` from the [0.2.1 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.1).
 3. In VS Code, run **Extensions: Install from VSIX...** and select the downloaded file.
 
 The release also contains `checksums.sha256`. To build the extension locally, run `npm ci` and `npx --yes @vscode/vsce package` from this directory.
 
-Set `gooo.compilerPath` if the executable is not named `gooo` or is not on PATH.
+Set `gooo.compilerPath` to the exact absolute `.compiler/bin/gooo` executable
+printed by the guide's `command -v gooo`. The terminal uses that same binary.
 The editor commands save the current buffer before invoking the compiler.
 
 ## Commands
@@ -107,13 +115,12 @@ bypass the package type checks.
 
 ## First run
 
-Install Go 1.27.2, then build the [pinned compiler source](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/usage.ko.md).
-Set `gooo.compilerPath` to that executable. Open a
-workspace folder in VS Code and run **Gooo: New Project** to create an app or
-library. In a new `.gooo` file, run **Gooo: Check Current File** to confirm the
-compiler connection. For an activity with a body to fill, run **Gooo: Generate
-Activity Body** and review its receipt and preview; choose the explicit apply
-action to change the source.
+Follow [the API retry first run](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.md)
+to open the workbench folder and `examples/retry-policy/source.gooo`.
+Run **Gooo: Check Current File**, then the guide's model-free terminal commands.
+Inspect the generated `realized.gooo` and `generated.go`, the first 14 ms
+decision, and saved-selection replay. Use **Gooo: New Project** afterwards to
+start another application or library.
 
 Laya is optional. Candidate evaluation stays deterministic when it is not
 connected. To use a local Laya service, set `gooo.layaUrl` to its
