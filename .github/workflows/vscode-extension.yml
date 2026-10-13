@@ -3,10 +3,14 @@ on:
   push:
     paths:
       - 'editors/vscode/**'
+      - 'examples/caller-source-fill/source.gooo'
+      - '.github/workflows/vscode-extension-release.yml'
       - '.github/workflows/vscode-extension.yml'
   pull_request:
     paths:
       - 'editors/vscode/**'
+      - 'examples/caller-source-fill/source.gooo'
+      - '.github/workflows/vscode-extension-release.yml'
       - '.github/workflows/vscode-extension.yml'
 permissions:
   contents: read
@@ -24,8 +28,8 @@ jobs:
           node -e 'for (const file of ["package.json", "language-configuration.json", "syntaxes/gooo.tmLanguage.json", "snippets/gooo.json"]) JSON.parse(require("node:fs").readFileSync(file, "utf8"))'
           node -e 'const m=require("./package.json"); const s=require("node:fs").readFileSync("extension.js","utf8"); for(const c of m.contributes.commands) if(!s.includes(c.command)) throw Error(`unregistered command: ${c.command}`); if(m.contributes.grammars[0].scopeName!=="source.gooo") throw Error("unexpected grammar scope")'
           node -c extension.js
-          node --test test/*.test.js
           npm ci
+          node --test test/*.test.js
           npx --yes @vscode/vsce package
       - uses: actions/upload-artifact@v7
         with:

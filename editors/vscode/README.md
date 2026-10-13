@@ -12,8 +12,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 1. Visual Studio Code와 Gooo CLI를 설치합니다.
    (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`)
-2. [0.2.0 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.0)에서
-   `gooo-language-support-0.2.0.vsix`를 내려받습니다.
+2. [0.2.1 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.1)에서
+   `gooo-language-support-0.2.1.vsix`를 내려받습니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 내려받은 파일을 선택합니다.
 
 체크섬은 같은 릴리스의 `checksums.sha256`에 있습니다. 확장을 직접 빌드하려면
@@ -46,7 +46,7 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 ### 처음 실행하기
 
-Go 1.27.2를 설치한 뒤 [고정 컴파일러 소스](../../docs/usage.ko.md)를 빌드합니다. `gooo.command`에 그 실행 파일 경로를 지정합니다. VS Code에서 작업 폴더를 열고 **Gooo: New Project**를 실행해 앱 또는 라이브러리를 만듭니다. 새 `.gooo` 파일에서 **Gooo: Check Current File**로 컴파일러 연결을 확인하고, 본문을 채울 activity에서 **Gooo: Generate Activity Body**를 실행해 영수증과 미리보기를 확인합니다. 결과 적용은 미리보기에서 명시적으로 선택합니다.
+Go 1.27.2를 설치한 뒤 [고정 컴파일러 소스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/usage.ko.md)를 빌드합니다. `gooo.compilerPath`에 그 실행 파일 경로를 지정합니다. VS Code에서 작업 폴더를 열고 **Gooo: New Project**를 실행해 앱 또는 라이브러리를 만듭니다. 새 `.gooo` 파일에서 **Gooo: Check Current File**로 컴파일러 연결을 확인하고, 본문을 채울 activity에서 **Gooo: Generate Activity Body**를 실행해 영수증과 미리보기를 확인합니다. 결과 적용은 미리보기에서 명시적으로 선택합니다.
 
 Laya는 선택 사항입니다. 연결 없이도 후보 평가 순서는 결정론적으로 유지됩니다. 로컬 Laya를 쓰려면 설정에서 `gooo.layaUrl`을 `/v1/systemone` 주소로 지정합니다.
 
@@ -61,7 +61,7 @@ Document** applies the compiler's deterministic formatter only when requested.
 ## Install from this repository
 
 1. Install Visual Studio Code and the Gooo CLI (`go install github.com/kimjooyoon/meta-ontology-go/cmd/gooo@dev`).
-2. Download `gooo-language-support-0.2.0.vsix` from the [0.2.0 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.0).
+2. Download `gooo-language-support-0.2.1.vsix` from the [0.2.1 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.1).
 3. In VS Code, run **Extensions: Install from VSIX...** and select the downloaded file.
 
 The release also contains `checksums.sha256`. To build the extension locally, run `npm ci` and `npx --yes @vscode/vsce package` from this directory.
@@ -107,8 +107,8 @@ bypass the package type checks.
 
 ## First run
 
-Install Go 1.27.2, then build the [pinned compiler source](../../docs/usage.ko.md).
-Set `gooo.command` to that executable. Open a
+Install Go 1.27.2, then build the [pinned compiler source](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/usage.ko.md).
+Set `gooo.compilerPath` to that executable. Open a
 workspace folder in VS Code and run **Gooo: New Project** to create an app or
 library. In a new `.gooo` file, run **Gooo: Check Current File** to confirm the
 compiler connection. For an activity with a body to fill, run **Gooo: Generate

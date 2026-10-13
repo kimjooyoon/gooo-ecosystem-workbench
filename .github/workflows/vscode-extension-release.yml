@@ -23,8 +23,8 @@ jobs:
           test "$expected_version" = "$actual_version"
           node -e 'for (const file of ["package.json", "language-configuration.json", "syntaxes/gooo.tmLanguage.json", "snippets/gooo.json"]) JSON.parse(require("node:fs").readFileSync(file,"utf8"))'
           node -c extension.js
-          node --test test/*.test.js
           npm ci
+          node --test test/*.test.js
           npx --yes @vscode/vsce package
           shasum -a 256 "gooo-language-support-${actual_version}.vsix" > checksums.sha256
       - name: Publish versioned VSIX and checksum
