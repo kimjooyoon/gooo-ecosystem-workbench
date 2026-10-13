@@ -2,7 +2,7 @@
   "name": "gooo-language-support",
   "displayName": "Gooo Language Support",
   "description": "Gooo language server, deterministic formatting, compiler-checked body generation, and project tools for .gooo files.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "kimjooyoon",
   "license": "MIT",
   "engines": {
@@ -145,5 +145,9 @@
         }
       ]
     }
+  },
+  "devDependencies": {
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "9.3.2"
   }
 }
