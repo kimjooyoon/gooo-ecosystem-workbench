@@ -1,5 +1,9 @@
 # Gooo ecosystem workbench
 
+처음 사용한다면 [API 재시도 판단을 실행하는 안내](docs/first-run.ko.md)부터 시작합니다.
+[English first run](docs/first-run.md)도 있습니다. 공개 컴파일러 설치, 편집기 연결,
+Go 생성, 실제 판단과 저장한 선택의 재실행을 같은 예제로 확인합니다.
+
 개발 실험: [경로별 자체 decision 모델](models/per-choice-20261010/README.md)은
 Gooo의 선언된 선택을 같은 작은 판단기로 다룹니다. 한영 의도·소스 특징으로
 분기·변수·할당·순서를 선택하고, 실제 사례와 저장 재실행으로 결과를 확인합니다.
@@ -101,16 +105,16 @@ Go 1.27.2와 [공개 Gooo 0.6.24](https://github.com/kimjooyoon/meta-ontology-go
 [다섯 후보 예제](examples/caller-fill-rejection/README.md)와
 [계산 실패 예제](examples/caller-native-failure/README.md)에 작은 재현 자료가 있습니다.
 API 비교의 `package interface`와 소스 그래프 입력도 같은 고정 소스로 실행합니다.
-설치 후 이 저장소에서:
+첫 실행 안내에 따라 설치한 컴파일러로 이 저장소에서:
 
 ```sh
-go run ./cmd/workbench verify --compiler ./.gooo --model builtin --out out/verified
-go run ./cmd/workbench scaffold --compiler ./.gooo --profile record --model builtin --out out/my-record-project
-go run ./cmd/workbench scaffold --compiler ./.gooo --profile library --model builtin --out out/my-library
-go run ./cmd/workbench diagnose --compiler ./.gooo --input examples/partial-composition.json \
+go run ./cmd/workbench verify --compiler "$PWD/.compiler/bin/gooo" --model builtin --out out/verified
+go run ./cmd/workbench scaffold --compiler "$PWD/.compiler/bin/gooo" --profile record --model builtin --out out/my-record-project
+go run ./cmd/workbench scaffold --compiler "$PWD/.compiler/bin/gooo" --profile library --model builtin --out out/my-library
+go run ./cmd/workbench diagnose --compiler "$PWD/.compiler/bin/gooo" --input examples/partial-composition.json \
   --model builtin --out out/next-work
-go run ./cmd/workbench receipt --compiler ./.gooo --input out/verified --out out/completeness
-go run ./cmd/workbench discover --compiler ./.gooo --query '코드 생성은 어떻게 해?' \
+go run ./cmd/workbench receipt --compiler "$PWD/.compiler/bin/gooo" --input out/verified --out out/completeness
+go run ./cmd/workbench discover --compiler "$PWD/.compiler/bin/gooo" --query '코드 생성은 어떻게 해?' \
   --declaration examples/catalog/operations.gooo --out out/capability-discovery
 ```
 

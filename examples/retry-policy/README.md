@@ -36,10 +36,14 @@ random jitter in this policy.
 
 ## Construct, then reuse
 
-Use [Gooo 0.6.8-dev](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.8-dev),
-whose source `86b182da4543efa24ea5bcb504e7b13ea1449c39` is pinned in this repository's CI,
-or a later compatible version with unread-local support. Check the executable with
-`gooo version --build --json`. From the repository root:
+Follow the [first-run guide](../../docs/first-run.md) ([한국어](../../docs/first-run.ko.md))
+for the checksum-pinned public Gooo 0.6.23-dev binary, source
+`2b17c4879d0bb2cd1e48ccc23b8743c0fb564267`, and Go 1.27.2. This is the compiler
+used by the current CI. The guide installs it into `.compiler/bin/gooo` and adds
+its absolute directory to PATH; the commands below use that same executable.
+Earlier compiler identities and results remain in their historical publication
+directories. Check the executable with `gooo version --build --json`.
+From the repository root:
 
 ```sh
 gooo body-compose --source examples/retry-policy/source.gooo \

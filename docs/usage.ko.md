@@ -1,5 +1,10 @@
 # 실행 안내
 
+처음 사용하는 경우 [API 재시도 판단 첫 실행](first-run.ko.md)을 따라갑니다.
+공개 0.6.23-dev 파일과 예제 커밋을 고정하고, 같은 컴파일러를 터미널·편집기에
+연결해 Go 생성, 열두 입력의 결과, 저장된 선택 재실행까지 확인합니다.
+[English](first-run.md)도 있습니다.
+
 ## 필요한 명령 찾기
 
 ```sh
@@ -14,8 +19,9 @@ go run ./cmd/workbench help assemble
 ## Gooo 컴파일러 준비
 
 Go 1.27.2와 [공개 Gooo 0.6.23](https://github.com/kimjooyoon/meta-ontology-go/releases/tag/v0.6.23-dev)을 사용합니다.
-운영체제에 맞는 실행 파일을 내려받고 `SHA256SUMS`와 확인한 뒤 PATH에 설치합니다.
-macOS Apple Silicon은 `gooo-darwin-arm64.tar.gz`, Linux x86-64는 `gooo-linux-amd64.tar.gz`입니다.
+운영체제별 파일 지문과 설치 명령은 [첫 실행의 컴파일러 설치](first-run.ko.md#2-고정한-공개-컴파일러-설치)에 있습니다.
+실행 파일을 `.compiler/bin/gooo`에 두고 해당 디렉터리의 절대 경로를 PATH 앞에 추가합니다.
+`GOTOOLCHAIN=go1.27.2`를 설정해 네이티브 실행에도 같은 Go를 사용합니다.
 설치한 `gooo`로 소스·모델 확인, 조립, 실제 호출과 저장 재생을 한 번에 실행합니다.
 저장소 루트에서 다음처럼 시작합니다.
 
