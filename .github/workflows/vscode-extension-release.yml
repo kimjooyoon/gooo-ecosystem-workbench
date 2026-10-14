@@ -5,13 +5,14 @@ on:
       - 'vscode-v*'
 permissions:
   contents: write
+  actions: read
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
@@ -31,6 +32,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          python3 .github/scripts/check-release-validation.py \
+            --repository "$GITHUB_REPOSITORY" --repository-id "$GITHUB_REPOSITORY_ID" \
+            --sha "$GITHUB_SHA" --tag "$GITHUB_REF_NAME" \
+            --out out/release-validation.json
           tag="$GITHUB_REF_NAME"
           version="${tag#vscode-v}"
           vsix="editors/vscode/gooo-language-support-${version}.vsix"
