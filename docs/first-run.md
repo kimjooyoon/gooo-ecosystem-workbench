@@ -138,7 +138,7 @@ path such as `out/retry-first-use-2`; existing output directories are refused.
 
 ## Optional: use the same compiler in VS Code
 
-Install the [0.2.2 VSIX](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.2)
+Install the [0.2.3 VSIX](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.3)
 using **Extensions: Install from VSIX...**. Open the `gooo-workbench` folder.
 In VS Code settings, set `gooo.compilerPath` to the exact absolute executable
 path printed above, ending in `.compiler/bin/gooo`. Open

@@ -29,7 +29,16 @@ jobs:
           node -e 'const m=require("./package.json"); const s=require("node:fs").readFileSync("extension.js","utf8"); for(const c of m.contributes.commands) if(!s.includes(c.command)) throw Error(`unregistered command: ${c.command}`); if(m.contributes.grammars[0].scopeName!=="source.gooo") throw Error("unexpected grammar scope")'
           node -c extension.js
           npm ci
-          node --test test/*.test.js
+          mkdir -p .test-compiler/bin
+          curl --fail --location --show-error https://github.com/kimjooyoon/meta-ontology-go/releases/download/v0.6.23-dev/gooo-linux-amd64.tar.gz --output .test-compiler/gooo-linux-amd64.tar.gz
+          printf '%s  %s\n' 603619c0938cb2b73db2b1420cf74dc1a8d856c311267b781e9687f23e57bae9 .test-compiler/gooo-linux-amd64.tar.gz | sha256sum -c -
+          tar -xzf .test-compiler/gooo-linux-amd64.tar.gz -C .test-compiler/bin
+          .test-compiler/bin/gooo version --build --json > .test-compiler/compiler-build.json
+          node -e 'const b=require("./.test-compiler/compiler-build.json"); if(b.version!=="0.6.23-dev" || b.vcs_revision!=="2b17c4879d0bb2cd1e48ccc23b8743c0fb564267" || b.vcs_modified!=="false" || b.go_version!=="go1.27.2" || b.decision_runtime.version!=="v0.2.26-experimental") throw Error("unexpected public compiler identity")'
+          GOOO_TEST_LSP_REQUIRED=1 \
+            GOOO_TEST_LSP_EXECUTABLE="$PWD/.test-compiler/bin/gooo" \
+            GOOO_TEST_LSP_EXECUTABLE_SHA256="$(sha256sum .test-compiler/bin/gooo | cut -d ' ' -f 1)" \
+            node --test test/*.test.js
           npx --yes @vscode/vsce package
       - uses: actions/upload-artifact@v7
         with:

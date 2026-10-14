@@ -1,3 +1,4 @@
 .vscode/**
 *.vsix
 test/**
+.test-compiler/**
