@@ -12,8 +12,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 1. Visual Studio Code를 설치하고 [첫 실행 안내](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.ko.md)에 따라
    Go 1.27.2와 고정한 공개 Gooo 0.6.23-dev 실행 파일을 준비합니다.
-2. [0.2.1 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.1)에서
-   `gooo-language-support-0.2.1.vsix`를 내려받습니다.
+2. [0.2.2 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.2)에서
+   `gooo-language-support-0.2.2.vsix`를 내려받습니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 내려받은 파일을 선택합니다.
 
 체크섬은 같은 릴리스의 `checksums.sha256`에 있습니다. 확장을 직접 빌드하려면
@@ -21,7 +21,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 `npx --yes @vscode/vsce package`를 실행합니다.
 
 `gooo.compilerPath`에 안내의 `command -v gooo`가 표시한 `.compiler/bin/gooo`의
-정확한 절대 경로를 지정합니다. 터미널도 같은 실행 파일을 사용합니다. Laya를 연결하려면
+정확한 절대 경로를 지정합니다. 경로를 변경하면 언어 서버가 자동으로 다시 연결되므로
+창을 다시 열 필요가 없습니다. 터미널도 같은 실행 파일을 사용합니다. Laya를 연결하려면
 `gooo.layaUrl`에 로컬 `/v1/systemone` 주소를 설정합니다. 이 값을 비워 두고
 `GOOO_LAYA_URL` 환경 변수도 설정하지 않으면 Gooo가 선언된 후보를 결정론적으로
 처리합니다. 연결된 Laya도 선언된 후보 안에서만 선택하며, 실행 기록은 새 프로젝트의
@@ -68,13 +69,14 @@ Document** applies the compiler's deterministic formatter only when requested.
 
 1. Install Visual Studio Code, then follow the [first-run guide](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.md)
    to select Go 1.27.2 and the pinned public Gooo 0.6.23-dev binary.
-2. Download `gooo-language-support-0.2.1.vsix` from the [0.2.1 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.1).
+2. Download `gooo-language-support-0.2.2.vsix` from the [0.2.2 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.2).
 3. In VS Code, run **Extensions: Install from VSIX...** and select the downloaded file.
 
 The release also contains `checksums.sha256`. To build the extension locally, run `npm ci` and `npx --yes @vscode/vsce package` from this directory.
 
 Set `gooo.compilerPath` to the exact absolute `.compiler/bin/gooo` executable
-printed by the guide's `command -v gooo`. The terminal uses that same binary.
+printed by the guide's `command -v gooo`. Changing this setting reconnects the
+language server automatically; no window reload is needed. The terminal uses that same binary.
 The editor commands save the current buffer before invoking the compiler.
 
 ## Commands

@@ -6,8 +6,9 @@ const path = require('node:path');
 const vscode = require('vscode');
 const { LanguageClient, TransportKind } = require('vscode-languageclient/node');
 const { bodyGenerationSummary, canApplyGeneratedSource, parseBodyCodegenResult } = require('./body-generation');
+const { createLanguageServerController } = require('./language-server');
 
-let languageClient;
+let languageServer;
 
 function sourceDigest(source) {
   return `sha256:${createHash('sha256').update(source, 'utf8').digest('hex')}`;
@@ -158,25 +159,34 @@ async function createProjectWorkspace(template) {
 }
 
 function activate(context) {
-  const compiler = vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
-  const serverOptions = {
-    command: compiler,
-    args: ['lsp'],
-    transport: TransportKind.stdio,
-    options: {
-      cwd: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
-      windowsHide: true
-    }
-  };
+  const serverOutput = vscode.window.createOutputChannel('Gooo Language Server', { log: true });
   const clientOptions = {
     documentSelector: [{ scheme: 'file', language: 'gooo' }],
-    outputChannelName: 'Gooo Language Server'
+    outputChannel: serverOutput
   };
-  languageClient = new LanguageClient('gooo', 'Gooo Language Server', serverOptions, clientOptions);
-  context.subscriptions.push(languageClient);
-  void languageClient.start().catch((error) => {
-    void vscode.window.showErrorMessage(`Could not start the Gooo language server: ${error.message}`);
-  });
+  const compilerPath = () => vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
+  const controller = createLanguageServerController((command) => new LanguageClient(
+    'gooo', 'Gooo Language Server', {
+      command,
+      args: ['lsp'],
+      transport: TransportKind.stdio,
+      options: {
+        cwd: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
+        windowsHide: true
+      }
+    }, clientOptions
+  ), (message) => { void vscode.window.showErrorMessage(message); });
+  languageServer = controller;
+  context.subscriptions.push(
+    serverOutput,
+    vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration('gooo.compilerPath')) {
+        void controller.updateCompiler(compilerPath());
+      }
+    }),
+    { dispose: () => { void controller.dispose(); } }
+  );
+  void controller.updateCompiler(compilerPath());
 
   context.subscriptions.push(
     vscode.languages.registerDocumentFormattingEditProvider('gooo', {
@@ -314,7 +324,7 @@ function activate(context) {
 }
 
 async function deactivate() {
-  if (languageClient) await languageClient.stop();
+  if (languageServer) await languageServer.dispose();
 }
 
 module.exports = { activate, deactivate };
