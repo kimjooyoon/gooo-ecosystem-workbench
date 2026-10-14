@@ -1,11 +1,13 @@
 name: VS Code extension package
 on:
   push:
+    branches: [main]
     paths:
       - 'editors/vscode/**'
       - 'examples/caller-source-fill/source.gooo'
       - '.github/workflows/vscode-extension-release.yml'
       - '.github/workflows/vscode-extension.yml'
+  workflow_dispatch:
   pull_request:
     paths:
       - 'editors/vscode/**'

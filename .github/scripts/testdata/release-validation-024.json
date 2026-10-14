@@ -1,0 +1,509 @@
+{
+  "repo": {
+    "id": 1404918815,
+    "full_name": "kimjooyoon/gooo-ecosystem-workbench",
+    "default_branch": "main"
+  },
+  "tag_ref": {
+    "ref": "refs/tags/vscode-v0.2.4",
+    "url": "https://api.github.com/repos/kimjooyoon/gooo-ecosystem-workbench/git/refs/tags/vscode-v0.2.4",
+    "object": {
+      "sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+      "type": "commit",
+      "url": "https://api.github.com/repos/kimjooyoon/gooo-ecosystem-workbench/git/commits/e982ab9f70d0c8d754a67c825d39f45f17448e92"
+    }
+  },
+  "tag_objects": [],
+  "main": {
+    "name": "main",
+    "commit": {
+      "sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92"
+    }
+  },
+  "compare": {
+    "url": "https://api.github.com/repos/kimjooyoon/gooo-ecosystem-workbench/compare/e982ab9f70d0c8d754a67c825d39f45f17448e92...e982ab9f70d0c8d754a67c825d39f45f17448e92",
+    "status": "identical",
+    "ahead_by": 0,
+    "behind_by": 0,
+    "base_commit": {
+      "sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92"
+    },
+    "merge_base_commit": {
+      "sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92"
+    }
+  },
+  "workflows": {
+    "ci.yml": {
+      "definition": {
+        "id": 374944593,
+        "path": ".github/workflows/ci.yml",
+        "state": "active"
+      },
+      "runs": {
+        "total_count": 1,
+        "workflow_runs": [
+          {
+            "id": 38579526665,
+            "run_number": 226,
+            "run_attempt": 1,
+            "path": ".github/workflows/ci.yml",
+            "workflow_id": 374944593,
+            "event": "push",
+            "head_branch": "main",
+            "head_sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+            "status": "completed",
+            "conclusion": "success",
+            "repository": {
+              "id": 1404918815,
+              "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+            },
+            "head_repository": {
+              "id": 1404918815,
+              "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+            },
+            "updated_at": "2026-10-14T14:28:27Z",
+            "run_started_at": "2026-10-14T14:19:44Z",
+            "created_at": "2026-10-14T14:19:44Z"
+          }
+        ]
+      },
+      "run": {
+        "id": 38579526665,
+        "run_number": 226,
+        "run_attempt": 1,
+        "path": ".github/workflows/ci.yml",
+        "workflow_id": 374944593,
+        "event": "push",
+        "head_branch": "main",
+        "head_sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+        "status": "completed",
+        "conclusion": "success",
+        "repository": {
+          "id": 1404918815,
+          "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+        },
+        "head_repository": {
+          "id": 1404918815,
+          "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+        },
+        "updated_at": "2026-10-14T14:28:27Z",
+        "run_started_at": "2026-10-14T14:19:44Z",
+        "created_at": "2026-10-14T14:19:44Z"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 115905415857,
+            "run_id": 38579526665,
+            "run_attempt": 1,
+            "name": "native-examples",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+            "head_branch": "main",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/checkout@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/setup-go@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/setup-node@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/checkout@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Install the public Gooo compiler used by the examples",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Observe the pinned compiler identity",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Check Go transport code and execute Gooo programs",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Classify declaration changes with the Gooo policy",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Connect retained assembly failures to the Gooo construction loop",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Connect bound consumer failures to their original root inputs",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Let Gooo continue package construction from caller failures",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Continue after native arithmetic faults using Gooo feedback",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Continue after rejected fill assignments with Gooo feedback",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Use Gooo feedback to construct complete source-fill assignments",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Continue past rejected expressions using Gooo feedback and the own model",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Let Gooo drive whole-program construction budgets",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Feed unchanged counterexamples back and evaluate final holdout",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Verify typed IR body fill through the editor result contract",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Retain source-bound functional observations",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Build a Gooo completeness receipt from verified evidence",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Let Gooo dispatch source refinement with the own compact model",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Observe source search, mixed model construction and grammar limits",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Execute source-declared grammar transitions and bounded controls",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Compose quadratic calibration with compact-model report fields",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Construct and reuse the Gooo retry policy",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Generate a public interface reference in Gooo",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Let Gooo assess candidate-feature collisions",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Compare intent contrasts with identical code graphs",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Reproduce the frozen source graph training study",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Evaluate dependent source edits with the unchanged graph model",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run Korean and English capability discovery through Gooo",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/upload-artifact@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/checkout@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/setup-node@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/setup-go@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/checkout@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "vscode-extension.yml": {
+      "definition": {
+        "id": 375885615,
+        "path": ".github/workflows/vscode-extension.yml",
+        "state": "active"
+      },
+      "runs": {
+        "total_count": 1,
+        "workflow_runs": [
+          {
+            "id": 38579526678,
+            "run_number": 47,
+            "run_attempt": 1,
+            "path": ".github/workflows/vscode-extension.yml",
+            "workflow_id": 375885615,
+            "event": "push",
+            "head_branch": "main",
+            "head_sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+            "status": "completed",
+            "conclusion": "success",
+            "repository": {
+              "id": 1404918815,
+              "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+            },
+            "head_repository": {
+              "id": 1404918815,
+              "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+            },
+            "updated_at": "2026-10-14T14:21:08Z",
+            "run_started_at": "2026-10-14T14:19:44Z",
+            "created_at": "2026-10-14T14:19:44Z"
+          }
+        ]
+      },
+      "run": {
+        "id": 38579526678,
+        "run_number": 47,
+        "run_attempt": 1,
+        "path": ".github/workflows/vscode-extension.yml",
+        "workflow_id": 375885615,
+        "event": "push",
+        "head_branch": "main",
+        "head_sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+        "status": "completed",
+        "conclusion": "success",
+        "repository": {
+          "id": 1404918815,
+          "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+        },
+        "head_repository": {
+          "id": 1404918815,
+          "full_name": "kimjooyoon/gooo-ecosystem-workbench"
+        },
+        "updated_at": "2026-10-14T14:21:08Z",
+        "run_started_at": "2026-10-14T14:19:44Z",
+        "created_at": "2026-10-14T14:19:44Z"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 115905414116,
+            "run_id": 38579526678,
+            "run_attempt": 1,
+            "name": "package",
+            "status": "completed",
+            "conclusion": "success",
+            "head_sha": "e982ab9f70d0c8d754a67c825d39f45f17448e92",
+            "head_branch": "main",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/checkout@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/setup-node@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/setup-go@v6",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Validate extension manifests and package",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Run actions/upload-artifact@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/setup-go@v6",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/setup-node@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Post Run actions/checkout@v7",
+                "status": "completed",
+                "conclusion": "success"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "_record": {
+    "kind": "Selected-field projection of recorded actual GitHub GET responses; not whole API responses",
+    "observed_at": "2026-10-14T15:01:04.838712+00:00",
+    "source_file": "recorded-024-snapshot.json",
+    "source_bytes": 25265,
+    "source_sha256": "873e1550b83bfa6b9e070df1aa8f902b8b4f555976014d4a2131848ef9a7a5a0",
+    "projection": "Identity, ancestry, workflow, current run/attempt/activity timestamps, job and all step names/status/conclusions retained exactly. Only step numbers and timestamps omitted.",
+    "reads": [
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench",
+        "sha256": "87dd2a2bd123e5991ddaa1da697e22852b40166020bda253ea879f32001c009c"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/git/ref/tags/vscode-v0.2.4",
+        "sha256": "7bfd9c50c799daf85e32e50abfa523e49da5afdf7e926e011a236550df1f09b5"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/branches/main",
+        "sha256": "64e6f271b13bc04ef41c798258e89a0d70791c108af9ca29a89dc06cfe4ffd14"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/compare/e982ab9f70d0c8d754a67c825d39f45f17448e92...e982ab9f70d0c8d754a67c825d39f45f17448e92",
+        "sha256": "a3590bae0951ef464e22a3e964196fadcb1db9c3f00382c1abb0ffad049b8d08"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/workflows/ci.yml",
+        "sha256": "b98875655e9572390e7d2a61ba3e6644f935c2a9461b4b42330d47ed40c888c6"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/workflows/ci.yml/runs?head_sha=e982ab9f70d0c8d754a67c825d39f45f17448e92&event=push&branch=main&per_page=100",
+        "sha256": "8dc90841f7591d9b60d916d79d3d1e4c7e8512aa7716f0d80ab8607207a900e0"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/runs/38579526665",
+        "sha256": "9ac5b1e2acf7ab4b7231699d81a1c5497cd3819ea81d1b68bc56eeea4f999ac9"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/runs/38579526665/attempts/1/jobs?per_page=100",
+        "sha256": "b0b88cbd95a27185c5e167db7a5137b99ac94d7e1dfa4731f6cce64c702bbd46"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/workflows/vscode-extension.yml",
+        "sha256": "62da0a35f4654b6f4e7fe72e39476b8700fcde1e4577bec149cb9dcff9b936bc"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/workflows/vscode-extension.yml/runs?head_sha=e982ab9f70d0c8d754a67c825d39f45f17448e92&event=push&branch=main&per_page=100",
+        "sha256": "b1163c57853a5cd76ebb765d6b364176bf7ad5ecee3fe7ee34ce0952baf0ae2d"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/runs/38579526678",
+        "sha256": "089627d6358087595f55c2895dbf145b34b2be90c81546d94edc953059367fdf"
+      },
+      {
+        "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/runs/38579526678/attempts/1/jobs?per_page=100",
+        "sha256": "63cc116e54573b42fb190818491285e1597e1bfdf3c73238827da8fa80848ded"
+      }
+    ],
+    "timestamp_projection_refresh": {
+      "at_utc": "2026-10-14T15:09:28.492418+00:00",
+      "reads": [
+        {
+          "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/workflows/ci.yml/runs?head_sha=e982ab9f70d0c8d754a67c825d39f45f17448e92&event=push&branch=main&per_page=100",
+          "sha256": "72e74f6c6e6c6b913d716834f69fac2985ff6384d701907d5d251482596a7ddd"
+        },
+        {
+          "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/runs/38579526665",
+          "sha256": "8287aea78ace607f363b4ec9e1a729f1ab7d6105ddb69e20b9ac5efd08a23eab"
+        },
+        {
+          "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/workflows/vscode-extension.yml/runs?head_sha=e982ab9f70d0c8d754a67c825d39f45f17448e92&event=push&branch=main&per_page=100",
+          "sha256": "a0f1d8c5484e16404e470c4b7a06ed625108b0fc7136e83f7e00de622693f95a"
+        },
+        {
+          "endpoint": "repos/kimjooyoon/gooo-ecosystem-workbench/actions/runs/38579526678",
+          "sha256": "ba16f3147fcf4d2a08f25f99755ab60b2248311374d96a36b72395f636a399ee"
+        }
+      ],
+      "unchanged_identity_attempt_status_confirmed": true
+    },
+    "read_hash_scope": "SHA256 of the writer's canonical parsed original API responses, not this selected-field projection",
+    "synthetic_cases": "Tests deep-copy and mutate this record. Those cases are validator simulations, not actual CI or publication observations."
+  }
+}
