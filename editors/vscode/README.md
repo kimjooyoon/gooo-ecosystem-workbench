@@ -12,8 +12,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 1. Visual Studio Code를 설치하고 [첫 실행 안내](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.ko.md)에 따라
    Go 1.27.2와 고정한 공개 Gooo 0.6.23-dev 실행 파일을 준비합니다.
-2. [0.2.3 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.3)에서
-   `gooo-language-support-0.2.3.vsix`를 내려받습니다.
+2. [0.2.4 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.4)에서
+   `gooo-language-support-0.2.4.vsix`를 내려받습니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 내려받은 파일을 선택합니다.
 
 체크섬은 같은 릴리스의 `checksums.sha256`에 있습니다. 확장을 직접 빌드하려면
@@ -46,6 +46,12 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 `gooo-assembling`, `gooo-bind`입니다. 스니펫은 시작점이며 최종 구문 확인은
 `gooo check`가 담당합니다.
 
+라이브러리 생성에는 설치된 Go 1.27.2가 필요합니다.
+첫 실행 안내의 환경에서 VS Code를 실행합니다. 템플릿의 Gooo 소스에 선언된 계획을
+사용하며, 별도 `body-fill-plans.json`은 필요하지 않습니다. 두 네이티브 실행과 모든
+제공 사례가 통과한 `PASS` 기록만 받아들입니다. 실패하거나 부분 진행 상태이면
+원본 시작 파일과 실행 기록을 남기고 `generated.gooo`를 열지 않습니다.
+
 ### 처음 실행하기
 
 [API 재시도 판단 첫 실행](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.ko.md)을 따라
@@ -69,7 +75,7 @@ Document** applies the compiler's deterministic formatter only when requested.
 
 1. Install Visual Studio Code, then follow the [first-run guide](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.md)
    to select Go 1.27.2 and the pinned public Gooo 0.6.23-dev binary.
-2. Download `gooo-language-support-0.2.3.vsix` from the [0.2.3 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.3).
+2. Download `gooo-language-support-0.2.4.vsix` from the [0.2.4 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.4).
 3. In VS Code, run **Extensions: Install from VSIX...** and select the downloaded file.
 
 The release also contains `checksums.sha256`. To build the extension locally, run `npm ci` and `npx --yes @vscode/vsce package` from this directory.
@@ -111,6 +117,12 @@ The library command uses `gooo init --template library` followed immediately by
 endpoint, or launch VS Code with `GOOO_LAYA_URL` set, and Laya ranks only the
 candidate expressions declared in the plan.
 Otherwise Gooo picks the first eligible declared candidate deterministically.
+Library generation needs an installed Go 1.27.2 toolchain; launch VS Code
+from the environment configured in the first-run guide.
+It uses plans declared in the starter's Gooo source, without a separate
+`body-fill-plans.json`. The extension accepts only a complete `PASS` receipt
+with both native executions and every supplied case passing. Failed or partial
+results retain the starter files and receipt without opening `generated.gooo`.
 The `package-execution-receipt.json` includes the selected Gooo source and
 generated native projection. The model does not write arbitrary source or
 bypass the package type checks.

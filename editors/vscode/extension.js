@@ -16,6 +16,7 @@ function sourceDigest(source) {
 
 function runCompiler(args, title, cwd, options = {}) {
   const quiet = options.quiet === true;
+  const notifySuccess = options.notifySuccess !== false;
   const executable = vscode.workspace.getConfiguration('gooo').get('compilerPath', 'gooo');
   const environment = { ...process.env };
   const layaUrl = vscode.workspace.getConfiguration('gooo').get('layaUrl', '').trim();
@@ -54,8 +55,8 @@ function runCompiler(args, title, cwd, options = {}) {
       const status = code ?? 1;
       if (output) output.appendLine(`\n${title}: ${status === 0 ? 'finished' : `exit ${status}`}`);
       if (!quiet) {
-        if (status === 0) void vscode.window.showInformationMessage(`${title} finished.`);
-        else void vscode.window.showErrorMessage(`${title} failed. See the Gooo output.`);
+        if (status === 0 && notifySuccess) void vscode.window.showInformationMessage(`${title} finished.`);
+        else if (status !== 0) void vscode.window.showErrorMessage(`${title} failed. See the Gooo output.`);
       }
       resolve({ code: status, stdout: stdoutText, stderr: stderrText });
     });
@@ -101,6 +102,33 @@ function currentSource() {
   return editor.document.uri.fsPath;
 }
 
+function libraryGeneratedSource(stdout) {
+  const receipt = JSON.parse(stdout);
+  const result = receipt.result;
+  const composition = result?.composition;
+  const runtime = result?.runtime;
+  const source = composition?.gooo_source;
+  const completedRun = (run) => run?.started === true && run.completed === true &&
+    run.exit_code === 0 && run.canceled === false && run.timed_out === false &&
+    run.output_truncated === false && !run.failure;
+  if (receipt.schema !== 'gooo/workspace-body-execution-receipt/v1' ||
+      receipt.decision !== 'PASS' || receipt.error ||
+      result?.schema !== 'gooo/workspace-body-execution/v1' ||
+      composition?.schema !== 'gooo/body-composition/v1' ||
+      composition.stage !== 'COMPLETE' || composition.failure ||
+      typeof source !== 'string' || source.length === 0 ||
+      runtime?.schema !== 'gooo/body-composition-runtime/v1' ||
+      runtime.stage !== 'COMPLETE' || runtime.failure ||
+      runtime.projection_replayed !== true || runtime.runtime_replayed !== true ||
+      !Number.isSafeInteger(runtime.finite_total) || runtime.finite_total <= 0 ||
+      runtime.finite_passed !== runtime.finite_total ||
+      !Array.isArray(runtime.runs) || runtime.runs.length !== 2 ||
+      !runtime.runs.every(completedRun)) {
+    throw new Error('the execution receipt did not contain a complete passing library result');
+  }
+  return source;
+}
+
 async function createProjectWorkspace(template) {
   const workspace = vscode.workspace.workspaceFolders?.[0];
   if (!workspace) {
@@ -123,9 +151,8 @@ async function createProjectWorkspace(template) {
   if (template === 'library') {
     const generated = await runCompiler([
       'package', 'execute', '--json', '--cases', path.join(root, 'cases.json'),
-      '--body-plans', path.join(root, 'body-fill-plans.json'),
       path.join(root, 'gooo.workspace.json')
-    ], 'Gooo library body generation', root);
+    ], 'Gooo library body generation', root, { notifySuccess: false });
     if (generated.stdout.trim()) {
       try {
         await fs.writeFile(path.join(root, 'package-execution-receipt.json'), generated.stdout);
@@ -139,15 +166,11 @@ async function createProjectWorkspace(template) {
       return;
     }
     try {
-      const receipt = JSON.parse(generated.stdout);
-      const source = receipt.result?.composition?.gooo_source;
-      if (typeof source !== 'string' || source.length === 0) {
-        throw new Error('the execution receipt did not include generated Gooo source');
-      }
+      const source = libraryGeneratedSource(generated.stdout);
       target = path.join(root, 'generated.gooo');
       await fs.writeFile(target, source);
     } catch (error) {
-      void vscode.window.showErrorMessage(`Library ran, but its generated Gooo source could not be opened: ${error.message}`);
+      void vscode.window.showErrorMessage(`Library generation was not accepted or its Gooo source could not be saved: ${error.message}`);
       return;
     }
   } else {
@@ -156,6 +179,9 @@ async function createProjectWorkspace(template) {
   }
   const document = await vscode.workspace.openTextDocument(target);
   await vscode.window.showTextDocument(document);
+  if (template === 'library') {
+    void vscode.window.showInformationMessage('Gooo library generated; all supplied cases passed.');
+  }
 }
 
 function activate(context) {

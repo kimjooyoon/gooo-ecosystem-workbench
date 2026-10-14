@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.4
+
+- Generate both library starter routes using the source-declared plans provided by the pinned compiler template.
+- Open generated Gooo source only after a complete passing receipt with both native executions and all finite cases passing.
+- Verify starter output, source bindings, and saved-receipt replay against the public compiler and Go 1.27.2 in CI.
+
 ## 0.2.3
 
 - Start the pinned public compiler with `gooo lsp`, without the unsupported `--stdio` argument added by an explicit transport setting.
