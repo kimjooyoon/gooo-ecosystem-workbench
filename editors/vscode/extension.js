@@ -4,7 +4,7 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const vscode = require('vscode');
-const { LanguageClient, TransportKind } = require('vscode-languageclient/node');
+const { LanguageClient } = require('vscode-languageclient/node');
 const { bodyGenerationSummary, canApplyGeneratedSource, parseBodyCodegenResult } = require('./body-generation');
 const { createLanguageServerController } = require('./language-server');
 
@@ -168,8 +168,9 @@ function activate(context) {
   const controller = createLanguageServerController((command) => new LanguageClient(
     'gooo', 'Gooo Language Server', {
       command,
+      // The adapter defaults to stdio without flags. Explicit stdio adds
+      // --stdio, but gooo lsp accepts no transport arguments.
       args: ['lsp'],
-      transport: TransportKind.stdio,
       options: {
         cwd: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
         windowsHide: true

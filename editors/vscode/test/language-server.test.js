@@ -346,7 +346,7 @@ test('actual extension activation binds compilerPath changes and ignores unrelat
   const first = h.clients[0];
   assert.equal(first.serverOptions.command, 'gooo');
   assert.deepEqual(Array.from(first.serverOptions.args), ['lsp']);
-  assert.equal(first.serverOptions.transport, 'fake-stdio');
+  assert.equal(Object.hasOwn(first.serverOptions, 'transport'), false);
   assert.equal(first.serverOptions.options.cwd, '/fake/workspace');
   assert.equal(first.serverOptions.options.windowsHide, true);
   assert.deepEqual(JSON.parse(JSON.stringify(first.clientOptions.documentSelector)),

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.3
+
+- Start the pinned public compiler with `gooo lsp`, without the unsupported `--stdio` argument added by an explicit transport setting.
+- Exercise the installed language-client adapter and the public compiler's diagnostics and completion over stdio in CI.
+
 ## 0.2.2
 
 - Reconnect the language server when `gooo.compilerPath` changes, including after a failed start.
