@@ -136,7 +136,7 @@ gooo body-compose --source "$GOOO_RUN/composition/original.gooo" \
 
 ## 선택 사항: VS Code에서도 같은 컴파일러 사용
 
-[0.2.4 VSIX](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.4)를
+[0.2.5 VSIX](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.5)를
 **Extensions: Install from VSIX...**로 설치하고 `gooo-workbench` 폴더를 엽니다.
 VS Code 설정의 `gooo.compilerPath`에 앞서 확인한 `.compiler/bin/gooo`로 끝나는
 정확한 절대 경로를 지정합니다. `examples/retry-policy/source.gooo`를 열고
