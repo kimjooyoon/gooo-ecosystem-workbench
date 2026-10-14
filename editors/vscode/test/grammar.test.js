@@ -65,6 +65,44 @@ test('real Gooo source-fill assembly produces both keyword scopes', async () => 
   } finally { registry.dispose(); }
 });
 
+test('engine-authored condition cases receive the assembly keyword scope', async () => {
+  const { grammar, registry } = await loadGrammar();
+  try {
+    // meta-ontology-go@8d057a805d284653cf68c5dcf4efc8cc415d1d5a,
+    // examples/body-codegen/source-condition-cases.gooo.fixture:16-18.
+    const lines = [
+      '    condition_case "comparison" input "-9007199254740995" -> "true"',
+      '    condition_case "comparison" input "0" -> "false"',
+      '    condition_case "comparison" input "9007199254740995" -> "false"'
+    ];
+    const actual = tokenize(grammar, lines);
+    for (let index = 0; index < lines.length; index++) {
+      const position = lines[index].indexOf('condition_case');
+      assertScope(actual[index], position, 'keyword.other.gooo');
+      assert.equal(tokenAt(actual[index], position).text, 'condition_case');
+      assertScope(actual[index], lines[index].indexOf('comparison'), 'string.quoted.double.gooo');
+    }
+  } finally { registry.dispose(); }
+});
+
+test('condition_case stays text inside quoted strings and comments', async () => {
+  const { grammar, registry } = await loadGrammar();
+  try {
+    const lines = [
+      'intent "condition_case"',
+      'computes `condition_case`',
+      '// condition_case "comparison" input "0" -> "false"'
+    ];
+    const actual = tokenize(grammar, lines);
+    const scopes = ['string.quoted.double.gooo', 'string.quoted.other.backtick.gooo', 'comment.line.double-slash.gooo'];
+    for (let index = 0; index < lines.length; index++) {
+      const position = lines[index].indexOf('condition_case');
+      assertScope(actual[index], position, scopes[index]);
+      assert.equal(tokenAt(actual[index], position).scopes.includes('keyword.other.gooo'), false);
+    }
+  } finally { registry.dispose(); }
+});
+
 test('the regression distinguishes the prior grammar with the two words removed', async () => {
   const prior = JSON.parse(source);
   const keywords = prior.repository.keywords.patterns.find(pattern => pattern.name === 'keyword.other.gooo');
