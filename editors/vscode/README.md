@@ -12,8 +12,8 @@ Gooo 컴파일러 명령을 제공합니다. 설치된 Gooo CLI의 `gooo lsp`를
 
 1. Visual Studio Code를 설치하고 [첫 실행 안내](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.ko.md)에 따라
    Go 1.27.2와 고정한 공개 Gooo 0.6.23-dev 실행 파일을 준비합니다.
-2. [0.2.4 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.4)에서
-   `gooo-language-support-0.2.4.vsix`를 내려받습니다.
+2. [0.2.5 릴리스](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.5)에서
+   `gooo-language-support-0.2.5.vsix`를 내려받습니다.
 3. VS Code의 **Extensions: Install from VSIX...** 메뉴에서 내려받은 파일을 선택합니다.
 
 체크섬은 같은 릴리스의 `checksums.sha256`에 있습니다. 확장을 직접 빌드하려면
@@ -75,7 +75,7 @@ Document** applies the compiler's deterministic formatter only when requested.
 
 1. Install Visual Studio Code, then follow the [first-run guide](https://github.com/kimjooyoon/gooo-ecosystem-workbench/blob/main/docs/first-run.md)
    to select Go 1.27.2 and the pinned public Gooo 0.6.23-dev binary.
-2. Download `gooo-language-support-0.2.4.vsix` from the [0.2.4 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.4).
+2. Download `gooo-language-support-0.2.5.vsix` from the [0.2.5 release](https://github.com/kimjooyoon/gooo-ecosystem-workbench/releases/tag/vscode-v0.2.5).
 3. In VS Code, run **Extensions: Install from VSIX...** and select the downloaded file.
 
 The release also contains `checksums.sha256`. To build the extension locally, run `npm ci` and `npx --yes @vscode/vsce package` from this directory.

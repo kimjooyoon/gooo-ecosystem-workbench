@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5
+
+- Highlight `condition_case` as a Gooo assembly keyword while preserving quoted-string and comment scopes.
+
 ## 0.2.4
 
 - Generate both library starter routes using the source-declared plans provided by the pinned compiler template.
