@@ -20,6 +20,15 @@ login, then create/approve/read and create/reject/read. Both synthetic gates omi
 status, comments and the authenticated decider. It does not run a terminal command
 or ask the model to make a decision.
 
+The client is delivered through `docker exec -i ... python3 -` using a local
+regular file as standard input. The first hosted attempt built and started the
+backend and observed admin readiness, but its copied `/tmp` client failed to
+launch (exit 2; the error text was not retained). AutoBot mounts `/tmp` as tmpfs,
+and [Docker documents copy limitations for tmpfs](https://docs.docker.com/reference/cli/docker/container/cp/#corner-cases).
+This motivates avoiding that copy path; it does not establish the exact cause of
+the original launch failure or an AutoBot login defect. The original run remains
+preserved separately from the corrected harness run.
+
 The first failure is preserved. Authentication is never bypassed, no replacement
 mock service is used in the hosted trial, and readiness failure is distinguished
 from a login regression. Commands have output/time limits, the overall experiment

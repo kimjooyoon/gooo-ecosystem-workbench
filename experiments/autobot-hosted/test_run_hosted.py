@@ -38,7 +38,7 @@ VALID = {
 }
 
 FAKE_TOOL = r'''
-import json,sys
+import hashlib,json,sys
 from pathlib import Path
 root=Path.cwd()
 scenario=json.loads((root/'scenario.json').read_text())
@@ -56,8 +56,20 @@ if name=='bash':
 if args[:1]==['version'] or args==['compose','version']:
  print('fake docker version')
 elif args[:1]==['cp']:
- print('copied')
+ print('obsolete copy delivery refused')
+ sys.exit(45)
 elif args[:1]==['exec']:
+ received=sys.stdin.buffer.read(256*1024+1)
+ if args!=['exec','-i','autobot-backend','python3','-'] or hashlib.sha256(received).hexdigest()!=scenario['expected_client_sha256'] or len(received)!=scenario['expected_client_bytes']:
+  print('fake input delivery failure '+scenario['secrets'][0])
+  sys.exit(2)
+ if scenario.get('non_json_client'):
+  print('fake interpreter failure '+scenario['secrets'][0])
+  sys.exit(2)
+ if scenario.get('overoutput_client'):
+  sys.stdout.buffer.write(json.dumps(scenario['client']).encode()+b' '*(33*1024*1024))
+  sys.stdout.flush()
+  sys.exit(0)
  print(json.dumps(scenario['client']))
  sys.exit(scenario.get('client_exit',0))
 elif 'config' in args:
@@ -100,11 +112,18 @@ class HostedTests(unittest.TestCase):
             (root / "docker/postgres").mkdir(parents=True)
             bindir.mkdir()
             harness.mkdir()
-            (harness / "run_hosted.py").write_bytes(ORCHESTRATOR_BYTES)
+            runner_bytes = ORCHESTRATOR_BYTES
+            if changes.pop("drop_client_stdin", False):
+                # Controlled regression in this owned fixture only: the fake
+                # Docker process must fail instead of returning a canned PASS.
+                self.assertEqual(runner_bytes.count(b"stdin=client_input"), 1)
+                runner_bytes = runner_bytes.replace(b"stdin=client_input", b"stdin=None", 1)
+            (harness / "run_hosted.py").write_bytes(runner_bytes)
             (harness / "http_smoke.py").write_bytes(CLIENT_BYTES)
             (root / "docker/postgres/init-databases.sql").write_text("-- immutable fixture\n")
             (root / "docker/.env.docker").write_text("# fixture\n")
-            scenario = {"revision": REVISION, "secrets": SECRET_VALUES, "client": copy.deepcopy(VALID)}
+            scenario = {"revision": REVISION, "secrets": SECRET_VALUES, "client": copy.deepcopy(VALID),
+                        "expected_client_sha256": CLIENT_SHA256, "expected_client_bytes": len(CLIENT_BYTES)}
             scenario.update(changes)
             (root / "scenario.json").write_text(json.dumps(scenario))
             for tool in ("git", "docker", "bash"):
@@ -132,6 +151,10 @@ class HostedTests(unittest.TestCase):
         self.assertTrue(result["postgres_init_unchanged"])
         self.assertFalse(leaked, "Fake sentinel leaked into public output")
         self.assertTrue(any("down" in call for call in calls))
+        self.assertIn(["docker", "exec", "-i", "autobot-backend", "python3", "-"], calls)
+        self.assertFalse(any(call[:2] == ["docker", "cp"] for call in calls))
+        self.assertEqual(result["http_client_input"], {"transport": "docker_exec_stdin",
+            "bytes": len(CLIENT_BYTES), "sha256": CLIENT_SHA256})
         self.assertIn("[REDACTED]", artifacts["build.log"])
         self.assertNotIn("eyJabc", artifacts["build.log"])
 
@@ -176,6 +199,45 @@ class HostedTests(unittest.TestCase):
         self.assertEqual(build["stop_reason"], "output_limit")
         self.assertEqual(artifacts["build.log"].strip(), "")
         self.assertFalse(any("up" in call or "exec" in call for call in calls))
+        self.assertTrue(result["cleanup_succeeded"])
+        self.assertFalse(leaked)
+
+    def test_missing_actual_stdin_delivery_is_refused(self):
+        code, result, calls, artifacts, leaked = self.run_fixture(drop_client_stdin=True)
+        self.assertEqual(code, 1)
+        self.assertEqual(result["first_failure"], "http_client_result_not_json")
+        self.assertEqual(result["http_client_launch_failure"]["exit_code"], 2)
+        self.assertEqual(result["http_client_launch_failure"]["classification"], "CLIENT_RESULT_NOT_JSON")
+        self.assertFalse(result["http_client_launch_failure"]["raw_output_retained"])
+        self.assertNotIn("http-lifecycle.json", artifacts)
+        self.assertNotIn("http_lifecycle.log", artifacts)
+        self.assertTrue(result["cleanup_succeeded"])
+        self.assertFalse(leaked, "Fake failed delivery output leaked")
+
+    def test_non_json_interpreter_failure_preserves_only_safe_metadata(self):
+        code, result, calls, artifacts, leaked = self.run_fixture(non_json_client=True)
+        self.assertEqual(code, 1)
+        self.assertEqual(result["first_failure"], "http_client_result_not_json")
+        failure = result["http_client_launch_failure"]
+        self.assertEqual(failure["exit_code"], 2)
+        self.assertEqual(failure["classification"], "CLIENT_RESULT_NOT_JSON")
+        self.assertGreater(failure["captured_bytes"], 0)
+        self.assertIsNone(failure["stop_reason"])
+        self.assertFalse(failure["raw_output_retained"])
+        self.assertNotIn("http-lifecycle.json", artifacts)
+        self.assertTrue(result["cleanup_succeeded"])
+        self.assertFalse(leaked, "Fake interpreter failure body leaked")
+
+    def test_exit_zero_valid_json_prefix_with_overoutput_cannot_pass(self):
+        code, result, calls, artifacts, leaked = self.run_fixture(overoutput_client=True)
+        self.assertEqual(code, 1)
+        self.assertEqual(result["first_failure"], "http_client_capture_incomplete")
+        failure = result["http_client_launch_failure"]
+        self.assertEqual(failure["exit_code"], 0)
+        self.assertEqual(failure["classification"], "CLIENT_CAPTURE_INCOMPLETE")
+        self.assertEqual(failure["stop_reason"], "output_limit")
+        self.assertFalse(failure["raw_output_retained"])
+        self.assertNotIn("http-lifecycle.json", artifacts)
         self.assertTrue(result["cleanup_succeeded"])
         self.assertFalse(leaked)
 

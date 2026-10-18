@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
@@ -47,7 +48,7 @@ def redact(data):
         else line for line in text.splitlines())
 
 
-def command(stage, args, seconds, allow_failure=False, expose_tail=True):
+def command(stage, args, seconds, allow_failure=False, expose_tail=True, stdin=None):
     started = time.monotonic()
     if stage not in ("container_status", "service_logs", "cleanup", "source_status_after"):
         seconds = min(seconds, max(0, DEADLINE - started))
@@ -55,6 +56,7 @@ def command(stage, args, seconds, allow_failure=False, expose_tail=True):
             raise Failure("overall_deadline")
     with tempfile.TemporaryFile() as capture:
         proc = subprocess.Popen(args, cwd=ROOT, env=ENV, stdout=capture,
+                                stdin=subprocess.DEVNULL if stdin is None else stdin,
                                 stderr=subprocess.STDOUT, start_new_session=True)
         reason = None
         while proc.poll() is None:
@@ -162,12 +164,35 @@ def main():
             break
         time.sleep(10)
     require(ready, "READINESS_UNESTABLISHED")
-    command("copy_client", ["docker", "cp", str(Path(__file__).with_name("http_smoke.py")),
-            "autobot-backend:/tmp/gooo-http-smoke.py"], 20)
-    raw, code = command("http_lifecycle", ["docker", "exec", "autobot-backend",
-            "python3", "/tmp/gooo-http-smoke.py"], 100, allow_failure=True, expose_tail=False)
+    # Feed the fixed local client through Docker stdin: no container-path copy
+    # dependency and no unbounded pipe write before the command's timeout loop.
+    with Path(__file__).with_name("http_smoke.py").open("rb") as client_input:
+        require(stat.S_ISREG(os.fstat(client_input.fileno()).st_mode), "client_regular_file_required")
+        client_bytes = client_input.read(256 * 1024 + 1)
+        require(0 < len(client_bytes) <= 256 * 1024, "client_source_size")
+        REPORT["http_client_input"] = {"transport": "docker_exec_stdin",
+            "bytes": len(client_bytes), "sha256": hashlib.sha256(client_bytes).hexdigest()}
+        client_input.seek(0)
+        raw, code = command("http_lifecycle", ["docker", "exec", "-i", "autobot-backend",
+                "python3", "-"], 100, allow_failure=True, expose_tail=False, stdin=client_input)
+    client_step = REPORT["steps"][-1]
+    if client_step["stop_reason"] is not None:
+        REPORT["http_client_launch_failure"] = {"classification": "CLIENT_CAPTURE_INCOMPLETE",
+            "exit_code": code, "captured_bytes": len(raw),
+            "stop_reason": client_step["stop_reason"], "raw_output_retained": False}
+        save()
+        raise Failure("http_client_capture_incomplete")
     # The client emits only an explicit non-secret result schema.
-    result = json.loads(raw)
+    try:
+        result = json.loads(raw)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        # Exit code and byte count are evidence; unparsed output and guessed
+        # launch causes are not safe public diagnostics.
+        REPORT["http_client_launch_failure"] = {"classification": "CLIENT_RESULT_NOT_JSON",
+            "exit_code": code, "captured_bytes": len(raw),
+            "stop_reason": REPORT["steps"][-1]["stop_reason"], "raw_output_retained": False}
+        save()
+        raise Failure("http_client_result_not_json") from None
     allowed = {"schema", "upstream_revision", "scope", "model_execution", "terminal_execution",
                "historical_policy_reconstruction", "gooo_adoption_claim", "status", "stage", "code",
                "http_status", "completed_lifecycles", "http_events"}
