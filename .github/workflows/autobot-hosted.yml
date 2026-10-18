@@ -1,0 +1,41 @@
+name: AutoBot disposable login and approval diagnostic
+on:
+  push:
+    branches: [test/autobot-main-login-20261018]
+    paths:
+      - .github/workflows/autobot-hosted.yml
+      - experiments/autobot-hosted/**
+permissions:
+  contents: read
+concurrency:
+  group: autobot-disposable-diagnostic
+  cancel-in-progress: false
+jobs:
+  original-diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Check diagnostic failure handling locally
+        run: |
+          python3 -B experiments/autobot-hosted/test_http_smoke.py
+          python3 -B experiments/autobot-hosted/test_run_hosted.py
+      - name: Check out the merged upstream login fix
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: mrveiss/AutoBot-AI
+          ref: 5c224241326d909219a1f525cbe88a9d65eedff4
+          path: upstream-autobot
+          persist-credentials: false
+      - name: Test isolated startup, login and approval lifecycle
+        run: python3 "$GITHUB_WORKSPACE/experiments/autobot-hosted/run_hosted.py" upstream-autobot out/autobot-hosted
+      - name: Preserve bounded redacted diagnostics
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: autobot-hosted-diagnostic
+          path: out/autobot-hosted/
+          if-no-files-found: error
+          retention-days: 7
